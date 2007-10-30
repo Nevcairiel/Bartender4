@@ -1,0 +1,10 @@
+﻿## Interface: 20200
+## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
+## Title: Bartender4
+## Author: Nevcairiel
+## SavedVariables: Bartender4DB
+## X-Category: Action Bars
+## X-License: BSD
+## Version: 4.0
+
+Bartender4.lua
