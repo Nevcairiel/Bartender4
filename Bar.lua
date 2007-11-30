@@ -15,6 +15,7 @@ Bartender4.Bar = {}
 Bartender4.Bar.prototype = Bar
 function Bartender4.Bar:Create(id, template, config)
 	local bar = setmetatable(CreateFrame("Button", ("BT4Bar%s"):format(id), UIParent, template), Bar_MT)
+	bar.id = id
 	
 	bar:EnableMouse(false)
 	bar:SetMovable(true)
@@ -72,6 +73,14 @@ do
 	end
 end
 
+function Bar:ApplyConfig(config)
+	if config then
+		self.config = config
+	end
+	self:Lock()
+	self:LoadPosition()
+end
+
 function Bar:Unlock()
 	self:EnableMouse(true)
 	self:SetScript("OnEnter", barOnEnter)
@@ -104,18 +113,23 @@ function Bar:Lock()
 end
 
 function Bar:LoadPosition()
-	local x, y, s = self.config.x, self.config.y, self:GetEffectiveScale()
+	if not self.config.Position then return end
+	local pos = self.config.Position
+	local x, y, s = pos.x, pos.y, UIParent:GetEffectiveScale()
+	local point, relPoint = pos.point, pos.relPoint
 	x, y = x/s, y/s
 	self:ClearAllPoints()
-	self:SetPoint("BOTTOMLEFT", UIParent, "BOTTOMLEFT", x, y)
+	self:SetPoint(point, UIParent, relPoint, x, y)
 end
 
 function Bar:SavePosition()
-	local x, y = self:GetLeft(), self:GetBottom()
-	local s = self:GetEffectiveScale()
+	if not self.config.Position then self.config.Position = {} end
+	local pos = self.config.Position
+	local point, parent, relPoint, x, y = self:GetPoint()
+	local s = UIParent:GetEffectiveScale()
 	x, y = x*s, y*s
-	self.config.x = x
-	self.config.y = y
+	pos.x, pos.y = x, y
+	pos.point, pos.relPoint = point, relPoint
 end
 
 function Bar:SetSize(width, height)

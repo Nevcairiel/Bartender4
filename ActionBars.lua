@@ -23,19 +23,43 @@ function BT4ActionBars:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("ActionBars", defaults)
 	
 	for i=1,10 do
-		actionbars[i] = ActionBar:Create(i, self.db.profile.Bars[i])
+		actionbars[i] = self:Create(i, self.db.profile.Bars[i])
+	end
+	
+	self.db.RegisterCallback(self, "OnProfileChanged", "ApplyConfig")
+	self.db.RegisterCallback(self, "OnProfileCopied", "ApplyConfig")
+end
+
+function BT4ActionBars:OnEnable()
+	-- do stuff
+end
+
+function BT4ActionBars:ApplyConfig()
+	for i,v in ipairs(actionbars) do
+		v:ApplyConfig(self.db.profile.Bars[k])
 	end
 end
 
-function ActionBar:Create(id, config)
-	local bar = setmetatable(Bartender4.Bar:Create(id, "SecureStateDriverTemplate", config), ActionBar_MT)
-	if not config.x or not config.y then
-		bar:SetPoint("CENTER", 0, -250 + (id-1) * 38)
+local initialPosition
+do
+	function initialPosition(bar)
+		bar:SetPoint("CENTER", 0, -250 + (bar.id-1) * 38)
 		bar:SavePosition()
-	else
-		bar:LoadPosition()
 	end
+end
+
+function BT4ActionBars:Create(id, config)
+	local bar = setmetatable(Bartender4.Bar:Create(id, "SecureStateDriverTemplate", config), ActionBar_MT)
+	-- TODO: Setup Buttons and set bar width before pulling initial position
+	
+	bar:ApplyConfig()
+	-- for debugging only
 	bar:Unlock()
 	
 	return bar
+end
+
+function ActionBar:ApplyConfig(config)
+	Bar.ApplyConfig(self, config)
+	if not self.config.Position then initialPosition(self) end
 end
