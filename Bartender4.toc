@@ -8,4 +8,11 @@
 ## X-License: BSD
 ## Version: 4.0
 
+## Core ##
 Bartender4.lua
+
+## Prototypes ##
+Bar.lua
+
+## Modules ##
+ActionBars.lua
