@@ -13,6 +13,7 @@ Bartender4.lua
 
 ## Prototypes ##
 Bar.lua
+Button.lua
 
 ## Modules ##
 ActionBars.lua

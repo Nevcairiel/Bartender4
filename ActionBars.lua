@@ -13,6 +13,8 @@ local defaults = {
 			['**'] = {
 				Scale = 1,
 				Alpha = 1,
+				Buttons = 12,
+				Padding = 2,
 			}
 		}
 	}
@@ -41,7 +43,7 @@ end
 local initialPosition
 do
 	function initialPosition(bar)
-		bar:SetPoint("CENTER", 0, -250 + (bar.id-1) * 38)
+		bar:ClearSetPoint("CENTER", 0, -250 + (bar.id-1) * 38)
 		bar:SavePosition()
 	end
 end
@@ -59,5 +61,54 @@ end
 
 function ActionBar:ApplyConfig(config)
 	Bar.ApplyConfig(self, config)
-	if not self.config.Position then initialPosition(self) end
+	
+	config = self.config
+	if not config.Position then initialPosition(self) end
+	
+	self:UpdateButtons(config.Buttons)
+end
+
+function ActionBar:UpdateButtons(numbuttons)
+	local oldbuttons = self.config.Buttons
+	if numbuttons then
+		self.config.Buttons = numbuttons
+	else
+		numbuttons = self.config.Buttons
+	end
+	
+	local buttons = self.buttons or {}
+	
+	-- create more buttons if needed
+	if #buttons < numbuttons then
+		for i = (#buttons+1), numbuttons do
+			buttons[i] = Bartender4.Button:Create(i, self)
+		end
+	end
+	
+	-- show active buttons
+	for i = 1, numbuttons do
+		buttons[i]:Show()
+	end
+	
+	-- hide inactive buttons
+	for i = (numbuttons + 1), #buttons do
+		buttons[i]:Hide()
+	end
+	
+	self.buttons = buttons
+	
+	self:UpdateButtonLayout()
+end
+
+function ActionBar:UpdateButtonLayout()
+	local numbuttons = self.config.Buttons
+	local buttons = self.buttons
+	local pad = self.config.Padding
+	
+	self:SetSize((36 + pad) * numbuttons + 8, 36 + 8)
+	
+	buttons[1]:ClearSetPoint("TOPLEFT", self, "TOPLEFT", 5, -3)
+	for i = 2, numbuttons do
+		buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", pad, 0)
+	end
 end

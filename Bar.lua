@@ -118,8 +118,7 @@ function Bar:LoadPosition()
 	local x, y, s = pos.x, pos.y, UIParent:GetEffectiveScale()
 	local point, relPoint = pos.point, pos.relPoint
 	x, y = x/s, y/s
-	self:ClearAllPoints()
-	self:SetPoint(point, UIParent, relPoint, x, y)
+	self:ClearSetPoint(point, UIParent, relPoint, x, y)
 end
 
 function Bar:SavePosition()
@@ -135,4 +134,12 @@ end
 function Bar:SetSize(width, height)
 	self:SetWidth(width)
 	self:SetHeight(height or width)
+end
+
+--[[
+	Lazyness functions
+]]
+function Bar:ClearSetPoint(...)
+	self:ClearAllPoints()
+	self:SetPoint(...)
 end
