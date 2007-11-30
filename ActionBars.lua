@@ -21,22 +21,20 @@ local defaults = {
 local actionbars = {}
 function BT4ActionBars:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("ActionBars", defaults)
-	
+end
+
+function BT4ActionBars:OnEnable()
 	for i=1,10 do
 		actionbars[i] = self:Create(i, self.db.profile.Bars[i])
 	end
-	
 	self.db.RegisterCallback(self, "OnProfileChanged", "ApplyConfig")
 	self.db.RegisterCallback(self, "OnProfileCopied", "ApplyConfig")
 end
 
-function BT4ActionBars:OnEnable()
-	-- do stuff
-end
-
 function BT4ActionBars:ApplyConfig()
 	for i,v in ipairs(actionbars) do
-		v:ApplyConfig(self.db.profile.Bars[k])
+		v:ApplyConfig(self.db.profile.Bars[i])
+		v:Unlock()
 	end
 end
 
@@ -53,7 +51,7 @@ function BT4ActionBars:Create(id, config)
 	-- TODO: Setup Buttons and set bar width before pulling initial position
 	
 	bar:ApplyConfig()
-	-- for debugging only
+	-- debugging
 	bar:Unlock()
 	
 	return bar
