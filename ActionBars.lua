@@ -7,26 +7,43 @@ local ActionBar = setmetatable({}, {__index = Bar})
 
 local ActionBar_MT = {__index = ActionBar}
 
+local math_floor = math.floor
+
+local stancedefaults = {
+	DRUID = { bear = 9, cat = 7, prowl = 8 },
+	WARRIOR = { battle = 7, def = 8, berserker = 9 },
+	ROGUE = { stealth = 7 }
+}
+
 local defaults = {
 	['**'] = {
+		Enabled = true,
 		Scale = 1,
 		Alpha = 1,
-		Buttons = 12,
+		Buttons = 1,
 		Padding = 2,
-	}
+		Rows = 12,
+	},
+	[1] = {
+		Stances = stancedefaults,
+	},
 }
 
 function BT4ActionBars:OnInitialize()
 	self.db = Bartender4.db
-	Bartender4:RegisterDefaultsKey("Bars", defaults)
+	Bartender4:RegisterDefaultsKey("ActionBars", defaults)
 end
 
 local first = true
 function BT4ActionBars:OnEnable()
 	if first then
+		self.playerclass = select(2, UnitClass("player"))
 		self.actionbars = {}
 		for i=1,10 do
-			self.actionbars[i] = self:Create(i, self.db.profile.Bars[i])
+			local config = self.db.profile.ActionBars[i]
+			if config.Enabled then
+				self.actionbars[i] = self:Create(i, config)
+			end
 		end
 		first = nil
 	end
@@ -34,7 +51,7 @@ end
 
 function BT4ActionBars:ApplyConfig()
 	for i,v in ipairs(self.actionbars) do
-		v:ApplyConfig(self.db.profile.Bars[i])
+		v:ApplyConfig(self.db.profile.ActionBars[i])
 		v:Unlock()
 	end
 end
@@ -102,10 +119,18 @@ function ActionBar:UpdateButtonLayout()
 	local buttons = self.buttons
 	local pad = self.config.Padding
 	
-	self:SetSize((36 + pad) * numbuttons + 8, 36 + 8)
+	local Rows = self.config.Rows
+	local ButtonPerRow = math_floor(numbuttons / Rows + 0.5) -- just a precaution
+	Rows = math_floor(numbuttons / ButtonPerRow + 0.5)
+	
+	self:SetSize((36 + pad) * ButtonPerRow - pad + 8, (36 + pad) * Rows - pad + 8)
 	
 	buttons[1]:ClearSetPoint("TOPLEFT", self, "TOPLEFT", 6, -3)
 	for i = 2, numbuttons do
-		buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", pad, 0)
+		if ((i-1) % ButtonPerRow) == 0 then
+			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-ButtonPerRow], "BOTTOMLEFT", 0, -pad)
+		else
+			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", pad, 0)
+		end
 	end
 end

@@ -20,7 +20,6 @@ function Bartender4:RegisterDefaultsKey(key, subdefaults)
 	self.db:RegisterDefaults(defaults)
 end
 
-
 function Bartender4:UpdateModuleConfigs()
 	for k,v in AceAddon:IterateModulesOfAddon("Bartender4") do
 		if type(v.ApplyConfig) == "function" then
