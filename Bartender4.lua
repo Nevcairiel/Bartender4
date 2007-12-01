@@ -10,7 +10,8 @@ end
 
 local defaults = {
 	profile = {
-	
+		OutOfRange = "button",
+		Colors = { OutOfRange = { r = 0.8, g = 0.1, b = 0.1 }, OutOfMana = { r = 0.5, g = 0.5, b = 1.0 } },
 	}
 }
 

@@ -20,9 +20,10 @@ local defaults = {
 		Enabled = true,
 		Scale = 1,
 		Alpha = 1,
-		Buttons = 1,
+		Buttons = 12,
 		Padding = 2,
-		Rows = 12,
+		Rows = 1,
+		HideMacrotext = false,
 	},
 	[1] = {
 		Stances = stancedefaults,
@@ -34,6 +35,7 @@ function BT4ActionBars:OnInitialize()
 	Bartender4:RegisterDefaultsKey("ActionBars", defaults)
 end
 
+-- setup the 10 actionbars
 local first = true
 function BT4ActionBars:OnEnable()
 	if first then
@@ -49,32 +51,40 @@ function BT4ActionBars:OnEnable()
 	end
 end
 
+-- Applys the config in the current profile to all active Bars
 function BT4ActionBars:ApplyConfig()
 	for i,v in ipairs(self.actionbars) do
 		v:ApplyConfig(self.db.profile.ActionBars[i])
-		v:Unlock()
 	end
 end
 
 local initialPosition
-do
+do 
+	-- Sets the Bar to its initial Position in the Center of the Screen
 	function initialPosition(bar)
 		bar:ClearSetPoint("CENTER", 0, -250 + (bar.id-1) * 38)
 		bar:SavePosition()
 	end
 end
 
+
+-- Creates a new bar object based on the id and the specified config
 function BT4ActionBars:Create(id, config)
 	local bar = setmetatable(Bartender4.Bar:Create(id, "SecureStateDriverTemplate", config), ActionBar_MT)
 	-- TODO: Setup Buttons and set bar width before pulling initial position
 	
 	bar:ApplyConfig()
 	-- debugging
-	bar:Unlock()
+	--bar:Unlock()
 	
 	return bar
 end
 
+--[[
+	Bar Prototype Functions
+]]
+
+-- Apply the specified config to the bar and refresh all settings
 function ActionBar:ApplyConfig(config)
 	Bar.ApplyConfig(self, config)
 	
@@ -84,8 +94,8 @@ function ActionBar:ApplyConfig(config)
 	self:UpdateButtons(config.Buttons)
 end
 
+-- Update the number of buttons in our bar, creating new ones if necessary
 function ActionBar:UpdateButtons(numbuttons)
-	local oldbuttons = self.config.Buttons
 	if numbuttons then
 		self.config.Buttons = numbuttons
 	else
@@ -114,6 +124,7 @@ function ActionBar:UpdateButtons(numbuttons)
 	self:UpdateButtonLayout()
 end
 
+-- align the buttons and correct the size of the bar overlay frame
 function ActionBar:UpdateButtonLayout()
 	local numbuttons = self.config.Buttons
 	local buttons = self.buttons
@@ -125,10 +136,14 @@ function ActionBar:UpdateButtonLayout()
 	
 	self:SetSize((36 + pad) * ButtonPerRow - pad + 8, (36 + pad) * Rows - pad + 8)
 	
+	-- anchor button 1 to the topleft corner of the bar
 	buttons[1]:ClearSetPoint("TOPLEFT", self, "TOPLEFT", 6, -3)
+	-- and anchor all other buttons relative to our button 1
 	for i = 2, numbuttons do
+		-- jump into a new row
 		if ((i-1) % ButtonPerRow) == 0 then
 			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-ButtonPerRow], "BOTTOMLEFT", 0, -pad)
+		-- align to the previous button
 		else
 			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", pad, 0)
 		end
