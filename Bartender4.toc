@@ -1,12 +1,15 @@
-﻿## Interface: 20200
+﻿## Interface: 20300
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
 ## Title: Bartender4
 ## Author: Nevcairiel
 ## SavedVariables: Bartender4DB
 ## OptionalDeps: Ace3
+## X-Embeds: Ace3
 ## X-Category: Action Bars
 ## X-License: BSD
 ## Version: 4.0
+
+embeds.xml
 
 ## Core ##
 Bartender4.lua

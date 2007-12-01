@@ -8,33 +8,32 @@ local ActionBar = setmetatable({}, {__index = Bar})
 local ActionBar_MT = {__index = ActionBar}
 
 local defaults = {
-	profile = {
-		Bars = {
-			['**'] = {
-				Scale = 1,
-				Alpha = 1,
-				Buttons = 12,
-				Padding = 2,
-			}
-		}
+	['**'] = {
+		Scale = 1,
+		Alpha = 1,
+		Buttons = 12,
+		Padding = 2,
 	}
 }
 
-local actionbars = {}
 function BT4ActionBars:OnInitialize()
-	self.db = Bartender4.db:RegisterNamespace("ActionBars", defaults)
+	self.db = Bartender4.db
+	Bartender4:RegisterDefaultsKey("Bars", defaults)
 end
 
+local first = true
 function BT4ActionBars:OnEnable()
-	for i=1,10 do
-		actionbars[i] = self:Create(i, self.db.profile.Bars[i])
+	if first then
+		self.actionbars = {}
+		for i=1,10 do
+			self.actionbars[i] = self:Create(i, self.db.profile.Bars[i])
+		end
+		first = nil
 	end
-	self.db.RegisterCallback(self, "OnProfileChanged", "ApplyConfig")
-	self.db.RegisterCallback(self, "OnProfileCopied", "ApplyConfig")
 end
 
 function BT4ActionBars:ApplyConfig()
-	for i,v in ipairs(actionbars) do
+	for i,v in ipairs(self.actionbars) do
 		v:ApplyConfig(self.db.profile.Bars[i])
 		v:Unlock()
 	end
@@ -79,10 +78,8 @@ function ActionBar:UpdateButtons(numbuttons)
 	local buttons = self.buttons or {}
 	
 	-- create more buttons if needed
-	if #buttons < numbuttons then
-		for i = (#buttons+1), numbuttons do
-			buttons[i] = Bartender4.Button:Create(i, self)
-		end
+	for i = (#buttons+1), numbuttons do
+		buttons[i] = Bartender4.Button:Create(i, self)
 	end
 	
 	-- show active buttons
@@ -107,7 +104,7 @@ function ActionBar:UpdateButtonLayout()
 	
 	self:SetSize((36 + pad) * numbuttons + 8, 36 + 8)
 	
-	buttons[1]:ClearSetPoint("TOPLEFT", self, "TOPLEFT", 5, -3)
+	buttons[1]:ClearSetPoint("TOPLEFT", self, "TOPLEFT", 6, -3)
 	for i = 2, numbuttons do
 		buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", pad, 0)
 	end

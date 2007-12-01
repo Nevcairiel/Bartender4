@@ -11,7 +11,8 @@ Bartender4.Button = {}
 Bartender4.Button.prototype = Button
 function Bartender4.Button:Create(id, parent)
 	local absid = (parent.id - 1) * 12 + id
-	local button = setmetatable(CreateFrame("CheckButton", ("BT4Button%d"):format(absid), parent, "ActionBarButtonTemplate"), Button_MT)
+	local name =  ("BT4Button%d"):format(absid)
+	local button = setmetatable(CreateFrame("CheckButton", name, parent, "ActionBarButtonTemplate"), Button_MT)
 	
 	button:SetAttribute("type", "action")
 	button:SetAttribute("useparent-unit", true)
@@ -22,6 +23,8 @@ function Bartender4.Button:Create(id, parent)
 	
 	this = button
 	ActionButton_UpdateAction()
+	
+	_G[("%sNormalTexture"):format(name)]:Hide()
 	
 	button:Show()
 	
