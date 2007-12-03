@@ -7,9 +7,7 @@
 local Button = CreateFrame("CheckButton")
 local Button_MT = {__index = Button}
 
-local function onLeave()
-	GameTooltip:Hide()
-end
+local onLeave, onUpdate
 
 Bartender4.Button = {}
 Bartender4.Button.prototype = Button
@@ -20,7 +18,7 @@ function Bartender4.Button:Create(id, parent)
 	button.parent = parent
 	
 	button:SetScript("OnEvent", button.EventHandler)
-	button:SetScript("OnUpdate", button.OnUpdate)
+	button:SetScript("OnUpdate", onUpdate)
 	button:SetScript("OnEnter", button.SetTooltip)
 	button:SetScript("OnLeave", onLeave)
 	button:SetScript("OnAttributeChanged", button.UpdateAction)
@@ -36,6 +34,7 @@ function Bartender4.Button:Create(id, parent)
 	button.flash = _G[("%sFlash"):format(name)]
 	button.flash:Hide()
 	
+	button:SetNormalTexture("")
 	local realNormalTexture = _G[("%sNormalTexture"):format(name)]
 	realNormalTexture:Hide()
 	
@@ -72,13 +71,56 @@ function Bartender4.Button:Create(id, parent)
 	return button
 end
 
+function onLeave()
+	GameTooltip:Hide()
+end
+
+function onUpdate(self, elapsed)
+	if not self.iconTex then self:UpdateIcon() end
+	
+	if ( self.flashing == 1 ) then
+		self.flashtime = self.flashtime - elapsed;
+		if ( self.flashtime <= 0 ) then
+			local overtime = -self.flashtime;
+			if ( overtime >= ATTACK_BUTTON_FLASH_TIME ) then
+				overtime = 0;
+			end
+			self.flashtime = ATTACK_BUTTON_FLASH_TIME - overtime
+			
+			local flashTexture = self.flash
+			if ( flashTexture:IsVisible() ) then
+				flashTexture:Hide()
+			else
+				flashTexture:Show()
+			end
+		end
+	end
+	
+	if ( self.rangeTimer ) then
+		self.rangeTimer = self.rangeTimer - elapsed
+		if ( self.rangeTimer <= 0 ) then
+			local valid = IsActionInRange(self.action)
+			local hotkey = self.hotkey
+			local hkshown = (hotkey:GetText() == RANGE_INDICATOR and Bartender4.db.profile.OutOfRange == "hotkey")
+			if valid and hkshown then 
+				hotkey:Show() 
+			elseif hkshown then
+				hotkey:Hide()
+			end
+			self.outOfRange = (valid == 0)
+			self:UpdateUsable()
+			self.rangeTimer = TOOLTIP_UPDATE_TIME
+		end
+	end
+end
+
 function Button:CalculateAction()
 	return SecureButton_GetModifiedAttribute(self, "action", SecureButton_GetEffectiveButton(self)) or 1
 end
 
-function Button:UpdateAction()
+function Button:UpdateAction(force)
 	local action = self:CalculateAction()
-	if action ~= self.action then
+	if action ~= self.action or force then
 		self.action = action
 		self:Update()
 	end
@@ -91,13 +133,14 @@ function Button:Update()
 	self:UpdateHotkeys()
 	if ( HasAction(action) ) then
 		self:RegisterActionEvents()
+		
 		self:UpdateState()
 		self:UpdateUsable()
 		self:UpdateCooldown()
 		self:UpdateFlash()
 		
 		self:ShowButton()
-		self:SetScript("OnUpdate", self.OnUpdate)
+		self:SetScript("OnUpdate", onUpdate)
 	else
 		self:UnregisterActionEvents()
 		
@@ -123,7 +166,7 @@ function Button:Update()
 	if self.parent.config.HideMacrotext then
 		self.macroName:SetText("")
 	else
-		self.macroName:SetText(GetActionText(self.action))
+		self.macroName:SetText(GetActionText(action))
 	end
 	
 end
@@ -173,7 +216,7 @@ end
 function Button:UpdateUsable()
 	local oor = Bartender4.db.profile.OutOfRange
 	local isUsable, notEnoughMana = IsUsableAction(self.action)
-	local oorcolor, oomcolor = Bartender4.db.profile.Colors.OutOfRange, Bartender4.db.profile.Colors.OutOfMana
+	local oorcolor, oomcolor = Bartender4.db.profile.Colors.range, Bartender4.db.profile.Colors.mana
 	if ( oor ~= "button" or not self.outOfRange) then
 		if ( oor == "none" or not self.outOfRange) then
 			self.hotkey:SetVertexColor(1.0, 1.0, 1.0)
@@ -218,45 +261,6 @@ function Button:StopFlash()
 	self.flashing = 0
 	self.flash:Hide()
 	self:UpdateState()
-end
-
-function Button:OnUpdate(elapsed)
-	--if not self.frame.tex then self:UpdateIcon() end
-	
-	if ( self.flashing == 1 ) then
-		self.flashtime = self.flashtime - elapsed;
-		if ( self.flashtime <= 0 ) then
-			local overtime = -self.flashtime;
-			if ( overtime >= ATTACK_BUTTON_FLASH_TIME ) then
-				overtime = 0;
-			end
-			self.flashtime = ATTACK_BUTTON_FLASH_TIME - overtime
-			
-			local flashTexture = self.flash
-			if ( flashTexture:IsVisible() ) then
-				flashTexture:Hide()
-			else
-				flashTexture:Show()
-			end
-		end
-	end
-	
-	if ( self.rangeTimer ) then
-		self.rangeTimer = self.rangeTimer - elapsed
-		if ( self.rangeTimer <= 0 ) then
-			local valid = IsActionInRange(self.action)
-			local hotkey = self.hotkey
-			local hkshown = (hotkey:GetText() == RANGE_INDICATOR and Bartender4.db.profile.OutOfRange == "hotkey")
-			if valid and hkshown then 
-				hotkey:Show() 
-			elseif hkshown then
-				hotkey:Hide()
-			end
-			self.outOfRange = (valid == 0)
-			self:UpdateUsable()
-			self.rangeTimer = TOOLTIP_UPDATE_TIME
-		end
-	end
 end
 
 function Button:SetTooltip()

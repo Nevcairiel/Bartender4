@@ -13,10 +13,12 @@ embeds.xml
 
 ## Core ##
 Bartender4.lua
+Options.lua
 
 ## Prototypes ##
 Bar.lua
 Button.lua
+ActionBarPrototype.lua
 
 ## Modules ##
 ActionBars.lua
