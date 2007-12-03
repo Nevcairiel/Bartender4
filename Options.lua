@@ -28,6 +28,7 @@ function Bartender4:SetupOptions()
 				guiHidden = true,
 			},
 			general = {
+				order = 10,
 				type = "group",
 				--cmdInline = true,
 				name = "General Settings",

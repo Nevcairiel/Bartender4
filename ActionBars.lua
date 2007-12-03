@@ -81,25 +81,21 @@ function BT4ActionBars:ForAllButtons(...)
 	self:ForAll("ForAll", ...)
 end
 
-local getFunc, setFunc
+local getFunc
 do
 	function getFunc(info)
-		return (info.arg and Bartender4.db.profile[info.arg] or Bartender4.db.profile[info[#info]])
-	end
-	
-	function setFunc(info, value)
 		local key = info.arg or info[#info]
-		Bartender4.db.profile[key] = value
+		return Bartender4.db.profile[key]
 	end
 end
 
 function BT4ActionBars:SetupOptions()
 	self.options = {
+		order = 20,
 		type = "group",
 		--cmdInline = true,
 		name = "Action Bars",
 		get = getFunc,
-		set = setFunc,
 		args = {
 			range = {
 				order = 1,
@@ -109,7 +105,7 @@ function BT4ActionBars:SetupOptions()
 				style = "dropdown",
 				arg = "OutOfRange",
 				set = function(info, value) 
-					setFunc(info, value)
+					Bartender4.db.profile.OutOfRange = value
 					BT4ActionBars:ForAllButtons("UpdateUsable")
 				end,
 				values = { none = "No Display", button = "Full Button Mode", hotkey = "Hotkey Mode" },
@@ -151,9 +147,8 @@ end
 
 -- Creates a new bar object based on the id and the specified config
 function BT4ActionBars:Create(id, config)
-	local bar = setmetatable(Bartender4.Bar:Create(id, "SecureStateDriverTemplate", config), ActionBar_MT)
-	-- TODO: Setup Buttons and set bar width before pulling initial position
-	
+	local bar = setmetatable(Bartender4.Bar:Create(id, "SecureStateHeaderTemplate", config), ActionBar_MT)
+
 	bar:ApplyConfig()
 	-- debugging
 	--bar:Unlock()
