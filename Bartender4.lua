@@ -13,6 +13,7 @@ function Bartender4:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("Bartender4DB")
 	self.db.RegisterCallback(self, "OnProfileChanged", "UpdateModuleConfigs")
 	self.db.RegisterCallback(self, "OnProfileCopied", "UpdateModuleConfigs")
+	self.db.RegisterCallback(self, "OnProfileReset", "UpdateModuleConfigs")
 	
 	self:SetupOptions()
 end
@@ -37,4 +38,16 @@ function Bartender4:Update()
 			v:Update()
 		end
 	end
+end
+
+function Bartender4:Merge(target, source)
+	if not target then target = {} end
+		for k,v in pairs(source) do
+		if type(v) == "table" then
+			target[k] = self:Merge(target[k], v)
+		elseif not target[k] then
+			target[k] = v
+		end
+	end
+	return target
 end

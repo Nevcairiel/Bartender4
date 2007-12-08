@@ -7,14 +7,26 @@
 local Bar = CreateFrame("Button")
 local Bar_MT = {__index = Bar}
 
-local function createOptions(id)
-	
-end
+local barregistry = {}
+
+local defaults = {
+	['**'] = {
+		Enabled = true,
+		Scale = 1,
+		Alpha = 1,
+	}
+}
 
 Bartender4.Bar = {}
+Bartender4.Bar.defaults = defaults
 Bartender4.Bar.prototype = Bar
 function Bartender4.Bar:Create(id, template, config)
+	id = tostring(id)
+	if barregistry[id] then
+		error(("A bar with id %s has already been registered."):format(id), 2)
+	end
 	local bar = setmetatable(CreateFrame("Button", ("BT4Bar%s"):format(id), UIParent, template), Bar_MT)
+	barregistry[id] = bar
 	bar.id = id
 	
 	bar:EnableMouse(false)
@@ -39,9 +51,72 @@ function Bartender4.Bar:Create(id, template, config)
 	bar.Text:SetPoint("CENTER", bar, "CENTER")
 	
 	bar.config = config
-	bar.options = createOptions(id)
 	
 	return bar
+end
+
+local getBar, optGetter, optSetter, optionMap
+do
+	optionMap = {
+		alpha = "Alpha",
+	}
+	
+	function getBar(id)
+		local bar = barregistry[tostring(id)]
+		assert(bar, "Invalid bar id in options table.")
+		return bar
+	end
+	
+	function callFunc(bar, type, option, ...)
+		local func = type .. "Config" .. optionMap[option]
+		assert(bar[func], "Invalid get/set function.")
+		return bar[func](bar, ...)
+	end
+	
+	function optGetter(info)
+		local bar = getBar(info[#info-2])
+		local option = info[#info]
+		return callFunc(bar, "Get", option)
+	end
+	
+	function optSetter(info, ...)
+		local bar = getBar(info[#info-2])
+		local option = info[#info]
+		return callFunc(bar, "Set", option, ...)
+	end
+end
+
+function Bartender4.Bar:GetOptionsTable()
+	if not self.options then
+		self.options = {
+			general = {
+				order = 1,
+				type = "group",
+				name = "General Options",
+				cmdInline = true,
+				args = {
+					alpha = {
+						name = "Alpha",
+						desc = "Configure the alpha of the bar.",
+						type = "range",
+						min = .1, max = 1, bigStep = 0.1,
+						get = optGetter,
+						set = optSetter,
+					},
+				}
+			},
+			align = {
+				order = 10,
+				type = "group",
+				name = "Alignment",
+				args = {
+				
+				}
+			},
+		}
+	end
+	
+	return self.options
 end
 
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick
@@ -135,6 +210,18 @@ function Bar:SetSize(width, height)
 	self:SetWidth(width)
 	self:SetHeight(height or width)
 end
+
+function Bar:GetConfigAlpha()
+	return self.config.Alpha
+end
+
+function Bar:SetConfigAlpha(alpha)
+	if alpha then
+		self.config.Alpha = alpha
+	end
+	self:SetAlpha(self.config.Alpha)
+end
+
 
 --[[
 	Lazyness functions

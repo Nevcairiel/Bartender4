@@ -11,11 +11,8 @@ local stancedefaults = {
 	ROGUE = { stealth = 7 }
 }
 
-local defaults = {
+local defaults = Bartender4:Merge({
 	['**'] = {
-		Enabled = true,
-		Scale = 1,
-		Alpha = 1,
 		Buttons = 12,
 		Padding = 2,
 		Rows = 1,
@@ -24,7 +21,7 @@ local defaults = {
 	[1] = {
 		Stances = stancedefaults,
 	},
-}
+}, Bartender4.Bar.defaults)
 
 function BT4ActionBars:OnInitialize()
 	self.db = Bartender4.db
@@ -93,49 +90,57 @@ function BT4ActionBars:SetupOptions()
 	self.options = {
 		order = 20,
 		type = "group",
-		--cmdInline = true,
+		-- cmdInline = true,
 		name = "Action Bars",
 		get = getFunc,
 		args = {
-			range = {
+			general = {
 				order = 1,
-				name = "Out of Range Indicator",
-				desc = "Configure how the Out of Range Indicator should display on the buttons.",
-				type = "select",
-				style = "dropdown",
-				arg = "OutOfRange",
-				set = function(info, value) 
-					Bartender4.db.profile.OutOfRange = value
-					BT4ActionBars:ForAllButtons("UpdateUsable")
-				end,
-				values = { none = "No Display", button = "Full Button Mode", hotkey = "Hotkey Mode" },
-			},
-			colors = {
-				order = 2,
 				type = "group",
 				guiInline = true,
-				name = "Colors",
-				get = function(info)
-					local color = Bartender4.db.profile.Colors[info[#info]]
-					return color.r, color.g, color.b
-				end,
-				set = function(info, r, g, b)
-					local color = Bartender4.db.profile.Colors[info[#info]]
-					color.r, color.g, color.b = r, g, b
-					BT4ActionBars:ForAllButtons("UpdateUsable")
-				end,
+				name = "General Options",
 				args = {
 					range = {
 						order = 1,
-						type = "color",
 						name = "Out of Range Indicator",
-						desc = "Specify the Color of the Out of Range Indicator",
+						desc = "Configure how the Out of Range Indicator should display on the buttons.",
+						type = "select",
+						style = "dropdown",
+						arg = "OutOfRange",
+						set = function(info, value) 
+							Bartender4.db.profile.OutOfRange = value
+							BT4ActionBars:ForAllButtons("UpdateUsable")
+						end,
+						values = { none = "No Display", button = "Full Button Mode", hotkey = "Hotkey Mode" },
 					},
-					mana = {
+					colors = {
 						order = 2,
-						type = "color",
-						name = "Out of Mana Indicator",
-						desc = "Specify the Color of the Out of Mana Indicator",
+						type = "group",
+						guiInline = true,
+						name = "Colors",
+						get = function(info)
+							local color = Bartender4.db.profile.Colors[info[#info]]
+							return color.r, color.g, color.b
+						end,
+						set = function(info, r, g, b)
+							local color = Bartender4.db.profile.Colors[info[#info]]
+							color.r, color.g, color.b = r, g, b
+							BT4ActionBars:ForAllButtons("UpdateUsable")
+						end,
+						args = {
+							range = {
+								order = 1,
+								type = "color",
+								name = "Out of Range Indicator",
+								desc = "Specify the Color of the Out of Range Indicator",
+							},
+							mana = {
+								order = 2,
+								type = "color",
+								name = "Out of Mana Indicator",
+								desc = "Specify the Color of the Out of Mana Indicator",
+							},
+						},
 					},
 				},
 			},
@@ -144,11 +149,44 @@ function BT4ActionBars:SetupOptions()
 	Bartender4:RegisterModuleOptions("actionbars", self.options)
 end
 
+function BT4ActionBars:GetOptionsTable()
+	if not self.baroptions then
+		self.baroptions = {
+			swap = {
+				type = "group",
+				name = "Page Swapping",
+				order = 5,
+				args = {
+					
+				},
+			},
+		}
+	end
+	
+	return self.baroptions
+end
 
 -- Creates a new bar object based on the id and the specified config
 function BT4ActionBars:Create(id, config)
+	local id = tostring(id)
 	local bar = setmetatable(Bartender4.Bar:Create(id, "SecureStateHeaderTemplate", config), ActionBar_MT)
-
+	
+	local baroptions = Bartender4.Bar:GetOptionsTable()
+	local actionbaroptions = self:GetOptionsTable()
+	
+	self.options.args[id] = {
+		order = 10 + tonumber(id),
+		type = "group",
+		name = ("Bar %s"):format(id),
+		desc = ("Configure Bar %s"):format(id),
+		plugins = {
+			bar = baroptions,
+			actionbar = actionbaroptions,
+		},
+		args = { },
+		childGroups = "tab",
+	}
+	
 	bar:ApplyConfig()
 	-- debugging
 	--bar:Unlock()
