@@ -291,6 +291,14 @@ function Button:HideButton()
 	self.highlightTexture:SetTexture("")
 end
 
+function Button:ShowGrid()
+
+end
+
+function Button:HideGrid()
+
+end
+
 function Button:RegisterButtonEvents()
 	self:RegisterEvent("ACTIONBAR_SLOT_CHANGED")
 	self:RegisterEvent("PLAYER_ENTERING_WORLD")

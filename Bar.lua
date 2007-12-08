@@ -58,7 +58,8 @@ end
 local getBar, optGetter, optSetter, optionMap
 do
 	optionMap = {
-		alpha = "Alpha",
+		alpha = "ConfigAlpha",
+		scale = "ConfigScale",
 	}
 	
 	function getBar(id)
@@ -68,55 +69,68 @@ do
 	end
 	
 	function callFunc(bar, type, option, ...)
-		local func = type .. "Config" .. optionMap[option]
+		local func = type .. (optionMap[option] or option)
 		assert(bar[func], "Invalid get/set function.")
 		return bar[func](bar, ...)
 	end
 	
 	function optGetter(info)
-		local bar = getBar(info[#info-2])
+		local bar = getBar(info[2])
 		local option = info[#info]
 		return callFunc(bar, "Get", option)
 	end
 	
 	function optSetter(info, ...)
-		local bar = getBar(info[#info-2])
+		local bar = getBar(info[2])
 		local option = info[#info]
 		return callFunc(bar, "Set", option, ...)
 	end
 end
 
-function Bartender4.Bar:GetOptionsTable()
+function Bartender4.Bar:GetOptionSubTables(table)
 	if not self.options then
 		self.options = {
-			general = {
-				order = 1,
-				type = "group",
-				name = "General Options",
-				cmdInline = true,
-				args = {
-					alpha = {
-						name = "Alpha",
-						desc = "Configure the alpha of the bar.",
-						type = "range",
-						min = .1, max = 1, bigStep = 0.1,
-						get = optGetter,
-						set = optSetter,
+			style = {
+				style = {
+					type = "group",
+					inline = true,
+					name = "Style",
+					args = {
+						alpha = {
+							name = "Alpha",
+							desc = "Configure the alpha of the bar.",
+							type = "range",
+							min = .1, max = 1, bigStep = 0.1,
+							get = optGetter,
+							set = optSetter,
+						},
+						scale = {
+							name = "Scale",
+							desc = "Configure the scale of the bar.",
+							type = "range",
+							min = .1, max = 2, step = 0.05, bigStep = 0.1,
+							get = optGetter,
+							set = optSetter,
+						},
 					},
-				}
+				},
 			},
 			align = {
-				order = 10,
-				type = "group",
-				name = "Alignment",
-				args = {
-				
+				align = {
+					type = "group",
+					inline = true,
+					name = "Alignment",
+					args = {
+					
+					}
 				}
 			},
 		}
 	end
 	
-	return self.options
+	assert(self.options[table], "Invalid options sub-table.")
+	
+	return self.options[table]
 end
 
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick
@@ -190,7 +204,7 @@ end
 function Bar:LoadPosition()
 	if not self.config.Position then return end
 	local pos = self.config.Position
-	local x, y, s = pos.x, pos.y, UIParent:GetEffectiveScale()
+	local x, y, s = pos.x, pos.y, self:GetEffectiveScale()
 	local point, relPoint = pos.point, pos.relPoint
 	x, y = x/s, y/s
 	self:ClearSetPoint(point, UIParent, relPoint, x, y)
@@ -200,7 +214,7 @@ function Bar:SavePosition()
 	if not self.config.Position then self.config.Position = {} end
 	local pos = self.config.Position
 	local point, parent, relPoint, x, y = self:GetPoint()
-	local s = UIParent:GetEffectiveScale()
+	local s = self:GetEffectiveScale()
 	x, y = x*s, y*s
 	pos.x, pos.y = x, y
 	pos.point, pos.relPoint = point, relPoint
@@ -222,6 +236,17 @@ function Bar:SetConfigAlpha(alpha)
 	self:SetAlpha(self.config.Alpha)
 end
 
+function Bar:GetConfigScale()
+	return self.config.Scale
+end
+
+function Bar:SetConfigScale(scale)
+	if scale then
+		self.config.Scale = scale
+	end
+	self:SetScale(self.config.Scale)
+	self:LoadPosition()
+end
 
 --[[
 	Lazyness functions

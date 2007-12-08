@@ -149,17 +149,47 @@ function BT4ActionBars:SetupOptions()
 	Bartender4:RegisterModuleOptions("actionbars", self.options)
 end
 
+function BT4ActionBars:GetOptionSubTables()
+	
+end
+
 function BT4ActionBars:GetOptionsTable()
+	local styleoptions, alignoptions = Bartender4.Bar:GetOptionSubTables("style"), Bartender4.Bar:GetOptionSubTables("align")
+	local buttonoptions, stanceoptions, swapoptions = self:GetOptionSubTables()
 	if not self.baroptions then
 		self.baroptions = {
+			general = {
+				order = 1,
+				type = "group",
+				name = "General Options",
+				cmdInline = true,
+				plugins = {
+					bar = styleoptions,
+					button = buttonoptions,
+				},
+				args = {},
+			},
 			swap = {
 				type = "group",
 				name = "Page Swapping",
 				order = 5,
+				plugins = {
+					stance = stanceoptions,
+					swap = swapoptions,
+				},
 				args = {
-					
 				},
 			},
+			align = {
+				order = 3,
+				type = "group",
+				name = "Alignment",
+				cmdInline = true,
+				plugins = {
+					align = alignoptions,
+				},
+				args = {},
+			}
 		}
 	end
 	
@@ -171,8 +201,7 @@ function BT4ActionBars:Create(id, config)
 	local id = tostring(id)
 	local bar = setmetatable(Bartender4.Bar:Create(id, "SecureStateHeaderTemplate", config), ActionBar_MT)
 	
-	local baroptions = Bartender4.Bar:GetOptionsTable()
-	local actionbaroptions = self:GetOptionsTable()
+	local options = self:GetOptionsTable()
 	
 	self.options.args[id] = {
 		order = 10 + tonumber(id),
@@ -180,10 +209,9 @@ function BT4ActionBars:Create(id, config)
 		name = ("Bar %s"):format(id),
 		desc = ("Configure Bar %s"):format(id),
 		plugins = {
-			bar = baroptions,
-			actionbar = actionbaroptions,
+			bar = options,
 		},
-		args = { },
+		args = {},
 		childGroups = "tab",
 	}
 	
