@@ -7,7 +7,9 @@
 local Bar = CreateFrame("Button")
 local Bar_MT = {__index = Bar}
 
-local barregistry = {}
+--[[===================================================================================
+	Universal Bar Contructor
+===================================================================================]]--
 
 local defaults = {
 	['**'] = {
@@ -17,9 +19,11 @@ local defaults = {
 	}
 }
 
+local barregistry = {}
 Bartender4.Bar = {}
 Bartender4.Bar.defaults = defaults
 Bartender4.Bar.prototype = Bar
+Bartender4.Bar.barregistry = barregistry
 function Bartender4.Bar:Create(id, template, config)
 	id = tostring(id)
 	assert(not barregistry[id], "duplicated entry in barregistry.")
@@ -54,31 +58,41 @@ function Bartender4.Bar:Create(id, template, config)
 	return bar
 end
 
+--[[===================================================================================
+	Bar Options
+===================================================================================]]--
+
+-- option utilty functions
 local getBar, optGetter, optSetter, optionMap, callFunc
 do
+	-- maps option keys to function names
 	optionMap = {
 		alpha = "ConfigAlpha",
 		scale = "ConfigScale",
 	}
 	
+	-- retrieves a valid bar object from the barregistry table
 	function getBar(id)
 		local bar = barregistry[tostring(id)]
 		assert(bar, "Invalid bar id in options table.")
 		return bar
 	end
 	
+	-- calls a function on the bar
 	function callFunc(bar, type, option, ...)
 		local func = type .. (optionMap[option] or option)
 		assert(bar[func], "Invalid get/set function.")
 		return bar[func](bar, ...)
 	end
 	
+	-- universal function to get a option
 	function optGetter(info)
 		local bar = getBar(info[2])
 		local option = info[#info]
 		return callFunc(bar, "Get", option)
 	end
 	
+	-- universal function to set a option
 	function optSetter(info, ...)
 		local bar = getBar(info[2])
 		local option = info[#info]
@@ -86,9 +100,10 @@ do
 	end
 end
 
-function Bartender4.Bar:GetOptionTable()
-	if not self.options then
-		self.options = {
+local options
+function Bar:GetOptionTable()
+	if not options then
+		options = {
 			general = {
 				type = "group",
 				cmdInline = true,
@@ -133,8 +148,12 @@ function Bartender4.Bar:GetOptionTable()
 		}
 	end
 	
-	return self.options
+	return options
 end
+
+--[[===================================================================================
+	Universal Bar Prototype
+===================================================================================]]--
 
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick
 do

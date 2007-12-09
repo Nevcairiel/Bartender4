@@ -2,8 +2,7 @@
 
 local BT4ActionBars = Bartender4:NewModule("ActionBars")
 
-local ActionBar = Bartender4.ActionBar
-local ActionBar_MT = {__index = ActionBar}
+local ActionBar, ActionBar_MT
 
 local stancedefaults = {
 	DRUID = { bear = 9, cat = 7, prowl = 8 },
@@ -28,6 +27,9 @@ function BT4ActionBars:OnInitialize()
 	Bartender4:RegisterDefaultsKey("ActionBars", defaults)
 	
 	self:SetupOptions()
+	
+	ActionBar = Bartender4.ActionBar
+	ActionBar_MT = {__index = ActionBar}
 end
 
 -- setup the 10 actionbars
@@ -149,90 +151,12 @@ function BT4ActionBars:SetupOptions()
 	Bartender4:RegisterModuleOptions("actionbars", self.options)
 end
 
-local getBar, optGetter, optSetter, optionMap, callFunc
-do
-	optionMap = {
-		padding = "Padding",
-		buttons = "Buttons",
-	}
-	
-	function getBar(id)
-		local bar = BT4ActionBars.actionbars[tonumber(id)]
-		assert(bar, "Invalid bar id in options table.")
-		return bar
-	end
-	
-	function callFunc(bar, type, option, ...)
-		local func = type .. (optionMap[option] or option)
-		assert(bar[func], "Invalid get/set function."..func)
-		return bar[func](bar, ...)
-	end
-	
-	function optGetter(info)
-		local bar = getBar(info[2])
-		local option = info[#info]
-		return callFunc(bar, "Get", option)
-	end
-	
-	function optSetter(info, ...)
-		local bar = getBar(info[2])
-		local option = info[#info]
-		return callFunc(bar, "Set", option, ...)
-	end
-end
-
-function BT4ActionBars:GetOptionsTable()
-	if not self.baroptions then
-		self.baroptions = Bartender4:Merge({
-			general = {
-				-- type = inherited
-				-- name = inherited
-				-- cmdInline = inherited
-				order = 1,
-				args = {
-					style = {
-						-- type = inherited
-						-- name = inherited
-						-- inline = inherited
-						args = {
-							padding = {
-								type = "range",
-								name = "Padding",
-								desc = "Configure the padding of the buttons.",
-								min = -10, max = 20, step = 1,
-								set = optSetter,
-								get = optGetter,
-							},
-						},
-					},
-				},
-			},
-			swap = {
-				type = "group",
-				name = "Page Swapping",
-				cmdInline = true,
-				order = 2,
-				args = {},
-			},
-			align = {
-				-- type = inherited
-				-- name = inherited
-				-- cmdInline = inherited
-				order = 3,
-				args = {},
-			}
-		}, Bartender4.Bar:GetOptionTable())
-	end
-	
-	return self.baroptions
-end
-
 -- Creates a new bar object based on the id and the specified config
 function BT4ActionBars:Create(id, config)
 	local id = tostring(id)
 	local bar = setmetatable(Bartender4.Bar:Create(id, "SecureStateHeaderTemplate", config), ActionBar_MT)
 	
-	local options = self:GetOptionsTable()
+	local options = bar:GetOptionsTable()
 	
 	self.options.args[id] = {
 		order = 10 + tonumber(id),

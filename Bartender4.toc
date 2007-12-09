@@ -18,7 +18,7 @@ Options.lua
 ## Prototypes ##
 Bar.lua
 Button.lua
-ActionBarPrototype.lua
 
 ## Modules ##
+ActionBarPrototype.lua
 ActionBars.lua
