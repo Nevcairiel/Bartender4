@@ -171,6 +171,8 @@ function Bar:ApplyConfig(config)
 	end
 	self:Lock()
 	self:LoadPosition()
+	self:SetConfigScale()
+	self:SetConfigAlpha()
 end
 
 function Bar:Unlock()

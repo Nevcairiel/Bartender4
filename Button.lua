@@ -2,7 +2,7 @@
 	Action Button Template
 ]]
 
---[[ $Id: Bar.lua 56326 2007-11-30 15:11:00Z nevcairiel $ ]]
+--[[ $Id$ ]]
 
 local Button = CreateFrame("CheckButton")
 local Button_MT = {__index = Button}

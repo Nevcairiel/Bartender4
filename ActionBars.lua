@@ -153,6 +153,7 @@ local getBar, optGetter, optSetter, optionMap, callFunc
 do
 	optionMap = {
 		padding = "Padding",
+		buttons = "Buttons",
 	}
 	
 	function getBar(id)

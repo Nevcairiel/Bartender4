@@ -1,4 +1,4 @@
---[[ $Id: Bartender4.lua 56386 2007-12-01 14:21:40Z nevcairiel $ ]]
+--[[ $Id$ ]]
 
 local Bar = Bartender4.Bar.prototype
 local ActionBar = setmetatable({}, {__index = Bar})
@@ -58,6 +58,12 @@ function ActionBar:UpdateButtons(numbuttons)
 	self.buttons = buttons
 	
 	self:UpdateButtonLayout()
+end
+
+ActionBar.SetButtons = ActionBar.UpdateButtons
+
+function ActionBar:GetButtons()
+	return self.config.Buttons
 end
 
 -- align the buttons and correct the size of the bar overlay frame
