@@ -64,7 +64,7 @@ end
 function ActionBar:UpdateButtonLayout()
 	local numbuttons = self.config.Buttons
 	local buttons = self.buttons
-	local pad = self.config.Padding
+	local pad = self:GetPadding()
 	
 	local Rows = self.config.Rows
 	local ButtonPerRow = math_floor(numbuttons / Rows + 0.5) -- just a precaution
@@ -84,6 +84,17 @@ function ActionBar:UpdateButtonLayout()
 			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", pad, 0)
 		end
 	end
+end
+
+function ActionBar:GetPadding()
+	return self.config.Padding
+end
+
+function ActionBar:SetPadding(pad)
+	if pad then
+		self.config.Padding = pad
+	end
+	self:UpdateButtonLayout()
 end
 
 function ActionBar:GetAll()

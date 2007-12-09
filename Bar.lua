@@ -22,9 +22,8 @@ Bartender4.Bar.defaults = defaults
 Bartender4.Bar.prototype = Bar
 function Bartender4.Bar:Create(id, template, config)
 	id = tostring(id)
-	if barregistry[id] then
-		error(("A bar with id %s has already been registered."):format(id), 2)
-	end
+	assert(not barregistry[id], "duplicated entry in barregistry.")
+	
 	local bar = setmetatable(CreateFrame("Button", ("BT4Bar%s"):format(id), UIParent, template), Bar_MT)
 	barregistry[id] = bar
 	bar.id = id
@@ -55,7 +54,7 @@ function Bartender4.Bar:Create(id, template, config)
 	return bar
 end
 
-local getBar, optGetter, optSetter, optionMap
+local getBar, optGetter, optSetter, optionMap, callFunc
 do
 	optionMap = {
 		alpha = "ConfigAlpha",
@@ -87,50 +86,54 @@ do
 	end
 end
 
-function Bartender4.Bar:GetOptionSubTables(table)
+function Bartender4.Bar:GetOptionTable()
 	if not self.options then
 		self.options = {
-			style = {
-				style = {
-					type = "group",
-					inline = true,
-					name = "Style",
-					args = {
-						alpha = {
-							name = "Alpha",
-							desc = "Configure the alpha of the bar.",
-							type = "range",
-							min = .1, max = 1, bigStep = 0.1,
-							get = optGetter,
-							set = optSetter,
-						},
-						scale = {
-							name = "Scale",
-							desc = "Configure the scale of the bar.",
-							type = "range",
-							min = .1, max = 2, step = 0.05, bigStep = 0.1,
-							get = optGetter,
-							set = optSetter,
+			general = {
+				type = "group",
+				cmdInline = true,
+				name = "General Settings",
+				order = 1,
+				args = {
+					style = {
+						type = "group",
+						name = "Style",
+						inline = true,
+						order = 5,
+						args = {
+							alpha = {
+								name = "Alpha",
+								desc = "Configure the alpha of the bar.",
+								type = "range",
+								min = .1, max = 1, bigStep = 0.1,
+								get = optGetter,
+								set = optSetter,
+							},
+							scale = {
+								name = "Scale",
+								desc = "Configure the scale of the bar.",
+								type = "range",
+								min = .1, max = 2, step = 0.05, bigStep = 0.1,
+								get = optGetter,
+								set = optSetter,
+							},
 						},
 					},
 				},
 			},
 			align = {
-				align = {
-					type = "group",
-					inline = true,
-					name = "Alignment",
-					args = {
-					
-					}
-				}
+				type = "group",
+				cmdInline = true,
+				name = "Alignment",
+				order = 10,
+				args = {
+				
+				},
 			},
 		}
 	end
 	
-	assert(self.options[table], "Invalid options sub-table.")
-	
-	return self.options[table]
+	return self.options
 end
 
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick

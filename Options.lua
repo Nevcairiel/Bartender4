@@ -18,6 +18,7 @@ function Bartender4:SetupOptions()
 		name = "Bartender4",
 		icon = "Interface\\Icons\\INV_Drink_05",
 		childGroups = "tree",
+		plugins = {},
 		args = {
 			gui = {
 				type = "execute",
@@ -42,5 +43,5 @@ function Bartender4:SetupOptions()
 end
 
 function Bartender4:RegisterModuleOptions(key, table)
-	self.options.args[key] = table
+	self.options.plugins[key] = { [key] = table }
 end

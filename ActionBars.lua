@@ -149,48 +149,78 @@ function BT4ActionBars:SetupOptions()
 	Bartender4:RegisterModuleOptions("actionbars", self.options)
 end
 
-function BT4ActionBars:GetOptionSubTables()
+local getBar, optGetter, optSetter, optionMap, callFunc
+do
+	optionMap = {
+		padding = "Padding",
+	}
 	
+	function getBar(id)
+		local bar = BT4ActionBars.actionbars[tonumber(id)]
+		assert(bar, "Invalid bar id in options table.")
+		return bar
+	end
+	
+	function callFunc(bar, type, option, ...)
+		local func = type .. (optionMap[option] or option)
+		assert(bar[func], "Invalid get/set function."..func)
+		return bar[func](bar, ...)
+	end
+	
+	function optGetter(info)
+		local bar = getBar(info[2])
+		local option = info[#info]
+		return callFunc(bar, "Get", option)
+	end
+	
+	function optSetter(info, ...)
+		local bar = getBar(info[2])
+		local option = info[#info]
+		return callFunc(bar, "Set", option, ...)
+	end
 end
 
 function BT4ActionBars:GetOptionsTable()
-	local styleoptions, alignoptions = Bartender4.Bar:GetOptionSubTables("style"), Bartender4.Bar:GetOptionSubTables("align")
-	local buttonoptions, stanceoptions, swapoptions = self:GetOptionSubTables()
 	if not self.baroptions then
-		self.baroptions = {
+		self.baroptions = Bartender4:Merge({
 			general = {
+				-- type = inherited
+				-- name = inherited
+				-- cmdInline = inherited
 				order = 1,
-				type = "group",
-				name = "General Options",
-				cmdInline = true,
-				plugins = {
-					bar = styleoptions,
-					button = buttonoptions,
+				args = {
+					style = {
+						-- type = inherited
+						-- name = inherited
+						-- inline = inherited
+						args = {
+							padding = {
+								type = "range",
+								name = "Padding",
+								desc = "Configure the padding of the buttons.",
+								min = -10, max = 20, step = 1,
+								set = optSetter,
+								get = optGetter,
+							},
+						},
+					},
 				},
-				args = {},
 			},
 			swap = {
 				type = "group",
 				name = "Page Swapping",
-				order = 5,
-				plugins = {
-					stance = stanceoptions,
-					swap = swapoptions,
-				},
-				args = {
-				},
+				cmdInline = true,
+				order = 2,
+				args = {},
 			},
 			align = {
+				-- type = inherited
+				-- name = inherited
+				-- cmdInline = inherited
 				order = 3,
-				type = "group",
-				name = "Alignment",
-				cmdInline = true,
-				plugins = {
-					align = alignoptions,
-				},
 				args = {},
 			}
-		}
+		}, Bartender4.Bar:GetOptionTable())
 	end
 	
 	return self.baroptions
@@ -208,10 +238,7 @@ function BT4ActionBars:Create(id, config)
 		type = "group",
 		name = ("Bar %s"):format(id),
 		desc = ("Configure Bar %s"):format(id),
-		plugins = {
-			bar = options,
-		},
-		args = {},
+		args = options,
 		childGroups = "tab",
 	}
 	
