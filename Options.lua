@@ -39,7 +39,7 @@ function Bartender4:SetupOptions()
 			},
 		},
 	}
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", self.options, "bar")
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", self.options, {"bar", "bt", "bt4"})
 end
 
 function Bartender4:RegisterModuleOptions(key, table)
