@@ -13,7 +13,6 @@ local Bar_MT = {__index = Bar}
 
 local defaults = {
 	['**'] = {
-		Enabled = true,
 		Scale = 1,
 		Alpha = 1,
 		Show = true,
@@ -57,6 +56,19 @@ function Bartender4.Bar:Create(id, template, config)
 	bar.config = config
 	
 	return bar
+end
+
+function Bartender4.Bar:GetAll()
+	return pairs(barregistry)
+end
+
+function Bartender4.Bar:ForAll(method, ...)
+	for _,bar in self:GetAll() do
+		local func = bar[method]
+		if func then
+			func(bar, ...)
+		end
+	end
 end
 
 --[[===================================================================================
@@ -198,6 +210,7 @@ function Bar:ApplyConfig(config)
 	if config then
 		self.config = config
 	end
+	if self.disabled then return end
 	self:SetShow()
 	self:Lock()
 	self:LoadPosition()
@@ -206,6 +219,8 @@ function Bar:ApplyConfig(config)
 end
 
 function Bar:Unlock()
+	if self.disabled or self.unlocked then return end
+	self.unlocked = true
 	self:EnableMouse(true)
 	self:SetScript("OnEnter", barOnEnter)
 	self:SetScript("OnLeave", barOnLeave)
@@ -214,8 +229,9 @@ function Bar:Unlock()
 	self:SetScript("OnClick", barOnClick)
 	self.Text:Show()
 	
+	self:Show()
 	self:SetFrameLevel(5)
-	if self.config.Hide then
+	if not self.config.Show then
 		self:SetBackdropColor(1, 0, 0, 0.5)
 	else
 		self:SetBackdropColor(0, 1, 0, 0.5)
@@ -223,6 +239,8 @@ function Bar:Unlock()
 end
 
 function Bar:Lock()
+	if self.disabled or not self.unlocked then return end
+	self.unlocked = nil
 	barOnDragStop(self)
 	self:EnableMouse(false)
 	self:SetScript("OnEnter", nil)
@@ -231,6 +249,10 @@ function Bar:Lock()
 	self:SetScript("OnDragStop", nil)
 	self:SetScript("OnClick", nil)
 	self.Text:Hide()
+	
+	if not self.config.Show then
+		self:Hide()
+	end
 	
 	self:SetBackdropColor(0, 0, 0, 0)
 	self:SetBackdropBorderColor(0, 0, 0, 0)
@@ -268,7 +290,15 @@ function Bar:SetShow(show)
 	if show ~= nil then
 		self.config.Show = show
 	end
-	self[self.config.Show and "Show" or "Hide"](self)
+	if not self.unlocked then
+		self[self.config.Show and "Show" or "Hide"](self)
+	else
+		if not self.config.Show then
+			self:SetBackdropColor(1, 0, 0, 0.5)
+		else
+			self:SetBackdropColor(0, 1, 0, 0.5)
+		end
+	end
 end
 
 function Bar:GetConfigAlpha()

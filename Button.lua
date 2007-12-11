@@ -34,13 +34,15 @@ function Bartender4.Button:Create(id, parent)
 	button.flash = _G[("%sFlash"):format(name)]
 	button.flash:Hide()
 	
-	button:SetNormalTexture("")
-	local realNormalTexture = _G[("%sNormalTexture"):format(name)]
-	realNormalTexture:Hide()
+	--button:SetNormalTexture("")
+	--local realNormalTexture = _G[("%sNormalTexture"):format(name)]
 	
-	button.normalTexture = button:CreateTexture(("%sBT4NormalTexture"):format(name))
-	button.normalTexture:SetAllPoints(realNormalTexture)
+	--button.normalTexture = button:CreateTexture(("%sBT4NormalTexture"):format(name))
+	--button.normalTexture:SetAllPoints(realNormalTexture)
 	
+	--realNormalTexture:Hide()
+	
+	button.normalTexture = button:GetNormalTexture() -- _G[("%sNormalTexture"):format(name)]
 	button.pushedTexture = button:GetPushedTexture()
 	button.highlightTexture = button:GetHighlightTexture()
 	
@@ -66,7 +68,7 @@ function Bartender4.Button:Create(id, parent)
 	button:RegisterButtonEvents()
 	
 	button:Show()
-	button:UpdateAction()
+	button:UpdateAction(true)
 	
 	return button
 end

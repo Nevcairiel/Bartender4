@@ -16,6 +16,9 @@ function Bartender4:OnInitialize()
 	self.db.RegisterCallback(self, "OnProfileReset", "UpdateModuleConfigs")
 	
 	self:SetupOptions()
+	
+	self.Locked = true
+	self:RegisterEvent("PLAYER_REGEN_DISABLED", "CombatLockdown")
 end
 
 function Bartender4:RegisterDefaultsKey(key, subdefaults)
@@ -25,6 +28,7 @@ function Bartender4:RegisterDefaultsKey(key, subdefaults)
 end
 
 function Bartender4:UpdateModuleConfigs()
+	self:Lock()
 	for k,v in AceAddon:IterateModulesOfAddon("Bartender4") do
 		if type(v.ApplyConfig) == "function" then
 			v:ApplyConfig()
@@ -37,6 +41,32 @@ function Bartender4:Update()
 		if type(v.Update) == "function" then
 			v:Update()
 		end
+	end
+end
+
+function Bartender4:CombatLockdown()
+	self:Lock()
+end
+
+function Bartender4:ToggleLock()
+	if self.Locked then
+		self:Unlock()
+	else
+		self:Lock()
+	end
+end
+
+function Bartender4:Unlock()
+	if self.Locked then
+		self.Locked = false
+		Bartender4.Bar:ForAll("Unlock")
+	end
+end
+
+function Bartender4:Lock()
+	if not self.Locked then
+		self.Locked = true
+		Bartender4.Bar:ForAll("Lock")
 	end
 end
 

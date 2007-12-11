@@ -12,6 +12,7 @@ local stancedefaults = {
 
 local defaults = Bartender4:Merge({
 	['**'] = {
+		Enabled = true,
 		Buttons = 12,
 		Padding = 2,
 		Rows = 1,
@@ -192,8 +193,6 @@ function BT4ActionBars:Create(id, config)
 	self:CreateBarOption(id, self:GetOptionsTable())
 	
 	bar:ApplyConfig()
-	-- debugging
-	--bar:Unlock()
 	
 	return bar
 end
@@ -204,6 +203,7 @@ function BT4ActionBars:DisableBar(id)
 	if not bar then return end
 	
 	bar.config.Enabled = false
+	bar.disabled = true
 	bar:Hide()
 	self:CreateBarOption(id, self.disabledoptions)
 end
@@ -217,7 +217,11 @@ function BT4ActionBars:EnableBar(id)
 		bar = self:Create(id, config)
 		self.actionbars[id] = bar
 	else
+		bar.disabled = nil
 		self:CreateBarOption(id, self:GetOptionsTable())
+		bar:ApplyConfig(config)
 	end
-	bar:ApplyConfig(config)
+	if not Bartender4.Locked then
+		bar:Unlock()
+	end
 end

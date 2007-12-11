@@ -37,6 +37,13 @@ function Bartender4:SetupOptions()
 				set = setFunc,
 				args = {},
 			},
+			lock = {
+				dialogHidden = true,
+				type = "toggle",
+				name = "Lock/Unlock the bars.",
+				get = function() return Bartender4.Locked end,
+				set = function(info, value) Bartender4:ToggleLock(value) end,
+			},
 		},
 	}
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", self.options, {"bar", "bt", "bt4"})
