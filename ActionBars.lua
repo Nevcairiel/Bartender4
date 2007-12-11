@@ -21,6 +21,18 @@ local defaults = Bartender4:Merge({
 	[1] = {
 		Stances = stancedefaults,
 	},
+	[7] = {
+		Enabled = false,
+	},
+	[8] = {
+		Enabled = false,
+	},
+	[9] = {
+		Enabled = false,
+	},
+	[10] = {
+		Enabled = false,
+	},
 }, Bartender4.Bar.defaults)
 
 function BT4ActionBars:OnInitialize()
