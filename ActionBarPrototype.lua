@@ -10,7 +10,7 @@ local math_floor = math.floor
 	ActionBar Options
 ===================================================================================]]--
 
-local module
+local module = Bartender4:GetModule("ActionBars")
 
 -- option utilty functions
 local getBar, optGetter, optSetter, optionMap, callFunc
@@ -20,13 +20,11 @@ do
 		padding = "Padding",
 		buttons = "Buttons",
 		rows = "Rows",
+		enabled = "Enabled",
 	}
 	
 	-- retrieves a valid bar object from the modules actionbars table
 	function getBar(id)
-		if not module then
-			module = Bartender4:GetModule("ActionBars")
-		end
 		local bar = module.actionbars[tonumber(id)]
 		assert(bar, "Invalid bar id in options table.")
 		return bar
@@ -54,24 +52,31 @@ do
 	end
 end
 
-local baroptions
-
 -- returns the option table used for all action bars
 -- creates it, if the first time called
 -- the Universal Bar option table is merged into this, alot of stuff gets inherited.
-function ActionBar:GetOptionsTable()
-	if not baroptions then
-		baroptions = Bartender4:Merge({
+function module:GetOptionsTable()
+	if not self.baroptions then
+		self.baroptions = Bartender4:Merge({
 			general = {
 				-- type = inherited
 				-- name = inherited
 				-- cmdInline = inherited
 				order = 1,
 				args = {
+					enabled = {
+						order = 1,
+						name = "Enabled",
+						desc = "Enable/Disable the bar.",
+						type = "toggle",
+						set = optSetter,
+						get = optGetter,
+					},
 					style = {
 						-- type = inherited
 						-- name = inherited
 						-- inline = inherited
+						-- order = inherited (5)
 						args = {
 							padding = {
 								type = "range",
@@ -124,7 +129,7 @@ function ActionBar:GetOptionsTable()
 		}, Bar.GetOptionTable(self))
 	end
 	
-	return baroptions
+	return self.baroptions
 end
 
 --[[===================================================================================
@@ -243,6 +248,16 @@ function ActionBar:SetRows(rows)
 		self.config.Rows = rows
 	end
 	self:UpdateButtonLayout()
+end
+
+function ActionBar:GetEnabled()
+	return true
+end
+
+function ActionBar:SetEnabled(state)
+	if not state then
+		module:DisableBar(self.id)
+	end
 end
 
 --[[===================================================================================

@@ -16,6 +16,7 @@ local defaults = {
 		Enabled = true,
 		Scale = 1,
 		Alpha = 1,
+		Show = true,
 	}
 }
 
@@ -69,6 +70,7 @@ do
 	optionMap = {
 		alpha = "ConfigAlpha",
 		scale = "ConfigScale",
+		show = "Show",
 	}
 	
 	-- retrieves a valid bar object from the barregistry table
@@ -110,6 +112,14 @@ function Bar:GetOptionTable()
 				name = "General Settings",
 				order = 1,
 				args = {
+					show = {
+						order = 3,
+						type = "toggle",
+						name = "Shown",
+						desc = "Show/Hide the bar.",
+						get = optGetter,
+						set = optSetter,
+					},
 					style = {
 						type = "group",
 						name = "Style",
@@ -188,6 +198,7 @@ function Bar:ApplyConfig(config)
 	if config then
 		self.config = config
 	end
+	self:SetShow()
 	self:Lock()
 	self:LoadPosition()
 	self:SetConfigScale()
@@ -247,6 +258,17 @@ end
 function Bar:SetSize(width, height)
 	self:SetWidth(width)
 	self:SetHeight(height or width)
+end
+
+function Bar:GetShow()
+	return self.config.Show
+end
+
+function Bar:SetShow(show)
+	if show ~= nil then
+		self.config.Show = show
+	end
+	self[self.config.Show and "Show" or "Hide"](self)
 end
 
 function Bar:GetConfigAlpha()

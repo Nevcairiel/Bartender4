@@ -20,5 +20,5 @@ Bar.lua
 Button.lua
 
 ## Modules ##
-ActionBarPrototype.lua
 ActionBars.lua
+ActionBarPrototype.lua

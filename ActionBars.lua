@@ -28,6 +28,7 @@ function BT4ActionBars:OnInitialize()
 	
 	self:SetupOptions()
 	
+	-- fetch the prototype information
 	ActionBar = Bartender4.ActionBar
 	ActionBar_MT = {__index = ActionBar}
 end
@@ -42,6 +43,8 @@ function BT4ActionBars:OnEnable()
 			local config = self.db.profile.ActionBars[i]
 			if config.Enabled then
 				self.actionbars[i] = self:Create(i, config)
+			else
+				self:CreateBarOption(i, self.disabledoptions)
 			end
 		end
 		first = nil
@@ -50,8 +53,13 @@ end
 
 -- Applys the config in the current profile to all active Bars
 function BT4ActionBars:ApplyConfig()
-	for i,v in ipairs(self.actionbars) do
-		v:ApplyConfig(self.db.profile.ActionBars[i])
+	for i=1,10 do
+		local config = self.db.profile.ActionBars[i]
+		if config.Enabled then
+			self:EnableBar(i)
+		else
+			self:DisableBar(i)
+		end
 	end
 end
 
@@ -149,6 +157,31 @@ function BT4ActionBars:SetupOptions()
 		},
 	}
 	Bartender4:RegisterModuleOptions("actionbars", self.options)
+	
+	
+	self.disabledoptions = {
+		enabled = {
+			type = "toggle",
+			name = "Enabled",
+			desc = "Enable/Disable the bar.",
+			set = function(info, v) if v then BT4ActionBars:EnableBar(info[2]) end end,
+			get = function() return false end,
+		}
+	}
+end
+
+function BT4ActionBars:CreateBarOption(id, options)
+	id = tostring(id)
+	if not self.options.args[id] then
+		self.options.args[id] = {
+			order = 10 + tonumber(id),
+			type = "group",
+			name = ("Bar %s"):format(id),
+			desc = ("Configure Bar %s"):format(id),
+			childGroups = "tab",
+		}
+	end
+	self.options.args[id].args = options
 end
 
 -- Creates a new bar object based on the id and the specified config
@@ -156,20 +189,35 @@ function BT4ActionBars:Create(id, config)
 	local id = tostring(id)
 	local bar = setmetatable(Bartender4.Bar:Create(id, "SecureStateHeaderTemplate", config), ActionBar_MT)
 	
-	local options = bar:GetOptionsTable()
-	
-	self.options.args[id] = {
-		order = 10 + tonumber(id),
-		type = "group",
-		name = ("Bar %s"):format(id),
-		desc = ("Configure Bar %s"):format(id),
-		args = options,
-		childGroups = "tab",
-	}
+	self:CreateBarOption(id, self:GetOptionsTable())
 	
 	bar:ApplyConfig()
 	-- debugging
 	--bar:Unlock()
 	
 	return bar
+end
+
+function BT4ActionBars:DisableBar(id)
+	id = tonumber(id)
+	local bar = self.actionbars[id]
+	if not bar then return end
+	
+	bar.config.Enabled = false
+	bar:Hide()
+	self:CreateBarOption(id, self.disabledoptions)
+end
+
+function BT4ActionBars:EnableBar(id)
+	id = tonumber(id)
+	local bar = self.actionbars[id]
+	local config = self.db.profile.ActionBars[id]
+	config.Enabled = true
+	if not bar then
+		bar = self:Create(id, config)
+		self.actionbars[id] = bar
+	else
+		self:CreateBarOption(id, self:GetOptionsTable())
+	end
+	bar:ApplyConfig(config)
 end

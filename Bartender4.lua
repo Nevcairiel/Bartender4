@@ -42,7 +42,7 @@ end
 
 function Bartender4:Merge(target, source)
 	if not target then target = {} end
-		for k,v in pairs(source) do
+	for k,v in pairs(source) do
 		if type(v) == "table" then
 			target[k] = self:Merge(target[k], v)
 		elseif not target[k] then
