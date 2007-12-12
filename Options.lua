@@ -20,14 +20,6 @@ function Bartender4:SetupOptions()
 		childGroups = "tree",
 		plugins = {},
 		args = {
-			gui = {
-				type = "execute",
-				name = "gui",
-				order = 1,
-				desc = "Open GUI",
-				func = function() LibStub("AceConfigDialog-3.0"):Open("Bartender4") end,
-				guiHidden = true,
-			},
 			general = {
 				order = 10,
 				type = "group",
@@ -53,7 +45,11 @@ function Bartender4:SetupOptions()
 			},
 		},
 	}
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", self.options, {"bar", "bt", "bt4"})
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", self.options)
+	local optFunc = function() LibStub("AceConfigDialog-3.0"):Open("Bartender4") end
+	LibStub("AceConsole-3.0"):RegisterChatCommand( "bar", optFunc)
+	LibStub("AceConsole-3.0"):RegisterChatCommand( "bt", optFunc)
+	LibStub("AceConsole-3.0"):RegisterChatCommand( "bt4", optFunc)
 end
 
 function Bartender4:RegisterModuleOptions(key, table)
