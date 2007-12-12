@@ -175,12 +175,20 @@ function BT4ActionBars:SetupOptions()
 	
 	
 	self.disabledoptions = {
-		enabled = {
-			type = "toggle",
-			name = "Enabled",
-			desc = "Enable/Disable the bar.",
-			set = function(info, v) if v then BT4ActionBars:EnableBar(info[2]) end end,
-			get = function() return false end,
+		general = {
+			type = "group",
+			name = "General Settings",
+			cmdInline = true,
+			order = 1,
+			args = {
+				enabled = {
+					type = "toggle",
+					name = "Enabled",
+					desc = "Enable/Disable the bar.",
+					set = function(info, v) if v then BT4ActionBars:EnableBar(info[2]) end end,
+					get = function() return false end,
+				}
+			}
 		}
 	}
 end
