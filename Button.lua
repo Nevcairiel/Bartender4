@@ -147,6 +147,18 @@ function Button:Update()
 	else
 		self:UnregisterActionEvents()
 		
+		if ( self.showgrid == 0 and not self.parent.config.ShowGrid ) then
+			self.normalTexture:Hide()
+			if self.overlay then
+				self.overlay:Hide()
+			end
+		else
+			self.normalTexture:Show()
+			if self.overlay then
+				self.overlay:Show()
+			end
+		end
+		
 		self.cooldown:Hide()
 		
 		self:HideButton()
@@ -295,11 +307,23 @@ function Button:HideButton()
 end
 
 function Button:ShowGrid()
-
+	self.showgrid = self.showgrid+1
+	self.normalTexture:Show()
+	
+	if self.overlay then
+		self.overlay:Show()
+	end
 end
 
 function Button:HideGrid()
-
+	local button = self.frame
+	self.showgrid = self.showgrid-1
+	if ( self.showgrid == 0 and not HasAction(self.action) and not self.parent.config.ShowGrid ) then
+		self.normalTexture:Hide()
+		if self.overlay then
+			self.overlay:Hide()
+		end
+	end
 end
 
 function Button:RegisterButtonEvents()
