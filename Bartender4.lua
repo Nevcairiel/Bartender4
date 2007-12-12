@@ -4,8 +4,7 @@ Bartender4 = AceAddon:NewAddon("Bartender4", "AceConsole-3.0", "AceEvent-3.0")
 
 local defaults = {
 	profile = {
-		OutOfRange = "button",
-		Colors = { range = { r = 0.8, g = 0.1, b = 0.1 }, mana = { r = 0.5, g = 0.5, b = 1.0 } },
+		
 	}
 }
 

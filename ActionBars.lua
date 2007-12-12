@@ -10,7 +10,7 @@ local stancedefaults = {
 	ROGUE = { stealth = 7 }
 }
 
-local defaults = Bartender4:Merge({
+local abdefaults = Bartender4:Merge({
 	['**'] = {
 		Enabled = true,
 		Buttons = 12,
@@ -35,9 +35,17 @@ local defaults = Bartender4:Merge({
 	},
 }, Bartender4.Bar.defaults)
 
+local defaults = { 
+	profile = { 
+		OutOfRange = "button",
+		Colors = { range = { r = 0.8, g = 0.1, b = 0.1 }, mana = { r = 0.5, g = 0.5, b = 1.0 } },
+		ActionBars = abdefaults,
+	} 
+}
+
 function BT4ActionBars:OnInitialize()
-	self.db = Bartender4.db
-	Bartender4:RegisterDefaultsKey("ActionBars", defaults)
+	self.db = Bartender4.db:RegisterNamespace("ActionBars", defaults)
+	
 	
 	self:SetupOptions()
 	
@@ -101,14 +109,6 @@ function BT4ActionBars:ForAllButtons(...)
 	self:ForAll("ForAll", ...)
 end
 
-local getFunc
-do
-	function getFunc(info)
-		local key = info.arg or info[#info]
-		return Bartender4.db.profile[key]
-	end
-end
-
 function BT4ActionBars:SetupOptions()
 	self.options = {
 		order = 20,
@@ -129,9 +129,11 @@ function BT4ActionBars:SetupOptions()
 						desc = "Configure how the Out of Range Indicator should display on the buttons.",
 						type = "select",
 						style = "dropdown",
-						arg = "OutOfRange",
+						get = function()
+							return BT4ActionBars.db.profile.OutOfRange
+						end,
 						set = function(info, value) 
-							Bartender4.db.profile.OutOfRange = value
+							BT4ActionBars.db.profile.OutOfRange = value
 							BT4ActionBars:ForAllButtons("UpdateUsable")
 						end,
 						values = { none = "No Display", button = "Full Button Mode", hotkey = "Hotkey Mode" },
@@ -142,11 +144,11 @@ function BT4ActionBars:SetupOptions()
 						guiInline = true,
 						name = "Colors",
 						get = function(info)
-							local color = Bartender4.db.profile.Colors[info[#info]]
+							local color = BT4ActionBars.db.profile.Colors[info[#info]]
 							return color.r, color.g, color.b
 						end,
 						set = function(info, r, g, b)
-							local color = Bartender4.db.profile.Colors[info[#info]]
+							local color = BT4ActionBars.db.profile.Colors[info[#info]]
 							color.r, color.g, color.b = r, g, b
 							BT4ActionBars:ForAllButtons("UpdateUsable")
 						end,
@@ -201,6 +203,7 @@ end
 function BT4ActionBars:Create(id, config)
 	local id = tostring(id)
 	local bar = setmetatable(Bartender4.Bar:Create(id, "SecureStateHeaderTemplate", config), ActionBar_MT)
+	bar.module = self
 	
 	self:CreateBarOption(id, self:GetOptionsTable())
 	

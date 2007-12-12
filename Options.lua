@@ -31,7 +31,7 @@ function Bartender4:SetupOptions()
 			general = {
 				order = 10,
 				type = "group",
-				--cmdInline = true,
+				cmdInline = true,
 				name = "General Settings",
 				get = getFunc,
 				set = setFunc,

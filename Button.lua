@@ -16,6 +16,7 @@ function Bartender4.Button:Create(id, parent)
 	local name =  ("BT4Button%d"):format(absid)
 	local button = setmetatable(CreateFrame("CheckButton", name, parent, "SecureActionButtonTemplate, ActionButtonTemplate"), Button_MT)
 	button.parent = parent
+	button.settings = parent.module.db
 	
 	button:SetScript("OnEvent", button.EventHandler)
 	button:SetScript("OnUpdate", onUpdate)
@@ -216,9 +217,9 @@ function Button:UpdateState()
 end
 
 function Button:UpdateUsable()
-	local oor = Bartender4.db.profile.OutOfRange
+	local oor = self.settings.profile.OutOfRange
 	local isUsable, notEnoughMana = IsUsableAction(self.action)
-	local oorcolor, oomcolor = Bartender4.db.profile.Colors.range, Bartender4.db.profile.Colors.mana
+	local oorcolor, oomcolor = self.settings.profile.Colors.range, self.settings.profile.Colors.mana
 	if ( oor ~= "button" or not self.outOfRange) then
 		if ( oor == "none" or not self.outOfRange) then
 			self.hotkey:SetVertexColor(1.0, 1.0, 1.0)
