@@ -4,12 +4,13 @@ Bartender4 = AceAddon:NewAddon("Bartender4", "AceConsole-3.0", "AceEvent-3.0")
 
 local defaults = {
 	profile = {
-		
+		tooltip = "enabled",
+		buttonlock = false,
 	}
 }
 
 function Bartender4:OnInitialize()
-	self.db = LibStub("AceDB-3.0"):New("Bartender4DB")
+	self.db = LibStub("AceDB-3.0"):New("Bartender4DB", defaults)
 	self.db.RegisterCallback(self, "OnProfileChanged", "UpdateModuleConfigs")
 	self.db.RegisterCallback(self, "OnProfileCopied", "UpdateModuleConfigs")
 	self.db.RegisterCallback(self, "OnProfileReset", "UpdateModuleConfigs")

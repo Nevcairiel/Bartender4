@@ -13,9 +13,9 @@ local Bar_MT = {__index = Bar}
 
 local defaults = {
 	['**'] = {
-		Scale = 1,
-		Alpha = 1,
-		Show = true,
+		scale = 1,
+		alpha = 1,
+		show = true,
 	}
 }
 
@@ -231,7 +231,7 @@ function Bar:Unlock()
 	
 	self:Show()
 	self:SetFrameLevel(5)
-	if not self.config.Show then
+	if not self.config.show then
 		self:SetBackdropColor(1, 0, 0, 0.5)
 	else
 		self:SetBackdropColor(0, 1, 0, 0.5)
@@ -250,7 +250,7 @@ function Bar:Lock()
 	self:SetScript("OnClick", nil)
 	self.Text:Hide()
 	
-	if not self.config.Show then
+	if not self.config.show then
 		self:Hide()
 	end
 	
@@ -259,8 +259,8 @@ function Bar:Lock()
 end
 
 function Bar:LoadPosition()
-	if not self.config.Position then return end
-	local pos = self.config.Position
+	if not self.config.position then return end
+	local pos = self.config.position
 	local x, y, s = pos.x, pos.y, self:GetEffectiveScale()
 	local point, relPoint = pos.point, pos.relPoint
 	x, y = x/s, y/s
@@ -268,8 +268,8 @@ function Bar:LoadPosition()
 end
 
 function Bar:SavePosition()
-	if not self.config.Position then self.config.Position = {} end
-	local pos = self.config.Position
+	if not self.config.position then self.config.position = {} end
+	local pos = self.config.position
 	local point, parent, relPoint, x, y = self:GetPoint()
 	local s = self:GetEffectiveScale()
 	x, y = x*s, y*s
@@ -283,17 +283,17 @@ function Bar:SetSize(width, height)
 end
 
 function Bar:GetShow()
-	return self.config.Show
+	return self.config.show
 end
 
 function Bar:SetShow(show)
 	if show ~= nil then
-		self.config.Show = show
+		self.config.show = show
 	end
 	if not self.unlocked then
-		self[self.config.Show and "Show" or "Hide"](self)
+		self[self.config.show and "Show" or "Hide"](self)
 	else
-		if not self.config.Show then
+		if not self.config.show then
 			self:SetBackdropColor(1, 0, 0, 0.5)
 		else
 			self:SetBackdropColor(0, 1, 0, 0.5)
@@ -302,25 +302,25 @@ function Bar:SetShow(show)
 end
 
 function Bar:GetConfigAlpha()
-	return self.config.Alpha
+	return self.config.alpha
 end
 
 function Bar:SetConfigAlpha(alpha)
 	if alpha then
-		self.config.Alpha = alpha
+		self.config.alpha = alpha
 	end
-	self:SetAlpha(self.config.Alpha)
+	self:SetAlpha(self.config.alpha)
 end
 
 function Bar:GetConfigScale()
-	return self.config.Scale
+	return self.config.scale
 end
 
 function Bar:SetConfigScale(scale)
 	if scale then
-		self.config.Scale = scale
+		self.config.scale = scale
 	end
-	self:SetScale(self.config.Scale)
+	self:SetScale(self.config.scale)
 	self:LoadPosition()
 end
 

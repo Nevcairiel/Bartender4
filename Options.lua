@@ -1,5 +1,7 @@
 --[[ $Id$ ]]
 
+local AceConfigDialog = LibStub("AceConfigDialog-3.0")
+
 local getFunc, setFunc
 do
 	function getFunc(info)
@@ -20,33 +22,34 @@ function Bartender4:SetupOptions()
 		childGroups = "tree",
 		plugins = {},
 		args = {
-			general = {
-				order = 10,
-				type = "group",
-				--cmdInline = true,
-				name = "General Settings",
+			lock = {
+				order = 1,
+				type = "toggle",
+				name = "Lock",
+				desc = "Lock all bars.",
+				get = function() return Bartender4.Locked end,
+				set = function(info, value) Bartender4[value and "Lock" or "Unlock"](Bartender4) end,
+			},
+			buttonlock = {
+				order = 2,
+				type = "toggle",
+				name = "Button Lock",
+				desc = "Lock the buttons.",
 				get = getFunc,
 				set = setFunc,
-				args = {
-				--[[	blue = {
-						type = "toggle",
-						name = "Test",
-						get = function() end,
-						set = function() end,
-					} ]]
-				},
-			},
-			lock = {
-				dialogHidden = true,
-				type = "toggle",
-				name = "Lock/Unlock the bars.",
-				get = function() return Bartender4.Locked end,
-				set = function(info, value) Bartender4:ToggleLock(value) end,
 			},
 		},
 	}
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", self.options)
-	local optFunc = function() LibStub("AceConfigDialog-3.0"):Open("Bartender4") end
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", self.options, "bttest")
+	local optFunc = function() 
+		AceConfigDialog:Open("Bartender4") 
+	--[[ 
+		local status = AceConfigDialog:GetStatusTable("Bartender4")
+		if not status.groups then status.groups = {} end 
+		if not status.groups.groups then status.groups.groups = {} end 
+		status.groups.groups["actionbars"] = true 
+	]]
+	end
 	LibStub("AceConsole-3.0"):RegisterChatCommand( "bar", optFunc)
 	LibStub("AceConsole-3.0"):RegisterChatCommand( "bt", optFunc)
 	LibStub("AceConsole-3.0"):RegisterChatCommand( "bt4", optFunc)

@@ -12,34 +12,34 @@ local stancedefaults = {
 
 local abdefaults = Bartender4:Merge({
 	['**'] = {
-		Enabled = true,
-		Buttons = 12,
-		Padding = 2,
-		Rows = 1,
-		HideMacrotext = false,
+		enabled = true,
+		buttons = 12,
+		padding = 2,
+		rows = 1,
+		hidemacrotext = false,
 	},
 	[1] = {
-		Stances = stancedefaults,
+		stances = stancedefaults,
 	},
 	[7] = {
-		Enabled = false,
+		enabled = false,
 	},
 	[8] = {
-		Enabled = false,
+		enabled = false,
 	},
 	[9] = {
-		Enabled = false,
+		enabled = false,
 	},
 	[10] = {
-		Enabled = false,
+		enabled = false,
 	},
 }, Bartender4.Bar.defaults)
 
 local defaults = { 
 	profile = { 
-		OutOfRange = "button",
-		Colors = { range = { r = 0.8, g = 0.1, b = 0.1 }, mana = { r = 0.5, g = 0.5, b = 1.0 } },
-		ActionBars = abdefaults,
+		outofrange = "button",
+		colors = { range = { r = 0.8, g = 0.1, b = 0.1 }, mana = { r = 0.5, g = 0.5, b = 1.0 } },
+		actionbars = abdefaults,
 	} 
 }
 
@@ -61,8 +61,8 @@ function BT4ActionBars:OnEnable()
 		self.playerclass = select(2, UnitClass("player"))
 		self.actionbars = {}
 		for i=1,10 do
-			local config = self.db.profile.ActionBars[i]
-			if config.Enabled then
+			local config = self.db.profile.actionbars[i]
+			if config.enabled then
 				self.actionbars[i] = self:Create(i, config)
 			else
 				self:CreateBarOption(i, self.disabledoptions)
@@ -75,8 +75,8 @@ end
 -- Applys the config in the current profile to all active Bars
 function BT4ActionBars:ApplyConfig()
 	for i=1,10 do
-		local config = self.db.profile.ActionBars[i]
-		if config.Enabled then
+		local config = self.db.profile.actionbars[i]
+		if config.enabled then
 			self:EnableBar(i)
 		else
 			self:DisableBar(i)
@@ -84,7 +84,7 @@ function BT4ActionBars:ApplyConfig()
 	end
 end
 
-function BT4ActionBars:UpdateButtons()
+function BT4ActionBars:UpdateButtons(force)
 	for i,v in ipairs(self.actionbars) do
 		for j,button in ipairs(v.buttons) do
 			button:UpdateAction(force)
@@ -130,10 +130,10 @@ function BT4ActionBars:SetupOptions()
 						type = "select",
 						style = "dropdown",
 						get = function()
-							return BT4ActionBars.db.profile.OutOfRange
+							return BT4ActionBars.db.profile.outofrange
 						end,
 						set = function(info, value) 
-							BT4ActionBars.db.profile.OutOfRange = value
+							BT4ActionBars.db.profile.outofrange = value
 							BT4ActionBars:ForAllButtons("UpdateUsable")
 						end,
 						values = { none = "No Display", button = "Full Button Mode", hotkey = "Hotkey Mode" },
@@ -144,11 +144,11 @@ function BT4ActionBars:SetupOptions()
 						guiInline = true,
 						name = "Colors",
 						get = function(info)
-							local color = BT4ActionBars.db.profile.Colors[info[#info]]
+							local color = BT4ActionBars.db.profile.colors[info[#info]]
 							return color.r, color.g, color.b
 						end,
 						set = function(info, r, g, b)
-							local color = BT4ActionBars.db.profile.Colors[info[#info]]
+							local color = BT4ActionBars.db.profile.colors[info[#info]]
 							color.r, color.g, color.b = r, g, b
 							BT4ActionBars:ForAllButtons("UpdateUsable")
 						end,
@@ -166,6 +166,15 @@ function BT4ActionBars:SetupOptions()
 								desc = "Specify the Color of the Out of Mana Indicator",
 							},
 						},
+					},
+					tooltip = {
+						order = 3,
+						name = "Button Tooltip",
+						type = "select",
+						desc = "Configure the Button Tooltip.",
+						values = { ["disabled"] = "Disabled", ["nocombat"] = "Disabled in Combat", ["enabled"] = "Enabled" },
+						get = function() return Bartender4.db.profile.tooltip end,
+						set = function(info, value) Bartender4.db.profile.tooltip = value end,
 					},
 				},
 			},
@@ -225,7 +234,7 @@ function BT4ActionBars:DisableBar(id)
 	local bar = self.actionbars[id]
 	if not bar then return end
 	
-	bar.config.Enabled = false
+	bar.config.enabled = false
 	bar.disabled = true
 	bar:Hide()
 	self:CreateBarOption(id, self.disabledoptions)
@@ -235,7 +244,7 @@ function BT4ActionBars:EnableBar(id)
 	id = tonumber(id)
 	local bar = self.actionbars[id]
 	local config = self.db.profile.ActionBars[id]
-	config.Enabled = true
+	config.enabled = true
 	if not bar then
 		bar = self:Create(id, config)
 		self.actionbars[id] = bar

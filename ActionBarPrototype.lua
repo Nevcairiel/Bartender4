@@ -150,7 +150,7 @@ function ActionBar:ApplyConfig(config)
 	Bar.ApplyConfig(self, config)
 	
 	config = self.config
-	if not config.Position then initialPosition(self) end
+	if not config.position then initialPosition(self) end
 	
 	self:UpdateButtons()
 end
@@ -158,9 +158,9 @@ end
 -- Update the number of buttons in our bar, creating new ones if necessary
 function ActionBar:UpdateButtons(numbuttons)
 	if numbuttons then
-		self.config.Buttons = numbuttons
+		self.config.buttons = numbuttons
 	else
-		numbuttons = self.config.Buttons
+		numbuttons = self.config.buttons
 	end
 	
 	local buttons = self.buttons or {}
@@ -218,20 +218,20 @@ end
 
 -- get the current padding
 function ActionBar:GetPadding()
-	return self.config.Padding
+	return self.config.padding
 end
 
 -- set the padding and refresh layout
 function ActionBar:SetPadding(pad)
 	if pad then
-		self.config.Padding = pad
+		self.config.padding = pad
 	end
 	self:UpdateButtonLayout()
 end
 
 -- get the current number of buttons
 function ActionBar:GetButtons()
-	return self.config.Buttons
+	return self.config.buttons
 end
 
 -- set the number of buttons and refresh layout
@@ -239,13 +239,13 @@ ActionBar.SetButtons = ActionBar.UpdateButtons
 
 -- get the current number of rows
 function ActionBar:GetRows()
-	return self.config.Rows
+	return self.config.rows
 end
 
 -- set the number of rows and refresh layout
 function ActionBar:SetRows(rows)
 	if rows then
-		self.config.Rows = rows
+		self.config.rows = rows
 	end
 	self:UpdateButtonLayout()
 end

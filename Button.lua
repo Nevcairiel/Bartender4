@@ -104,7 +104,7 @@ function onUpdate(self, elapsed)
 		if ( self.rangeTimer <= 0 ) then
 			local valid = IsActionInRange(self.action)
 			local hotkey = self.hotkey
-			local hkshown = (hotkey:GetText() == RANGE_INDICATOR and Bartender4.db.profile.OutOfRange == "hotkey")
+			local hkshown = (hotkey:GetText() == RANGE_INDICATOR and self.settings.profile.outofrange == "hotkey")
 			if valid and hkshown then 
 				hotkey:Show() 
 			elseif hkshown then
@@ -147,7 +147,7 @@ function Button:Update()
 	else
 		self:UnregisterActionEvents()
 		
-		if ( self.showgrid == 0 and not self.parent.config.ShowGrid ) then
+		if ( self.showgrid == 0 and not self.parent.config.showgrid ) then
 			self.normalTexture:Hide()
 			if self.overlay then
 				self.overlay:Hide()
@@ -178,7 +178,7 @@ function Button:Update()
 		self.UpdateTooltip = nil
 	end
 	
-	if self.parent.config.HideMacrotext then
+	if self.parent.config.hidemacrotext then
 		self.macroName:SetText("")
 	else
 		self.macroName:SetText(GetActionText(action))
@@ -229,9 +229,9 @@ function Button:UpdateState()
 end
 
 function Button:UpdateUsable()
-	local oor = self.settings.profile.OutOfRange
+	local oor = self.settings.profile.outofrange
 	local isUsable, notEnoughMana = IsUsableAction(self.action)
-	local oorcolor, oomcolor = self.settings.profile.Colors.range, self.settings.profile.Colors.mana
+	local oorcolor, oomcolor = self.settings.profile.colors.range, self.settings.profile.colors.mana
 	if ( oor ~= "button" or not self.outOfRange) then
 		if ( oor == "none" or not self.outOfRange) then
 			self.hotkey:SetVertexColor(1.0, 1.0, 1.0)
@@ -318,7 +318,7 @@ end
 function Button:HideGrid()
 	local button = self.frame
 	self.showgrid = self.showgrid-1
-	if ( self.showgrid == 0 and not HasAction(self.action) and not self.parent.config.ShowGrid ) then
+	if ( self.showgrid == 0 and not HasAction(self.action) and not self.parent.config.showgrid ) then
 		self.normalTexture:Hide()
 		if self.overlay then
 			self.overlay:Hide()
