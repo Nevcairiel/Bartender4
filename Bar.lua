@@ -139,6 +139,7 @@ function Bar:GetOptionTable()
 						order = 5,
 						args = {
 							alpha = {
+								order = 10,
 								name = "Alpha",
 								desc = "Configure the alpha of the bar.",
 								type = "range",
@@ -147,6 +148,7 @@ function Bar:GetOptionTable()
 								set = optSetter,
 							},
 							scale = {
+								order = 20,
 								name = "Scale",
 								desc = "Configure the scale of the bar.",
 								type = "range",

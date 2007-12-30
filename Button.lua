@@ -7,7 +7,7 @@
 local Button = CreateFrame("CheckButton")
 local Button_MT = {__index = Button}
 
-local onLeave, onUpdate
+local onLeave, onUpdate, onDragStart, onReceiveDrag
 
 Bartender4.Button = {}
 Bartender4.Button.prototype = Button
@@ -23,7 +23,8 @@ function Bartender4.Button:Create(id, parent)
 	button:SetScript("OnEnter", button.SetTooltip)
 	button:SetScript("OnLeave", onLeave)
 	button:SetScript("OnAttributeChanged", button.UpdateAction)
-	--button:SetScript("OnDragStart", button.OnDragStart)
+	button:SetScript("OnDragStart", onDragStart)
+	button:SetScript("OnReceiveDrag", onReceiveDrag)
 	button:SetScript("PostClick", button.UpdateState)
 	
 	button.icon = _G[("%sIcon"):format(name)]
@@ -72,6 +73,21 @@ function Bartender4.Button:Create(id, parent)
 	button:UpdateAction(true)
 	
 	return button
+end
+
+function onDragStart(button)
+	if InCombatLockdown() then return end
+	if not Bartender4.db.profile.buttonlock or IsModifiedClick("PICKUPACTION") then
+		PickupAction(button.action)
+		button:UpdateState()
+		button:UpdateFlash()
+	end
+end
+
+function onReceiveDrag(button)
+	PlaceAction(button.action)
+	button:UpdateState()
+	button:UpdateFlash()
 end
 
 function onLeave()
@@ -306,8 +322,8 @@ function Button:HideButton()
 	self.highlightTexture:SetTexture("")
 end
 
-function Button:ShowGrid()
-	self.showgrid = self.showgrid+1
+function Button:ShowGrid(override)
+	if not override then self.showgrid = self.showgrid+1 end
 	self.normalTexture:Show()
 	
 	if self.overlay then
@@ -315,9 +331,9 @@ function Button:ShowGrid()
 	end
 end
 
-function Button:HideGrid()
+function Button:HideGrid(override)
 	local button = self.frame
-	self.showgrid = self.showgrid-1
+	if not override then self.showgrid = self.showgrid-1 end
 	if ( self.showgrid == 0 and not HasAction(self.action) and not self.parent.config.showgrid ) then
 		self.normalTexture:Hide()
 		if self.overlay then
@@ -386,6 +402,8 @@ function Button:EventHandler(event, arg1)
 		self:HideGrid()
 	elseif ( event == "UPDATE_BINDINGS" ) then
 		self:UpdateHotkeys()
+	elseif not self.eventsregistered then
+		return
 	-- Action Event Handlers, only set when the button actually has an action
 	elseif ( event == "PLAYER_TARGET_CHANGED" ) then
 		self.rangeTimer = -1

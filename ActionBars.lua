@@ -17,6 +17,7 @@ local abdefaults = Bartender4:Merge({
 		padding = 2,
 		rows = 1,
 		hidemacrotext = false,
+		showgrid = false,
 	},
 	[1] = {
 		stances = stancedefaults,
@@ -117,66 +118,58 @@ function BT4ActionBars:SetupOptions()
 		name = "Action Bars",
 		get = getFunc,
 		args = {
-			general = {
+			range = {
 				order = 1,
+				name = "Out of Range Indicator",
+				desc = "Configure how the Out of Range Indicator should display on the buttons.",
+				type = "select",
+				style = "dropdown",
+				get = function()
+					return BT4ActionBars.db.profile.outofrange
+				end,
+				set = function(info, value) 
+					BT4ActionBars.db.profile.outofrange = value
+					BT4ActionBars:ForAllButtons("UpdateUsable")
+				end,
+				values = { none = "No Display", button = "Full Button Mode", hotkey = "Hotkey Mode" },
+			},
+			colors = {
+				order = 3,
 				type = "group",
 				guiInline = true,
-				name = "General Options",
+				name = "Colors",
+				get = function(info)
+					local color = BT4ActionBars.db.profile.colors[info[#info]]
+					return color.r, color.g, color.b
+				end,
+				set = function(info, r, g, b)
+					local color = BT4ActionBars.db.profile.colors[info[#info]]
+					color.r, color.g, color.b = r, g, b
+					BT4ActionBars:ForAllButtons("UpdateUsable")
+				end,
 				args = {
 					range = {
 						order = 1,
+						type = "color",
 						name = "Out of Range Indicator",
-						desc = "Configure how the Out of Range Indicator should display on the buttons.",
-						type = "select",
-						style = "dropdown",
-						get = function()
-							return BT4ActionBars.db.profile.outofrange
-						end,
-						set = function(info, value) 
-							BT4ActionBars.db.profile.outofrange = value
-							BT4ActionBars:ForAllButtons("UpdateUsable")
-						end,
-						values = { none = "No Display", button = "Full Button Mode", hotkey = "Hotkey Mode" },
+						desc = "Specify the Color of the Out of Range Indicator",
 					},
-					colors = {
+					mana = {
 						order = 2,
-						type = "group",
-						guiInline = true,
-						name = "Colors",
-						get = function(info)
-							local color = BT4ActionBars.db.profile.colors[info[#info]]
-							return color.r, color.g, color.b
-						end,
-						set = function(info, r, g, b)
-							local color = BT4ActionBars.db.profile.colors[info[#info]]
-							color.r, color.g, color.b = r, g, b
-							BT4ActionBars:ForAllButtons("UpdateUsable")
-						end,
-						args = {
-							range = {
-								order = 1,
-								type = "color",
-								name = "Out of Range Indicator",
-								desc = "Specify the Color of the Out of Range Indicator",
-							},
-							mana = {
-								order = 2,
-								type = "color",
-								name = "Out of Mana Indicator",
-								desc = "Specify the Color of the Out of Mana Indicator",
-							},
-						},
-					},
-					tooltip = {
-						order = 3,
-						name = "Button Tooltip",
-						type = "select",
-						desc = "Configure the Button Tooltip.",
-						values = { ["disabled"] = "Disabled", ["nocombat"] = "Disabled in Combat", ["enabled"] = "Enabled" },
-						get = function() return Bartender4.db.profile.tooltip end,
-						set = function(info, value) Bartender4.db.profile.tooltip = value end,
+						type = "color",
+						name = "Out of Mana Indicator",
+						desc = "Specify the Color of the Out of Mana Indicator",
 					},
 				},
+			},
+			tooltip = {
+				order = 2,
+				name = "Button Tooltip",
+				type = "select",
+				desc = "Configure the Button Tooltip.",
+				values = { ["disabled"] = "Disabled", ["nocombat"] = "Disabled in Combat", ["enabled"] = "Enabled" },
+				get = function() return Bartender4.db.profile.tooltip end,
+				set = function(info, value) Bartender4.db.profile.tooltip = value end,
 			},
 		},
 	}

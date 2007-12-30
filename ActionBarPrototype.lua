@@ -21,6 +21,7 @@ do
 		buttons = "Buttons",
 		rows = "Rows",
 		enabled = "Enabled",
+		grid = "Grid",
 	}
 	
 	-- retrieves a valid bar object from the modules actionbars table
@@ -79,10 +80,19 @@ function module:GetOptionsTable()
 						-- order = inherited (5)
 						args = {
 							padding = {
+								order = 30,
 								type = "range",
 								name = "Padding",
 								desc = "Configure the padding of the buttons.",
 								min = -10, max = 20, step = 1,
+								set = optSetter,
+								get = optGetter,
+							},
+							grid = {
+								order = 5,
+								type = "toggle",
+								name = "Button Grid",
+								desc = "Toggle the button grid.",
 								set = optSetter,
 								get = optGetter,
 							},
@@ -184,6 +194,7 @@ function ActionBar:UpdateButtons(numbuttons)
 	self.buttons = buttons
 	
 	self:UpdateButtonLayout()
+	self:SetGrid()
 end
 
 -- align the buttons and correct the size of the bar overlay frame
@@ -223,7 +234,7 @@ end
 
 -- set the padding and refresh layout
 function ActionBar:SetPadding(pad)
-	if pad then
+	if pad ~= nil then
 		self.config.padding = pad
 	end
 	self:UpdateButtonLayout()
@@ -244,7 +255,7 @@ end
 
 -- set the number of rows and refresh layout
 function ActionBar:SetRows(rows)
-	if rows then
+	if rows ~= nil then
 		self.config.rows = rows
 	end
 	self:UpdateButtonLayout()
@@ -257,6 +268,21 @@ end
 function ActionBar:SetEnabled(state)
 	if not state then
 		module:DisableBar(self.id)
+	end
+end
+
+function ActionBar:GetGrid()
+	return self.config.showgrid
+end
+
+function ActionBar:SetGrid(state)
+	if state ~= nil then
+		self.config.showgrid = state
+	end
+	if self.config.showgrid then
+		self:ForAll("ShowGrid", true)
+	else
+		self:ForAll("HideGrid", true)
 	end
 end
 
