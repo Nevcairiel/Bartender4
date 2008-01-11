@@ -1,4 +1,4 @@
-﻿--[[ $Id: ActionBarStates.lua 55603 2007-11-21 10:57:34Z helium $ ]]
+﻿--[[ $Id$ ]]
 
 local S = LibStub("AceLocale-3.0"):NewLocale("BT4Stances", "zhTW")
 if not S then return end
