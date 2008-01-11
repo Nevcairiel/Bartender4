@@ -10,6 +10,7 @@
 ## Version: 4.0
 
 embeds.xml
+locale\locale.xml
 
 ## Core ##
 Bartender4.lua
@@ -22,3 +23,4 @@ Button.lua
 ## Modules ##
 ActionBars.lua
 ActionBarPrototype.lua
+ActionBarStates.lua

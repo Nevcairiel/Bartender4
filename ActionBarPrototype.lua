@@ -127,7 +127,7 @@ function module:GetOptionsTable()
 				name = "Page Swapping",
 				cmdInline = true,
 				order = 2,
-				args = {},
+				args = self:GetStanceOptionsTable(),
 			},
 			align = {
 				-- type = inherited
