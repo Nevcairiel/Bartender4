@@ -188,16 +188,14 @@ function Button:Update()
 		self.border:Hide()
 	end
 	
-	if ( GameTooltip:IsOwned(self) ) then
+	if ( GameTooltip:GetOwner() == self) then
 		self:SetTooltip()
-	else
-		self.UpdateTooltip = nil
 	end
 	
-	if self.parent.config.hidemacrotext then
-		self.macroName:SetText("")
-	else
+	if not IsConsumableAction(action) and not IsStackableAction(action) and not self.parent.config.hidemacrotext then
 		self.macroName:SetText(GetActionText(action))
+	else
+		self.macroName:SetText("")
 	end
 	
 end

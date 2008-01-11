@@ -112,7 +112,6 @@ do
 				},
 			},
 		}
-		
 		return tbl
 	end
 end
