@@ -1,6 +1,6 @@
 --[[ $Id$ ]]
 local AceAddon = LibStub("AceAddon-3.0")
-Bartender4 = AceAddon:NewAddon("Bartender4", "AceConsole-3.0", "AceEvent-3.0")
+Bartender4 = AceAddon:NewAddon("Bartender4", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0")
 
 local defaults = {
 	profile = {
@@ -19,6 +19,8 @@ function Bartender4:OnInitialize()
 	
 	self.Locked = true
 	self:RegisterEvent("PLAYER_REGEN_DISABLED", "CombatLockdown")
+	MainMenuBarArtFrame:Hide()
+	MainMenuBar:Hide()
 end
 
 function Bartender4:RegisterDefaultsKey(key, subdefaults)
@@ -29,7 +31,7 @@ end
 
 function Bartender4:UpdateModuleConfigs()
 	self:Lock()
-	for k,v in AceAddon:IterateModulesOfAddon("Bartender4") do
+	for k,v in AceAddon:IterateModulesOfAddon(self) do
 		if type(v.ApplyConfig) == "function" then
 			v:ApplyConfig()
 		end

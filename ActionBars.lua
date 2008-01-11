@@ -236,7 +236,7 @@ end
 function BT4ActionBars:EnableBar(id)
 	id = tonumber(id)
 	local bar = self.actionbars[id]
-	local config = self.db.profile.ActionBars[id]
+	local config = self.db.profile.actionbars[id]
 	config.enabled = true
 	if not bar then
 		bar = self:Create(id, config)
