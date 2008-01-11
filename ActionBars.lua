@@ -4,10 +4,13 @@ local BT4ActionBars = Bartender4:NewModule("ActionBars")
 
 local ActionBar, ActionBar_MT
 
-local stancedefaults = {
-	DRUID = { bear = 9, cat = 7, prowl = 8 },
-	WARRIOR = { battle = 7, def = 8, berserker = 9 },
-	ROGUE = { stealth = 7 }
+local statedefaults = {
+	enabled = true,
+	stance = {
+		DRUID = { bear = 9, cat = 7, prowl = 8 },
+		WARRIOR = { battle = 7, def = 8, berserker = 9 },
+		ROGUE = { stealth = 7 }
+	},
 }
 
 local abdefaults = Bartender4:Merge({
@@ -18,9 +21,10 @@ local abdefaults = Bartender4:Merge({
 		rows = 1,
 		hidemacrotext = false,
 		showgrid = false,
+		states = { enabled = false, stance = {} },
 	},
 	[1] = {
-		stances = stancedefaults,
+		states = statedefaults,
 	},
 	[7] = {
 		enabled = false,

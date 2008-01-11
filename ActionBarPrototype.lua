@@ -163,6 +163,7 @@ function ActionBar:ApplyConfig(config)
 	if not config.position then initialPosition(self) end
 	
 	self:UpdateButtons()
+	self:UpdateStates()
 end
 
 -- Update the number of buttons in our bar, creating new ones if necessary

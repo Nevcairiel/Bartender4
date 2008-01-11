@@ -15,6 +15,8 @@ function Bartender4.Button:Create(id, parent)
 	local absid = (parent.id - 1) * 12 + id
 	local name =  ("BT4Button%d"):format(absid)
 	local button = setmetatable(CreateFrame("CheckButton", name, parent, "SecureActionButtonTemplate, ActionButtonTemplate"), Button_MT)
+	button.rid = id
+	button.id = absid
 	button.parent = parent
 	button.settings = parent.module.db
 	
@@ -75,6 +77,7 @@ function Bartender4.Button:Create(id, parent)
 	return button
 end
 
+
 function onDragStart(button)
 	if InCombatLockdown() then return end
 	if not Bartender4.db.profile.buttonlock or IsModifiedClick("PICKUPACTION") then
@@ -130,6 +133,12 @@ function onUpdate(self, elapsed)
 			self:UpdateUsable()
 			self.rangeTimer = TOOLTIP_UPDATE_TIME
 		end
+	end
+end
+
+function Button:SetStateAction(state, action)
+	for i=1,2 do
+		self:SetAttribute(("*action-S%d%d"):format(state, i), action)
 	end
 end
 
