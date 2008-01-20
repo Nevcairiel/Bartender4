@@ -13,8 +13,9 @@ local math_floor = math.floor
 local module = Bartender4:GetModule("ActionBars")
 
 -- option utilty functions
-local getBar, optGetter, optSetter, optionMap, callFunc
+local optGetter, optSetter
 do
+	local optionMap, getBar, callFunc
 	-- maps option keys to function names
 	optionMap = {
 		padding = "Padding",

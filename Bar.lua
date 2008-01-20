@@ -76,8 +76,9 @@ end
 ===================================================================================]]--
 
 -- option utilty functions
-local getBar, optGetter, optSetter, optionMap, callFunc
+local optGetter, optSetter
 do
+	local getBar, optionMap, callFunc
 	-- maps option keys to function names
 	optionMap = {
 		alpha = "ConfigAlpha",

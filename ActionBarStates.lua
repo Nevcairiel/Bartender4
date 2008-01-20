@@ -17,9 +17,53 @@ local function tfind(haystack, needle, searchfunc)
 	return nil
 end
 
+local optGetter, optSetter
+do
+	local getBar, optionMap, callFunc
+	
+	optionMap = {
+		stance = "StanceStateOption",
+		enabled = "StateOption",
+	}
+	-- retrieves a valid bar object from the modules actionbars table
+	function getBar(id)
+		local bar = module.actionbars[tonumber(id)]
+		assert(bar, "Invalid bar id in options table.")
+		return bar
+	end
+	
+	-- calls a function on the bar
+	function callFunc(bar, type, option, ...)
+		local func = type .. (optionMap[option] or option)
+		assert(bar[func], "Invalid get/set function."..func)
+		return bar[func](bar, ...)
+	end
+	
+	-- universal function to get a option
+	function optGetter(info)
+		local bar = getBar(info[2])
+		local option = info.arg or info[#info]
+		return callFunc(bar, "Get", option, info[#info])
+	end
+	
+	-- universal function to set a option
+	function optSetter(info, ...)
+		local bar = getBar(info[2])
+		local option = info.arg or info[#info]
+		return callFunc(bar, "Set", option, info[#info], ...)
+	end
+end
+
 function module:GetStanceOptionsTable()
 	local options = {
-	
+		enabled = {
+			order = 1,
+			type = "toggle",
+			name = "Enabled",
+			desc = "Enable State-based Button Swaping",
+			get = optGetter,
+			set = optSetter,
+		},
 	}
 	
 	return options
@@ -27,6 +71,7 @@ end
 
 local S = LibStub("AceLocale-3.0"):GetLocale("BT4Stances")
 
+-- specifiy the available stances for each class
 module.DefaultStanceMap = {
 	WARRIOR = {
 		{ id = "battle", match = S["Battle Stance"] },
@@ -37,14 +82,15 @@ module.DefaultStanceMap = {
 		{ id = "bear", match = S["Bear Form"], match2 = S["Dire Bear Form"] },
 		{ id = "cat", match = S["Cat Form"] },
 		{ id = "moonkin", match = S["Moonkin Form"] },
-		{ id = "tree", name = S["Tree of Life"] },
+		{ id = "tree", match = S["Tree of Life"] },
+		-- prowl is virtual, no real stance
 		{ id = "prowl", virtual = true, name = "Cat Form (Prowl)", depend = "cat" },
 	},
 	ROGUE = {
 		{ id = "stealth", match = S["Stealth"] },
 	},
-	PRIEST = {
-		{ id = "shadowform", virtual = true, name = "Shadowform" },
+	PRIEST = { --shadowform gets a position override because it doesnt have a real stance position .. and priests dont have other stances =)
+		{ id = "shadowform", virtual = true, name = "Shadowform", position = 1 },
 	}
 }
 
@@ -60,7 +106,7 @@ function module:CreateStanceMap()
 	num_shapeshift_forms = GetNumShapeshiftForms()
 	
 	for k,v in pairs(defstancemap) do
-		local entry = { id = v.id, match = v.match, match2 = v.match2, virtual = v.virtual, depend = v.depend }
+		local entry = { id = v.id, match = v.match, match2 = v.match2, virtual = v.virtual, depend = v.depend, position = v.position }
 		if not v.virtual and type(v.match) == "string" then
 			entry.name = v.match
 		elseif not v.virtual and type(v.match) == "table" then
@@ -87,14 +133,14 @@ function ActionBar:UpdateStates()
 	end
 	
 	local stateconfig = self.config.states
-	if stateconfig.enabled then
+	if self:GetStateOption("enabled") then
 		-- arguments will be parsed from left to right, so we have a priority here
 		local statedriver = {}
 		
 		-- highest priority have our temporary quick-swap keys
 		for _,v in pairs(modifiers) do
-			local page = stateconfig[v]
-			if page and tonumber(page) ~= 0 then
+			local page = tonumber(self:GetStateOption(v))
+			if page and page ~= 0 then
 				table_insert(statedriver, fmt("[modifier:%s]%s", v, page)) 
 			end
 		end
@@ -108,16 +154,17 @@ function ActionBar:UpdateStates()
 		
 		-- third priority the stances
 		if not stateconfig.stance[playerclass] then stateconfig.stance[playerclass] = {} end
-		stanceconfig = stateconfig.stance[playerclass]
 		if module.stancemap then
 			for i,v in pairs(module.stancemap) do
 				local state = self:GetStanceState(v)
 				if state and v.position then
-					if ( playerclass == "DRUID" and v.id == "cat" and self:GetStanceState("prowl") ) then
+					if playerclass == "DRUID" and v.id == "cat" then
 						local prowl = self:GetStanceState("prowl")
-						table_insert(statedriver, ("[stance:%s,stealth:1]%s"):format(v.position, prowl))
+						if prowl then
+							table_insert(statedriver, fmt("[stance:%s,stealth:1]%s", v.position, prowl))
+						end
 					end
-					table_insert(statedriver, ("[stance:%s]%s"):format(v.position, state))
+					table_insert(statedriver, fmt("[stance:%s]%s", v.position, state))
 				end
 			end
 		end
@@ -126,13 +173,15 @@ function ActionBar:UpdateStates()
 		
 		RegisterStateDriver(self, "page", table_concat(statedriver, ";"))
 		self:SetAttribute("statemap-page", "$input")
-		self:SetAttribute("state", frame:GetAttribute("state-page"))
+		self:SetAttribute("state", self:GetAttribute("state-page"))
 	else
 		UnregisterStateDriver(self)
 		self:SetAttribute("state", "0")
 	end
 	
 	self:ApplyStateButton()
+	
+	SecureStateHeader_Refresh(self)
 end
 
 function ActionBar:GetStanceState(stance)
@@ -144,6 +193,17 @@ function ActionBar:GetStanceState(stance)
 	end
 	if state and state == 0 then state = nil end
 	return state
+end
+
+function ActionBar:GetStanceStateOption(stance)
+	local state = self:GetStanceState(stance)
+	return (state and tostring(state))
+end
+
+function ActionBar:SetStanceStateOption(stance, state)
+	local stanceconfig = self.config.states.stance[playerclass]
+	stanceconfig[stance] = tonumber(state)
+	self:UpdateStates()
 end
 
 function ActionBar:AddButtonStates(state, page)
@@ -179,4 +239,13 @@ function ActionBar:ApplyStateButton()
 	end
 	self:SetAttribute("statebutton", table_concat(states1, ""))
 	self:SetAttribute("statebutton2", table_concat(states2, ""))
+end
+
+function ActionBar:GetStateOption(key)
+	return self.config.states[key]
+end
+
+function ActionBar:SetStateOption(key, value)
+	self.config.states[key] = value
+	self:UpdateStates()
 end
