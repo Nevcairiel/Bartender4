@@ -116,9 +116,9 @@ do
 end
 
 local options
-function Bar:GetOptionTable()
+function Bar:GetOptionObject()
 	if not options then
-		options = {
+		local otbl = {
 			general = {
 				type = "group",
 				cmdInline = true,
@@ -128,36 +128,33 @@ function Bar:GetOptionTable()
 					show = {
 						order = 3,
 						type = "toggle",
-						name = "Shown",
+						name = "Show",
 						desc = "Show/Hide the bar.",
 						get = optGetter,
 						set = optSetter,
 					},
-					style = {
-						type = "group",
-						name = "Style",
-						inline = true,
-						order = 5,
-						args = {
-							alpha = {
-								order = 10,
-								name = "Alpha",
-								desc = "Configure the alpha of the bar.",
-								type = "range",
-								min = .1, max = 1, bigStep = 0.1,
-								get = optGetter,
-								set = optSetter,
-							},
-							scale = {
-								order = 20,
-								name = "Scale",
-								desc = "Configure the scale of the bar.",
-								type = "range",
-								min = .1, max = 2, step = 0.05, bigStep = 0.1,
-								get = optGetter,
-								set = optSetter,
-							},
-						},
+					styleheader = {
+						order = 10,
+						type = "header",
+						name = "Style Options",
+					},
+					alpha = {
+						order = 20,
+						name = "Alpha",
+						desc = "Configure the alpha of the bar.",
+						type = "range",
+						min = .1, max = 1, bigStep = 0.1,
+						get = optGetter,
+						set = optSetter,
+					},
+					scale = {
+						order = 30,
+						name = "Scale",
+						desc = "Configure the scale of the bar.",
+						type = "range",
+						min = .1, max = 2, step = 0.05, bigStep = 0.1,
+						get = optGetter,
+						set = optSetter,
 					},
 				},
 			},
@@ -166,11 +163,10 @@ function Bar:GetOptionTable()
 				cmdInline = true,
 				name = "Alignment",
 				order = 10,
-				args = {
-				
-				},
-			},
+				args = {},
+			}
 		}
+		options = Bartender4:NewOptionObject(otbl)
 	end
 	
 	return options

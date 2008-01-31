@@ -58,86 +58,76 @@ end
 -- creates it, if the first time called
 -- the Universal Bar option table is merged into this, alot of stuff gets inherited.
 function module:GetOptionsTable()
+	return self:GetOptionsObject().table
+end
+
+function module:GetOptionsObject()
 	if not self.baroptions then
-		self.baroptions = Bartender4:Merge({
-			general = {
-				-- type = inherited
-				-- name = inherited
-				-- cmdInline = inherited
+		local obj = Bar.GetOptionObject(self)
+		
+		local cat_general = {
+			enabled = {
 				order = 1,
-				args = {
-					enabled = {
-						order = 1,
-						name = "Enabled",
-						desc = "Enable/Disable the bar.",
-						type = "toggle",
-						set = optSetter,
-						get = optGetter,
-					},
-					style = {
-						-- type = inherited
-						-- name = inherited
-						-- inline = inherited
-						-- order = inherited (5)
-						args = {
-							padding = {
-								order = 30,
-								type = "range",
-								name = "Padding",
-								desc = "Configure the padding of the buttons.",
-								min = -10, max = 20, step = 1,
-								set = optSetter,
-								get = optGetter,
-							},
-							grid = {
-								order = 5,
-								type = "toggle",
-								name = "Button Grid",
-								desc = "Toggle the button grid.",
-								set = optSetter,
-								get = optGetter,
-							},
-						},
-					},
-					layout = {
-						type = "group",
-						name = "Layout",
-						inline = true,
-						order = 10,
-						set = optSetter,
-						get = optGetter,
-						args = {
-							buttons = {
-								name = "Buttons",
-								desc = "Number of buttons.",
-								type = "range",
-								min = 1, max = 12, step = 1,
-							},
-							rows = {
-								name = "Rows",
-								desc = "Number of rows.",
-								type = "range",
-								min = 1, max = 12, step = 1,
-							},
-						},
-					}
-				},
+				name = "Enabled",
+				desc = "Enable/Disable the bar.",
+				type = "toggle",
+				set = optSetter,
+				get = optGetter,
 			},
-			swap = {
-				type = "group",
-				name = "Page Swapping",
-				cmdInline = true,
-				order = 2,
-				args = self:GetStanceOptionsTable(),
+			padding = {
+				order = 40,
+				type = "range",
+				name = "Padding",
+				desc = "Configure the padding of the buttons.",
+				min = -10, max = 20, step = 1,
+				set = optSetter,
+				get = optGetter,
 			},
-			align = {
-				-- type = inherited
-				-- name = inherited
-				-- cmdInline = inherited
-				order = 3,
-				args = {},
-			}
-		}, Bar.GetOptionTable(self))
+			grid = {
+				order = 15,
+				type = "toggle",
+				name = "Button Grid",
+				desc = "Toggle the button grid.",
+				set = optSetter,
+				get = optGetter,
+				width = "full",
+			},
+			layout_header = {
+				order = 101,
+				type = "header",
+				name = "Layout Options",
+			},
+			buttons = {
+				order = 110,
+				name = "Buttons",
+				desc = "Number of buttons.",
+				type = "range",
+				min = 1, max = 12, step = 1,
+				set = optSetter,
+				get = optGetter,
+			},
+			rows = {
+				order = 120,
+				name = "Rows",
+				desc = "Number of rows.",
+				type = "range",
+				min = 1, max = 12, step = 1,
+				set = optSetter,
+				get = optGetter,
+			},
+		}
+		obj:AddElementGroup("general", "ActionBar", cat_general)
+		
+		local swap = {
+			type = "group",
+			name = "Page Swapping",
+			cmdInline = true,
+			order = 2,
+			args = self:GetStanceOptionsTable(),
+		}
+		obj:NewCategory("swap", swap)
+		
+		self.baroptions = obj
 	end
 	
 	return self.baroptions
