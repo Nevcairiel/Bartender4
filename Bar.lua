@@ -125,18 +125,26 @@ function Bar:GetOptionObject()
 				name = "General Settings",
 				order = 1,
 				args = {
-					show = {
-						order = 3,
-						type = "toggle",
-						name = "Show",
-						desc = "Show/Hide the bar.",
-						get = optGetter,
-						set = optSetter,
+					visibility = {
+						order = 5,
+						type = "group",
+						inline = true,
+						name = "",
+						args = {
+							show = {
+								order = 5,
+								type = "toggle",
+								name = "Show",
+								desc = "Show/Hide the bar.",
+								get = optGetter,
+								set = optSetter,
+							},
+						},
 					},
 					styleheader = {
 						order = 10,
 						type = "header",
-						name = "Style Options",
+						name = "Bar Style & Layout",
 					},
 					alpha = {
 						order = 20,

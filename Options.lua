@@ -170,12 +170,13 @@ function optionParent:NewCategory(category, data)
 	self.table[category] = data
 end
 
+local ov = nil
 function optionParent:AddElement(category, element, data, ...)
 	local lvl = self.table[category]
 	for i = 1, select('#', ...) do
 		local key = select(i, ...)
 		if not (lvl.args[key] and lvl.args[key].args) then
-			error(("Sub-Level Key %s does not exist in options group or is no sub-group."):format(key), 2)
+			error(("Sub-Level Key %s does not exist in options group or is no sub-group."):format(key), ov and 3 or 2)
 		end
 		lvl = lvl.args[key]
 	end
@@ -183,20 +184,12 @@ function optionParent:AddElement(category, element, data, ...)
 	lvl.args[element] = data
 end
 
-function optionParent:AddElementGroup(category, group_desc, data, ...)
-	local lvl = self.table[category]
-	for i = 1, select('#', ...) do
-		local key = select(i, ...)
-		if not (lvl.args[key] and lvl.args[key].args) then
-			error(("Sub-Level Key %s does not exist in options group or is no sub-group."):format(key), 2)
-		end
-		lvl = lvl.args[key]
+function optionParent:AddElementGroup(category, data, ...)
+	ov = true
+	for k,v in pairs(data) do
+		self:AddElement(category, k, v, ...)
 	end
-	
-	if not lvl.plugins then
-		lvl.plugins = {}
-	end
-	lvl.plugins[group_desc] = data
+	ov = nil
 end
 
 function Bartender4:NewOptionObject(otbl)

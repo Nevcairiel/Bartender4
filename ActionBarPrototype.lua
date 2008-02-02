@@ -65,15 +65,17 @@ function module:GetOptionsObject()
 	if not self.baroptions then
 		local obj = Bar.GetOptionObject(self)
 		
-		local cat_general = {
-			enabled = {
-				order = 1,
+		local cat_general_visibility_en = {
+				order = 4,
 				name = "Enabled",
 				desc = "Enable/Disable the bar.",
 				type = "toggle",
 				set = optSetter,
 				get = optGetter,
-			},
+			}
+		obj:AddElement("general", "enabled", cat_general_visibility_en, "visibility")
+		
+		local cat_general = {
 			padding = {
 				order = 40,
 				type = "range",
@@ -83,8 +85,13 @@ function module:GetOptionsObject()
 				set = optSetter,
 				get = optGetter,
 			},
+			desc = {
+				order = 50,
+				type = "header",
+				name = "Button Configuration",
+			},
 			grid = {
-				order = 15,
+				order = 55,
 				type = "toggle",
 				name = "Button Grid",
 				desc = "Toggle the button grid.",
@@ -92,13 +99,8 @@ function module:GetOptionsObject()
 				get = optGetter,
 				width = "full",
 			},
-			layout_header = {
-				order = 101,
-				type = "header",
-				name = "Layout Options",
-			},
 			buttons = {
-				order = 110,
+				order = 60,
 				name = "Buttons",
 				desc = "Number of buttons.",
 				type = "range",
@@ -107,7 +109,7 @@ function module:GetOptionsObject()
 				get = optGetter,
 			},
 			rows = {
-				order = 120,
+				order = 70,
 				name = "Rows",
 				desc = "Number of rows.",
 				type = "range",
@@ -116,7 +118,7 @@ function module:GetOptionsObject()
 				get = optGetter,
 			},
 		}
-		obj:AddElementGroup("general", "ActionBar", cat_general)
+		obj:AddElementGroup("general", cat_general)
 		
 		local swap = {
 			type = "group",
