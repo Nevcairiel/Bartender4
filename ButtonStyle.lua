@@ -20,7 +20,7 @@ local styledata = {
 	["dream"] = { 
 		texCoord = {0.08,0.92,0.08,0.92},
 		padding = 3,
-		customframe = true,
+		overlay = true,
 		FrameFunc = function(button) 
 			local frame = CreateFrame("Frame", button:GetName().."DreamLayout", button)
 			frame:ClearAllPoints()
@@ -37,14 +37,16 @@ function Bartender4.ButtonStyle.ApplyStyle(button, style)
 	if not button.icon then return end
 	local style = styledata[style]
 	
-	if style.customframe and style.FrameFunc and not button.overlay then 
-		if not button.customframe then button.customframe = style.FrameFunc(button) end
+	if style.overlay and style.FrameFunc and (not button.overlay or button.overlay.type ~= style) then 
+		if button.overlay then button.overlay:Hide() end
+		button.overlay = style.FrameFunc(button)
 	else
-		if button.customframe then 
-			button.customframe:Hide()
-			button.customframe = nil
+		if button.overlay then 
+			button.overlay:Hide()
+			button.overlay = nil
 		end
 	end
+
 	
 	if style.texCoord then
 		button.icon:SetTexCoord(unpack(style.texCoord))
