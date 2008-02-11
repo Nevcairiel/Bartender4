@@ -65,17 +65,15 @@ function module:GetOptionsObject()
 	if not self.baroptions then
 		local obj = Bar.GetOptionObject(self)
 		
-		local cat_general_visibility_en = {
+		local cat_general = {
+			enabled ={
 				order = 4,
 				name = "Enabled",
 				desc = "Enable/Disable the bar.",
 				type = "toggle",
 				set = optSetter,
 				get = optGetter,
-			}
-		obj:AddElement("general", "enabled", cat_general_visibility_en, "visibility")
-		
-		local cat_general = {
+			},
 			padding = {
 				order = 40,
 				type = "range",
@@ -120,14 +118,14 @@ function module:GetOptionsObject()
 		}
 		obj:AddElementGroup("general", cat_general)
 		
-		local swap = {
+		local states = {
 			type = "group",
-			name = "Page Swapping",
+			name = "State Configuration",
 			cmdInline = true,
 			order = 2,
-			args = self:GetStanceOptionsTable(),
+			args = self:GetStateOptionsTable(),
 		}
-		obj:NewCategory("swap", swap)
+		obj:NewCategory("state", states)
 		
 		self.baroptions = obj
 	end

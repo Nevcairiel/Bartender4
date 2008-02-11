@@ -24,6 +24,7 @@ do
 	optionMap = {
 		stance = "StanceStateOption",
 		enabled = "StateOption",
+		def_state = "DefaultState",
 	}
 	-- retrieves a valid bar object from the modules actionbars table
 	function getBar(id)
@@ -54,7 +55,45 @@ do
 	end
 end
 
-function module:GetStanceOptionsTable()
+
+local hasStances
+
+--local validStanceTable = { ["-1"] = "Hide", ["0"] = "Don't Page", ["1"] = ("Page  %d"):format(1), ["2"] = ("Page  %d"):format(2), ["3"] = ("Page  %d"):format(3), ["4"] = ("Page  %d"):format(4), ["5"] = ("Page  %d"):format(5), ["6"] = ("Page  %d"):format(6), ["7"] = ("Page  %d"):format(7), ["8"] = ("Page  %d"):format(8), ["9"] = ("Page  %d"):format(9), ["10"] = ("Page  %d"):format(10) }
+
+local validStanceTable = { 
+	[-1] = "Hide", 
+	[0] = "Don't Page", 
+	("Page %2d"):format(1),
+	("Page %2d"):format(2), 
+	("Page %2d"):format(3), 
+	("Page %2d"):format(4), 
+	("Page %2d"):format(5), 
+	("Page %2d"):format(6), 
+	("Page %2d"):format(7), 
+	("Page %2d"):format(8),
+	("Page %2d"):format(9), 
+	("Page %2d"):format(10) 
+}
+
+
+local _, playerclass = UnitClass("player")
+local num_shapeshift_forms
+
+local function createOptionGroup(k, id)
+	local tbl = {
+		order = 10 * k,
+		type = "select",
+		arg = "stance",
+		get = optGetter,
+		set = optSetter,
+		values = validStanceTable,
+		name = module.DefaultStanceMap[playerclass][k].name or module.DefaultStanceMap[playerclass][k].match or "BUG",
+		hidden = function() return not module.stancemap[k].position end,
+	}
+	return tbl
+end
+
+function module:GetStateOptionsTable()
 	local options = {
 		enabled = {
 			order = 1,
@@ -64,7 +103,43 @@ function module:GetStanceOptionsTable()
 			get = optGetter,
 			set = optSetter,
 		},
+		def_desc = {
+			order = 10,
+			type = "description",
+			name = "The default behaviour of this bar when no state-based paging option affects it.",
+		},
+		def_state = {
+			order = 11,
+			type = "select",
+			name = "Default Bar State",
+			values = validStanceTable,
+			get = optGetter,
+			set = optSetter,
+		},
+		stances = {
+			order = 20,
+			type = "group",
+			inline = true,
+			name = "",
+			hidden = function() return not hasStances end,
+			args = {
+				stance_header = {
+					order = 1,
+					type = "header",
+					name = "Stance Configuration",
+				},
+			},
+		},
 	}
+	
+	do
+		local defstancemap = self.DefaultStanceMap[playerclass]
+		for k,v in pairs(defstancemap) do
+			if not options.stances.args[v.id] then
+				options.stances.args[v.id] = createOptionGroup(k, v.id)
+			end
+		end
+	end
 	
 	return options
 end
@@ -81,10 +156,10 @@ module.DefaultStanceMap = {
 	DRUID = {
 		{ id = "bear", match = S["Bear Form"], match2 = S["Dire Bear Form"] },
 		{ id = "cat", match = S["Cat Form"] },
+			-- prowl is virtual, no real stance
+		{ id = "prowl", virtual = true, name = "Cat Form (Prowl)", depend = "cat" },
 		{ id = "moonkin", match = S["Moonkin Form"] },
 		{ id = "tree", match = S["Tree of Life"] },
-		-- prowl is virtual, no real stance
-		{ id = "prowl", virtual = true, name = "Cat Form (Prowl)", depend = "cat" },
 	},
 	ROGUE = {
 		{ id = "stealth", match = S["Stealth"] },
@@ -94,9 +169,7 @@ module.DefaultStanceMap = {
 	}
 }
 
-local _, playerclass = UnitClass("player")
-local num_shapeshift_forms
-
+local searchFunc = function(h, n) return (h.match == n or h.match2 == n or h.id == n) end
 function module:CreateStanceMap()
 	local defstancemap = self.DefaultStanceMap[playerclass]
 	if not defstancemap then return end
@@ -119,11 +192,16 @@ function module:CreateStanceMap()
 	
 	for i = 1, num_shapeshift_forms do
 		local _, name = GetShapeshiftFormInfo(i)
-		local index = tfind(self.stancemap, name, function(h, n) return (h.match == n or h.match2 == n) end)
+		local index = tfind(self.stancemap, name, searchFunc)
 		if index then
 			self.stancemap[index].position = i
+			if self.stancemap[index].id == "cat" then
+				local prowl = tfind(self.stancemap, "prowl", searchFunc)
+				self.stancemap[prowl].position = i
+			end
 		end
 	end
+	hasStances = (num_shapeshift_forms > 0)
 end
 
 function ActionBar:UpdateStates()
@@ -139,7 +217,7 @@ function ActionBar:UpdateStates()
 		
 		-- highest priority have our temporary quick-swap keys
 		for _,v in pairs(modifiers) do
-			local page = tonumber(self:GetStateOption(v))
+			local page = self:GetStateOption(v)
 			if page and page ~= 0 then
 				table_insert(statedriver, fmt("[modifier:%s]%s", v, page)) 
 			end
@@ -157,7 +235,7 @@ function ActionBar:UpdateStates()
 		if module.stancemap then
 			for i,v in pairs(module.stancemap) do
 				local state = self:GetStanceState(v)
-				if state and v.position then
+				if state and state ~= 0 and v.position then
 					if playerclass == "DRUID" and v.id == "cat" then
 						local prowl = self:GetStanceState("prowl")
 						if prowl then
@@ -187,22 +265,21 @@ end
 function ActionBar:GetStanceState(stance)
 	local stanceconfig = self.config.states.stance[playerclass]
 	if type(stance) == "table" then 
-		state = tonumber(stanceconfig[stance.id])
+		state = stanceconfig[stance.id]
 	else
-		state = tonumber(stanceconfig[stance])
+		state = stanceconfig[stance]
 	end
-	if state and state == 0 then state = nil end
 	return state
 end
 
 function ActionBar:GetStanceStateOption(stance)
 	local state = self:GetStanceState(stance)
-	return (state and tostring(state))
+	return state
 end
 
 function ActionBar:SetStanceStateOption(stance, state)
 	local stanceconfig = self.config.states.stance[playerclass]
-	stanceconfig[stance] = tonumber(state)
+	stanceconfig[stance] = state
 	self:UpdateStates()
 end
 
@@ -218,7 +295,6 @@ end
 
 function ActionBar:AddToStateButton(state)
 	if not self.statebutton then self.statebutton = {} end
-	state = tonumber(state)
 	if not tfind(self.statebutton, state) then 
 		table_insert(self.statebutton, state)
 	end
@@ -247,5 +323,14 @@ end
 
 function ActionBar:SetStateOption(key, value)
 	self.config.states[key] = value
+	self:UpdateStates()
+end
+
+function ActionBar:GetDefaultState()
+	return self.config.states.stance.default
+end
+
+function ActionBar:SetDefaultState(_, value)
+	self.config.states.stance.default = value
 	self:UpdateStates()
 end
