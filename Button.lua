@@ -137,6 +137,8 @@ function onUpdate(self, elapsed)
 	end
 end
 
+Button.ApplyStyle = Bartender4.ButtonStyle.ApplyStyle
+
 function Button:SetStateAction(state, action)
 	for i=1,2 do
 		self:SetAttribute(("*action-S%d%d"):format(state, i), action)

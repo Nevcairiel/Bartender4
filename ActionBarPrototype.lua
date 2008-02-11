@@ -155,6 +155,7 @@ function ActionBar:ApplyConfig(config)
 	
 	self:UpdateButtons()
 	self:UpdateStates()
+	self:ForAll("ApplyStyle", self.config.style)
 end
 
 -- Update the number of buttons in our bar, creating new ones if necessary

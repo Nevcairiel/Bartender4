@@ -12,6 +12,7 @@ local abdefaults = Bartender4:Merge({
 		rows = 1,
 		hidemacrotext = false,
 		showgrid = false,
+		style = "dream",
 		states = { 
 			enabled = false, 
 			stance = { 
