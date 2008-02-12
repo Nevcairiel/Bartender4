@@ -8,15 +8,13 @@ Bartender4.ButtonStyle = {}
 
 local styles = {
 	["default"] = "Default",
-	["bongos"] = "Bongos Style",
 	["zoom"] = "Full Zoom",
 	["dream"] = "Dreamlayout",
 }
 
 local styledata = {
-	--["default"] = {},
-	["bongos"] = { texCoord = {0.06, 0.94, 0.06, 0.94} },
-	["zoom"] = { texCoord = {0.08,0.92,0.08,0.92} },
+	["default"] = {},
+	["zoom"] = { texCoord = {0.06, 0.94, 0.06, 0.94} },
 	["dream"] = { 
 		texCoord = {0.08,0.92,0.08,0.92},
 		padding = 3,

@@ -23,6 +23,7 @@ do
 		rows = "Rows",
 		enabled = "Enabled",
 		grid = "Grid",
+		style = "Style",
 	}
 	
 	-- retrieves a valid bar object from the modules actionbars table
@@ -95,7 +96,15 @@ function module:GetOptionsObject()
 				desc = "Toggle the button grid.",
 				set = optSetter,
 				get = optGetter,
-				width = "full",
+			},
+			style = {
+				order = 59,
+				name = "Style",
+				type = "select",
+				desc = "Button Style",
+				values = Bartender4.ButtonStyle:GetStyles(),
+				set = optSetter,
+				get = optGetter,
 			},
 			buttons = {
 				order = 60,
@@ -161,9 +170,9 @@ end
 -- Update the number of buttons in our bar, creating new ones if necessary
 function ActionBar:UpdateButtons(numbuttons)
 	if numbuttons then
-		self.config.buttons = numbuttons
+		self.config.buttons = min(numbuttons, 12)
 	else
-		numbuttons = self.config.buttons
+		numbuttons = min(self.config.buttons, 12)
 	end
 	
 	local buttons = self.buttons or {}
@@ -252,6 +261,15 @@ function ActionBar:SetRows(rows)
 		self.config.rows = rows
 	end
 	self:UpdateButtonLayout()
+end
+
+function ActionBar:GetStyle()
+	return self.config.style
+end
+
+function ActionBar:SetStyle(style)
+	self.config.style = style
+	self:ForAll("ApplyStyle", style)
 end
 
 function ActionBar:GetEnabled()
