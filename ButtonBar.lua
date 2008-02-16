@@ -139,6 +139,8 @@ end
 
 local math_floor = math.floor
 -- align the buttons and correct the size of the bar overlay frame
+ButtonBar.button_width = 36
+ButtonBar.button_height = 36
 function ButtonBar:UpdateButtonLayout()
 	local buttons = self.buttons
 	local numbuttons = #buttons
@@ -148,10 +150,10 @@ function ButtonBar:UpdateButtonLayout()
 	local ButtonPerRow = math_floor(numbuttons / Rows + 0.5) -- just a precaution
 	Rows = math_floor(numbuttons / ButtonPerRow + 0.5)
 	
-	self:SetSize((36 + pad) * ButtonPerRow - pad + 8, (36 + pad) * Rows - pad + 8)
+	self:SetSize((self.button_width + pad) * ButtonPerRow - pad + 8, (self.button_height + pad) * Rows - pad + 8)
 	
 	-- anchor button 1 to the topleft corner of the bar
-	buttons[1]:ClearSetPoint("TOPLEFT", self, "TOPLEFT", 6, -3)
+	buttons[1]:ClearSetPoint("TOPLEFT", self, "TOPLEFT", 5, -3)
 	-- and anchor all other buttons relative to our button 1
 	for i = 2, numbuttons do
 		-- jump into a new row

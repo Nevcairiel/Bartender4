@@ -107,6 +107,8 @@ function StanceBar:ApplyConfig(config)
 	self:ForAll("ApplyStyle", self.config.style)
 end
 
+StanceBar.button_width = 30
+StanceBar.button_height = 30
 function StanceBar:UpdateStanceButtons()
 	local buttons = self.buttons or {}
 	
