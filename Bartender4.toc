@@ -26,3 +26,4 @@ Button.lua
 ActionBars.lua
 ActionBarPrototype.lua
 ActionBarStates.lua
+StanceBar.lua

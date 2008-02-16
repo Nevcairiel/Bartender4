@@ -4,8 +4,8 @@ local BT4ActionBars = Bartender4:NewModule("ActionBars")
 
 local ActionBar, ActionBar_MT
 
-local abdefaults = Bartender4:Merge({
-	['**'] = {
+local abdefaults = {
+	['**'] = Bartender4:Merge({
 		enabled = true,
 		buttons = 12,
 		hidemacrotext = false,
@@ -20,7 +20,7 @@ local abdefaults = Bartender4:Merge({
 				},
 			},
 		},
-	},
+	}, Bartender4.ButtonBar.defaults),
 	[1] = {
 		states = {
 			enabled = true,
@@ -43,7 +43,7 @@ local abdefaults = Bartender4:Merge({
 	[10] = {
 		enabled = false,
 	},
-}, Bartender4.ButtonBar.defaults)
+}
 
 local defaults = { 
 	profile = { 

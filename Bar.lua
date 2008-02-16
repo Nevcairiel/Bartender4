@@ -12,11 +12,9 @@ local Bar_MT = {__index = Bar}
 ===================================================================================]]--
 
 local defaults = {
-	['**'] = {
-		scale = 1,
-		alpha = 1,
-		show = true,
-	}
+	scale = 1,
+	alpha = 1,
+	show = true
 }
 
 local barregistry = {}

@@ -2,7 +2,7 @@
 	Button Style Template
 ]]
 
---[[ $Id: Button.lua 60943 2008-02-11 14:24:21Z nevcairiel $ ]]
+--[[ $Id$ ]]
 
 Bartender4.ButtonStyle = {}
 

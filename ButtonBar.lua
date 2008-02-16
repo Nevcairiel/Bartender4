@@ -1,4 +1,4 @@
---[[ $Id: ActionBars.lua 60964 2008-02-11 18:12:12Z nevcairiel $ ]]
+--[[ $Id$ ]]
 
 --[[ Generic Template for a Bar which contains Buttons ]]
 
@@ -7,10 +7,8 @@ local ButtonBar = setmetatable({}, {__index = Bar})
 local ButtonBar_MT = {__index = ButtonBar}
 
 local defaults = Bartender4:Merge({
-	['**'] = {
-		padding = 2,
-		rows = 1,
-	}
+	padding = 2,
+	rows = 1
 }, Bartender4.Bar.defaults)
 
 Bartender4.ButtonBar = {}
