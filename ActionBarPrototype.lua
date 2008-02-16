@@ -1,10 +1,8 @@
 --[[ $Id$ ]]
 
-local Bar = Bartender4.Bar.prototype
-local ActionBar = setmetatable({}, {__index = Bar})
+local ButtonBar = Bartender4.ButtonBar.prototype
+local ActionBar = setmetatable({}, {__index = ButtonBar})
 Bartender4.ActionBar = ActionBar
-
-local math_floor = math.floor
 
 --[[===================================================================================
 	ActionBar Options
@@ -18,9 +16,7 @@ do
 	local optionMap, getBar, callFunc
 	-- maps option keys to function names
 	optionMap = {
-		padding = "Padding",
 		buttons = "Buttons",
-		rows = "Rows",
 		enabled = "Enabled",
 		grid = "Grid",
 		style = "Style",
@@ -64,7 +60,7 @@ end
 
 function module:GetOptionsObject()
 	if not self.baroptions then
-		local obj = Bar.GetOptionObject(self)
+		local obj = ButtonBar.GetOptionObject(self)
 		
 		local cat_general = {
 			enabled ={
@@ -72,15 +68,6 @@ function module:GetOptionsObject()
 				name = "Enabled",
 				desc = "Enable/Disable the bar.",
 				type = "toggle",
-				set = optSetter,
-				get = optGetter,
-			},
-			padding = {
-				order = 40,
-				type = "range",
-				name = "Padding",
-				desc = "Configure the padding of the buttons.",
-				min = -10, max = 20, step = 1,
 				set = optSetter,
 				get = optGetter,
 			},
@@ -110,15 +97,6 @@ function module:GetOptionsObject()
 				order = 60,
 				name = "Buttons",
 				desc = "Number of buttons.",
-				type = "range",
-				min = 1, max = 12, step = 1,
-				set = optSetter,
-				get = optGetter,
-			},
-			rows = {
-				order = 70,
-				name = "Rows",
-				desc = "Number of rows.",
 				type = "range",
 				min = 1, max = 12, step = 1,
 				set = optSetter,
@@ -157,7 +135,7 @@ end
 
 -- Apply the specified config to the bar and refresh all settings
 function ActionBar:ApplyConfig(config)
-	Bar.ApplyConfig(self, config)
+	ButtonBar.ApplyConfig(self, config)
 	
 	config = self.config
 	if not config.position then initialPosition(self) end
@@ -199,48 +177,11 @@ function ActionBar:UpdateButtons(numbuttons)
 	self:SetGrid()
 end
 
--- align the buttons and correct the size of the bar overlay frame
-function ActionBar:UpdateButtonLayout()
-	local numbuttons = self:GetButtons()
-	local buttons = self.buttons
-	local pad = self:GetPadding()
-	
-	local Rows = self:GetRows()
-	local ButtonPerRow = math_floor(numbuttons / Rows + 0.5) -- just a precaution
-	Rows = math_floor(numbuttons / ButtonPerRow + 0.5)
-	
-	self:SetSize((36 + pad) * ButtonPerRow - pad + 8, (36 + pad) * Rows - pad + 8)
-	
-	-- anchor button 1 to the topleft corner of the bar
-	buttons[1]:ClearSetPoint("TOPLEFT", self, "TOPLEFT", 6, -3)
-	-- and anchor all other buttons relative to our button 1
-	for i = 2, numbuttons do
-		-- jump into a new row
-		if ((i-1) % ButtonPerRow) == 0 then
-			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-ButtonPerRow], "BOTTOMLEFT", 0, -pad)
-		-- align to the previous button
-		else
-			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", pad, 0)
-		end
-	end
-end
 
 --[[===================================================================================
 	ActionBar Config Interface
 ===================================================================================]]--
 
--- get the current padding
-function ActionBar:GetPadding()
-	return self.config.padding
-end
-
--- set the padding and refresh layout
-function ActionBar:SetPadding(pad)
-	if pad ~= nil then
-		self.config.padding = pad
-	end
-	self:UpdateButtonLayout()
-end
 
 -- get the current number of buttons
 function ActionBar:GetButtons()
@@ -249,19 +190,6 @@ end
 
 -- set the number of buttons and refresh layout
 ActionBar.SetButtons = ActionBar.UpdateButtons
-
--- get the current number of rows
-function ActionBar:GetRows()
-	return self.config.rows
-end
-
--- set the number of rows and refresh layout
-function ActionBar:SetRows(rows)
-	if rows ~= nil then
-		self.config.rows = rows
-	end
-	self:UpdateButtonLayout()
-end
 
 function ActionBar:GetStyle()
 	return self.config.style

@@ -8,8 +8,6 @@ local abdefaults = Bartender4:Merge({
 	['**'] = {
 		enabled = true,
 		buttons = 12,
-		padding = 2,
-		rows = 1,
 		hidemacrotext = false,
 		showgrid = false,
 		style = "dream",
@@ -45,7 +43,7 @@ local abdefaults = Bartender4:Merge({
 	[10] = {
 		enabled = false,
 	},
-}, Bartender4.Bar.defaults)
+}, Bartender4.ButtonBar.defaults)
 
 local defaults = { 
 	profile = { 
@@ -223,7 +221,7 @@ end
 -- Creates a new bar object based on the id and the specified config
 function BT4ActionBars:Create(id, config)
 	local id = tostring(id)
-	local bar = setmetatable(Bartender4.Bar:Create(id, "SecureStateHeaderTemplate", config), ActionBar_MT)
+	local bar = setmetatable(Bartender4.ButtonBar:Create(id, "SecureStateHeaderTemplate", config), ActionBar_MT)
 	bar.module = self
 	
 	self:CreateBarOption(id, self:GetOptionsTable())

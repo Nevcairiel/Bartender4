@@ -117,59 +117,55 @@ end
 
 local options
 function Bar:GetOptionObject()
-	if not options then
-		local otbl = {
-			general = {
-				type = "group",
-				cmdInline = true,
-				name = "General Settings",
-				order = 1,
-				args = {
-					show = {
-						order = 5,
-						type = "toggle",
-						name = "Show",
-						desc = "Show/Hide the bar.",
-						get = optGetter,
-						set = optSetter,
-					},
-					styleheader = {
-						order = 10,
-						type = "header",
-						name = "Bar Style & Layout",
-					},
-					alpha = {
-						order = 20,
-						name = "Alpha",
-						desc = "Configure the alpha of the bar.",
-						type = "range",
-						min = .1, max = 1, bigStep = 0.1,
-						get = optGetter,
-						set = optSetter,
-					},
-					scale = {
-						order = 30,
-						name = "Scale",
-						desc = "Configure the scale of the bar.",
-						type = "range",
-						min = .1, max = 2, step = 0.05, bigStep = 0.1,
-						get = optGetter,
-						set = optSetter,
-					},
+	local otbl = {
+		general = {
+			type = "group",
+			cmdInline = true,
+			name = "General Settings",
+			order = 1,
+			args = {
+				show = {
+					order = 5,
+					type = "toggle",
+					name = "Show",
+					desc = "Show/Hide the bar.",
+					get = optGetter,
+					set = optSetter,
+				},
+				styleheader = {
+					order = 10,
+					type = "header",
+					name = "Bar Style & Layout",
+				},
+				alpha = {
+					order = 20,
+					name = "Alpha",
+					desc = "Configure the alpha of the bar.",
+					type = "range",
+					min = .1, max = 1, bigStep = 0.1,
+					get = optGetter,
+					set = optSetter,
+				},
+				scale = {
+					order = 30,
+					name = "Scale",
+					desc = "Configure the scale of the bar.",
+					type = "range",
+					min = .1, max = 2, step = 0.05, bigStep = 0.1,
+					get = optGetter,
+					set = optSetter,
 				},
 			},
-			align = {
-				type = "group",
-				cmdInline = true,
-				name = "Alignment",
-				order = 10,
-				args = {},
-			}
+		},
+		align = {
+			type = "group",
+			cmdInline = true,
+			name = "Alignment",
+			order = 10,
+			args = {},
 		}
-		options = Bartender4:NewOptionObject(otbl)
-	end
-	
-	return options
+	}
+	return Bartender4:NewOptionObject(otbl)
 end
 
 --[[===================================================================================
