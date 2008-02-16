@@ -19,7 +19,6 @@ do
 		buttons = "Buttons",
 		enabled = "Enabled",
 		grid = "Grid",
-		style = "Style",
 	}
 	
 	-- retrieves a valid bar object from the modules actionbars table
@@ -81,15 +80,6 @@ function module:GetOptionsObject()
 				type = "toggle",
 				name = "Button Grid",
 				desc = "Toggle the button grid.",
-				set = optSetter,
-				get = optGetter,
-			},
-			style = {
-				order = 59,
-				name = "Style",
-				type = "select",
-				desc = "Button Style",
-				values = Bartender4.ButtonStyle:GetStyles(),
 				set = optSetter,
 				get = optGetter,
 			},
@@ -191,15 +181,6 @@ end
 -- set the number of buttons and refresh layout
 ActionBar.SetButtons = ActionBar.UpdateButtons
 
-function ActionBar:GetStyle()
-	return self.config.style
-end
-
-function ActionBar:SetStyle(style)
-	self.config.style = style
-	self:ForAll("ApplyStyle", style)
-end
-
 function ActionBar:GetEnabled()
 	return true
 end
@@ -222,24 +203,5 @@ function ActionBar:SetGrid(state)
 		self:ForAll("ShowGrid", true)
 	else
 		self:ForAll("HideGrid", true)
-	end
-end
-
---[[===================================================================================
-	Utility function
-===================================================================================]]--
-
--- get a iterator over all buttons
-function ActionBar:GetAll()
-	return pairs(self.buttons)
-end
-
--- execute a member function on all buttons
-function ActionBar:ForAll(method, ...)
-	for _, button in self:GetAll() do
-		local func = button[method]
-		if func then
-			func(button, ...)
-		end
 	end
 end

@@ -10,7 +10,6 @@ local abdefaults = {
 		buttons = 12,
 		hidemacrotext = false,
 		showgrid = false,
-		style = "dream",
 		states = { 
 			enabled = false, 
 			stance = { 

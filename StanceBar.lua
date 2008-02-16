@@ -1,24 +1,29 @@
 --[[ $Id$ ]]
 
-local StanceBar = Bartender4:NewModule("StanceBar")
+local StanceBarMod = Bartender4:NewModule("StanceBar")
 local ActionBars = Bartender4:GetModule("ActionBars")
+local ButtonBar = Bartender4.ButtonBar.prototype
+local StanceBar = setmetatable({}, {__index = ButtonBar})
+local StanceButtonPrototype = CreateFrame("CheckButton")
+local StanceButton_MT = {__index = StanceButtonPrototype}
 
 local defaults = { profile = Bartender4:Merge({ enabled = true }, Bartender4.ButtonBar.defaults) }
 
-function StanceBar:OnInitialize()
+function StanceBarMod:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("StanceBar", defaults)
 	
 	self:SetupOptions()
 end
 
-function StanceBar:OnEnable()
-	self.bar = Bartender4.ButtonBar:Create("stance", nil, self.db.profile)
-	self.buttons = {}
+function StanceBarMod:OnEnable()
+	self.bar = setmetatable(Bartender4.ButtonBar:Create("stance", nil, self.db.profile), {__index = StanceBar})
+	self.bar:ClearSetPoint("CENTER")
 	self.bar:ApplyConfig()
 end
 
-function StanceBar:SetupOptions()
+function StanceBarMod:SetupOptions()
 	self.options = Bartender4.ButtonBar.prototype:GetOptionObject()
+	
 	ActionBars.options.args["stance"] = {
 			order = 30,
 			type = "group",
@@ -27,4 +32,81 @@ function StanceBar:SetupOptions()
 			childGroups = "tab",
 		}
 	ActionBars.options.args["stance"].args = self.options.table
+end
+
+function StanceButtonPrototype:Update()
+	if not self:IsShown() then return end
+	local id = self:GetID()
+	local texture, name, isActive, isCastable = GetShapeshiftFormInfo(id)
+	
+	self.icon:SetTexture(texture);
+	
+	-- manage cooldowns
+	if texture then
+		self.cooldown:Show()
+	else
+		self.cooldown:Hide()
+	end
+	local start, duration, enable = GetShapeshiftFormCooldown(id)
+	CooldownFrame_SetTimer(self.cooldown, start, duration, enable)
+	
+	if ( isActive ) then
+		self:SetChecked(1);
+	else
+		self:SetChecked(0);
+	end
+	
+	if ( isCastable ) then
+		self.icon:SetVertexColor(1.0, 1.0, 1.0)
+	else
+		self.icon:SetVertexColor(0.4, 0.4, 0.4)
+	end
+end
+
+StanceButtonPrototype.ApplyStyle = Bartender4.ButtonStyle.ApplyStyle
+
+function StanceButtonPrototype:ClearSetPoint(...)
+	self:ClearAllPoints()
+	self:SetPoint(...)
+end
+
+function StanceBarMod:CreateStanceButton(id)
+	local button = setmetatable(CreateFrame("CheckButton", "BT4StanceButton" .. id, self.bar, "ShapeshiftButtonTemplate"), StanceButton_MT)
+	button:SetID(id)
+	button.icon = _G[button:GetName() .. "Icon"]
+	button.cooldown = _G[button:GetName() .. "Cooldown"]
+	button.normalTexture = button:GetNormalTexture()
+	button.normalTexture:SetTexture("")
+	button.checkedTexture = button:GetCheckedTexture()
+	button.checkedTexture:SetTexture("")
+	return button
+end
+
+function StanceBar:ApplyConfig(config)
+	ButtonBar.ApplyConfig(self, config)
+	self:UpdateStanceButtons()
+	self:ForAll("ApplyStyle", self.config.style)
+end
+
+function StanceBar:UpdateStanceButtons()
+	local buttons = self.buttons or {}
+	
+	local num_stances = GetNumShapeshiftForms()
+	
+	for i = (#buttons+1), num_stances do
+		buttons[i] = StanceBarMod:CreateStanceButton(i)
+	end
+	
+	for i = 1, num_stances do
+		buttons[i]:Show()
+		buttons[i]:Update()
+	end
+	
+	for i = num_stances+1, #buttons do
+		buttons[i]:Hide()
+	end
+	
+	self.buttons = buttons
+	
+	self:UpdateButtonLayout()
 end

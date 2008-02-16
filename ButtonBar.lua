@@ -8,7 +8,8 @@ local ButtonBar_MT = {__index = ButtonBar}
 
 local defaults = Bartender4:Merge({
 	padding = 2,
-	rows = 1
+	rows = 1,
+	style = "dream",
 }, Bartender4.Bar.defaults)
 
 Bartender4.ButtonBar = {}
@@ -34,6 +35,7 @@ do
 	optionMap = {
 		rows = "Rows",
 		padding = "Padding",
+		style = "Style",
 	}
 	
 	-- retrieves a valid bar object from the barregistry table
@@ -75,6 +77,15 @@ function ButtonBar:GetOptionObject()
 			name = "Padding",
 			desc = "Configure the padding of the buttons.",
 			min = -10, max = 20, step = 1,
+			set = optSetter,
+			get = optGetter,
+		},
+		style = {
+			order = 59,
+			name = "Style",
+			type = "select",
+			desc = "Button Style",
+			values = Bartender4.ButtonStyle:GetStyles(),
 			set = optSetter,
 			get = optGetter,
 		},
@@ -149,6 +160,35 @@ function ButtonBar:UpdateButtonLayout()
 		-- align to the previous button
 		else
 			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", pad, 0)
+		end
+	end
+end
+
+function ButtonBar:GetStyle()
+	return self.config.style
+end
+
+function ButtonBar:SetStyle(style)
+	self.config.style = style
+	self:ForAll("ApplyStyle", style)
+end
+
+
+--[[===================================================================================
+	Utility function
+===================================================================================]]--
+
+-- get a iterator over all buttons
+function ButtonBar:GetAll()
+	return pairs(self.buttons)
+end
+
+-- execute a member function on all buttons
+function ButtonBar:ForAll(method, ...)
+	for _, button in self:GetAll() do
+		local func = button[method]
+		if func then
+			func(button, ...)
 		end
 	end
 end
