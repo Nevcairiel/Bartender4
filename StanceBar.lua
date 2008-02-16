@@ -7,7 +7,10 @@ local StanceBar = setmetatable({}, {__index = ButtonBar})
 local StanceButtonPrototype = CreateFrame("CheckButton")
 local StanceButton_MT = {__index = StanceButtonPrototype}
 
-local defaults = { profile = Bartender4:Merge({ enabled = true }, Bartender4.ButtonBar.defaults) }
+local defaults = { profile = Bartender4:Merge({ 
+	enabled = true,
+	scale = 1.5,
+}, Bartender4.ButtonBar.defaults) }
 
 function StanceBarMod:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("StanceBar", defaults)
@@ -16,9 +19,25 @@ function StanceBarMod:OnInitialize()
 end
 
 function StanceBarMod:OnEnable()
-	self.bar = setmetatable(Bartender4.ButtonBar:Create("stance", nil, self.db.profile), {__index = StanceBar})
-	self.bar:ClearSetPoint("CENTER")
-	self.bar:ApplyConfig()
+	if not self.bar then
+		self.bar = setmetatable(Bartender4.ButtonBar:Create("stance", nil, self.db.profile), {__index = StanceBar})
+		
+		self.bar:ClearSetPoint("CENTER")
+		self.bar:ApplyConfig()
+		self.bar:SetScript("OnEvent", StanceBar.OnEvent)
+	end
+	self.bar:RegisterEvent("PLAYER_ENTERING_WORLD")
+	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_FORMS")
+	self.bar:RegisterEvent("SPELL_UPDATE_COOLDOWN")
+	self.bar:RegisterEvent("SPELL_UPDATE_USABLE")
+	self.bar:RegisterEvent("PLAYER_AURAS_CHANGED")
+	self.bar:RegisterEvent("PLAYER_REGEN_ENABLED")
+end
+
+function StanceBarMod:OnDisable()
+	if not self.bar then return end
+	self.bar:UnregisterAllEvents()
+	self.bar:Hide()
 end
 
 function StanceBarMod:SetupOptions()
@@ -109,4 +128,12 @@ function StanceBar:UpdateStanceButtons()
 	self.buttons = buttons
 	
 	self:UpdateButtonLayout()
+end
+
+function StanceBar:OnEvent(event, ...)
+	if InCombatLockdown() then
+		self:ForAll("Update")
+	else
+		self:UpdateStanceButtons()
+	end
 end
