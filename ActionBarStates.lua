@@ -210,10 +210,15 @@ function ActionBar:UpdateStates()
 		self:AddButtonStates(i)
 	end
 	
+	local statedriver = {}
+	if self.id == 1 then
+		self:AddButtonStates(11)
+		table_insert(statedriver, "[bonusbar:5]11")
+	end
+	
 	local stateconfig = self.config.states
 	if self:GetStateOption("enabled") then
 		-- arguments will be parsed from left to right, so we have a priority here
-		local statedriver = {}
 		
 		-- highest priority have our temporary quick-swap keys
 		for _,v in pairs(modifiers) do
@@ -246,16 +251,13 @@ function ActionBar:UpdateStates()
 				end
 			end
 		end
-		
-		table_insert(statedriver, "0")
-		
-		RegisterStateDriver(self, "page", table_concat(statedriver, ";"))
-		self:SetAttribute("statemap-page", "$input")
-		self:SetAttribute("state", self:GetAttribute("state-page"))
-	else
-		UnregisterStateDriver(self)
-		self:SetAttribute("state", "0")
 	end
+	
+	table_insert(statedriver, "0")
+	
+	RegisterStateDriver(self, "page", table_concat(statedriver, ";"))
+	self:SetAttribute("statemap-page", "$input")
+	self:SetAttribute("state", self:GetAttribute("state-page"))
 	
 	self:ApplyStateButton()
 	
