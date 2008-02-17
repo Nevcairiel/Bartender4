@@ -48,6 +48,7 @@ end
 
 function Bartender4:CombatLockdown()
 	self:Lock()
+	LibStub("AceConfigDialog-3.0"):Close("Bartender4") 
 end
 
 function Bartender4:ToggleLock()

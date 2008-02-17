@@ -53,6 +53,10 @@ function StanceBarMod:SetupOptions()
 	ActionBars.options.args["stance"].args = self.options.table
 end
 
+function StanceBarMod:ApplyConfig()
+	self.bar:ApplyConfig(self.db.profile)
+end
+
 function StanceButtonPrototype:Update()
 	if not self:IsShown() then return end
 	local id = self:GetID()

@@ -148,6 +148,7 @@ function Bartender4:SetupOptions()
 	
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", self.options, "bttest")
 	local optFunc = function() 
+		if InCombatLockdown() then return end
 		AceConfigDialog:Open("Bartender4") 
 	--[[ 
 		local status = AceConfigDialog:GetStatusTable("Bartender4")
