@@ -6,7 +6,6 @@
 ## OptionalDeps: Ace3
 ## X-Embeds: Ace3
 ## X-Category: Action Bars
-## X-License: BSD
 ## Version: 4.0
 
 embeds.xml
