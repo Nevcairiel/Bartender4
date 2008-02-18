@@ -17,6 +17,37 @@ local defaults = {
 	show = true
 }
 
+local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick
+do
+	function barOnEnter(self)
+		self:SetBackdropBorderColor(0.5, 0.5, 0, 1)
+	end
+
+	function barOnLeave(self)
+		self:SetBackdropBorderColor(0, 0, 0, 0)
+	end
+
+	function barOnDragStart(self)
+		local parent = self:GetParent()
+		parent:StartMoving()
+		self:SetBackdropBorderColor(0, 0, 0, 0)
+		parent.isMoving = true
+	end
+
+	function barOnDragStop(self)
+		local parent = self:GetParent()
+		if parent.isMoving then
+			parent:StopMovingOrSizing()
+			parent:SavePosition()
+		end
+	end
+	
+	function barOnClick(self)
+		-- TODO: Hide/Show bar on Click
+		-- TODO: Once dropdown config is stable, show dropdown on rightclick
+	end
+end
+
 local barregistry = {}
 Bartender4.Bar = {}
 Bartender4.Bar.defaults = defaults
@@ -26,15 +57,17 @@ function Bartender4.Bar:Create(id, template, config)
 	id = tostring(id)
 	assert(not barregistry[id], "duplicated entry in barregistry.")
 	
-	local bar = setmetatable(CreateFrame("Button", ("BT4Bar%s"):format(id), UIParent, template), Bar_MT)
+	local bar = setmetatable(CreateFrame("Frame", ("BT4Bar%s"):format(id), UIParent, template), Bar_MT)
 	barregistry[id] = bar
 	bar.id = id
-	
-	bar:EnableMouse(false)
 	bar:SetMovable(true)
-	bar:RegisterForDrag("LeftButton")
-	bar:RegisterForClicks("RightButtonDown", "LeftButtonUp")
-	bar:SetBackdrop({
+	
+	local overlay = CreateFrame("Button", bar:GetName() .. "Overlay", bar)
+	bar.overlay = overlay
+	overlay:EnableMouse(true)
+	overlay:RegisterForDrag("LeftButton")
+	overlay:RegisterForClicks("LeftButtonUp")
+	overlay:SetBackdrop({
 		bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
 		tile = true,
 		tileSize = 16,
@@ -42,14 +75,25 @@ function Bartender4.Bar:Create(id, template, config)
 		edgeSize = 16,
 		insets = {left = 5, right = 3, top = 3, bottom = 5}
 	})
-	bar:SetBackdropColor(0, 0, 0, 0)
-	bar:SetBackdropBorderColor(0.5, 0.5, 0, 0)
-	bar.Text = bar:CreateFontString(nil, "ARTWORK")
-	bar.Text:SetFontObject(GameFontNormal)
-	bar.Text:SetText("Bar "..id)
-	bar.Text:Hide()
-	bar.Text:ClearAllPoints()
-	bar.Text:SetPoint("CENTER", bar, "CENTER")
+	overlay:SetBackdropColor(0, 0, 0, 0)
+	overlay:SetBackdropBorderColor(0.5, 0.5, 0, 0)
+	overlay.Text = overlay:CreateFontString(nil, "ARTWORK")
+	overlay.Text:SetFontObject(GameFontNormal)
+	overlay.Text:SetText("Bar "..id)
+	overlay.Text:Show()
+	overlay.Text:ClearAllPoints()
+	overlay.Text:SetPoint("CENTER", overlay, "CENTER")
+	
+	overlay:SetScript("OnEnter", barOnEnter)
+	overlay:SetScript("OnLeave", barOnLeave)
+	overlay:SetScript("OnDragStart", barOnDragStart)
+	overlay:SetScript("OnDragStop", barOnDragStop)
+	overlay:SetScript("OnClick", barOnClick)
+	
+	overlay:SetFrameLevel(bar:GetFrameLevel() + 10)
+	overlay:ClearAllPoints()
+	overlay:SetAllPoints(bar)
+	overlay:Hide()
 	
 	bar.config = config
 	
@@ -170,35 +214,6 @@ end
 	Universal Bar Prototype
 ===================================================================================]]--
 
-local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick
-do
-	function barOnEnter(self)
-		self:SetBackdropBorderColor(0.5, 0.5, 0, 1)
-	end
-
-	function barOnLeave(self)
-		self:SetBackdropBorderColor(0, 0, 0, 0)
-	end
-
-	function barOnDragStart(self)
-		self:StartMoving()
-		self:SetBackdropBorderColor(0, 0, 0, 0)
-		self.isMoving = true
-	end
-
-	function barOnDragStop(self)
-		if self.isMoving then
-			self:StopMovingOrSizing()
-			self:SavePosition()
-		end
-	end
-	
-	function barOnClick(self)
-		-- TODO: Hide/Show bar on Click
-		-- TODO: Once dropdown config is stable, show dropdown on rightclick
-	end
-end
-
 function Bar:ApplyConfig(config)
 	if config then
 		self.config = config
@@ -214,41 +229,25 @@ end
 function Bar:Unlock()
 	if self.disabled or self.unlocked then return end
 	self.unlocked = true
-	self:EnableMouse(true)
-	self:SetScript("OnEnter", barOnEnter)
-	self:SetScript("OnLeave", barOnLeave)
-	self:SetScript("OnDragStart", barOnDragStart)
-	self:SetScript("OnDragStop", barOnDragStop)
-	self:SetScript("OnClick", barOnClick)
-	self.Text:Show()
-	
 	self:Show()
-	self:SetFrameLevel(5)
+	self.overlay:Show()
 	if not self.config.show then
-		self:SetBackdropColor(1, 0, 0, 0.5)
+		self.overlay:SetBackdropColor(1, 0, 0, 0.5)
 	else
-		self:SetBackdropColor(0, 1, 0, 0.5)
+		self.overlay:SetBackdropColor(0, 1, 0, 0.5)
 	end
 end
 
 function Bar:Lock()
 	if self.disabled or not self.unlocked then return end
 	self.unlocked = nil
-	barOnDragStop(self)
-	self:EnableMouse(false)
-	self:SetScript("OnEnter", nil)
-	self:SetScript("OnLeave", nil)
-	self:SetScript("OnDragStart", nil)
-	self:SetScript("OnDragStop", nil)
-	self:SetScript("OnClick", nil)
-	self.Text:Hide()
+	barOnDragStop(self.overlay)
 	
 	if not self.config.show then
 		self:Hide()
 	end
 	
-	self:SetBackdropColor(0, 0, 0, 0)
-	self:SetBackdropBorderColor(0, 0, 0, 0)
+	self.overlay:Hide()
 end
 
 function Bar:LoadPosition()
