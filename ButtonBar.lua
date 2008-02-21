@@ -146,6 +146,10 @@ function ButtonBar:UpdateButtonLayout()
 	local numbuttons = #buttons
 	local pad = self:GetPadding()
 	
+	-- bail out if the bar has no buttons, for whatever reason
+	-- (eg. stanceless class, or no stances learned yet, etc.)
+	if numbuttons == 0 then return end
+	
 	local Rows = self:GetRows()
 	local ButtonPerRow = math_floor(numbuttons / Rows + 0.5) -- just a precaution
 	Rows = math_floor(numbuttons / ButtonPerRow + 0.5)

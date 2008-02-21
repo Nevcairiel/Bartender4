@@ -54,6 +54,7 @@ function StanceBarMod:SetupOptions()
 			name = "Stance Bar",
 			desc = "Configure  the Stance Bar",
 			childGroups = "tab",
+			disabled = function() return GetNumShapeshiftForms() == 0 end,
 		}
 	ActionBars.options.args["stance"].args = self.options.table
 end

@@ -134,9 +134,11 @@ function module:GetStateOptionsTable()
 	
 	do
 		local defstancemap = self.DefaultStanceMap[playerclass]
-		for k,v in pairs(defstancemap) do
-			if not options.stances.args[v.id] then
-				options.stances.args[v.id] = createOptionGroup(k, v.id)
+		if defstancemap then
+			for k,v in pairs(defstancemap) do
+				if not options.stances.args[v.id] then
+					options.stances.args[v.id] = createOptionGroup(k, v.id)
+				end
 			end
 		end
 	end
