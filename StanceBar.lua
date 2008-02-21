@@ -1,8 +1,13 @@
 --[[ $Id$ ]]
 
+-- register module
 local StanceBarMod = Bartender4:NewModule("StanceBar")
+
+-- fetch upvalues
 local ActionBars = Bartender4:GetModule("ActionBars")
 local ButtonBar = Bartender4.ButtonBar.prototype
+
+-- create prototype information
 local StanceBar = setmetatable({}, {__index = ButtonBar})
 local StanceButtonPrototype = CreateFrame("CheckButton")
 local StanceButton_MT = {__index = StanceButtonPrototype}
@@ -20,7 +25,7 @@ end
 
 function StanceBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.ButtonBar:Create("stance", nil, self.db.profile), {__index = StanceBar})
+		self.bar = setmetatable(Bartender4.ButtonBar:Create("Stance", nil, self.db.profile), {__index = StanceBar})
 		
 		self.bar:ClearSetPoint("CENTER")
 		self.bar:ApplyConfig()

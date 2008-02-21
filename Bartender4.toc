@@ -26,3 +26,4 @@ ActionBars.lua
 ActionBarPrototype.lua
 ActionBarStates.lua
 StanceBar.lua
+PetBar.lua
