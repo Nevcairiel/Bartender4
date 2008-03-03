@@ -105,8 +105,8 @@ function PetButtonPrototype:Update()
 		self.tooltipName = _G[name]
 	end
 	
-	self.isToken = isToken;
-	self.tooltipSubtext = subtext;
+	self.isToken = isToken
+	self.tooltipSubtext = subtext
 	self:SetChecked(isActive and 1 or 0)
 	if autoCastAllowed then
 		self.autocastable:Show()

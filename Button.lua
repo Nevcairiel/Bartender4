@@ -438,7 +438,7 @@ function Button:EventHandler(event, arg1)
 			self:StartFlash()
 		end
 	elseif ( event == "STOP_AUTOREPEAT_SPELL" ) then
-		if ( self:IsFlashing() and not IsAttackAction(self.action) ) then
+		if ( self.flashing == 1 and not IsAttackAction(self.action) ) then
 			self:StopFlash()
 		end
 	end
