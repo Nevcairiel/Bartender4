@@ -74,6 +74,14 @@ function PetBarMod:CreatePetButton(id)
 	button.autocastable = _G[name .. "AutoCastable"]
 	button.autocast = _G[name .. "AutoCast"]
 	
+	button.normalTexture = button:GetNormalTexture()
+	button.pushedTexture = button:GetPushedTexture()
+	button.highlightTexture = button:GetHighlightTexture()
+	
+	button.textureCache = {}
+	button.textureCache.pushed = button.pushedTexture:GetTexture()
+	button.textureCache.highlight = button.highlightTexture:GetTexture()
+	
 	return button
 end
 
@@ -126,18 +134,39 @@ function PetButtonPrototype:Update()
 			SetDesaturation(self.icon, 1)
 		end
 		self.icon:Show()
-		self:SetNormalTexture("Interface\\Buttons\\UI-Quickslot2")
+		self.normalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot2")
+		self.normalTexture:SetTexCoord(0, 0, 0, 0)
+		self:ShowButton()
 	else
 		self.icon:Hide()
-		self:SetNormalTexture("Interface\\Buttons\\UI-Quickslot")
+		self.normalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot")
+		self.normalTexture:SetTexCoord(-0.1, 1.1, -0.1, 1.12)
+		self:HideButton()
 	end
 	self:UpdateCooldown()
+end
+
+function PetButtonPrototype:ShowButton()
+	if self.overlay then return end
+	
+	self.pushedTexture:SetTexture(self.textureCache.pushed)
+	self.highlightTexture:SetTexture(self.textureCache.highlight)
+end
+
+function PetButtonPrototype:HideButton()
+	if self.overlay then return end
+	
+	self.pushedTexture:SetTexture("")
+	self.highlightTexture:SetTexture("")
 end
 
 function PetButtonPrototype:UpdateCooldown()
 	local start, duration, enable = GetPetActionCooldown(self.id)
 	CooldownFrame_SetTimer(self.cooldown, start, duration, enable)
 end
+
+-- import style function
+PetButtonPrototype.ApplyStyle = Bartender4.ButtonStyle.ApplyStyle
 
 function PetButtonPrototype:ClearSetPoint(...)
 	self:ClearAllPoints()
