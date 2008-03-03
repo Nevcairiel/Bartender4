@@ -20,7 +20,6 @@ ButtonStyle.lua
 Bar.lua
 ButtonBar.lua
 Button.lua
-PetButton.xml
 
 ## Modules ##
 ActionBars.lua

@@ -14,108 +14,6 @@ do
 	end
 end
 
-local getProfilesOptionsTable
-do
-	local defaultProfiles
-	--[[ Utility functions ]]
-	-- get exisiting profiles + some default entries
-	local tmpprofiles = {}
-	local function getProfileList(db, common, nocurrent)
-		-- clear old profile table
-		local profiles = {}
-		
-		-- copy existing profiles into the table
-		local curr = db:GetCurrentProfile()
-		for i,v in pairs(db:GetProfiles(tmpprofiles)) do if not (nocurrent and v == curr) then profiles[v] = v end end
-		
-		-- add our default profiles to choose from
-		for k,v in pairs(defaultProfiles) do
-			if (common or profiles[k]) and not (k == curr and nocurrent) then
-				profiles[k] = v
-			end
-		end
-		return profiles
-	end
-	
-	function getProfilesOptionsTable(db)
-		defaultProfiles = {
-			["Default"] = "Default",
-			[db.keys.char] = "Char: " .. db.keys.char,
-			[db.keys.realm] = "Realm: " .. db.keys.realm,
-			[db.keys.class] = "Class: " .. UnitClass("player")
-		}
-		
-		local tbl = {
-			profiles = {
-				type = "group",
-				name = "Profiles",
-				desc = "Manage Profiles",
-				args = {
-					reset = {
-						order = 1,
-						type = "execute",
-						name = "Reset Profile",
-						desc = "Reset the current profile to the default",
-						func = function() db:ResetProfile() end,
-					},
-					spacer1 = {
-						order = 2,
-						type = "header",
-						name = "Choose a Profile",
-						desc = "Set the active profile of this character.",
-					},
-					new = {
-						name = "New",
-						type = "input",
-						order = 3,
-						get = function() return false end,
-						set = function(info, value) db:SetProfile(value) end,
-					},
-					choose = {
-						name = "Current",
-						type = "select",
-						order = 4,
-						get = function() return db:GetCurrentProfile() end,
-						set = function(info, value) db:SetProfile(value) end,
-						values = function() return getProfileList(db, true) end,
-					},
-					spacer2 = {
-						type = "header",
-						order = 5,
-						name = "Copy a Profile",
-					},
-					copyfrom = {
-						order = 6,
-						type = "select",
-						name = "Copy From",
-						desc = "Copy the settings from another profile",
-						get = function() return false end,
-						set = function(info, value) db:CopyProfile(value) end,
-						values = function() return getProfileList(db, nil, true) end,
-					},
-					spacer3 = {
-						type = "header",
-						order = 7,
-						name = "Delete a Profile",
-					},
-					delete = {
-						order = 8,
-						type = "select",
-						name = "Delete a Profile",
-						desc = "Deletes a profile from the database.",
-						get = function() return false end,
-						set = function(info, value) db:DeleteProfile(value) end,
-						values = function() return getProfileList(db, nil, true) end,
-						confirm = true,
-						confirmText = "Are you sure you want to delete the selected profile?",
-					},
-				},
-			},
-		}
-		return tbl
-	end
-end
-
 function Bartender4:SetupOptions()
 	self.options = {
 		type = "group",
@@ -143,7 +41,7 @@ function Bartender4:SetupOptions()
 		},
 	}
 	
-	self.options.plugins.profiles = getProfilesOptionsTable(Bartender4.db)
+	self.options.plugins.profiles = { profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(self.db) }
 	
 	
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", self.options, "bttest")

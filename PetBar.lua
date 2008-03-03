@@ -33,11 +33,25 @@ function PetBarMod:OnEnable()
 		end
 		self.bar.buttons = buttons
 		
+		-- TODO: real positioning
 		self.bar:ClearSetPoint("CENTER")
-		self.bar:ApplyConfig()
+		
 		self.bar:SetScript("OnEvent", PetBar.OnEvent)
+		self.bar:RegisterEvent("PLAYER_CONTROL_LOST")
+		self.bar:RegisterEvent("PLAYER_CONTROL_GAINED")
+		self.bar:RegisterEvent("PLAYER_FARSIGHT_FOCUS_CHANGED")
+		self.bar:RegisterEvent("UNIT_PET")
+		self.bar:RegisterEvent("UNIT_FLAGS")
+		self.bar:RegisterEvent("UNIT_AURA")
+		self.bar:RegisterEvent("PET_BAR_UPDATE")
+		self.bar:RegisterEvent("PET_BAR_UPDATE_COOLDOWN")
+		self.bar:RegisterEvent("PET_BAR_SHOWGRID")
+		self.bar:RegisterEvent("PET_BAR_HIDEGRID")
+		
 		self.bar:SetAttribute("unit", "pet")
 		RegisterUnitWatch(self.bar, false)
+		
+		self.bar:ApplyConfig()
 	end
 end
 
@@ -49,9 +63,10 @@ end
 
 function PetBarMod:CreatePetButton(id)
 	local name = "BT4PetButton" .. id
-	local button = setmetatable(CreateFrame("CheckButton", name, self.bar, "Bartender4PetButtonTemplate"), PetButton_MT)
-	button:SetAttribute("type", "pet")
-	button:SetAttribute("action", id)
+	local button = setmetatable(CreateFrame("CheckButton", name, self.bar, "PetActionButtonTemplate"), PetButton_MT)
+	button:SetID(id)
+	button:UnregisterAllEvents()
+	button:SetScript("OnEvent", nil)
 	button.id = id
 	button.flash = _G[name .. "Flash"]
 	button.cooldown = _G[name .. "Cooldown"]
@@ -116,6 +131,12 @@ function PetButtonPrototype:Update()
 		self.icon:Hide()
 		self:SetNormalTexture("Interface\\Buttons\\UI-Quickslot")
 	end
+	self:UpdateCooldown()
+end
+
+function PetButtonPrototype:UpdateCooldown()
+	local start, duration, enable = GetPetActionCooldown(self.id)
+	CooldownFrame_SetTimer(self.cooldown, start, duration, enable)
 end
 
 function PetButtonPrototype:ClearSetPoint(...)
@@ -123,6 +144,21 @@ function PetButtonPrototype:ClearSetPoint(...)
 	self:SetPoint(...)
 end
 
+function PetBar:OnEvent(event, arg1)
+	if event == "PET_BAR_UPDATE" or 
+		(event == "UNIT_PET" and arg1 == "player") or
+		((event == "UNIT_FLAGS" or event == "UNIT_AURA") and arg1 == "pet") or
+		event == "PLAYER_CONTROL_LOST" or event == "PLAYER_CONTROL_GAINED" or event == "PLAYER_FARSIGHT_FOCUS_CHANGED"
+	then
+		self:ForAll("Update")
+	elseif event == "PET_BAR_UPDATE_COOLDOWN" then
+		self:ForAll("UpdateCooldown")
+	elseif event == "PET_BAR_SHOWGRID" then
+		self:ForAll("ShowGrid")
+	elseif event == "PET_BAR_HIDEGRID" then
+		self:ForAll("HideGrid")
+	end
+end
 
 function PetBar:ApplyConfig()
 	ButtonBar.ApplyConfig(self)
