@@ -20,7 +20,8 @@ local styledata = {
 		padding = 3,
 		overlay = true,
 		FrameFunc = function(button) 
-			local frame = CreateFrame("Frame", button:GetName().."DreamLayout", button)
+			local name = button:GetName().."DreamLayout"
+			local frame = _G[name] or CreateFrame("Frame", name, button)
 			frame:ClearAllPoints()
 			frame:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 1, edgeFile = "", edgeSize = 0, insets = {left = 0, right = 0, top = 0, bottom = 0},})
 			frame:SetBackdropColor(0, 0, 0, 0.6)
