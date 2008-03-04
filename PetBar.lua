@@ -14,7 +14,7 @@ local PetButton_MT = {__index = PetButtonPrototype}
 
 local defaults = { profile = Bartender4:Merge({ 
 	enabled = true,
-	scale = 1.5,
+	scale = 1.0,
 }, Bartender4.ButtonBar.defaults) }
 
 function PetBarMod:OnInitialize()
@@ -64,6 +64,7 @@ end
 function PetBarMod:CreatePetButton(id)
 	local name = "BT4PetButton" .. id
 	local button = setmetatable(CreateFrame("CheckButton", name, self.bar, "PetActionButtonTemplate"), PetButton_MT)
+	button:SetFrameStrata("MEDIUM")
 	button:SetID(id)
 	button:UnregisterAllEvents()
 	button:SetScript("OnEvent", nil)

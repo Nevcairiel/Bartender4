@@ -26,7 +26,7 @@ local styledata = {
 			frame:SetBackdrop({bgFile = "Interface\\Tooltips\\UI-Tooltip-Background", tile = true, tileSize = 1, edgeFile = "", edgeSize = 0, insets = {left = 0, right = 0, top = 0, bottom = 0},})
 			frame:SetBackdropColor(0, 0, 0, 0.6)
 			frame:SetAllPoints(button)
-			frame:SetFrameLevel(0)
+			frame:SetFrameLevel(button:GetFrameLevel() - 2)
 			return frame
 		end,
 	},
