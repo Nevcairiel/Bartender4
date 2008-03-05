@@ -73,11 +73,15 @@ end
 function PetBarMod:CreatePetButton(id)
 	local name = "BT4PetButton" .. id
 	local button = setmetatable(CreateFrame("CheckButton", name, self.bar, "PetActionButtonTemplate"), PetButton_MT)
+	button.showgrid = 0
+	button.id = id
+	
 	button:SetFrameStrata("MEDIUM")
 	button:SetID(id)
+	
 	button:UnregisterAllEvents()
 	button:SetScript("OnEvent", nil)
-	button.id = id
+	
 	button.flash = _G[name .. "Flash"]
 	button.cooldown = _G[name .. "Cooldown"]
 	button.icon = _G[name .. "Icon"]
@@ -172,11 +176,21 @@ function PetButtonPrototype:Update()
 		self.normalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot2")
 		self.normalTexture:SetTexCoord(0, 0, 0, 0)
 		self:ShowButton()
+		self.normalTexture:Show()
+		if self.overlay then
+			self.overlay:Show()
+		end
 	else
 		self.icon:Hide()
 		self.normalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot")
 		self.normalTexture:SetTexCoord(-0.1, 1.1, -0.1, 1.12)
 		self:HideButton()
+		if self.showgrid == 0 and not PetBarMod.db.profile.showgrid then
+			self.normalTexture:Hide()
+			if self.overlay then
+				self.overlay:Hide()
+			end
+		end
 	end
 	self:UpdateCooldown()
 end
@@ -193,6 +207,27 @@ function PetButtonPrototype:HideButton()
 	
 	self.pushedTexture:SetTexture("")
 	self.highlightTexture:SetTexture("")
+end
+
+function PetButtonPrototype:ShowGrid()
+	self.showgrid = self.showgrid + 1
+	self.normalTexture:Show()
+	
+	if self.overlay then
+		self.overlay:Show()
+	end
+end
+
+function PetButtonPrototype:HideGrid()
+	if self.showgrid > 0 then
+		self.showgrid = self.showgrid - 1
+	end
+	if self.showgrid == 0  and not (GetPetActionInfo(self.id)) and not PetBarMod.db.profile.showgrid then
+		self.normalTexture:Hide()
+		if self.overlay then
+			self.overlay:Hide()
+		end
+	end
 end
 
 function PetButtonPrototype:UpdateCooldown()
