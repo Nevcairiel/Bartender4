@@ -19,7 +19,7 @@ local defaults = { profile = Bartender4:Merge({
 
 function PetBarMod:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("PetBar", defaults)
-	
+	self:SetEnabledState(self.db.profile.enabled)
 	self:SetupOptions()
 end
 
@@ -37,28 +37,37 @@ function PetBarMod:OnEnable()
 		self.bar:ClearSetPoint("CENTER")
 		
 		self.bar:SetScript("OnEvent", PetBar.OnEvent)
-		self.bar:RegisterEvent("PLAYER_CONTROL_LOST")
-		self.bar:RegisterEvent("PLAYER_CONTROL_GAINED")
-		self.bar:RegisterEvent("PLAYER_FARSIGHT_FOCUS_CHANGED")
-		self.bar:RegisterEvent("UNIT_PET")
-		self.bar:RegisterEvent("UNIT_FLAGS")
-		self.bar:RegisterEvent("UNIT_AURA")
-		self.bar:RegisterEvent("PET_BAR_UPDATE")
-		self.bar:RegisterEvent("PET_BAR_UPDATE_COOLDOWN")
-		self.bar:RegisterEvent("PET_BAR_SHOWGRID")
-		self.bar:RegisterEvent("PET_BAR_HIDEGRID")
 		
 		self.bar:SetAttribute("unit", "pet")
-		RegisterUnitWatch(self.bar, false)
-		
-		self.bar:ApplyConfig()
 	end
+	self.bar.disabled = nil
+	
+	RegisterUnitWatch(self.bar, false)
+	
+	self.bar:RegisterEvent("PLAYER_CONTROL_LOST")
+	self.bar:RegisterEvent("PLAYER_CONTROL_GAINED")
+	self.bar:RegisterEvent("PLAYER_FARSIGHT_FOCUS_CHANGED")
+	self.bar:RegisterEvent("UNIT_PET")
+	self.bar:RegisterEvent("UNIT_FLAGS")
+	self.bar:RegisterEvent("UNIT_AURA")
+	self.bar:RegisterEvent("PET_BAR_UPDATE")
+	self.bar:RegisterEvent("PET_BAR_UPDATE_COOLDOWN")
+	self.bar:RegisterEvent("PET_BAR_SHOWGRID")
+	self.bar:RegisterEvent("PET_BAR_HIDEGRID")
+	
+	self:ApplyConfig()
+	self:SetupOptions()
 end
 
 function PetBarMod:OnDisable()
 	if not self.bar then return end
+	self.bar.disabled = true
+	
+	UnregisterUnitWatch(self.bar)
+	
 	self.bar:UnregisterAllEvents()
 	self.bar:Hide()
+	self:SetupOptions()
 end
 
 function PetBarMod:CreatePetButton(id)
@@ -87,19 +96,44 @@ function PetBarMod:CreatePetButton(id)
 end
 
 function PetBarMod:SetupOptions()
-	self.options = Bartender4.ButtonBar.prototype:GetOptionObject()
-	
-	ActionBars.options.args["Pet"] = {
-			order = 30,
-			type = "group",
-			name = "Pet Bar",
-			desc = "Configure  the Pet Bar",
-			childGroups = "tab",
+	if not self.options then
+		self.options = Bartender4.ButtonBar.prototype:GetOptionObject()
+		
+		local enabled = {
+			type = "toggle",
+			order = 1,
+			name = "Enabled",
+			desc = "Enable the PetBar",
+			get = function() return self.db.profile.enabled end,
+			set = "ToggleModule",
+			handler = self,
 		}
-	ActionBars.options.args["Pet"].args = self.options.table
+		self.options:AddElement("general", "enabled", enabled)
+		
+		self.disabledoptions = {
+			general = {
+				type = "group",
+				name = "General Settings",
+				cmdInline = true,
+				order = 1,
+				args = {
+					enabled = enabled,
+				}
+			}
+		}
+		ActionBars.options.args["Pet"] = {
+				order = 30,
+				type = "group",
+				name = "Pet Bar",
+				desc = "Configure the Pet Bar",
+				childGroups = "tab",
+			}
+	end
+	ActionBars.options.args["Pet"].args = self:IsEnabled() and self.options.table or self.disabledoptions
 end
 
 function PetBarMod:ApplyConfig()
+	if not self:IsEnabled() then return end
 	self.bar:ApplyConfig(self.db.profile)
 end
 
@@ -174,6 +208,8 @@ function PetButtonPrototype:ClearSetPoint(...)
 	self:SetPoint(...)
 end
 
+PetBar.button_width = 30
+PetBar.button_height = 30
 function PetBar:OnEvent(event, arg1)
 	if event == "PET_BAR_UPDATE" or 
 		(event == "UNIT_PET" and arg1 == "player") or
@@ -195,4 +231,14 @@ function PetBar:ApplyConfig()
 	self:UpdateButtonLayout()
 	self:ForAll("Update")
 	self:ForAll("ApplyStyle", self.config.style)
+end
+
+function PetBar:Unlock()
+	UnregisterUnitWatch(self)
+	ButtonBar.Unlock(self)
+end
+
+function PetBar:Lock()
+	ButtonBar.Lock(self)
+	RegisterUnitWatch(self, false)
 end

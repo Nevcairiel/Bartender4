@@ -19,7 +19,7 @@ local defaults = { profile = Bartender4:Merge({
 
 function StanceBarMod:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("StanceBar", defaults)
-	
+	self:SetEnabledState(self.db.profile.enabled)
 	self:SetupOptions()
 end
 
@@ -31,35 +31,65 @@ function StanceBarMod:OnEnable()
 		self.bar:ApplyConfig()
 		self.bar:SetScript("OnEvent", StanceBar.OnEvent)
 	end
+	self:SetupOptions()
 	self.bar:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_FORMS")
 	self.bar:RegisterEvent("SPELL_UPDATE_COOLDOWN")
 	self.bar:RegisterEvent("SPELL_UPDATE_USABLE")
 	self.bar:RegisterEvent("PLAYER_AURAS_CHANGED")
 	self.bar:RegisterEvent("PLAYER_REGEN_ENABLED")
+	self.bar:Show()
 end
 
 function StanceBarMod:OnDisable()
 	if not self.bar then return end
 	self.bar:UnregisterAllEvents()
 	self.bar:Hide()
+	self:SetupOptions()
 end
 
 function StanceBarMod:SetupOptions()
-	self.options = Bartender4.ButtonBar.prototype:GetOptionObject()
-	
-	ActionBars.options.args["stance"] = {
-			order = 30,
-			type = "group",
-			name = "Stance Bar",
-			desc = "Configure  the Stance Bar",
-			childGroups = "tab",
-			disabled = function() return GetNumShapeshiftForms() == 0 end,
+	if not self.options then
+		self.options = Bartender4.ButtonBar.prototype:GetOptionObject()
+		
+		local enabled = {
+			type = "toggle",
+			order = 1,
+			name = "Enabled",
+			desc = "Enable the StanceBar",
+			get = function() return self.db.profile.enabled end,
+			set = "ToggleModule",
+			handler = self,
 		}
-	ActionBars.options.args["stance"].args = self.options.table
+		self.options:AddElement("general", "enabled", enabled)
+		
+		self.disabledoptions = {
+			general = {
+				type = "group",
+				name = "General Settings",
+				cmdInline = true,
+				order = 1,
+				args = {
+					enabled = enabled,
+				}
+			}
+		}
+		
+		ActionBars.options.args["Stance"] = {
+				order = 30,
+				type = "group",
+				name = "Stance Bar",
+				desc = "Configure  the Stance Bar",
+				childGroups = "tab",
+				disabled = function(info) return GetNumShapeshiftForms() == 0 end,
+			}
+	end
+	
+	ActionBars.options.args["Stance"].args = self:IsEnabled() and self.options.table or self.disabledoptions
 end
 
 function StanceBarMod:ApplyConfig()
+	if not self:IsEnabled() then return end
 	self.bar:ApplyConfig(self.db.profile)
 end
 

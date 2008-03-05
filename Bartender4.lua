@@ -32,16 +32,8 @@ end
 function Bartender4:UpdateModuleConfigs()
 	self:Lock()
 	for k,v in AceAddon:IterateModulesOfAddon(self) do
-		if type(v.ApplyConfig) == "function" then
+		if v:IsEnabled() and type(v.ApplyConfig) == "function" then
 			v:ApplyConfig()
-		end
-	end
-end
-
-function Bartender4:Update()
-	for k,v in AceAddon:IterateModulesOfAddon("Bartender4") do
-		if type(v.Update) == "function" then
-			v:Update()
 		end
 	end
 end
@@ -84,3 +76,14 @@ function Bartender4:Merge(target, source)
 	end
 	return target
 end
+
+Bartender4.modulePrototype = {}
+function Bartender4.modulePrototype:ToggleModule(info, value)
+	self.db.profile.enabled = value
+	if value and not self:IsEnabled() then
+		self:Enable()
+	elseif not value and self:IsEnabled() then
+		self:Disable()
+	end
+end
+Bartender4:SetDefaultModulePrototype(Bartender4.modulePrototype)

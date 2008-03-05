@@ -93,6 +93,11 @@ function BT4ActionBars:ApplyConfig()
 	end
 end
 
+-- we do not allow to disable the actionbars module
+function BT4ActionBars:ToggleModule()
+	return
+end
+
 function BT4ActionBars:UpdateButtons(force)
 	for i,v in ipairs(self.actionbars) do
 		for j,button in ipairs(v.buttons) do
