@@ -161,6 +161,7 @@ function ActionBar:UpdateButtons(numbuttons)
 		buttons[i]:Hide()
 	end
 	
+	self.numbuttons = numbuttons
 	self.buttons = buttons
 	
 	self:UpdateButtonLayout()

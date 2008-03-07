@@ -193,7 +193,7 @@ function Bar:GetOptionObject()
 					name = "Scale",
 					desc = "Configure the scale of the bar.",
 					type = "range",
-					min = .1, max = 2, step = 0.05, bigStep = 0.1,
+					min = .1, max = 2, step = 0.05,
 					get = optGetter,
 					set = optSetter,
 				},
