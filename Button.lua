@@ -104,19 +104,17 @@ function onLeave()
 end
 
 function onUpdate(self, elapsed)
-	if not self.iconTex then self:UpdateIcon() end
-	
-	if ( self.flashing == 1 ) then
-		self.flashtime = self.flashtime - elapsed;
-		if ( self.flashtime <= 0 ) then
-			local overtime = -self.flashtime;
-			if ( overtime >= ATTACK_BUTTON_FLASH_TIME ) then
-				overtime = 0;
+	if self.flashing == 1 then
+		self.flashtime = self.flashtime - elapsed
+		if self.flashtime <= 0 then
+			local overtime = -self.flashtime
+			if overtime >= ATTACK_BUTTON_FLASH_TIME then
+				overtime = 0
 			end
 			self.flashtime = ATTACK_BUTTON_FLASH_TIME - overtime
 			
 			local flashTexture = self.flash
-			if ( flashTexture:IsVisible() ) then
+			if flashTexture:IsVisible() then
 				flashTexture:Hide()
 			else
 				flashTexture:Show()
@@ -124,9 +122,9 @@ function onUpdate(self, elapsed)
 		end
 	end
 	
-	if ( self.rangeTimer ) then
+	if self.rangeTimer then
 		self.rangeTimer = self.rangeTimer - elapsed
-		if ( self.rangeTimer <= 0 ) then
+		if self.rangeTimer <= 0 then
 			local valid = IsActionInRange(self.action)
 			local hotkey = self.hotkey
 			local hkshown = (hotkey:GetText() == RANGE_INDICATOR and self.settings.profile.outofrange == "hotkey")
@@ -171,7 +169,7 @@ function Button:Update()
 		self:RegisterActionEvents()
 		
 		self:UpdateState()
-		self:UpdateUsable()
+		self:UpdateUsable(true)
 		self:UpdateCooldown()
 		self:UpdateFlash()
 		
@@ -253,27 +251,48 @@ function Button:UpdateState()
 	end
 end
 
-function Button:UpdateUsable()
-	local oor = self.settings.profile.outofrange
+local oor, oorcolor, oomcolor
+
+function Button:UpdateUsable(force)
 	local isUsable, notEnoughMana = IsUsableAction(self.action)
-	local oorcolor, oomcolor = self.settings.profile.colors.range, self.settings.profile.colors.mana
-	if ( oor ~= "button" or not self.outOfRange) then
-		if ( oor == "none" or not self.outOfRange) then
-			self.hotkey:SetVertexColor(1.0, 1.0, 1.0)
-		elseif ( oor == "hotkey" ) then
-			self.hotkey:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
+	local icon, hotkey = self.icon, self.hotkey
+	if force or not oor then 
+		icon.state, hotkey.state = 1, 1 
+		oor = self.settings.profile.outofrange
+		oorcolor, oomcolor = self.settings.profile.colors.range, self.settings.profile.colors.mana
+	end
+	
+	if oor == "button" and self.outOfRange then
+		if icon.state ~= "range" then
+			icon:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
+			hotkey:SetVertexColor(1.0, 1.0, 1.0)
+			icon.state = "range"
+		end
+	else
+		if oor == "hotkey" and self.outOfRange then
+			if hotkey.state ~= "range" then
+				hotkey:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
+				hotkey.state = "range"
+			end
+		elseif hotkey.state ~= nil then
+			hotkey:SetVertexColor(1.0, 1.0, 1.0)
+			hotkey.state = nil
 		end
 		
-		if ( isUsable ) then
-			self.icon:SetVertexColor(1.0, 1.0, 1.0);
-		elseif ( notEnoughMana ) then
-			self.icon:SetVertexColor(oomcolor.r, oomcolor.g, oomcolor.b)
-		else
-			self.icon:SetVertexColor(0.4, 0.4, 0.4);
+		if isUsable then
+			if icon.state then
+				icon:SetVertexColor(1.0, 1.0, 1.0);
+				icon.state = nil
+			end
+		elseif notEnoughMana then
+			if icon.state ~= "mana" then
+				icon:SetVertexColor(oomcolor.r, oomcolor.g, oomcolor.b)
+				icon.state = "mana"
+			end
+		elseif icon.state ~= "n/a" then
+			icon:SetVertexColor(0.4, 0.4, 0.4)
+			icon.state = "n/a"
 		end
-	elseif ( oor == "button" ) then
-		self.icon:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
-		self.hotkey:SetVertexColor(1.0, 1.0, 1.0)
 	end
 end
 
