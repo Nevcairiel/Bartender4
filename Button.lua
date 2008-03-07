@@ -9,6 +9,11 @@ local Button_MT = {__index = Button}
 
 local onLeave, onUpdate, onDragStart, onReceiveDrag
 
+-- upvalues
+local _G = _G
+local IsUsableAction = IsUsableAction
+local IsActionInRange = IsActionInRange
+
 Bartender4.Button = {}
 Bartender4.Button.prototype = Button
 function Bartender4.Button:Create(id, parent)
@@ -103,6 +108,8 @@ function onLeave()
 	GameTooltip:Hide()
 end
 
+local oor, oorcolor, oomcolor
+
 function onUpdate(self, elapsed)
 	if self.flashing == 1 then
 		self.flashtime = self.flashtime - elapsed
@@ -127,7 +134,7 @@ function onUpdate(self, elapsed)
 		if self.rangeTimer <= 0 then
 			local valid = IsActionInRange(self.action)
 			local hotkey = self.hotkey
-			local hkshown = (hotkey:GetText() == RANGE_INDICATOR and self.settings.profile.outofrange == "hotkey")
+			local hkshown = (hotkey:GetText() == RANGE_INDICATOR and oor == "hotkey")
 			if valid and hkshown then 
 				hotkey:Show() 
 			elseif hkshown then
@@ -251,8 +258,6 @@ function Button:UpdateState()
 	end
 end
 
-local oor, oorcolor, oomcolor
-
 function Button:UpdateUsable(force)
 	local isUsable, notEnoughMana = IsUsableAction(self.action)
 	local icon, hotkey = self.icon, self.hotkey
@@ -263,35 +268,21 @@ function Button:UpdateUsable(force)
 	end
 	
 	if oor == "button" and self.outOfRange then
-		if icon.state ~= "range" then
-			icon:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
-			hotkey:SetVertexColor(1.0, 1.0, 1.0)
-			icon.state = "range"
-		end
+		icon:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
+		hotkey:SetVertexColor(1.0, 1.0, 1.0)
 	else
 		if oor == "hotkey" and self.outOfRange then
-			if hotkey.state ~= "range" then
-				hotkey:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
-				hotkey.state = "range"
-			end
-		elseif hotkey.state ~= nil then
+			hotkey:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
+		else
 			hotkey:SetVertexColor(1.0, 1.0, 1.0)
-			hotkey.state = nil
 		end
 		
 		if isUsable then
-			if icon.state then
-				icon:SetVertexColor(1.0, 1.0, 1.0);
-				icon.state = nil
-			end
+			icon:SetVertexColor(1.0, 1.0, 1.0);
 		elseif notEnoughMana then
-			if icon.state ~= "mana" then
-				icon:SetVertexColor(oomcolor.r, oomcolor.g, oomcolor.b)
-				icon.state = "mana"
-			end
-		elseif icon.state ~= "n/a" then
+			icon:SetVertexColor(oomcolor.r, oomcolor.g, oomcolor.b)
+		else
 			icon:SetVertexColor(0.4, 0.4, 0.4)
-			icon.state = "n/a"
 		end
 	end
 end
