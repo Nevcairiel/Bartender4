@@ -24,14 +24,14 @@ do
 	-- retrieves a valid bar object from the modules actionbars table
 	function getBar(id)
 		local bar = module.actionbars[tonumber(id)]
-		assert(bar, "Invalid bar id in options table.")
+		assert(bar, ("Invalid bar id in options table. (%s)"):format(id))
 		return bar
 	end
 	
 	-- calls a function on the bar
 	function callFunc(bar, type, option, ...)
 		local func = type .. (optionMap[option] or option)
-		assert(bar[func], "Invalid get/set function."..func)
+		assert(bar[func], ("Invalid get/set function %s in bar %s."):format(func, bar.id))
 		return bar[func](bar, ...)
 	end
 	
