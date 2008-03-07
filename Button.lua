@@ -45,8 +45,13 @@ function Bartender4.Button:Create(id, parent)
 	--button.normalTexture:SetAllPoints(realNormalTexture)
 	
 	--realNormalTexture:Hide()
+	button:SetNormalTexture("")
+	local oldNT = _G[("%sNormalTexture"):format(name)]
+	oldNT:Hide()
 	
-	button.normalTexture = button:GetNormalTexture() -- _G[("%sNormalTexture"):format(name)]
+	button.normalTexture = button:CreateTexture(("%sBTNormalTexture"):format(name))
+	button.normalTexture:SetAllPoints(oldNT)
+	
 	button.pushedTexture = button:GetPushedTexture()
 	button.highlightTexture = button:GetHighlightTexture()
 	
@@ -177,14 +182,8 @@ function Button:Update()
 		
 		if ( self.showgrid == 0 and not self.parent.config.showgrid ) then
 			self.normalTexture:Hide()
-			if self.overlay then
-				self.overlay:Hide()
-			end
 		else
 			self.normalTexture:Show()
-			if self.overlay then
-				self.overlay:Show()
-			end
 		end
 		
 		self.cooldown:Hide()
@@ -319,31 +318,35 @@ function Button:SetTooltip()
 end
 
 function Button:ShowButton()
-	if self.overlay then return end
-	
 	self.pushedTexture:SetTexture(self.textureCache.pushed)
 	self.highlightTexture:SetTexture(self.textureCache.highlight)
-end
-
-function Button:HideButton()
-	if self.overlay then return end
-	
-	self.pushedTexture:SetTexture("")
-	self.highlightTexture:SetTexture("")
-end
-
-function Button:ShowGrid(override)
-	if not override then self.showgrid = self.showgrid+1 end
-	self.normalTexture:Show()
 	
 	if self.overlay then
 		self.overlay:Show()
 	end
 end
 
-function Button:HideGrid(override)
+function Button:HideButton()
+	self.pushedTexture:SetTexture("")
+	self.highlightTexture:SetTexture("")
+	
+	if self.overlay then
+		self.overlay:Hide()
+	end
+end
+
+function Button:ShowGrid()
+	self.showgrid = self.showgrid + 1
+	self.normalTexture:Show()
+	
+	if self.overlay and not self.overlay.hidegrid then
+		self.overlay:Show()
+	end
+end
+
+function Button:HideGrid()
 	local button = self.frame
-	if not override then self.showgrid = self.showgrid-1 end
+	if self.showgrid > 0 then self.showgrid = self.showgrid - 1 end
 	if ( self.showgrid == 0 and not HasAction(self.action) and not self.parent.config.showgrid ) then
 		self.normalTexture:Hide()
 		if self.overlay then

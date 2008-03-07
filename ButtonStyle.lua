@@ -14,7 +14,7 @@ local styles = {
 
 local styledata = {
 	["default"] = {},
-	["zoom"] = { texCoord = {0.06, 0.94, 0.06, 0.94} },
+	["zoom"] = { texCoord = {0.07, 0.93, 0.07, 0.93} },
 	["dream"] = { 
 		texCoord = {0.08,0.92,0.08,0.92},
 		padding = 3,
@@ -27,6 +27,9 @@ local styledata = {
 			frame:SetBackdropColor(0, 0, 0, 0.6)
 			frame:SetAllPoints(button)
 			frame:SetFrameLevel(button:GetFrameLevel() - 2)
+			frame:Show()
+			frame.type = "dream"
+			frame.hidegrid = true
 			return frame
 		end,
 	},
