@@ -213,7 +213,7 @@ function ActionBar:UpdateStates()
 	end
 	
 	local statedriver = {}
-	if self.id == 1 then
+	if self.id == "1" then
 		self:AddButtonStates(11)
 		table_insert(statedriver, "[bonusbar:5]11")
 	end
@@ -231,7 +231,7 @@ function ActionBar:UpdateStates()
 		end
 		
 		-- second priority the manual changes using the actionbar options
-		if self.id == 1 then
+		if self.id == "1" then
 			for i=2,6 do
 				table_insert(statedriver, fmt("[actionbar:%s]%s", i, i))
 			end
