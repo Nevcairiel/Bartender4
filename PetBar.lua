@@ -70,6 +70,11 @@ function PetBarMod:OnDisable()
 	self:SetupOptions()
 end
 
+local function onEnter(self, ...)
+	self:OnEnter(...)
+	KeyBound:Set(self)
+end
+
 function PetBarMod:CreatePetButton(id)
 	local name = "BT4PetButton" .. id
 	local button = setmetatable(CreateFrame("CheckButton", name, self.bar, "PetActionButtonTemplate"), PetButton_MT)
@@ -81,6 +86,9 @@ function PetBarMod:CreatePetButton(id)
 	
 	button:UnregisterAllEvents()
 	button:SetScript("OnEvent", nil)
+	
+	button.OnEnter = button:GetScript("OnEnter")
+	button:SetScript("OnEnter", onEnter)
 	
 	button.flash = _G[name .. "Flash"]
 	button.cooldown = _G[name .. "Cooldown"]
@@ -237,6 +245,45 @@ end
 
 -- import style function
 PetButtonPrototype.ApplyStyle = Bartender4.ButtonStyle.ApplyStyle
+
+function PetButtonPrototype:GetHotkey()
+	local key = GetBindingKey(format("BONUSACTIONBUTTON%d", self:GetID())) or GetBindingKey("CLICK "..self:GetName()..":LeftButton")
+	return key and KeyBound:ToShortKey(key)
+end
+
+function PetButtonPrototype:GetBindings()
+	local keys, binding = ""
+	
+	binding = format("BONUSACTIONBUTTON%d", self:GetID())
+	for i = 1, select('#', GetBindingKey(binding)) do
+		local hotKey = select(i, GetBindingKey(binding))
+		if keys ~= "" then
+			keys = keys .. ', ' 
+		end
+		keys = keys .. GetBindingText(hotKey,'KEY_')
+	end
+	
+	binding = "CLICK "..self:GetName()..":LeftButton"
+	for i = 1, select('#', GetBindingKey(binding)) do
+		local hotKey = select(i, GetBindingKey(binding))
+		if keys ~= "" then
+			keys = keys .. ', ' 
+		end
+		keys = keys.. GetBindingText(hotKey,'KEY_')
+	end
+
+	return keys
+end
+
+function PetButtonPrototype:SetKey(key)
+	SetBinding(key, format("BONUSACTIONBUTTON%d", self:GetID()))
+end
+
+local actionTmpl = "Pet Button %d (%s)"
+function PetButtonPrototype:GetActionName()
+	local id = self:GetID()
+	return format(actionTmpl, id, (GetPetActionInfo(id)))
+end
 
 function PetButtonPrototype:ClearSetPoint(...)
 	self:ClearAllPoints()

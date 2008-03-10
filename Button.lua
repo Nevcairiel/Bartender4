@@ -11,6 +11,7 @@ local onEnter, onLeave, onUpdate, onDragStart, onReceiveDrag
 
 -- upvalues
 local _G = _G
+local format = string.format
 local IsUsableAction = IsUsableAction
 local IsActionInRange = IsActionInRange
 
@@ -271,28 +272,26 @@ function Button:GetHotkey()
 end
 
 function Button:GetBindings()
-	local keys, binding
+	local keys, binding = ""
 	
 	if self.id <= 12 then
 		binding = format("ACTIONBUTTON%d", self.id)
 		for i = 1, select('#', GetBindingKey(binding)) do
 			local hotKey = select(i, GetBindingKey(binding))
-			if keys then
-				keys = keys .. ', ' .. GetBindingText(hotKey,'KEY_')
-			else
-				keys = GetBindingText(hotKey,'KEY_')
+			if keys ~= "" then
+				keys = keys .. ', ' 
 			end
+			keys = keys .. GetBindingText(hotKey,'KEY_')
 		end
 	end
 	
 	binding = "CLICK "..self:GetName()..":LeftButton"
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
-		if keys then
-			keys = keys .. ', ' .. GetBindingText(hotKey,'KEY_')
-		else
-			keys = GetBindingText(hotKey,'KEY_')
-		end
+			if keys ~= "" then
+				keys = keys .. ', ' 
+			end
+			keys = keys .. GetBindingText(hotKey,'KEY_')
 	end
 
 	return keys
@@ -306,9 +305,9 @@ function Button:SetKey(key)
 	end
 end
 
-local actionTmpl = "BT4 Bar %d Button %d %s"
+local actionTmpl = "BT4 Bar %d Button %d"
 function Button:GetActionName()
-	return format(actionTmpl, self.parent.id, self.rid, HasAction(self.action) and (" (".. (GetActionText(self.action) or "") ..")"))
+	return format(actionTmpl, self.parent.id, self.rid)
 end
 
 function Button:UpdateState()

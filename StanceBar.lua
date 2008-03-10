@@ -12,6 +12,8 @@ local StanceBar = setmetatable({}, {__index = ButtonBar})
 local StanceButtonPrototype = CreateFrame("CheckButton")
 local StanceButton_MT = {__index = StanceButtonPrototype}
 
+local format = string.format
+
 local defaults = { profile = Bartender4:Merge({ 
 	enabled = true,
 	scale = 1.5,
@@ -124,9 +126,54 @@ end
 
 StanceButtonPrototype.ApplyStyle = Bartender4.ButtonStyle.ApplyStyle
 
+function StanceButtonPrototype:GetHotkey()
+	local key = GetBindingKey(format("SHAPESHIFTBUTTON%d", self:GetID())) or GetBindingKey("CLICK "..self:GetName()..":LeftButton")
+	return key and KeyBound:ToShortKey(key)
+end
+
+function StanceButtonPrototype:GetBindings()
+	local keys, binding = ""
+	
+	binding = format("SHAPESHIFTBUTTON%d", self:GetID())
+	for i = 1, select('#', GetBindingKey(binding)) do
+		local hotKey = select(i, GetBindingKey(binding))
+		if keys ~= "" then
+			keys = keys .. ', ' 
+		end
+		keys = keys .. GetBindingText(hotKey,'KEY_')
+	end
+	
+	binding = "CLICK "..self:GetName()..":LeftButton"
+	for i = 1, select('#', GetBindingKey(binding)) do
+		local hotKey = select(i, GetBindingKey(binding))
+		if keys ~= "" then
+			keys = keys .. ', ' 
+		end
+		keys = keys.. GetBindingText(hotKey,'KEY_')
+	end
+
+	return keys
+end
+
+function StanceButtonPrototype:SetKey(key)
+	SetBinding(key, format("SHAPESHIFTBUTTON%d", self:GetID()))
+end
+
+local actionTmpl = "Stance Button %d (%s)"
+function StanceButtonPrototype:GetActionName()
+	local id = self:GetID()
+	return format(actionTmpl, id, select(2, GetShapeshiftFormInfo(id)))
+end
+
+
 function StanceButtonPrototype:ClearSetPoint(...)
 	self:ClearAllPoints()
 	self:SetPoint(...)
+end
+
+local function onEnter(self, ...)
+	self:OnEnter(...)
+	KeyBound:Set(self)
 end
 
 function StanceBarMod:CreateStanceButton(id)
@@ -138,6 +185,10 @@ function StanceBarMod:CreateStanceButton(id)
 	button.normalTexture:SetTexture("")
 	button.checkedTexture = button:GetCheckedTexture()
 	button.checkedTexture:SetTexture("")
+	
+	button.OnEnter = button:GetScript("OnEnter")
+	button:SetScript("OnEnter", onEnter)
+	
 	return button
 end
 
