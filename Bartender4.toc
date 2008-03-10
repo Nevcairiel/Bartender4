@@ -9,6 +9,8 @@
 ## Version: 4.0
 
 embeds.xml
+keyBound\keyBound.xml
+
 locale\locale.xml
 
 ## Core ##

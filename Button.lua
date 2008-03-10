@@ -7,7 +7,7 @@
 local Button = CreateFrame("CheckButton")
 local Button_MT = {__index = Button}
 
-local onLeave, onUpdate, onDragStart, onReceiveDrag
+local onEnter, onLeave, onUpdate, onDragStart, onReceiveDrag
 
 -- upvalues
 local _G = _G
@@ -27,7 +27,7 @@ function Bartender4.Button:Create(id, parent)
 	
 	button:SetScript("OnEvent", button.EventHandler)
 	button:SetScript("OnUpdate", onUpdate)
-	button:SetScript("OnEnter", button.SetTooltip)
+	button:SetScript("OnEnter", onEnter)
 	button:SetScript("OnLeave", onLeave)
 	button:SetScript("OnAttributeChanged", button.UpdateAction)
 	button:SetScript("OnDragStart", onDragStart)
@@ -102,6 +102,11 @@ function onReceiveDrag(button)
 	PlaceAction(button.action)
 	button:UpdateState()
 	button:UpdateFlash()
+end
+
+function onEnter(self)
+	self:SetTooltip()
+	KeyBound:Set(self)
 end
 
 function onLeave()
@@ -246,7 +251,64 @@ function Button:UpdateCount()
 end
 
 function Button:UpdateHotkeys()
-	-- TODO
+	local key = self:GetHotkey() or ""
+	local hotkey = self.hotkey
+	
+	if key == "" or self.settings.profile.HideHotkey or not HasAction(self.action) then
+		hotkey:SetText(RANGE_INDICATOR)
+		hotkey:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -2)
+		hotkey:Hide()
+	else
+		hotkey:SetText(key)
+		hotkey:SetPoint("TOPLEFT", self, "TOPLEFT", -2, -2)
+		hotkey:Show()
+	end
+end
+
+function Button:GetHotkey()
+	local key = ((self.id <= 12) and GetBindingKey(format("ACTIONBUTTON%d", self.id))) or GetBindingKey("CLICK "..self:GetName()..":LeftButton")
+	return key and KeyBound:ToShortKey(key)
+end
+
+function Button:GetBindings()
+	local keys, binding
+	
+	if self.id <= 12 then
+		binding = format("ACTIONBUTTON%d", self.id)
+		for i = 1, select('#', GetBindingKey(binding)) do
+			local hotKey = select(i, GetBindingKey(binding))
+			if keys then
+				keys = keys .. ', ' .. GetBindingText(hotKey,'KEY_')
+			else
+				keys = GetBindingText(hotKey,'KEY_')
+			end
+		end
+	end
+	
+	binding = "CLICK "..self:GetName()..":LeftButton"
+	for i = 1, select('#', GetBindingKey(binding)) do
+		local hotKey = select(i, GetBindingKey(binding))
+		if keys then
+			keys = keys .. ', ' .. GetBindingText(hotKey,'KEY_')
+		else
+			keys = GetBindingText(hotKey,'KEY_')
+		end
+	end
+
+	return keys
+end
+
+function Button:SetKey(key)
+	if self.id <= 12 then
+		SetBinding(key, format("ACTIONBUTTON%d", self.id))
+	else
+		SetBindingClick(key, self:GetName(), 'LeftButton')
+	end
+end
+
+local actionTmpl = "BT4 Bar %d Button %d %s"
+function Button:GetActionName()
+	return format(actionTmpl, self.parent.id, self.rid, HasAction(self.action) and (" (".. (GetActionText(self.action) or "") ..")"))
 end
 
 function Button:UpdateState()
