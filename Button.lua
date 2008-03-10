@@ -73,6 +73,7 @@ function Bartender4.Button:Create(id, parent)
 	button:SetAttribute("useparent-unit", true)
 	button:SetAttribute("useparent-statebutton", true)
 	button:SetAttribute("hidestates", "-1")
+	button:SetAttribute("checkselfcast", true)
 	
 	button:RegisterForDrag("LeftButton", "RightButton")
 	button:RegisterForClicks("AnyUp")
