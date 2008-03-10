@@ -288,10 +288,10 @@ function Button:GetBindings()
 	binding = "CLICK "..self:GetName()..":LeftButton"
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
-			if keys ~= "" then
-				keys = keys .. ', ' 
-			end
-			keys = keys .. GetBindingText(hotKey,'KEY_')
+		if keys ~= "" then
+			keys = keys .. ', ' 
+		end
+		keys = keys .. GetBindingText(hotKey,'KEY_')
 	end
 
 	return keys

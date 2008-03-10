@@ -1,7 +1,7 @@
 --[[ $Id: StanceBar.lua 61678 2008-02-17 01:37:33Z nevcairiel $ ]]
 
 -- register module
-local PetBarMod = Bartender4:NewModule("PetBar")
+local PetBarMod = Bartender4:NewModule("PetBar", "AceEvent-3.0")
 
 -- fetch upvalues
 local ActionBars = Bartender4:GetModule("ActionBars")
@@ -57,6 +57,9 @@ function PetBarMod:OnEnable()
 	
 	self:ApplyConfig()
 	self:SetupOptions()
+	
+	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
+	self:ReassignBindings()
 end
 
 function PetBarMod:OnDisable()
@@ -144,9 +147,22 @@ function PetBarMod:SetupOptions()
 	ActionBars.options.args["Pet"].args = self:IsEnabled() and self.options.table or self.disabledoptions
 end
 
+function PetBarMod:ReassignBindings()
+	if not self.bar or not self.bar.buttons then return end
+	ClearOverrideBindings(self.bar)
+	for i = 1, 10 do
+		local button, real_button = ("BONUSACTIONBUTTON%d"):format(i), ("BT4PetButton%d"):format(i)
+		for k=1, select('#', GetBindingKey(button)) do
+			local key = select(k, GetBindingKey(button))
+			SetOverrideBindingClick(self.bar, false, key, real_button)
+		end
+	end
+end
+
 function PetBarMod:ApplyConfig()
 	if not self:IsEnabled() then return end
 	self.bar:ApplyConfig(self.db.profile)
+	self:ReassignBindings()
 end
 
 function PetButtonPrototype:Update()

@@ -1,7 +1,7 @@
 --[[ $Id$ ]]
 
 -- register module
-local StanceBarMod = Bartender4:NewModule("StanceBar")
+local StanceBarMod = Bartender4:NewModule("StanceBar", "AceEvent-3.0")
 
 -- fetch upvalues
 local ActionBars = Bartender4:GetModule("ActionBars")
@@ -41,6 +41,8 @@ function StanceBarMod:OnEnable()
 	self.bar:RegisterEvent("PLAYER_AURAS_CHANGED")
 	self.bar:RegisterEvent("PLAYER_REGEN_ENABLED")
 	self.bar:Show()
+	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
+	self:ReassignBindings()
 end
 
 function StanceBarMod:OnDisable()
@@ -93,6 +95,18 @@ end
 function StanceBarMod:ApplyConfig()
 	if not self:IsEnabled() then return end
 	self.bar:ApplyConfig(self.db.profile)
+end
+
+function StanceBarMod:ReassignBindings()
+	if not self.bar or not self.bar.buttons then return end
+	ClearOverrideBindings(self.bar)
+	for i = 1, min(#self.bar.buttons, 10) do
+		local button, real_button = ("SHAPESHIFTBUTTON%d"):format(i), ("BT4StanceButton%d"):format(i)
+		for k=1, select('#', GetBindingKey(button)) do
+			local key = select(k, GetBindingKey(button))
+			SetOverrideBindingClick(self.bar, false, key, real_button)
+		end
+	end
 end
 
 function StanceButtonPrototype:Update()
@@ -205,6 +219,8 @@ function StanceBar:UpdateStanceButtons()
 	
 	local num_stances = GetNumShapeshiftForms()
 	
+	local updateBindings = (num_stances > #buttons)
+	
 	for i = (#buttons+1), num_stances do
 		buttons[i] = StanceBarMod:CreateStanceButton(i)
 	end
@@ -221,6 +237,9 @@ function StanceBar:UpdateStanceButtons()
 	self.buttons = buttons
 	
 	self:UpdateButtonLayout()
+	if updateBindings then
+		StanceBarMod:ReassignBindings()
+	end
 end
 
 function StanceBar:OnEvent(event, ...)

@@ -1,6 +1,6 @@
 --[[ $Id$ ]]
 
-local BT4ActionBars = Bartender4:NewModule("ActionBars")
+local BT4ActionBars = Bartender4:NewModule("ActionBars", "AceEvent-3.0")
 
 local ActionBar, ActionBar_MT
 
@@ -79,6 +79,8 @@ function BT4ActionBars:OnEnable()
 		end
 		first = nil
 	end
+	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
+	self:ReassignBindings()
 end
 
 -- Applys the config in the current profile to all active Bars
@@ -220,6 +222,19 @@ function BT4ActionBars:CreateBarOption(id, options)
 		}
 	end
 	self.options.args[id].args = options
+end
+
+function BT4ActionBars:ReassignBindings()
+	if not self.actionbars or not self.actionbars[1] then return end
+	local frame = self.actionbars[1]
+	ClearOverrideBindings(frame)
+	for i = 1,min(#frame.buttons, 12) do
+		local button, real_button = ("ACTIONBUTTON%d"):format(i), ("BT4Button%d"):format(i)
+		for k=1, select('#', GetBindingKey(button)) do
+			local key = select(k, GetBindingKey(button))
+			SetOverrideBindingClick(frame, false, key, real_button)
+		end
+	end
 end
 
 -- Creates a new bar object based on the id and the specified config

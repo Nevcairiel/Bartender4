@@ -145,6 +145,7 @@ function ActionBar:UpdateButtons(numbuttons)
 	
 	local buttons = self.buttons or {}
 	
+	local updateBindings = (numbuttons > #buttons)
 	-- create more buttons if needed
 	for i = (#buttons+1), numbuttons do
 		buttons[i] = Bartender4.Button:Create(i, self)
@@ -166,6 +167,9 @@ function ActionBar:UpdateButtons(numbuttons)
 	
 	self:UpdateButtonLayout()
 	self:SetGrid()
+	if updateBindings and self.id == "1" then
+		module:ReassignBindings()
+	end
 end
 
 
