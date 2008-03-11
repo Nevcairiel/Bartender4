@@ -35,20 +35,37 @@ local styledata = {
 	},
 }
 
-function Bartender4.ButtonStyle.ApplyStyle(button, style)
+local cydb
+
+function Bartender4.ButtonStyle.ApplyStyle(button, styleName)
 	if not button.icon then return end
-	local style = styledata[style]
+	local style = styledata[styleName]
 	
-	if style.overlay and style.FrameFunc and (not button.overlay or button.overlay.type ~= style) then 
-		if button.overlay then button.overlay:Hide() end
-		button.overlay = style.FrameFunc(button)
+	local cy = cydb and cydb.profile[button:GetParent().id]
+	--DevTools_Dump(cydb and cydb.profile)
+	
+	if cy then
+		style = styledata.default
+		if button.overlay and button.overlay.type ~= "cy" then
+			button.overlay:Hide()
+			button.overlay = _G[button:GetName() .. "Overlay"]
+			button.overlay.type = "cy"
+		end
+	end
+	
+	if style.overlay and style.FrameFunc then
+		if not button.overlay or button.overlay.type ~= styleName then 
+			if button.overlay then button.overlay:Hide() end
+			button.overlay = style.FrameFunc(button)
+		end
 	else
-		if button.overlay then 
+		if button.overlay and button.overlay.type ~= "cy" then 
 			button.overlay:Hide()
 			button.overlay = nil
 		end
 	end
-
+	
+	if cy then return end
 	
 	if style.texCoord then
 		button.icon:SetTexCoord(unpack(style.texCoord))
@@ -67,4 +84,9 @@ end
 
 function Bartender4.ButtonStyle:GetStyles()
 	return styles
+end
+
+function Bartender4:cyLoaded()
+	cydb = cyCircled_Bartender4 and cyCircled_Bartender4.db
+	Bartender4.Bar:ForAll("ApplyConfig")
 end
