@@ -192,6 +192,7 @@ end
 
 -- execute a member function on all buttons
 function ButtonBar:ForAll(method, ...)
+	if not self.buttons then return end
 	for _, button in self:GetAll() do
 		local func = button[method]
 		if func then

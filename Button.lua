@@ -84,8 +84,8 @@ function Bartender4.Button:Create(id, parent)
 	
 	button:RegisterButtonEvents()
 	
-	button:Show()
-	button:UpdateAction(true)
+	--button:Show()
+	--button:UpdateAction(true)
 	
 	return button
 end
@@ -390,6 +390,7 @@ function Button:SetTooltip()
 end
 
 function Button:ShowButton()
+	if self.overlay and self.overlay.type == "cy" then return end
 	self.pushedTexture:SetTexture(self.textureCache.pushed)
 	self.highlightTexture:SetTexture(self.textureCache.highlight)
 	
@@ -399,6 +400,7 @@ function Button:ShowButton()
 end
 
 function Button:HideButton()
+	if self.overlay and self.overlay.type == "cy" then return end
 	self.pushedTexture:SetTexture("")
 	self.highlightTexture:SetTexture("")
 	

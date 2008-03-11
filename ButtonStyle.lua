@@ -46,11 +46,11 @@ function Bartender4.ButtonStyle.ApplyStyle(button, styleName)
 	
 	if cy then
 		style = styledata.default
-		if button.overlay and button.overlay.type ~= "cy" then
+		if button.overlay then
 			button.overlay:Hide()
-			button.overlay = _G[button:GetName() .. "Overlay"]
-			button.overlay.type = "cy"
 		end
+		button.overlay = _G[button:GetName() .. "Overlay"]
+		button.overlay.type = "cy"
 	end
 	
 	if style.overlay and style.FrameFunc then
