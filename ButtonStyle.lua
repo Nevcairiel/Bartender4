@@ -80,6 +80,10 @@ function Bartender4.ButtonStyle.ApplyStyle(button, styleName)
 	else
 		button.icon:SetAllPoints(button)
 	end
+	
+	if type(button.Update) == "function" then
+		button:Update()
+	end
 end
 
 function Bartender4.ButtonStyle:GetStyles()
