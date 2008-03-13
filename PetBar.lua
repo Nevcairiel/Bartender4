@@ -112,7 +112,7 @@ end
 
 function PetBarMod:SetupOptions()
 	if not self.options then
-		self.options = Bartender4.ButtonBar.prototype:GetOptionObject()
+		self.optionobject = Bartender4.ButtonBar.prototype:GetOptionObject()
 		
 		local enabled = {
 			type = "toggle",
@@ -123,7 +123,7 @@ function PetBarMod:SetupOptions()
 			set = "ToggleModule",
 			handler = self,
 		}
-		self.options:AddElement("general", "enabled", enabled)
+		self.optionobject:AddElement("general", "enabled", enabled)
 		
 		self.disabledoptions = {
 			general = {
@@ -136,15 +136,17 @@ function PetBarMod:SetupOptions()
 				}
 			}
 		}
-		ActionBars.options.args["Pet"] = {
-				order = 30,
-				type = "group",
-				name = "Pet Bar",
-				desc = "Configure the Pet Bar",
-				childGroups = "tab",
-			}
+		
+		self.options = {
+			order = 30,
+			type = "group",
+			name = "Pet Bar",
+			desc = "Configure the Pet Bar",
+			childGroups = "tab",
+		}
+		Bartender4:RegisterBarOptions("Pet", self.options)
 	end
-	ActionBars.options.args["Pet"].args = self:IsEnabled() and self.options.table or self.disabledoptions
+	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
 end
 
 function PetBarMod:ReassignBindings()

@@ -54,7 +54,7 @@ end
 
 function StanceBarMod:SetupOptions()
 	if not self.options then
-		self.options = Bartender4.ButtonBar.prototype:GetOptionObject()
+		self.optionobject = Bartender4.ButtonBar.prototype:GetOptionObject()
 		
 		local enabled = {
 			type = "toggle",
@@ -65,7 +65,7 @@ function StanceBarMod:SetupOptions()
 			set = "ToggleModule",
 			handler = self,
 		}
-		self.options:AddElement("general", "enabled", enabled)
+		self.optionobject:AddElement("general", "enabled", enabled)
 		
 		self.disabledoptions = {
 			general = {
@@ -79,17 +79,17 @@ function StanceBarMod:SetupOptions()
 			}
 		}
 		
-		ActionBars.options.args["Stance"] = {
-				order = 30,
-				type = "group",
-				name = "Stance Bar",
-				desc = "Configure  the Stance Bar",
-				childGroups = "tab",
-				disabled = function(info) return GetNumShapeshiftForms() == 0 end,
-			}
+		self.options = {
+			order = 30,
+			type = "group",
+			name = "Stance Bar",
+			desc = "Configure  the Stance Bar",
+			childGroups = "tab",
+			disabled = function(info) return GetNumShapeshiftForms() == 0 end,
+		}
+		Bartender4:RegisterBarOptions("Stance", self.options)
 	end
-	
-	ActionBars.options.args["Stance"].args = self:IsEnabled() and self.options.table or self.disabledoptions
+	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
 end
 
 function StanceBarMod:ApplyConfig()
@@ -126,9 +126,9 @@ function StanceButtonPrototype:Update()
 	CooldownFrame_SetTimer(self.cooldown, start, duration, enable)
 	
 	if ( isActive ) then
-		self:SetChecked(1);
+		self:SetChecked(1)
 	else
-		self:SetChecked(0);
+		self:SetChecked(0)
 	end
 	
 	if ( isCastable ) then

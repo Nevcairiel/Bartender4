@@ -70,7 +70,7 @@ end
 
 function MicroMenuMod:SetupOptions()
 	if not self.options then
-		self.options = Bar:GetOptionObject()
+		self.optionobject = Bar:GetOptionObject()
 		local enabled = {
 			type = "toggle",
 			order = 1,
@@ -80,7 +80,7 @@ function MicroMenuMod:SetupOptions()
 			set = "ToggleModule",
 			handler = self,
 		}
-		self.options:AddElement("general", "enabled", enabled)
+		self.optionobject:AddElement("general", "enabled", enabled)
 		
 		self.disabledoptions = {
 			general = {
@@ -93,15 +93,16 @@ function MicroMenuMod:SetupOptions()
 				}
 			}
 		}
-		ActionBars.options.args["MicroMenu"] = {
-				order = 30,
-				type = "group",
-				name = "Micro Menu",
-				desc = "Configure the Micro Menu",
-				childGroups = "tab",
-			}
+		self.options = {
+			order = 30,
+			type = "group",
+			name = "Micro Menu",
+			desc = "Configure the Micro Menu",
+			childGroups = "tab",
+		}
+		Bartender4:RegisterBarOptions("MicroMenu", self.options)
 	end
-	ActionBars.options.args["MicroMenu"].args = self:IsEnabled() and self.options.table or self.disabledoptions
+	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
 end
 
 function MicroMenuBar:ApplyConfig(config)

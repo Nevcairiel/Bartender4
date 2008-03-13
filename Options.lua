@@ -38,6 +38,66 @@ function Bartender4:SetupOptions()
 				get = getFunc,
 				set = setFunc,
 			},
+			bars = {
+				order = 20,
+				type = "group",
+				name = "Bars",
+				args = {
+					range = {
+						order = 1,
+						name = "Out of Range Indicator",
+						desc = "Configure how the Out of Range Indicator should display on the buttons.",
+						type = "select",
+						style = "dropdown",
+						get = function()
+							return Bartender4.db.profile.outofrange
+						end,
+						set = function(info, value) 
+							Bartender4.db.profile.outofrange = value
+							Bartender4.Bar:ForAll("ApplyConfig")
+						end,
+						values = { none = "No Display", button = "Full Button Mode", hotkey = "Hotkey Mode" },
+					},
+					colors = {
+						order = 3,
+						type = "group",
+						guiInline = true,
+						name = "Colors",
+						get = function(info)
+							local color = Bartender4.db.profile.colors[info[#info]]
+							return color.r, color.g, color.b
+						end,
+						set = function(info, r, g, b)
+							local color = Bartender4.db.profile.colors[info[#info]]
+							color.r, color.g, color.b = r, g, b
+							Bartender4.Bar:ForAll("ApplyConfig")
+						end,
+						args = {
+							range = {
+								order = 1,
+								type = "color",
+								name = "Out of Range Indicator",
+								desc = "Specify the Color of the Out of Range Indicator",
+							},
+							mana = {
+								order = 2,
+								type = "color",
+								name = "Out of Mana Indicator",
+								desc = "Specify the Color of the Out of Mana Indicator",
+							},
+						},
+					},
+					tooltip = {
+						order = 2,
+						name = "Button Tooltip",
+						type = "select",
+						desc = "Configure the Button Tooltip.",
+						values = { ["disabled"] = "Disabled", ["nocombat"] = "Disabled in Combat", ["enabled"] = "Enabled" },
+						get = function() return Bartender4.db.profile.tooltip end,
+						set = function(info, value) Bartender4.db.profile.tooltip = value end,
+					},
+				},
+			}
 		},
 	}
 	
@@ -62,6 +122,10 @@ end
 
 function Bartender4:RegisterModuleOptions(key, table)
 	self.options.plugins[key] = { [key] = table }
+end
+
+function Bartender4:RegisterBarOptions(id, table)
+	self.options.args.bars.args[id] = table
 end
 
 local optionParent = {}

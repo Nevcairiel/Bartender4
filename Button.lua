@@ -325,8 +325,8 @@ function Button:UpdateUsable(force)
 	local icon, hotkey = self.icon, self.hotkey
 	if force or not oor then 
 		icon.state, hotkey.state = 1, 1 
-		oor = self.settings.profile.outofrange
-		oorcolor, oomcolor = self.settings.profile.colors.range, self.settings.profile.colors.mana
+		oor = Bartender4.db.profile.outofrange
+		oorcolor, oomcolor = Bartender4.db.profile.colors.range, Bartender4.db.profile.colors.mana
 	end
 	
 	if oor == "button" and self.outOfRange then
