@@ -176,8 +176,10 @@ function ButtonBar:GetStyle()
 end
 
 function ButtonBar:SetStyle(style)
-	self.config.style = style
-	self:ForAll("ApplyStyle", style)
+	if style then
+		self.config.style = style
+	end
+	self:ForAll("ApplyStyle", self.config.style)
 end
 
 

@@ -3,7 +3,7 @@
 ## Title: Bartender4
 ## Author: Nevcairiel
 ## SavedVariables: Bartender4DB
-## OptionalDeps: Ace3, cyCircled
+## OptionalDeps: Ace3
 ## X-Embeds: Ace3
 ## X-Category: Action Bars
 ## Version: 4.0

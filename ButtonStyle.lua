@@ -92,5 +92,5 @@ end
 
 function Bartender4:cyLoaded()
 	cydb = cyCircled_Bartender4 and cyCircled_Bartender4.db
-	Bartender4.Bar:ForAll("ApplyConfig")
+	Bartender4.Bar:ForAll("SetStyle")
 end
