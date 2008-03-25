@@ -225,7 +225,7 @@ function ActionBar:UpdateStates()
 		end
 	end
 	
-	table_insert(statedriver, "0")
+	table_insert(statedriver, tostring(self:GetDefaultState() or 0))
 	
 	RegisterStateDriver(self, "page", table_concat(statedriver, ";"))
 	self:SetAttribute("statemap-page", "$input")
