@@ -77,7 +77,6 @@ local validStanceTable = {
 
 
 local _, playerclass = UnitClass("player")
-local num_shapeshift_forms
 
 local function createOptionGroup(k, id)
 	local tbl = {
@@ -87,8 +86,7 @@ local function createOptionGroup(k, id)
 		get = optGetter,
 		set = optSetter,
 		values = validStanceTable,
-		name = module.DefaultStanceMap[playerclass][k].name or module.DefaultStanceMap[playerclass][k].match or "BUG",
-		hidden = function() return not module.stancemap[k].position end,
+		name = module.DefaultStanceMap[playerclass][k].name,
 	}
 	return tbl
 end
@@ -121,7 +119,7 @@ function module:GetStateOptionsTable()
 			type = "group",
 			inline = true,
 			name = "",
-			hidden = function() return not hasStances end,
+			hidden = function() return not (module.DefaultStanceMap[playerclass]) end,
 			args = {
 				stance_header = {
 					order = 1,
@@ -146,28 +144,25 @@ function module:GetStateOptionsTable()
 	return options
 end
 
-local S = LibStub("AceLocale-3.0"):GetLocale("BT4Stances")
-
 -- specifiy the available stances for each class
 module.DefaultStanceMap = {
 	WARRIOR = {
-		{ id = "battle", match = S["Battle Stance"] },
-		{ id = "def", match = S["Defensive Stance"] },
-		{ id = "berserker", match = S["Berserker Stance"] },
+		{ id = "battle", name = "Battle Stance", index = 1},
+		{ id = "def", name = "Defensive Stance", index = 2 },
+		{ id = "berserker", name = "Berserker Stance", index = 3 },
 	},
 	DRUID = {
-		{ id = "bear", match = S["Bear Form"], match2 = S["Dire Bear Form"] },
-		{ id = "cat", match = S["Cat Form"] },
+		{ id = "bear", name = "Bear Form", index = 3 },
+		{ id = "cat", name = "Cat Form", index = 1 },
 			-- prowl is virtual, no real stance
-		{ id = "prowl", virtual = true, name = "Cat Form (Prowl)", depend = "cat" },
-		{ id = "moonkin", match = S["Moonkin Form"] },
-		{ id = "tree", match = S["Tree of Life"] },
+		{ id = "prowl", name = "Cat Form (Prowl)", index = false},
+		{ id = "moonkintree", name = "Moonkin/Tree of Life", index = 2 },
 	},
 	ROGUE = {
-		{ id = "stealth", match = S["Stealth"] },
+		{ id = "stealth", match = "Stealth", index = 1 },
 	},
 	PRIEST = { --shadowform gets a position override because it doesnt have a real stance position .. and priests dont have other stances =)
-		{ id = "shadowform", virtual = true, name = "Shadowform", position = 1 },
+		{ id = "shadowform", name = "Shadowform", index = 1 },
 	}
 }
 
@@ -176,38 +171,13 @@ function module:CreateStanceMap()
 	local defstancemap = self.DefaultStanceMap[playerclass]
 	if not defstancemap then return end
 	
-	self.stancemap = {}
-	
-	num_shapeshift_forms = GetNumShapeshiftForms()
-	
-	for k,v in pairs(defstancemap) do
-		local entry = { id = v.id, match = v.match, match2 = v.match2, virtual = v.virtual, depend = v.depend, position = v.position }
-		if not v.virtual and type(v.match) == "string" then
-			entry.name = v.match
-		elseif not v.virtual and type(v.match) == "table" then
-			entry.name = v.match[1]
-		else
-			entry.name = v.name
-		end
-		table_insert(self.stancemap, entry)
-	end
-	
-	for i = 1, num_shapeshift_forms do
-		local _, name = GetShapeshiftFormInfo(i)
-		local index = tfind(self.stancemap, name, searchFunc)
-		if index then
-			self.stancemap[index].position = i
-			if self.stancemap[index].id == "cat" then
-				local prowl = tfind(self.stancemap, "prowl", searchFunc)
-				self.stancemap[prowl].position = i
-			end
-		end
-	end
-	hasStances = (num_shapeshift_forms > 0)
+	self.stancemap = defstancemap
 end
 
 function ActionBar:UpdateStates()
-	if not module.stancemap and module.DefaultStanceMap[playerclass] then module:CreateStanceMap() end
+	if not module.stancemap and module.DefaultStanceMap[playerclass] then 
+		module.stancemap = module.DefaultStanceMap[playerclass]
+	end
 	for i=0,10 do
 		self:AddButtonStates(i)
 	end
@@ -238,18 +208,18 @@ function ActionBar:UpdateStates()
 		end
 		
 		-- third priority the stances
-		if not stateconfig.stance[playerclass] then stateconfig.stance[playerclass] = {} end
 		if module.stancemap then
+			if not stateconfig.stance[playerclass] then stateconfig.stance[playerclass] = {} end
 			for i,v in pairs(module.stancemap) do
 				local state = self:GetStanceState(v)
-				if state and state ~= 0 and v.position then
+				if state and state ~= 0 and v.index then
 					if playerclass == "DRUID" and v.id == "cat" then
 						local prowl = self:GetStanceState("prowl")
 						if prowl then
-							table_insert(statedriver, fmt("[stance:%s,stealth:1]%s", v.position, prowl))
+							table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
 						end
 					end
-					table_insert(statedriver, fmt("[stance:%s]%s", v.position, state))
+					table_insert(statedriver, fmt("[bonusbar:%s]%s", v.index, state))
 				end
 			end
 		end
