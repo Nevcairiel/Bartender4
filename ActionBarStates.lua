@@ -159,7 +159,7 @@ module.DefaultStanceMap = {
 		{ id = "moonkintree", name = "Moonkin/Tree of Life", index = 2 },
 	},
 	ROGUE = {
-		{ id = "stealth", match = "Stealth", index = 1 },
+		{ id = "stealth", name = "Stealth", index = 1 },
 	},
 	PRIEST = { --shadowform gets a position override because it doesnt have a real stance position .. and priests dont have other stances =)
 		{ id = "shadowform", name = "Shadowform", index = 1 },
