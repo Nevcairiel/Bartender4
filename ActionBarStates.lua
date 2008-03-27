@@ -145,26 +145,35 @@ function module:GetStateOptionsTable()
 end
 
 -- specifiy the available stances for each class
-module.DefaultStanceMap = {
-	WARRIOR = {
-		{ id = "battle", name = "Battle Stance", index = 1},
-		{ id = "def", name = "Defensive Stance", index = 2 },
-		{ id = "berserker", name = "Berserker Stance", index = 3 },
-	},
-	DRUID = {
-		{ id = "bear", name = "Bear Form", index = 3 },
-		{ id = "cat", name = "Cat Form", index = 1 },
-			-- prowl is virtual, no real stance
-		{ id = "prowl", name = "Cat Form (Prowl)", index = false},
-		{ id = "moonkintree", name = "Moonkin/Tree of Life", index = 2 },
-	},
-	ROGUE = {
-		{ id = "stealth", name = "Stealth", index = 1 },
-	},
-	PRIEST = { --shadowform gets a position override because it doesnt have a real stance position .. and priests dont have other stances =)
-		{ id = "shadowform", name = "Shadowform", index = 1 },
-	}
-}
+module.DefaultStanceMap = setmetatable({}, { __index = function(t,k)
+	local newT = nil
+	if k == "WARRIOR" then
+		newT = {
+			{ id = "battle", name = GetSpellInfo(2457), index = 1},
+			{ id = "def", name = GetSpellInfo(71), index = 2 },
+			{ id = "berserker", name = GetSpellInfo(2458), index = 3 },
+		}
+	elseif k == "DRUID" then
+		newT = {
+			{ id = "bear", name = GetSpellInfo(5487), index = 3 },
+			{ id = "cat", name = GetSpellInfo(768), index = 1 },
+				-- prowl is virtual, no real stance
+			{ id = "prowl", name = ("%s (%s)"):format((GetSpellInfo(768)), (GetSpellInfo(5215))), index = false},
+			{ id = "moonkintree", name = ("%s/%s"):format((GetSpellInfo(24858)), (GetSpellInfo(33891))), index = 2 },
+		}
+	elseif k == "ROGUE" then
+		newT = {
+			{ id = "stealth", name = GetSpellInfo(1784), index = 1 },
+		}
+	elseif k == "PRIEST" then
+		newT = {
+			{ id = "shadowform", name = "Shadowform", index = 1 },
+		}
+	end
+	rawset(t, k, newT)
+	
+	return newT
+end})
 
 local searchFunc = function(h, n) return (h.match == n or h.match2 == n or h.id == n) end
 function module:CreateStanceMap()
