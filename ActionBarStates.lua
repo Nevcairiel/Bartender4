@@ -167,7 +167,7 @@ module.DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 		}
 	elseif k == "PRIEST" then
 		newT = {
-			{ id = "shadowform", name = "Shadowform", index = 1 },
+			{ id = "shadowform", name = GetSpellInfo(15473), index = 1 },
 		}
 	end
 	rawset(t, k, newT)
