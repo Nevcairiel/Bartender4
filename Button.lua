@@ -20,11 +20,41 @@ Bartender4.Button.prototype = Button
 function Bartender4.Button:Create(id, parent)
 	local absid = (parent.id - 1) * 12 + id
 	local name =  ("BT4Button%d"):format(absid)
-	local button = setmetatable(CreateFrame("CheckButton", name, parent, "SecureActionButtonTemplate, ActionButtonTemplate"), Button_MT)
+	local button = setmetatable(CreateFrame("CheckButton", name.."Secure", parent, "SecureActionButtonTemplate"), Button_MT)
 	button.rid = id
 	button.id = absid
 	button.parent = parent
 	button.settings = parent.module.db
+	
+	button:SetFrameStrata("MEDIUM")
+	button:SetWidth(36)
+	button:SetHeight(36)
+	
+	button:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress")
+	button:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
+	button:GetHighlightTexture():SetBlendMode("ADD")
+	button:SetCheckedTexture("Interface\\Buttons\\CheckButtonHilight")
+	button:GetCheckedTexture():SetBlendMode("ADD")
+	button:SetNormalTexture("")
+	
+	button.Proxy = CreateFrame("CheckButton", name, button, "ActionButtonTemplate")
+	button.Proxy:SetFrameStrata("LOW")
+	button.Proxy:ClearAllPoints()
+	button.Proxy:SetAllPoints(button)
+	button.Proxy:SetPushedTexture("")
+	button.Proxy:SetHighlightTexture("")
+	button.Proxy:SetCheckedTexture("")
+	
+	local NormalTexture = button.Proxy:GetNormalTexture()
+	NormalTexture:SetWidth(66)
+	NormalTexture:SetHeight(66)
+	NormalTexture:ClearAllPoints()
+	NormalTexture:SetPoint("CENTER", 0, -1)
+	NormalTexture:Show()
+	
+	button.normalTexture = NormalTexture
+	button.pushedTexture = button:GetPushedTexture()
+	button.highlightTexture = button:GetHighlightTexture()
 	
 	button:SetScript("OnEvent", button.EventHandler)
 	button:SetScript("OnUpdate", onUpdate)
@@ -43,23 +73,6 @@ function Bartender4.Button:Create(id, parent)
 	button.count = _G[("%sCount"):format(name)]
 	button.flash = _G[("%sFlash"):format(name)]
 	button.flash:Hide()
-	
-	--button:SetNormalTexture("")
-	--local realNormalTexture = _G[("%sNormalTexture"):format(name)]
-	
-	--button.normalTexture = button:CreateTexture(("%sBT4NormalTexture"):format(name))
-	--button.normalTexture:SetAllPoints(realNormalTexture)
-	
-	--realNormalTexture:Hide()
-	button:SetNormalTexture("")
-	local oldNT = _G[("%sNormalTexture"):format(name)]
-	oldNT:Hide()
-	
-	button.normalTexture = button:CreateTexture(("%sBTNormalTexture"):format(name))
-	button.normalTexture:SetAllPoints(oldNT)
-	
-	button.pushedTexture = button:GetPushedTexture()
-	button.highlightTexture = button:GetHighlightTexture()
 	
 	button.textureCache = {}
 	button.textureCache.pushed = button.pushedTexture:GetTexture()
@@ -192,15 +205,12 @@ function Button:Update()
 	else
 		self:UnregisterActionEvents()
 		
-		if ( self.showgrid == 0 and not self.parent.config.showgrid ) then
-			self.normalTexture:Hide()
-		else
-			self.normalTexture:Show()
-		end
-		
 		self.cooldown:Hide()
 		
-		self:HideButton()
+		if ( self.showgrid == 0 and not self.parent.config.showgrid ) then
+			self:HideButton()
+		end
+		
 		self:SetScript("OnUpdate", nil)
 	end
 	
@@ -237,8 +247,8 @@ function Button:UpdateIcon()
 		self.icon:Hide()
 		self.cooldown:Hide()
 		self.normalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot")
-		self.hotkey:SetVertexColor(0.6, 0.6, 0.6)
 		self.normalTexture:SetTexCoord(-0.1, 1.1, -0.1, 1.12)
+		self.hotkey:SetVertexColor(0.6, 0.6, 0.6)
 		self.iconTex = nil
 	end
 end
@@ -390,42 +400,30 @@ function Button:SetTooltip()
 end
 
 function Button:ShowButton()
-	if self.overlay and self.overlay.type == "cy" then return end
 	self.pushedTexture:SetTexture(self.textureCache.pushed)
 	self.highlightTexture:SetTexture(self.textureCache.highlight)
 	
-	if self.overlay then
-		self.overlay:Show()
-	end
+	self.Proxy:Show()
 end
 
 function Button:HideButton()
-	if self.overlay and self.overlay.type == "cy" then return end
 	self.pushedTexture:SetTexture("")
 	self.highlightTexture:SetTexture("")
 	
-	if self.overlay then
-		self.overlay:Hide()
-	end
+	self.Proxy:Hide()
 end
 
 function Button:ShowGrid()
 	self.showgrid = self.showgrid + 1
-	self.normalTexture:Show()
 	
-	if self.overlay and not self.overlay.hidegrid then
-		self.overlay:Show()
-	end
+	self:ShowButton()
 end
 
 function Button:HideGrid()
 	local button = self.frame
 	if self.showgrid > 0 then self.showgrid = self.showgrid - 1 end
 	if ( self.showgrid == 0 and not HasAction(self.action) and not self.parent.config.showgrid ) then
-		self.normalTexture:Hide()
-		if self.overlay then
-			self.overlay:Hide()
-		end
+		self:HideButton()
 	end
 end
 

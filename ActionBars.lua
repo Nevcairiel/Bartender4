@@ -190,7 +190,7 @@ function BT4ActionBars:ReassignBindings()
 	local frame = self.actionbars[1]
 	ClearOverrideBindings(frame)
 	for i = 1,min(#frame.buttons, 12) do
-		local button, real_button = ("ACTIONBUTTON%d"):format(i), ("BT4Button%d"):format(i)
+		local button, real_button = ("ACTIONBUTTON%d"):format(i), ("BT4Button%dSecure"):format(i)
 		for k=1, select('#', GetBindingKey(button)) do
 			local key = select(k, GetBindingKey(button))
 			SetOverrideBindingClick(frame, false, key, real_button)

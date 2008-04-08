@@ -20,6 +20,7 @@ local styledata = {
 		padding = 3,
 		overlay = true,
 		FrameFunc = function(button) 
+			button = button.Proxy or button
 			local name = button:GetName().."DreamLayout"
 			local frame = _G[name] or CreateFrame("Frame", name, button)
 			frame:ClearAllPoints()
@@ -46,11 +47,6 @@ function Bartender4.ButtonStyle.ApplyStyle(button, styleName)
 	
 	if cy then
 		style = styledata.default
-		if button.overlay and button.overlay.type ~= "cy" then
-			button.overlay:Hide()
-		end
-		button.overlay = _G[button:GetName() .. "Overlay"]
-		button.overlay.type = "cy"
 	end
 	
 	if style.overlay and style.FrameFunc then
@@ -59,7 +55,7 @@ function Bartender4.ButtonStyle.ApplyStyle(button, styleName)
 			button.overlay = style.FrameFunc(button)
 		end
 	else
-		if button.overlay and button.overlay.type ~= "cy" then 
+		if button.overlay then 
 			button.overlay:Hide()
 			button.overlay = nil
 		end
