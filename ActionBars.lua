@@ -67,6 +67,7 @@ function BT4ActionBars:OnEnable()
 	if first then
 		self.playerclass = select(2, UnitClass("player"))
 		self.actionbars = {}
+		
 		for i=1,10 do
 			local config = self.db.profile.actionbars[i]
 			if config.enabled then
@@ -75,16 +76,20 @@ function BT4ActionBars:OnEnable()
 				self:CreateBarOption(i, self.disabledoptions)
 			end
 		end
+		
 		first = nil
 	end
+	
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
 	self:ReassignBindings()
 end
 
 function BT4ActionBars:SetupOptions()
 	if not self.options then
+		-- empty table to hold the bar options
 		self.options = {}
 		
+		-- template for disabled bars
 		self.disabledoptions = {
 			general = {
 				type = "group",
@@ -103,16 +108,16 @@ function BT4ActionBars:SetupOptions()
 			}
 		}
 		
+		-- iterate over bars and create their option tables
 		for i=1,10 do
 			local config = self.db.profile.actionbars[i]
 			if config.enabled then
-				self:CreateBarOption(i, self:GetOptionsTable())
+				self:CreateBarOption(i)
 			else
 				self:CreateBarOption(i, self.disabledoptions)
 			end
 		end
 	end
-	return self.options
 end
 
 -- Applys the config in the current profile to all active Bars
@@ -159,6 +164,11 @@ end
 
 function BT4ActionBars:CreateBarOption(id, options)
 	if not self.options then return end
+	
+	if not options then 
+		options = self:GetOptionsTable() 
+	end
+	
 	id = tostring(id)
 	if not self.options[id] then
 		self.options[id] = {
@@ -170,6 +180,8 @@ function BT4ActionBars:CreateBarOption(id, options)
 		}
 	end
 	self.options[id].args = options
+	
+	-- register options in the BT GUI
 	Bartender4:RegisterBarOptions(id, self.options[id])
 end
 
@@ -192,7 +204,7 @@ function BT4ActionBars:Create(id, config)
 	local bar = setmetatable(Bartender4.ButtonBar:Create(id, "SecureStateHeaderTemplate", config), ActionBar_MT)
 	bar.module = self
 	
-	self:CreateBarOption(id, self:GetOptionsTable())
+	self:CreateBarOption(id)
 	
 	bar:ApplyConfig()
 	
@@ -220,7 +232,7 @@ function BT4ActionBars:EnableBar(id)
 		self.actionbars[id] = bar
 	else
 		bar.disabled = nil
-		self:CreateBarOption(id, self:GetOptionsTable())
+		self:CreateBarOption(id)
 		bar:ApplyConfig(config)
 	end
 	if not Bartender4.Locked then
