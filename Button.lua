@@ -407,6 +407,9 @@ function Button:ShowButton()
 end
 
 function Button:HideButton()
+	self.textureCache.pushed = self.pushedTexture:GetTexture()
+	self.textureCache.highlight = self.highlightTexture:GetTexture()
+	
 	self.pushedTexture:SetTexture("")
 	self.highlightTexture:SetTexture("")
 	
