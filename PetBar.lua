@@ -20,7 +20,6 @@ local defaults = { profile = Bartender4:Merge({
 function PetBarMod:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("PetBar", defaults)
 	self:SetEnabledState(self.db.profile.enabled)
-	self:SetupOptions()
 end
 
 function PetBarMod:OnEnable()
@@ -56,7 +55,7 @@ function PetBarMod:OnEnable()
 	self.bar:RegisterEvent("PET_BAR_HIDEGRID")
 	
 	self:ApplyConfig()
-	self:SetupOptions()
+	self:ToggleOptions()
 	
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
 	self:ReassignBindings()
@@ -70,7 +69,7 @@ function PetBarMod:OnDisable()
 	
 	self.bar:UnregisterAllEvents()
 	self.bar:Hide()
-	self:SetupOptions()
+	self:ToggleOptions()
 end
 
 local function onEnter(self, ...)
@@ -147,6 +146,12 @@ function PetBarMod:SetupOptions()
 		Bartender4:RegisterBarOptions("Pet", self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
+end
+
+function PetBarMod:ToggleOptions()
+	if self.options then
+		self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
+	end
 end
 
 function PetBarMod:ReassignBindings()

@@ -12,8 +12,11 @@ local abdefaults = {
 		showgrid = false,
 		states = { 
 			enabled = false, 
+			default = 0, 
+			ctrl = 0,
+			alt = 0,
+			shift = 0,
 			stance = { 
-				default = 0, 
 				['**'] = {
 					['*'] = 0,
 				},
@@ -53,9 +56,6 @@ local defaults = {
 function BT4ActionBars:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("ActionBars", defaults)
 	
-	
-	self:SetupOptions()
-	
 	-- fetch the prototype information
 	ActionBar = Bartender4.ActionBar
 	ActionBar_MT = {__index = ActionBar}
@@ -79,6 +79,40 @@ function BT4ActionBars:OnEnable()
 	end
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
 	self:ReassignBindings()
+end
+
+function BT4ActionBars:SetupOptions()
+	if not self.options then
+		self.options = {}
+		
+		self.disabledoptions = {
+			general = {
+				type = "group",
+				name = "General Settings",
+				cmdInline = true,
+				order = 1,
+				args = {
+					enabled = {
+						type = "toggle",
+						name = "Enabled",
+						desc = "Enable/Disable the bar.",
+						set = function(info, v) if v then BT4ActionBars:EnableBar(info[2]) end end,
+						get = function() return false end,
+					}
+				}
+			}
+		}
+		
+		for i=1,10 do
+			local config = self.db.profile.actionbars[i]
+			if config.enabled then
+				self:CreateBarOption(i, self:GetOptionsTable())
+			else
+				self:CreateBarOption(i, self.disabledoptions)
+			end
+		end
+	end
+	return self.options
 end
 
 -- Applys the config in the current profile to all active Bars
@@ -123,29 +157,8 @@ function BT4ActionBars:ForAllButtons(...)
 	self:ForAll("ForAll", ...)
 end
 
-function BT4ActionBars:SetupOptions()
-	self.options = {}
-	
-	self.disabledoptions = {
-		general = {
-			type = "group",
-			name = "General Settings",
-			cmdInline = true,
-			order = 1,
-			args = {
-				enabled = {
-					type = "toggle",
-					name = "Enabled",
-					desc = "Enable/Disable the bar.",
-					set = function(info, v) if v then BT4ActionBars:EnableBar(info[2]) end end,
-					get = function() return false end,
-				}
-			}
-		}
-	}
-end
-
 function BT4ActionBars:CreateBarOption(id, options)
+	if not self.options then return end
 	id = tostring(id)
 	if not self.options[id] then
 		self.options[id] = {

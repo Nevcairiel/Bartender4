@@ -20,7 +20,6 @@ local defaults = { profile = Bartender4:Merge({
 function MicroMenuMod:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("MicroMenu", defaults)
 	self:SetEnabledState(self.db.profile.enabled)
-	self:SetupOptions()
 end
 
 local noopFunc = function() end
@@ -53,7 +52,7 @@ function MicroMenuMod:OnEnable()
 		self.bar:ApplyConfig(self.db.profile)
 	end
 	self.bar.disabled = nil
-	self:SetupOptions()
+	self:ToggleOptions()
 end
 
 function MicroMenuMod:OnDisable()
@@ -61,7 +60,7 @@ function MicroMenuMod:OnDisable()
 	self.bar.disabled = true
 	self.bar:UnregisterAllEvents()
 	self.bar:Hide()
-	self:SetupOptions()
+	self:ToggleOptions()
 end
 
 function MicroMenuMod:ApplyConfig()
@@ -103,6 +102,12 @@ function MicroMenuMod:SetupOptions()
 		Bartender4:RegisterBarOptions("MicroMenu", self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
+end
+
+function MicroMenuMod:ToggleOptions()
+	if self.options then
+		self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
+	end
 end
 
 function MicroMenuBar:ApplyConfig(config)

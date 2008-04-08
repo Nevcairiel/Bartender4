@@ -25,6 +25,7 @@ do
 		stance = "StanceStateOption",
 		enabled = "StateOption",
 		def_state = "DefaultState",
+		states = "StateOption",
 	}
 	-- retrieves a valid bar object from the modules actionbars table
 	function getBar(id)
@@ -83,12 +84,15 @@ local function createOptionGroup(k, id)
 		order = 10 * k,
 		type = "select",
 		arg = "stance",
-		get = optGetter,
-		set = optSetter,
 		values = validStanceTable,
 		name = module.DefaultStanceMap[playerclass][k].name,
 	}
 	return tbl
+end
+
+local disabledFunc = function(info)
+	local bar = module.actionbars[tonumber(info[2])]
+	return not bar:GetStateOption("enabled")
 end
 
 function module:GetStateOptionsTable()
@@ -113,6 +117,50 @@ function module:GetStateOptionsTable()
 			values = validStanceTable,
 			get = optGetter,
 			set = optSetter,
+			disabled = disabledFunc,
+		},
+		modifiers = {
+			order = 30,
+			type = "group",
+			inline = true,
+			name = "",
+			get = optGetter,
+			set = optSetter,
+			disabled = disabledFunc,
+			args = {
+				header = {
+					order = 1,
+					type = "header",
+					name = "Modifier Based Switching",
+				},
+				ctrl = {
+					order = 10,
+					type = "select",
+					name = "CTRL",
+					arg = "states",
+					values = validStanceTable,
+					desc = "Configure actionbar paging when the ctrl key is down.",
+					--width = "half",
+				},
+				alt = {
+					order = 15,
+					type = "select",
+					name = "ALT",
+					arg = "states",
+					values = validStanceTable,
+					desc = "Configure actionbar paging when the alt key is down.",
+					--width = "half",
+				},
+				shift = {
+					order = 20,
+					type = "select",
+					name = "SHIFT",
+					arg = "states",
+					values = validStanceTable,
+					desc = "Configure actionbar paging when the shift key is down.",
+					--width = "half",
+				},
+			},
 		},
 		stances = {
 			order = 20,
@@ -120,6 +168,9 @@ function module:GetStateOptionsTable()
 			inline = true,
 			name = "",
 			hidden = function() return not (module.DefaultStanceMap[playerclass]) end,
+			get = optGetter,
+			set = optSetter,
+			disabled = disabledFunc,
 			args = {
 				stance_header = {
 					order = 1,
@@ -310,10 +361,10 @@ function ActionBar:SetStateOption(key, value)
 end
 
 function ActionBar:GetDefaultState()
-	return self.config.states.stance.default
+	return self.config.states.default
 end
 
 function ActionBar:SetDefaultState(_, value)
-	self.config.states.stance.default = value
+	self.config.states.default = value
 	self:UpdateStates()
 end

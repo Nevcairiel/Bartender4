@@ -22,7 +22,6 @@ local defaults = { profile = Bartender4:Merge({
 function StanceBarMod:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("StanceBar", defaults)
 	self:SetEnabledState(self.db.profile.enabled)
-	self:SetupOptions()
 end
 
 function StanceBarMod:OnEnable()
@@ -33,7 +32,7 @@ function StanceBarMod:OnEnable()
 		self.bar:ApplyConfig()
 		self.bar:SetScript("OnEvent", StanceBar.OnEvent)
 	end
-	self:SetupOptions()
+	self:ToggleOptions()
 	self.bar:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_FORMS")
 	self.bar:RegisterEvent("SPELL_UPDATE_COOLDOWN")
@@ -49,7 +48,7 @@ function StanceBarMod:OnDisable()
 	if not self.bar then return end
 	self.bar:UnregisterAllEvents()
 	self.bar:Hide()
-	self:SetupOptions()
+	self:ToggleOptions()
 end
 
 function StanceBarMod:SetupOptions()
@@ -90,6 +89,12 @@ function StanceBarMod:SetupOptions()
 		Bartender4:RegisterBarOptions("Stance", self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
+end
+
+function StanceBarMod:ToggleOptions()
+	if self.options then
+		self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
+	end
 end
 
 function StanceBarMod:ApplyConfig()
