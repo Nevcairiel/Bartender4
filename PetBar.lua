@@ -305,7 +305,7 @@ end
 local actionTmpl = "Pet Button %d (%s)"
 function PetButtonPrototype:GetActionName()
 	local id = self:GetID()
-	return format(actionTmpl, id, (GetPetActionInfo(id)))
+	return format(actionTmpl, id, (GetPetActionInfo(id)) or "empty")
 end
 
 function PetButtonPrototype:ClearSetPoint(...)
