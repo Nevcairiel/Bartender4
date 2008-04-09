@@ -74,7 +74,7 @@ function Bartender4:Lock()
 end
 
 function Bartender4:Merge(target, source)
-	if not target then target = {} end
+	if type(target) ~= "table" then target = {} end
 	for k,v in pairs(source) do
 		if type(v) == "table" then
 			target[k] = self:Merge(target[k], v)

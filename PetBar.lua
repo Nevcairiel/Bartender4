@@ -12,7 +12,7 @@ local PetBar = setmetatable({}, {__index = ButtonBar})
 local PetButtonPrototype = CreateFrame("CheckButton")
 local PetButton_MT = {__index = PetButtonPrototype}
 
-local defaults = { profile = Bartender4:Merge({ 
+local defaults = { profile = Bartender4:Merge({
 	enabled = true,
 	scale = 1.0,
 }, Bartender4.ButtonBar.defaults) }
@@ -331,8 +331,8 @@ function PetBar:OnEvent(event, arg1)
 	end
 end
 
-function PetBar:ApplyConfig()
-	ButtonBar.ApplyConfig(self)
+function PetBar:ApplyConfig(config)
+	ButtonBar.ApplyConfig(self, config)
 	self:UpdateButtonLayout()
 	self:ForAll("Update")
 	self:ForAll("ApplyStyle", self.config.style)
