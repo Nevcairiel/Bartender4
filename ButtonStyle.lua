@@ -1,6 +1,0 @@
---[[
-	Button Style Template
-]]
-
---[[ $Id$ ]]
-

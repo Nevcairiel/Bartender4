@@ -18,7 +18,6 @@ Bartender4.lua
 Options.lua
 
 ## Prototypes ##
-ButtonStyle.lua
 Bar.lua
 ButtonBar.lua
 Button.lua
