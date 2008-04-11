@@ -14,6 +14,8 @@ local StanceButton_MT = {__index = StanceButtonPrototype}
 
 local format = string.format
 
+local LBF = LibStub("LibButtonFacade", true)
+
 local defaults = { profile = Bartender4:Merge({ 
 	enabled = true,
 	scale = 1.5,
@@ -143,8 +145,6 @@ function StanceButtonPrototype:Update()
 	end
 end
 
-StanceButtonPrototype.ApplyStyle = Bartender4.ButtonStyle.ApplyStyle
-
 function StanceButtonPrototype:GetHotkey()
 	local key = GetBindingKey(format("SHAPESHIFTBUTTON%d", self:GetID())) or GetBindingKey("CLICK "..self:GetName()..":LeftButton")
 	return key and KeyBound:ToShortKey(key)
@@ -207,6 +207,14 @@ function StanceBarMod:CreateStanceButton(id)
 	
 	button.OnEnter = button:GetScript("OnEnter")
 	button:SetScript("OnEnter", onEnter)
+	
+	if LBF then
+		local group = self.bar.LBFGroup
+		button.LBFButtonData = {
+			Button = button
+		}
+		group:AddButton(button, button.LBFButtonData)
+	end
 	
 	return button
 end

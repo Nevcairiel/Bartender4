@@ -15,6 +15,8 @@ local format = string.format
 local IsUsableAction = IsUsableAction
 local IsActionInRange = IsActionInRange
 
+local LBF = LibStub("LibButtonFacade", true)
+
 Bartender4.Button = {}
 Bartender4.Button.prototype = Button
 function Bartender4.Button:Create(id, parent)
@@ -100,6 +102,17 @@ function Bartender4.Button:Create(id, parent)
 	--button:Show()
 	--button:UpdateAction(true)
 	
+	if LBF and parent.LBFGroup then
+		local group = parent.LBFGroup
+		button.LBFButtonData = {
+			Button = button.Proxy,
+			Highlight = button:GetHighlightTexture(),
+			Pushed = button:GetPushedTexture(),
+			Checked = button:GetCheckedTexture(),
+		}
+		group:AddButton(button.Proxy, button.LBFButtonData)
+	end
+	
 	return button
 end
 
@@ -166,8 +179,6 @@ function onUpdate(self, elapsed)
 		end
 	end
 end
-
-Button.ApplyStyle = Bartender4.ButtonStyle.ApplyStyle
 
 function Button:SetStateAction(state, action)
 	for i=1,2 do

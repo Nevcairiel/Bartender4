@@ -9,15 +9,20 @@ local ButtonBar_MT = {__index = ButtonBar}
 local defaults = Bartender4:Merge({
 	padding = 2,
 	rows = 1,
-	style = "dream",
 }, Bartender4.Bar.defaults)
 
 Bartender4.ButtonBar = {}
 Bartender4.ButtonBar.prototype = ButtonBar
 Bartender4.ButtonBar.defaults = defaults
 
+local LBF = LibStub("LibButtonFacade", true)
+
 function Bartender4.ButtonBar:Create(id, template, config)
 	local bar = setmetatable(Bartender4.Bar:Create(id, template, config), ButtonBar_MT)
+	
+	if LBF then
+		bar.LBFGroup = LBF:Group("Bartender4", tostring(id))
+	end
 	
 	return bar
 end
@@ -35,7 +40,6 @@ do
 	optionMap = {
 		rows = "Rows",
 		padding = "Padding",
-		style = "Style",
 	}
 	
 	-- retrieves a valid bar object from the barregistry table
@@ -77,15 +81,6 @@ function ButtonBar:GetOptionObject()
 			name = "Padding",
 			desc = "Configure the padding of the buttons.",
 			min = -10, max = 20, step = 1,
-			set = optSetter,
-			get = optGetter,
-		},
-		style = {
-			order = 59,
-			name = "Style",
-			type = "select",
-			desc = "Button Style",
-			values = Bartender4.ButtonStyle:GetStyles(),
 			set = optSetter,
 			get = optGetter,
 		},
@@ -170,18 +165,6 @@ function ButtonBar:UpdateButtonLayout()
 		end
 	end
 end
-
-function ButtonBar:GetStyle()
-	return self.config.style
-end
-
-function ButtonBar:SetStyle(style)
-	if style then
-		self.config.style = style
-	end
-	self:ForAll("ApplyStyle", self.config.style)
-end
-
 
 --[[===================================================================================
 	Utility function

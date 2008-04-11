@@ -266,9 +266,6 @@ function PetButtonPrototype:UpdateCooldown()
 	CooldownFrame_SetTimer(self.cooldown, start, duration, enable)
 end
 
--- import style function
-PetButtonPrototype.ApplyStyle = Bartender4.ButtonStyle.ApplyStyle
-
 function PetButtonPrototype:GetHotkey()
 	local key = GetBindingKey(format("BONUSACTIONBUTTON%d", self:GetID())) or GetBindingKey("CLICK "..self:GetName()..":LeftButton")
 	return key and KeyBound:ToShortKey(key)

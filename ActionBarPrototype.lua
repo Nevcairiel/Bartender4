@@ -153,7 +153,6 @@ function ActionBar:UpdateButtons(numbuttons)
 	-- show active buttons
 	for i = 1, numbuttons do
 		buttons[i]:Show()
-		buttons[i]:ApplyStyle(self.config.style)
 		buttons[i]:UpdateAction(true)
 	end
 	

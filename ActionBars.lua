@@ -61,6 +61,9 @@ function BT4ActionBars:OnInitialize()
 	ActionBar_MT = {__index = ActionBar}
 end
 
+
+local LBF = LibStub("LibButtonFacade", true)
+
 -- setup the 10 actionbars
 local first = true
 function BT4ActionBars:OnEnable()
@@ -75,6 +78,10 @@ function BT4ActionBars:OnEnable()
 			else
 				self:CreateBarOption(i, self.disabledoptions)
 			end
+		end
+		
+		if LBF then
+			LBF:RegisterSkinCallback("Bartender4", self.UpdateSkin, self)
 		end
 		
 		first = nil
@@ -129,6 +136,13 @@ function BT4ActionBars:ApplyConfig()
 		else
 			self:DisableBar(i)
 		end
+	end
+end
+
+function BT4ActionBars:UpdateSkin(SkinID, Gloss, Backdrop, Group, Button)
+	local id = tonumber(Group)
+	if id and self.actionbars[id] then
+		self.actionbars[id]:ForAll("Update")
 	end
 end
 

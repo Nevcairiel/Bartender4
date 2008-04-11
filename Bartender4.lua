@@ -25,11 +25,10 @@ function Bartender4:OnInitialize()
 	MainMenuBar:Hide()
 end
 
-function Bartender4:OnEnable()
-	if IsAddOnLoaded("cyCircled") then
-		self:SecureHook(cyCircled, "LoadPlugins", "cyLoaded")
-	end
+--[[ function Bartender4:OnEnable()
+	--
 end
+--]]
 
 function Bartender4:RegisterDefaultsKey(key, subdefaults)
 	defaults.profile[key] = subdefaults
