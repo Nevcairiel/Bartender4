@@ -13,6 +13,7 @@ local defaults = Bartender4:Merge({
 		ID = "DreamLayout",
 		Backdrop = true,
 		Gloss = false,
+		Zoom = false,
 	},
 }, Bartender4.Bar.defaults)
 
@@ -58,6 +59,7 @@ do
 	optionMap = {
 		rows = "Rows",
 		padding = "Padding",
+		zoom = "Zoom",
 	}
 	
 	-- retrieves a valid bar object from the barregistry table
@@ -101,6 +103,15 @@ function ButtonBar:GetOptionObject()
 			min = -10, max = 20, step = 1,
 			set = optSetter,
 			get = optGetter,
+		},
+		zoom = {
+			order = 59,
+			name = "Zoom",
+			type = "toggle",
+			desc = "Toggle Button Zoom\nFor more style options you need to install ButtonFacade",
+			get = optGetter,
+			set = optSetter,
+			hidden = function() return LBF and true or false end,
 		},
 		rows = {
 			order = 70,
@@ -150,6 +161,15 @@ function ButtonBar:SetRows(rows)
 	self:UpdateButtonLayout()
 end
 
+function ButtonBar:GetZoom()
+	return self.config.skin.Zoom
+end
+
+function ButtonBar:SetZoom(zoom)
+	self.config.skin.Zoom = zoom
+	self:UpdateButtonLayout()
+end
+
 local math_floor = math.floor
 -- align the buttons and correct the size of the bar overlay frame
 ButtonBar.button_width = 36
@@ -180,6 +200,17 @@ function ButtonBar:UpdateButtonLayout()
 		-- align to the previous button
 		else
 			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", pad, 0)
+		end
+	end
+	
+	if not LBF then
+		for i = 1, #buttons do
+			local button = buttons[i]
+			if button.icon and self.config.skin.Zoom then
+				button.icon:SetTexCoord(0.07,0.93,0.07,0.93)
+			elseif button.icon then
+				button.icon:SetTexCoord(0,1,0,1)
+			end
 		end
 	end
 end
