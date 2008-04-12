@@ -9,6 +9,11 @@ local ButtonBar_MT = {__index = ButtonBar}
 local defaults = Bartender4:Merge({
 	padding = 2,
 	rows = 1,
+	skin = {
+		ID = "DreamLayout",
+		Backdrop = true,
+		Gloss = false,
+	},
 }, Bartender4.Bar.defaults)
 
 Bartender4.ButtonBar = {}
@@ -22,9 +27,22 @@ function Bartender4.ButtonBar:Create(id, template, config)
 	
 	if LBF then
 		bar.LBFGroup = LBF:Group("Bartender4", tostring(id))
+		bar.LBFGroup.SkinID = config.skin.ID or "Blizzard"
+		bar.LBFGroup.Backdrop = config.skin.Backdrop
+		bar.LBFGroup.Gloss = config.skin.Gloss
+		
+		LBF:RegisterSkinCallback("Bartender4", self.SkinChanged, self)
 	end
 	
 	return bar
+end
+
+local barregistry = Bartender4.Bar.barregistry
+function Bartender4.ButtonBar:SkinChanged(SkinID, Gloss, Backdrop, Group, Button)
+	local bar = barregistry[tostring(Group)]
+	if not bar then return end
+	
+	bar:SkinChanged(SkinID, Gloss, Backdrop, Button)
 end
 
 --[[===================================================================================
@@ -164,6 +182,12 @@ function ButtonBar:UpdateButtonLayout()
 			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", pad, 0)
 		end
 	end
+end
+
+function ButtonBar:SkinChanged(SkinID, Gloss, Backdrop, Button)
+	self.config.skin.ID = SkinID
+	self.config.skin.Gloss = Gloss
+	self.config.skin.Backdrop = Backdrop
 end
 
 --[[===================================================================================

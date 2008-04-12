@@ -171,6 +171,11 @@ function ActionBar:UpdateButtons(numbuttons)
 	end
 end
 
+function ActionBar:SkinChanged(...)
+	ButtonBar.SkinChanged(self, ...)
+	self:ForAll("Update")
+end
+
 
 --[[===================================================================================
 	ActionBar Config Interface

@@ -46,6 +46,7 @@ function Bartender4.Button:Create(id, parent)
 	button.Proxy:SetPushedTexture("")
 	button.Proxy:SetHighlightTexture("")
 	button.Proxy:SetCheckedTexture("")
+	button.Proxy:Show()
 	
 	local NormalTexture = button.Proxy:GetNormalTexture()
 	NormalTexture:SetWidth(66)
@@ -411,6 +412,7 @@ function Button:SetTooltip()
 end
 
 function Button:ShowButton()
+	if self.Proxy:IsShown() then return end
 	self.pushedTexture:SetTexture(self.textureCache.pushed)
 	self.highlightTexture:SetTexture(self.textureCache.highlight)
 	

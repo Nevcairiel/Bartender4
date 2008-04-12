@@ -80,10 +80,6 @@ function BT4ActionBars:OnEnable()
 			end
 		end
 		
-		if LBF then
-			LBF:RegisterSkinCallback("Bartender4", self.UpdateSkin, self)
-		end
-		
 		first = nil
 	end
 	
@@ -136,13 +132,6 @@ function BT4ActionBars:ApplyConfig()
 		else
 			self:DisableBar(i)
 		end
-	end
-end
-
-function BT4ActionBars:UpdateSkin(SkinID, Gloss, Backdrop, Group, Button)
-	local id = tonumber(Group)
-	if id and self.actionbars[id] then
-		self.actionbars[id]:ForAll("Update")
 	end
 end
 
