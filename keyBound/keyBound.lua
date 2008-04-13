@@ -32,12 +32,16 @@ function KeyBound:OnEnable()
 			bgFile='Interface\\DialogFrame\\UI-DialogBox-Background' ,
 			edgeFile='Interface\\DialogFrame\\UI-DialogBox-Border',
 			tile = true,
-			insets = {11, 12, 12, 11},
+			insets = {left = 11, right = 12, top = 12, bottom = 11},
 			tileSize = 32,
 			edgeSize = 32,
 		}
 		f:SetPoint('TOP', 0, -24)
 		f:Hide()
+		
+		local tr = f:CreateTitleRegion()
+		tr:SetAllPoints(f)
+		f:SetClampedToScreen(true)
 
 		local text = f:CreateFontString('ARTWORK')
 		text:SetFontObject('GameFontHighlight')
