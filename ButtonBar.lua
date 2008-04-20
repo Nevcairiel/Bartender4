@@ -12,7 +12,7 @@ local defaults = Bartender4:Merge({
 	skin = {
 		ID = "DreamLayout",
 		Backdrop = true,
-		Gloss = false,
+		Gloss = 0,
 		Zoom = false,
 	},
 }, Bartender4.Bar.defaults)
