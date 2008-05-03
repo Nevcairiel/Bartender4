@@ -26,6 +26,8 @@ do
 		enabled = "StateOption",
 		def_state = "DefaultState",
 		states = "StateOption",
+		actionbar = "StateOption",
+		possess = "StateOption",
 	}
 	-- retrieves a valid bar object from the modules actionbars table
 	function getBar(id)
@@ -102,6 +104,27 @@ function module:GetStateOptionsTable()
 			type = "toggle",
 			name = "Enabled",
 			desc = "Enable State-based Button Swaping",
+			get = optGetter,
+			set = optSetter,
+		},
+		sep1 = {
+			order = 2,
+			type = "description",
+			name = "",
+		},
+		actionbar = {
+			order = 5,
+			type = "toggle",
+			name = "ActionBar Switching",
+			desc = "Enable Bar Switching based on the actionbar controls provided by the game.",
+			get = optGetter,
+			set = optSetter,
+		},
+		possess = {
+			order = 5,
+			type = "toggle",
+			name = "Possess Bar",
+			desc = "Switch this bar to the Possess Bar when possessing a npc (eg. Mind Control)",
 			get = optGetter,
 			set = optSetter,
 		},
@@ -243,7 +266,7 @@ function ActionBar:UpdateStates()
 	end
 	
 	local statedriver = {}
-	if self.id == "1" then
+	if self:GetStateOption("possess") then
 		self:AddButtonStates(11)
 		table_insert(statedriver, "[bonusbar:5]11")
 	end
@@ -261,7 +284,7 @@ function ActionBar:UpdateStates()
 		end
 		
 		-- second priority the manual changes using the actionbar options
-		if self.id == "1" then
+		if self:GetStateOption("actionbar") then
 			for i=2,6 do
 				table_insert(statedriver, fmt("[actionbar:%s]%s", i, i))
 			end

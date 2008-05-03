@@ -1,0 +1,8 @@
+Bartender4 TODO List
+
+- Config Settings for self-cast behaviour
+- Right-click self-cast
+- Bag Bar
+- XP/Reputation Bar
+- Alignment Menu
+- Localization

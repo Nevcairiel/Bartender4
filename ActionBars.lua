@@ -12,6 +12,8 @@ local abdefaults = {
 		showgrid = false,
 		states = { 
 			enabled = false, 
+			possess = false,
+			actionbar = false,
 			default = 0, 
 			ctrl = 0,
 			alt = 0,
@@ -26,6 +28,8 @@ local abdefaults = {
 	[1] = {
 		states = {
 			enabled = true,
+			possess = true,
+			actionbar = true,
 			stance = {
 				DRUID = { bear = 9, cat = 7, prowl = 8 },
 				WARRIOR = { battle = 7, def = 8, berserker = 9 },

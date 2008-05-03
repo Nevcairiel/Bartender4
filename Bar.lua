@@ -204,7 +204,13 @@ function Bar:GetOptionObject()
 			cmdInline = true,
 			name = "Alignment",
 			order = 10,
-			args = {},
+			args = {
+				info = {
+					order = 1,
+					type = "description",
+					name = "The Alignment menu is still on the TODO.\n\nAs a quick preview of whats planned:\n\n\t- Absolute and relative Bar Positioning\n\t- Bars \"snapping\" together and building clusters",
+				},
+			},
 		}
 	}
 	return Bartender4:NewOptionObject(otbl)
