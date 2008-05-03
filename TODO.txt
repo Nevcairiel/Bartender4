@@ -6,4 +6,6 @@ Bartender4 TODO List
 - Alignment Menu
 - Options to control the removal of the Blizzard Artwork Bottom Bar
 - Bar Fadeout until mouseover (Do i really have to? That features is so ugly :P)
+- Add Skin Configuration Options (ButtonFacade) into the BT4 config
+- Add options to hide certain elements of the buttons (keybinding, macro text, etc)
 - Localization
