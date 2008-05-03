@@ -12,6 +12,8 @@ local PetBar = setmetatable({}, {__index = ButtonBar})
 local PetButtonPrototype = CreateFrame("CheckButton")
 local PetButton_MT = {__index = PetButtonPrototype}
 
+local LBF = LibStub("LibButtonFacade", true)
+
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
 	scale = 1.0,
@@ -98,7 +100,13 @@ function PetBarMod:CreatePetButton(id)
 	button.autocastable = _G[name .. "AutoCastable"]
 	button.autocast = _G[name .. "AutoCast"]
 	
-	button.normalTexture = button:GetNormalTexture()
+	button:SetNormalTexture("")
+	local oldNT = button:GetNormalTexture()
+	oldNT:Hide()
+	
+	button.normalTexture = button:CreateTexture(("%sBTNT"):format(name))
+	button.normalTexture:SetAllPoints(oldNT)
+	
 	button.pushedTexture = button:GetPushedTexture()
 	button.highlightTexture = button:GetHighlightTexture()
 	
@@ -106,6 +114,14 @@ function PetBarMod:CreatePetButton(id)
 	button.textureCache.pushed = button.pushedTexture:GetTexture()
 	button.textureCache.highlight = button.highlightTexture:GetTexture()
 	
+	if LBF then
+		local group = self.bar.LBFGroup
+		button.LBFButtonData = {
+			Button = button,
+			Normal = button.normalTexture,
+		}
+		group:AddButton(button, button.LBFButtonData)
+	end
 	return button
 end
 
@@ -227,14 +243,13 @@ function PetButtonPrototype:Update()
 end
 
 function PetButtonPrototype:ShowButton()
-	if self.overlay then return end
-	
 	self.pushedTexture:SetTexture(self.textureCache.pushed)
 	self.highlightTexture:SetTexture(self.textureCache.highlight)
 end
 
 function PetButtonPrototype:HideButton()
-	if self.overlay then return end
+	self.textureCache.pushed = self.pushedTexture:GetTexture()
+	self.textureCache.highlight = self.highlightTexture:GetTexture()
 	
 	self.pushedTexture:SetTexture("")
 	self.highlightTexture:SetTexture("")
@@ -243,21 +258,12 @@ end
 function PetButtonPrototype:ShowGrid()
 	self.showgrid = self.showgrid + 1
 	self.normalTexture:Show()
-	
-	if self.overlay then
-		self.overlay:Show()
-	end
 end
 
 function PetButtonPrototype:HideGrid()
-	if self.showgrid > 0 then
-		self.showgrid = self.showgrid - 1
-	end
+	if self.showgrid > 0 then self.showgrid = self.showgrid - 1 end
 	if self.showgrid == 0  and not (GetPetActionInfo(self.id)) and not PetBarMod.db.profile.showgrid then
 		self.normalTexture:Hide()
-		if self.overlay then
-			self.overlay:Hide()
-		end
 	end
 end
 
@@ -267,14 +273,14 @@ function PetButtonPrototype:UpdateCooldown()
 end
 
 function PetButtonPrototype:GetHotkey()
-	local key = GetBindingKey(format("BONUSACTIONBUTTON%d", self:GetID())) or GetBindingKey("CLICK "..self:GetName()..":LeftButton")
+	local key = GetBindingKey(format("BONUSACTIONBUTTON%d", self.id)) or GetBindingKey("CLICK "..self:GetName()..":LeftButton")
 	return key and KeyBound:ToShortKey(key)
 end
 
 function PetButtonPrototype:GetBindings()
 	local keys, binding = ""
 	
-	binding = format("BONUSACTIONBUTTON%d", self:GetID())
+	binding = format("BONUSACTIONBUTTON%d", self.id)
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
 		if keys ~= "" then
@@ -296,12 +302,12 @@ function PetButtonPrototype:GetBindings()
 end
 
 function PetButtonPrototype:SetKey(key)
-	SetBinding(key, format("BONUSACTIONBUTTON%d", self:GetID()))
+	SetBinding(key, format("BONUSACTIONBUTTON%d", self.id))
 end
 
 local actionTmpl = "Pet Button %d (%s)"
 function PetButtonPrototype:GetActionName()
-	local id = self:GetID()
+	local id = self.id
 	return format(actionTmpl, id, (GetPetActionInfo(id)) or "empty")
 end
 

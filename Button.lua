@@ -435,7 +435,6 @@ function Button:ShowGrid()
 end
 
 function Button:HideGrid()
-	local button = self.frame
 	if self.showgrid > 0 then self.showgrid = self.showgrid - 1 end
 	if ( self.showgrid == 0 and not HasAction(self.action) and not self.parent.config.showgrid ) then
 		self:HideButton()
