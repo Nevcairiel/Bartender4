@@ -4,4 +4,6 @@ Bartender4 TODO List
 - Bag Bar
 - XP/Reputation Bar
 - Alignment Menu
+- Options to control the removal of the Blizzard Artwork Bottom Bar
+- Bar Fadeout until mouseover (Do i really have to? That features is so ugly :P)
 - Localization
