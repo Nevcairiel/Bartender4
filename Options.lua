@@ -44,8 +44,30 @@ local function getOptions()
 					type = "group",
 					name = "Bars",
 					args = {
-						range = {
+						selfcastmodifier = {
 							order = 1,
+							type = "toggle",
+							name = "Self-Cast by modifier",
+							desc = "Toggle the use of the modifier-based self-cast functionality.",
+							get = getFunc,
+							set = function(info, value)
+								Bartender4.db.profile.selfcastmodifier = value
+								Bartender4.Bar:ForAll("UpdateSelfCast", true)
+							end,
+						},
+						selfcastrightclick = {
+							order = 2,
+							type = "toggle",
+							name = "Right-click Self-Cast",
+							desc = "Toggle the use of the right-click self-cast functionality.",
+							get = getFunc,
+							set = function(info, value)
+								Bartender4.db.profile.selfcastrightclick = value
+								Bartender4.Bar:ForAll("UpdateSelfCast")
+							end,
+						},
+						range = {
+							order = 10,
 							name = "Out of Range Indicator",
 							desc = "Configure how the Out of Range Indicator should display on the buttons.",
 							type = "select",
@@ -60,7 +82,7 @@ local function getOptions()
 							values = { none = "No Display", button = "Full Button Mode", hotkey = "Hotkey Mode" },
 						},
 						colors = {
-							order = 3,
+							order = 13,
 							type = "group",
 							guiInline = true,
 							name = "Colors",
@@ -89,7 +111,7 @@ local function getOptions()
 							},
 						},
 						tooltip = {
-							order = 2,
+							order = 20,
 							name = "Button Tooltip",
 							type = "select",
 							desc = "Configure the Button Tooltip.",

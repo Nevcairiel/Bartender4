@@ -89,7 +89,7 @@ function Bartender4.Button:Create(id, parent)
 	button:SetAttribute("useparent-unit", true)
 	button:SetAttribute("useparent-statebutton", true)
 	button:SetAttribute("hidestates", "-1")
-	button:SetAttribute("checkselfcast", true)
+	--button:SetAttribute("checkselfcast", true)
 	
 	button:RegisterForDrag("LeftButton", "RightButton")
 	button:RegisterForClicks("AnyUp")
@@ -182,9 +182,8 @@ function onUpdate(self, elapsed)
 end
 
 function Button:SetStateAction(state, action)
-	for i=1,2 do
-		self:SetAttribute(("*action-S%d%d"):format(state, i), action)
-	end
+	self:SetAttribute(("*action-S%d"):format(state), action)
+	self:SetAttribute(("*action-S%dRight"):format(state), action)
 end
 
 function Button:CalculateAction()

@@ -131,6 +131,7 @@ function ActionBar:ApplyConfig(config)
 	if not config.position then initialPosition(self) end
 	
 	self:UpdateButtons()
+	self:UpdateSelfCast(true)
 	self:UpdateStates()
 end
 
@@ -212,5 +213,12 @@ function ActionBar:SetGrid(state)
 		self:ForAll("ShowGrid", true)
 	else
 		self:ForAll("HideGrid", true)
+	end
+end
+
+function ActionBar:UpdateSelfCast(nostates)
+	self:ForAll("SetAttribute", "checkselfcast", Bartender4.db.profile.selfcastmodifier and true or nil)
+	if not nostates then
+		self:UpdateStates()
 	end
 end

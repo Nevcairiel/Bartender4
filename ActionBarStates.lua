@@ -258,6 +258,7 @@ function module:CreateStanceMap()
 end
 
 function ActionBar:UpdateStates()
+	self.statebutton = {}
 	if not module.stancemap and module.DefaultStanceMap[playerclass] then 
 		module.stancemap = module.DefaultStanceMap[playerclass]
 	end
@@ -361,14 +362,14 @@ function ActionBar:AddRightClickState(state)
 	local scrc = Bartender4.db.profile.selfcastrightclick
 	local target = scrc and "player" or nil
 	
-	self:SetAttribute("unit-S" .. state .. "2", target)
+	self:SetAttribute("unit-S" .. state .. "Right", target)
 end
 
 function ActionBar:ApplyStateButton()
 	local states1, states2 = {}, {}
 	for _,v in pairs(self.statebutton) do
-		table_insert(states1, fmt("%s:S%s1;", v, v))
-		table_insert(states2, fmt("%s:S%s2;", v, v))
+		table_insert(states1, fmt("%s:S%s;", v, v))
+		table_insert(states2, fmt("%s:S%sRight;", v, v))
 	end
 	self:SetAttribute("statebutton", table_concat(states1, ""))
 	self:SetAttribute("statebutton2", table_concat(states2, ""))

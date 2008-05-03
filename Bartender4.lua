@@ -8,6 +8,8 @@ local defaults = {
 		buttonlock = false,
 		outofrange = "button",
 		colors = { range = { r = 0.8, g = 0.1, b = 0.1 }, mana = { r = 0.5, g = 0.5, b = 1.0 } },
+		selfcastmodifier = true,
+		selfcastrightclick = false,
 	}
 }
 

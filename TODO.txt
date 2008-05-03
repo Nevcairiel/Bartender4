@@ -1,7 +1,6 @@
 Bartender4 TODO List
 
-- Config Settings for self-cast behaviour
-- Right-click self-cast
+- Option to change self-cast modifier assignment (Blizzard kinda removed that <.<)
 - Bag Bar
 - XP/Reputation Bar
 - Alignment Menu
