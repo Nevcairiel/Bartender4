@@ -416,6 +416,7 @@ function Button:ShowButton()
 end
 
 function Button:HideButton()
+	if not self.Proxy:IsShown() then return end
 	self.textureCache.pushed = self.pushedTexture:GetTexture()
 	self.textureCache.highlight = self.highlightTexture:GetTexture()
 	

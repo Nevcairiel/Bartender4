@@ -31,7 +31,6 @@ function StanceBarMod:OnEnable()
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("Stance", nil, self.db.profile), {__index = StanceBar})
 		
 		self.bar:ClearSetPoint("CENTER")
-		self.bar:ApplyConfig()
 		self.bar:SetScript("OnEvent", StanceBar.OnEvent)
 	end
 	self:ToggleOptions()
@@ -41,9 +40,10 @@ function StanceBarMod:OnEnable()
 	self.bar:RegisterEvent("SPELL_UPDATE_USABLE")
 	self.bar:RegisterEvent("PLAYER_AURAS_CHANGED")
 	self.bar:RegisterEvent("PLAYER_REGEN_ENABLED")
-	self.bar:Show()
+	self.bar:RegisterEvent("ACTIONBAR_PAGE_CHANGED")
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
 	self:ReassignBindings()
+	self.bar:ApplyConfig(self.db.profile)
 end
 
 function StanceBarMod:OnDisable()
@@ -121,7 +121,7 @@ function StanceButtonPrototype:Update()
 	local id = self:GetID()
 	local texture, name, isActive, isCastable = GetShapeshiftFormInfo(id)
 	
-	self.icon:SetTexture(texture);
+	self.icon:SetTexture(texture)
 	
 	-- manage cooldowns
 	if texture then
@@ -132,13 +132,13 @@ function StanceButtonPrototype:Update()
 	local start, duration, enable = GetShapeshiftFormCooldown(id)
 	CooldownFrame_SetTimer(self.cooldown, start, duration, enable)
 	
-	if ( isActive ) then
+	if isActive then
 		self:SetChecked(1)
 	else
 		self:SetChecked(0)
 	end
 	
-	if ( isCastable ) then
+	if isCastable then
 		self.icon:SetVertexColor(1.0, 1.0, 1.0)
 	else
 		self.icon:SetVertexColor(0.4, 0.4, 0.4)
@@ -202,8 +202,8 @@ function StanceBarMod:CreateStanceButton(id)
 	button.cooldown = _G[button:GetName() .. "Cooldown"]
 	button.normalTexture = button:GetNormalTexture()
 	button.normalTexture:SetTexture("")
-	button.checkedTexture = button:GetCheckedTexture()
-	button.checkedTexture:SetTexture("")
+--	button.checkedTexture = button:GetCheckedTexture()
+--	button.checkedTexture:SetTexture("")
 	
 	button.OnEnter = button:GetScript("OnEnter")
 	button:SetScript("OnEnter", onEnter)
@@ -256,9 +256,9 @@ function StanceBar:UpdateStanceButtons()
 end
 
 function StanceBar:OnEvent(event, ...)
-	if InCombatLockdown() then
-		self:ForAll("Update")
-	else
+	if event == "PLAYER_ENTERING_WORLD" or event == "UPDATE_SHAPESHIFT_FORMS" and not InCombatLockdown() then
 		self:UpdateStanceButtons()
+	else
+		self:ForAll("Update")
 	end
 end

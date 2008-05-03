@@ -48,11 +48,10 @@ function MicroMenuMod:OnEnable()
 		
 		-- TODO: real start position
 		self.bar:SetPoint("CENTER")
-		
-		self.bar:ApplyConfig(self.db.profile)
 	end
 	self.bar.disabled = nil
 	self:ToggleOptions()
+	self.bar:ApplyConfig(self.db.profile)
 end
 
 function MicroMenuMod:OnDisable()
