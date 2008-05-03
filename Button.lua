@@ -89,7 +89,6 @@ function Bartender4.Button:Create(id, parent)
 	button:SetAttribute("useparent-unit", true)
 	button:SetAttribute("useparent-statebutton", true)
 	button:SetAttribute("hidestates", "-1")
-	--button:SetAttribute("checkselfcast", true)
 	
 	button:RegisterForDrag("LeftButton", "RightButton")
 	button:RegisterForClicks("AnyUp")
@@ -99,9 +98,6 @@ function Bartender4.Button:Create(id, parent)
 	button.flashtime = 0
 	
 	button:RegisterButtonEvents()
-	
-	--button:Show()
-	--button:UpdateAction(true)
 	
 	if LBF and parent.LBFGroup then
 		local group = parent.LBFGroup
@@ -345,7 +341,6 @@ function Button:UpdateUsable(force)
 	local isUsable, notEnoughMana = IsUsableAction(self.action)
 	local icon, hotkey = self.icon, self.hotkey
 	if force or not oor then 
-		icon.state, hotkey.state = 1, 1 
 		oor = Bartender4.db.profile.outofrange
 		oorcolor, oomcolor = Bartender4.db.profile.colors.range, Bartender4.db.profile.colors.mana
 	end
@@ -361,7 +356,7 @@ function Button:UpdateUsable(force)
 		end
 		
 		if isUsable then
-			icon:SetVertexColor(1.0, 1.0, 1.0);
+			icon:SetVertexColor(1.0, 1.0, 1.0)
 		elseif notEnoughMana then
 			icon:SetVertexColor(oomcolor.r, oomcolor.g, oomcolor.b)
 		else
