@@ -148,23 +148,6 @@ function BT4ActionBars:UpdateButtons(force)
 	end
 end
 
-function BT4ActionBars:GetAll()
-	return pairs(self.actionbars)
-end
-
-function BT4ActionBars:ForAll(method, ...)
-	for _, bar in self:GetAll() do
-		local func = bar[method]
-		if func then
-			func(bar, ...)
-		end
-	end
-end
-
-function BT4ActionBars:ForAllButtons(...)
-	self:ForAll("ForAll", ...)
-end
-
 function BT4ActionBars:CreateBarOption(id, options)
 	if not self.options then return end
 	
@@ -241,4 +224,21 @@ function BT4ActionBars:EnableBar(id)
 	if not Bartender4.Locked then
 		bar:Unlock()
 	end
+end
+
+function BT4ActionBars:GetAll()
+	return pairs(self.actionbars)
+end
+
+function BT4ActionBars:ForAll(method, ...)
+	for _, bar in self:GetAll() do
+		local func = bar[method]
+		if func then
+			func(bar, ...)
+		end
+	end
+end
+
+function BT4ActionBars:ForAllButtons(...)
+	self:ForAll("ForAll", ...)
 end

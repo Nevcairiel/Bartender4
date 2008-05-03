@@ -1,4 +1,4 @@
---[[ $Id: StanceBar.lua 61678 2008-02-17 01:37:33Z nevcairiel $ ]]
+--[[ $Id$ ]]
 
 -- register module
 local PetBarMod = Bartender4:NewModule("PetBar", "AceEvent-3.0")

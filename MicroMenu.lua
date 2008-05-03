@@ -1,4 +1,4 @@
---[[ $Id: StanceBar.lua 62418 2008-02-21 16:53:12Z nevcairiel $ ]]
+--[[ $Id$ ]]
 
 -- register module
 local MicroMenuMod = Bartender4:NewModule("MicroMenu", "AceHook-3.0")
