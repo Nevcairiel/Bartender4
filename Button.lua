@@ -130,7 +130,9 @@ function onReceiveDrag(button)
 end
 
 function onEnter(self)
-	self:SetTooltip()
+	if not (Bartender4.db.profile.tooltip == "nocombat" and InCombatLockdown()) and Bartender4.db.profile.tooltip ~= "disabled" then
+		self:SetTooltip()
+	end
 	KeyBound:Set(self)
 end
 
