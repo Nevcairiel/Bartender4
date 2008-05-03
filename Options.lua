@@ -1,5 +1,7 @@
 --[[ $Id$ ]]
 
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
+
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 local getFunc, setFunc
@@ -120,7 +122,19 @@ local function getOptions()
 							set = function(info, value) Bartender4.db.profile.tooltip = value end,
 						},
 					},
-				}
+				},
+				faq = {
+					name = "FAQ",
+					desc = "Frequently Asked Questions",
+					type = "group",
+					order = 200,
+					args = {
+						faq = {
+							type = "description",
+							name = L["FAQ_TEXT"],
+						},
+					},
+				},
 			},
 		}
 		Bartender4.options.plugins.profiles = { profiles = LibStub("AceDBOptions-3.0"):GetOptionsTable(Bartender4.db) }
