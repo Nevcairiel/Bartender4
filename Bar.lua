@@ -292,9 +292,9 @@ function Bar:SetShow(show)
 		self[self.config.show and "Show" or "Hide"](self)
 	else
 		if not self.config.show then
-			self:SetBackdropColor(1, 0, 0, 0.5)
+			self.overlay:SetBackdropColor(1, 0, 0, 0.5)
 		else
-			self:SetBackdropColor(0, 1, 0, 0.5)
+			self.overlay:SetBackdropColor(0, 1, 0, 0.5)
 		end
 	end
 end
