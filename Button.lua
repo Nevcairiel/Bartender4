@@ -325,6 +325,19 @@ function Button:SetKey(key)
 	end
 end
 
+function Button:ClearBindings()
+	if self.id <= 12 then
+		local binding = format("ACTIONBUTTON%d", self.id)
+		while GetBindingKey(binding) do
+			SetBinding(GetBindingKey(binding), nil)
+		end
+	end
+	local binding = "CLICK "..self:GetName()..":LeftButton"
+	while GetBindingKey(binding) do
+		SetBinding(GetBindingKey(binding), nil)
+	end
+end
+
 local actionTmpl = "BT4 Bar %d Button %d"
 function Button:GetActionName()
 	return format(actionTmpl, self.parent.id, self.rid)
