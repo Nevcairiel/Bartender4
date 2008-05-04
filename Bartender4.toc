@@ -1,4 +1,4 @@
-﻿## Interface: 20300
+﻿## Interface: 20400
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
 ## Title: Bartender4
 ## Author: Nevcairiel
