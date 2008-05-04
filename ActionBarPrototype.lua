@@ -153,6 +153,7 @@ function ActionBar:UpdateButtons(numbuttons)
 	
 	-- show active buttons
 	for i = 1, numbuttons do
+		buttons[i]:SetParent(self)
 		buttons[i]:Show()
 		buttons[i]:UpdateAction(true)
 	end
@@ -160,6 +161,7 @@ function ActionBar:UpdateButtons(numbuttons)
 	-- hide inactive buttons
 	for i = (numbuttons + 1), #buttons do
 		buttons[i]:Hide()
+		buttons[i]:SetParent(UIParent)
 	end
 	
 	self.numbuttons = numbuttons
