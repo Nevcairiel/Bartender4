@@ -1,9 +1,11 @@
 --[[
 	KeyBound localization file
 		Korean by damjau
+		
 --]]
 
 local L = LibStub('AceLocale-3.0'):NewLocale('KeyBound', 'koKR')
+if not L then return end
 
 L.Enabled = '단축키 설정 기능 사용 가능'
 L.Disabled = '단축키 설정 기능 사용 불가'
