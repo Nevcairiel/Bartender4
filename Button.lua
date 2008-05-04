@@ -188,6 +188,10 @@ function Button:CalculateAction()
 	return SecureButton_GetModifiedAttribute(self, "action", SecureButton_GetEffectiveButton(self)) or 1
 end
 
+function Button:GetActionID()
+	return self.action
+end
+
 function Button:UpdateAction(force)
 	local action = self:CalculateAction()
 	if action ~= self.action or force then
