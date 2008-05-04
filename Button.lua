@@ -47,6 +47,7 @@ function Bartender4.Button:Create(id, parent)
 	button.Proxy:SetHighlightTexture("")
 	button.Proxy:SetCheckedTexture("")
 	button.Proxy:Show()
+	button.Proxy.Secure = button
 	
 	local NormalTexture = button.Proxy:GetNormalTexture()
 	NormalTexture:SetWidth(66)
