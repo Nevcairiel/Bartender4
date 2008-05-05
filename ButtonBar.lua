@@ -219,7 +219,7 @@ function ButtonBar:UpdateButtonLayout()
 	end
 end
 
-function ButtonBar:SkinChanged(SkinID, Gloss, Backdrop, Button)
+function ButtonBar:SkinChanged(SkinID, Gloss, Backdrop)
 	self.config.skin.ID = SkinID
 	self.config.skin.Gloss = Gloss
 	self.config.skin.Backdrop = Backdrop
