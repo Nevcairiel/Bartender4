@@ -187,6 +187,10 @@ function ButtonBar:UpdateButtonLayout()
 	local Rows = self:GetRows()
 	local ButtonPerRow = math_floor(numbuttons / Rows + 0.5) -- just a precaution
 	Rows = math_floor(numbuttons / ButtonPerRow + 0.5)
+	if Rows > numbuttons then 
+		Rows = numbuttons 
+		ButtonPerRow = 1
+	end
 	
 	self:SetSize((self.button_width + pad) * ButtonPerRow - pad + 8, (self.button_height + pad) * Rows - pad + 8)
 	
