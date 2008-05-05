@@ -261,7 +261,7 @@ function Button:UpdateIcon()
 		self.icon:Hide()
 		self.cooldown:Hide()
 		self.normalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot")
-		self.normalTexture:SetTexCoord(-0.1, 1.1, -0.1, 1.12)
+		self.normalTexture:SetTexCoord(-0.15, 1.15, -0.15, 1.17)
 		self.hotkey:SetVertexColor(0.6, 0.6, 0.6)
 		self.iconTex = nil
 	end
