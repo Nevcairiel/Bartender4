@@ -1,5 +1,4 @@
 ﻿--[[
---[[
 	KeyBound localization file
 		Traditional Chinese
 --]]
