@@ -33,6 +33,8 @@ function StanceBarMod:OnEnable()
 		self.bar:ClearSetPoint("CENTER")
 		self.bar:SetScript("OnEvent", StanceBar.OnEvent)
 	end
+	self.bar.disabled = nil
+	
 	self:ToggleOptions()
 	self.bar:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_FORMS")
@@ -48,6 +50,7 @@ end
 
 function StanceBarMod:OnDisable()
 	if not self.bar then return end
+	self.bar.disabled = true
 	self.bar:UnregisterAllEvents()
 	self.bar:Hide()
 	self:ToggleOptions()

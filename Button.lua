@@ -125,6 +125,7 @@ function onDragStart(button)
 end
 
 function onReceiveDrag(button)
+	if InCombatLockdown() then return end
 	PlaceAction(button.action)
 	button:UpdateState()
 	button:UpdateFlash()

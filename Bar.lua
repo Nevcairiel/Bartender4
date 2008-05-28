@@ -291,6 +291,7 @@ function Bar:SetShow(show)
 	if not self.unlocked then
 		self[self.config.show and "Show" or "Hide"](self)
 	else
+		self:Show()
 		if not self.config.show then
 			self.overlay:SetBackdropColor(1, 0, 0, 0.5)
 		else
