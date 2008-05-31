@@ -72,13 +72,8 @@ function module:GetOptionsObject()
 				set = optSetter,
 				get = optGetter,
 			},
-			desc = {
-				order = 50,
-				type = "header",
-				name = "Button Configuration",
-			},
 			grid = {
-				order = 55,
+				order = 60,
 				type = "toggle",
 				name = "Button Grid",
 				desc = "Toggle the button grid.",
@@ -86,7 +81,7 @@ function module:GetOptionsObject()
 				get = optGetter,
 			},
 			buttons = {
-				order = 60,
+				order = 50,
 				name = "Buttons",
 				desc = "Number of buttons.",
 				type = "range",

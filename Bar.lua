@@ -14,10 +14,13 @@ local Bar_MT = {__index = Bar}
 local defaults = {
 	scale = 1,
 	alpha = 1,
+	fadeout = false,
+	fadeoutalpha = 0.1,
+	fadeoutdelay = 0.2,
 	show = "alwaysshow",
 }
 
-local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick
+local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUpdateFunc
 do
 	function barOnEnter(self)
 		self:SetBackdropBorderColor(0.5, 0.5, 0, 1)
@@ -45,6 +48,14 @@ do
 	function barOnClick(self)
 		-- TODO: Hide/Show bar on Click
 		-- TODO: Once dropdown config is stable, show dropdown on rightclick
+	end
+	
+	function barOnUpdateFunc(self, elapsed) 
+		self.elapsed = self.elapsed + elapsed
+		if self.elapsed > self.config.fadeoutdelay then
+			self:ControlFadeOut(self.elapsed)
+			self.elapsed = 0
+		end
 	end
 end
 
@@ -96,6 +107,7 @@ function Bartender4.Bar:Create(id, config)
 	overlay:Hide()
 	
 	bar.config = config
+	bar.elapsed = 0
 	
 	return bar
 end
@@ -126,6 +138,9 @@ do
 		alpha = "ConfigAlpha",
 		scale = "ConfigScale",
 		show = "Show",
+		fadeout = "FadeOut",
+		fadeoutalpha = "FadeOutAlpha",
+		fadeoutdelay = "FadeOutDelay",
 	}
 	
 	-- retrieves a valid bar object from the barregistry table
@@ -200,6 +215,35 @@ function Bar:GetOptionObject()
 					get = optGetter,
 					set = optSetter,
 				},
+				fadeout = {
+					order = 100,
+					name = "Fade Out",
+					desc = "Enable the FadeOut mode",
+					type = "toggle",
+					get = optGetter,
+					set = optSetter,
+					width = "full",
+				},
+				fadeoutalpha = {
+					order = 101,
+					name = "Fade Out Alpha",
+					desc = "Enable the FadeOut mode",
+					type = "range",
+					min = 0, max = 1, step = 0.05,
+					get = optGetter,
+					set = optSetter,
+					disabled = function(info) return not barregistry[info[2]]:GetFadeOut() end,
+				},
+				fadeoutdelay = {
+					order = 102,
+					name = "Fade Out Delay",
+					desc = "Enable the FadeOut mode",
+					type = "range",
+					min = 0, max = 1, step = 0.01,
+					get = optGetter,
+					set = optSetter,
+					disabled = function(info) return not barregistry[info[2]]:GetFadeOut() end,
+				},
 			},
 		},
 		align = {
@@ -233,6 +277,7 @@ function Bar:ApplyConfig(config)
 	self:LoadPosition()
 	self:SetConfigScale()
 	self:SetConfigAlpha()
+	self:SetFadeOut()
 end
 
 function Bar:Unlock()
@@ -337,6 +382,56 @@ function Bar:SetConfigScale(scale)
 	end
 	self:SetScale(self.config.scale)
 	self:LoadPosition()
+end
+
+function Bar:GetFadeOut()
+	return self.config.fadeout
+end
+
+function Bar:SetFadeOut(fadeout)
+	if fadeout ~= nil then
+		self.config.fadeout = fadeout
+	end
+	if self.config.fadeout then
+		self:SetScript("OnUpdate", barOnUpdateFunc)
+	else
+		self:SetScript("OnUpdate", nil)
+	end
+end
+
+function Bar:GetFadeOutAlpha()
+	return self.config.fadeoutalpha
+end
+
+function Bar:SetFadeOutAlpha(fadealpha)
+	if fadealpha ~= nil then
+		self.config.fadeoutalpha = fadealpha
+	end
+	if self.faded then
+		self:SetAlpha(self.config.fadeoutalpha)
+	end
+end
+
+function Bar:GetFadeOutDelay()
+	return self.config.fadeoutdelay
+end
+
+function Bar:SetFadeOutDelay(delay)
+	if delay ~= nil then
+		self.config.fadeoutdelay = delay
+	end
+end
+
+function Bar:ControlFadeOut()
+	if self.config.fadeout then
+		if MouseIsOver(self) and self.faded then
+			self:SetAlpha(self.config.alpha)
+			self.faded = nil
+		elseif not MouseIsOver(self) and not self.faded then
+			self:SetAlpha(self.config.fadeoutalpha)
+			self.faded = true
+		end
+	end
 end
 
 --[[
