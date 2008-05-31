@@ -3,6 +3,5 @@ Bartender4 TODO List
 - Option to change self-cast modifier assignment (Blizzard kinda removed that <.<)
 - Alignment Menu
 - Options to control the removal of the Blizzard Artwork Bottom Bar
-- Bar Fadeout until mouseover (Do i really have to? That features is so ugly :P)
 - Add Skin Configuration Options (ButtonFacade) into the BT4 config
 - Localization

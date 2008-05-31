@@ -14,6 +14,7 @@ local defaults = Bartender4:Merge({
 		Backdrop = true,
 		Gloss = 0,
 		Zoom = false,
+		Colors = {},
 	},
 }, Bartender4.Bar.defaults)
 
@@ -31,6 +32,7 @@ function Bartender4.ButtonBar:Create(id, config)
 		bar.LBFGroup.SkinID = config.skin.ID or "Blizzard"
 		bar.LBFGroup.Backdrop = config.skin.Backdrop
 		bar.LBFGroup.Gloss = config.skin.Gloss
+		bar.LBFGroup.Colors = config.skin.Colors
 		
 		LBF:RegisterSkinCallback("Bartender4", self.SkinChanged, self)
 	end
@@ -39,11 +41,11 @@ function Bartender4.ButtonBar:Create(id, config)
 end
 
 local barregistry = Bartender4.Bar.barregistry
-function Bartender4.ButtonBar:SkinChanged(SkinID, Gloss, Backdrop, Group, Button)
+function Bartender4.ButtonBar:SkinChanged(SkinID, Gloss, Backdrop, Group, Button, Colors)
 	local bar = barregistry[tostring(Group)]
 	if not bar then return end
 	
-	bar:SkinChanged(SkinID, Gloss, Backdrop, Button)
+	bar:SkinChanged(SkinID, Gloss, Backdrop, Colors, Button)
 end
 
 --[[===================================================================================
@@ -219,10 +221,11 @@ function ButtonBar:UpdateButtonLayout()
 	end
 end
 
-function ButtonBar:SkinChanged(SkinID, Gloss, Backdrop)
+function ButtonBar:SkinChanged(SkinID, Gloss, Backdrop, Colors)
 	self.config.skin.ID = SkinID
 	self.config.skin.Gloss = Gloss
 	self.config.skin.Backdrop = Backdrop
+	self.config.skin.Colors = Colors
 end
 
 --[[===================================================================================
