@@ -27,7 +27,6 @@ function Bartender4.Button:Create(id, parent)
 	button.rid = id
 	button.id = absid
 	button.parent = parent
-	button.settings = parent.module.db
 	
 	button:SetFrameStrata("MEDIUM")
 	button:SetWidth(36)
@@ -282,7 +281,7 @@ function Button:UpdateHotkeys()
 	local key = self:GetHotkey() or ""
 	local hotkey = self.hotkey
 	
-	if key == "" or self.settings.profile.HideHotkey or not HasAction(self.action) then
+	if key == "" or self.parent.config.hidehotkey or not HasAction(self.action) then
 		hotkey:SetText(RANGE_INDICATOR)
 		hotkey:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -2)
 		hotkey:Hide()

@@ -19,6 +19,8 @@ do
 		buttons = "Buttons",
 		enabled = "Enabled",
 		grid = "Grid",
+		macrotext = "HideMacroText",
+		hotkey = "HideHotkey",
 	}
 	
 	-- retrieves a valid bar object from the modules actionbars table
@@ -89,6 +91,27 @@ function module:GetOptionsObject()
 				desc = "Number of buttons.",
 				type = "range",
 				min = 1, max = 12, step = 1,
+				set = optSetter,
+				get = optGetter,
+			},
+			hidedesc = {
+				order = 80,
+				name = "Button Look",
+				type = "header",
+			},
+			macrotext = {
+				order = 81,
+				type = "toggle",
+				name = "Hide Macro Text",
+				desc = "Hide the Macro Text on the buttons of this bar.",
+				set = optSetter,
+				get = optGetter,
+			},
+			hotkey = {
+				order = 82,
+				type = "toggle",
+				name = "Hide Hotkey",
+				desc = "Hide the Hotkey on the buttons of this bar.",
 				set = optSetter,
 				get = optGetter,
 			},
@@ -216,6 +239,28 @@ function ActionBar:SetGrid(state)
 	else
 		self:ForAll("HideGrid", true)
 	end
+end
+
+function ActionBar:SetHideMacroText(state)
+	if state ~= nil then
+		self.config.hidemacrotext = state
+	end
+	self:ForAll("Update")
+end
+
+function ActionBar:GetHideMacroText()
+	return self.config.hidemacrotext
+end
+
+function ActionBar:SetHideHotkey(state)
+	if state ~= nil then
+		self.config.hidehotkey = state
+	end
+	self:ForAll("Update")
+end
+
+function ActionBar:GetHideHotkey()
+	return self.config.hidehotkey
 end
 
 function ActionBar:UpdateSelfCast(nostates)
