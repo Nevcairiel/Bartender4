@@ -15,6 +15,7 @@ local StanceButton_MT = {__index = StanceButtonPrototype}
 local format = string.format
 
 local LBF = LibStub("LibButtonFacade", true)
+local KeyBound = LibStub("LibKeyBound-1.0")
 
 local defaults = { profile = Bartender4:Merge({ 
 	enabled = true,
@@ -28,7 +29,7 @@ end
 
 function StanceBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.ButtonBar:Create("Stance", nil, self.db.profile), {__index = StanceBar})
+		self.bar = setmetatable(Bartender4.ButtonBar:Create("Stance", self.db.profile), {__index = StanceBar})
 		
 		self.bar:ClearSetPoint("CENTER")
 		self.bar:SetScript("OnEvent", StanceBar.OnEvent)

@@ -14,7 +14,7 @@ local Bar_MT = {__index = Bar}
 local defaults = {
 	scale = 1,
 	alpha = 1,
-	show = true
+	show = "alwaysshow",
 }
 
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick
@@ -53,11 +53,11 @@ Bartender4.Bar = {}
 Bartender4.Bar.defaults = defaults
 Bartender4.Bar.prototype = Bar
 Bartender4.Bar.barregistry = barregistry
-function Bartender4.Bar:Create(id, template, config)
+function Bartender4.Bar:Create(id, config)
 	id = tostring(id)
 	assert(not barregistry[id], "duplicated entry in barregistry.")
 	
-	local bar = setmetatable(CreateFrame("Frame", ("BT4Bar%s"):format(id), UIParent, template), Bar_MT)
+	local bar = setmetatable(CreateFrame("Frame", ("BT4Bar%s"):format(id), UIParent, "SecureStateHeaderTemplate"), Bar_MT)
 	barregistry[id] = bar
 	bar.id = id
 	bar:SetMovable(true)
@@ -157,6 +157,8 @@ do
 	end
 end
 
+local showOptions = { alwaysshow = "Always Show", alwayshide = "Always Hide", combatshow = "Show in Combat", combathide = "Hide in Combat" }
+
 local options
 function Bar:GetOptionObject()
 	local otbl = {
@@ -168,11 +170,12 @@ function Bar:GetOptionObject()
 			args = {
 				show = {
 					order = 5,
-					type = "toggle",
-					name = "Show",
-					desc = "Show/Hide the bar.",
+					type = "select",
+					name = "Show/Hide",
+					desc = "Configure when to Show/Hide the bar.",
 					get = optGetter,
 					set = optSetter,
+					values = showOptions,
 				},
 				styleheader = {
 					order = 10,
@@ -235,9 +238,10 @@ end
 function Bar:Unlock()
 	if self.disabled or self.unlocked then return end
 	self.unlocked = true
+	UnregisterStateDriver(self, "visibility")
 	self:Show()
 	self.overlay:Show()
-	if not self.config.show then
+	if self.config.show == "alwayshide" then
 		self.overlay:SetBackdropColor(1, 0, 0, 0.5)
 	else
 		self.overlay:SetBackdropColor(0, 1, 0, 0.5)
@@ -249,9 +253,7 @@ function Bar:Lock()
 	self.unlocked = nil
 	barOnDragStop(self.overlay)
 	
-	if not self.config.show then
-		self:Hide()
-	end
+	self:ConfigureShowStates()
 	
 	self.overlay:Hide()
 end
@@ -289,14 +291,28 @@ function Bar:SetShow(show)
 		self.config.show = show
 	end
 	if not self.unlocked then
-		self[self.config.show and "Show" or "Hide"](self)
+		self:ConfigureShowStates()
 	else
 		self:Show()
-		if not self.config.show then
+		if self.config.show == "alwayshide" then
 			self.overlay:SetBackdropColor(1, 0, 0, 0.5)
 		else
 			self.overlay:SetBackdropColor(0, 1, 0, 0.5)
 		end
+	end
+end
+
+function Bar:ConfigureShowStates()
+	UnregisterStateDriver(self, 'visibility')
+	local conditions
+	if self.config.show == "alwaysshow" or self.config.show == true then
+		self:Show()
+	elseif self.config.show == "alwayshide" or self.config.show == false then
+		self:Hide()
+	elseif self.config.show == "combatshow" then
+		RegisterStateDriver(self, 'visibility', '[combat]show;hide')
+	elseif self.config.show == "combathide" then
+		RegisterStateDriver(self, 'visibility', '[combat]hide;show')
 	end
 end
 

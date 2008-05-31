@@ -13,6 +13,7 @@ local PetButtonPrototype = CreateFrame("CheckButton")
 local PetButton_MT = {__index = PetButtonPrototype}
 
 local LBF = LibStub("LibButtonFacade", true)
+local KeyBound = LibStub("LibKeyBound-1.0")
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
@@ -26,7 +27,7 @@ end
 
 function PetBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.ButtonBar:Create("Pet", nil, self.db.profile), {__index = PetBar})
+		self.bar = setmetatable(Bartender4.ButtonBar:Create("Pet", self.db.profile), {__index = PetBar})
 		
 		local buttons = {}
 		for i=1,10 do

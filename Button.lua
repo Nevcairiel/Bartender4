@@ -16,6 +16,7 @@ local IsUsableAction = IsUsableAction
 local IsActionInRange = IsActionInRange
 
 local LBF = LibStub("LibButtonFacade", true)
+local KeyBound = LibStub("LibKeyBound-1.0")
 
 Bartender4.Button = {}
 Bartender4.Button.prototype = Button

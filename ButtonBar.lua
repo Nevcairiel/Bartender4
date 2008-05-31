@@ -23,8 +23,8 @@ Bartender4.ButtonBar.defaults = defaults
 
 local LBF = LibStub("LibButtonFacade", true)
 
-function Bartender4.ButtonBar:Create(id, template, config)
-	local bar = setmetatable(Bartender4.Bar:Create(id, template, config), ButtonBar_MT)
+function Bartender4.ButtonBar:Create(id, config)
+	local bar = setmetatable(Bartender4.Bar:Create(id, config), ButtonBar_MT)
 	
 	if LBF then
 		bar.LBFGroup = LBF:Group("Bartender4", tostring(id))
