@@ -28,3 +28,4 @@ ActionBarStates.lua
 StanceBar.lua
 PetBar.lua
 MicroMenu.lua
+BagBar.lua
