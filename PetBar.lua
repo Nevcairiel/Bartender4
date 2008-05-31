@@ -130,6 +130,8 @@ function PetBarMod:SetupOptions()
 	if not self.options then
 		self.optionobject = Bartender4.ButtonBar.prototype:GetOptionObject()
 		
+		self.optionobject.table.general.args.rows.max = 10
+		
 		local enabled = {
 			type = "toggle",
 			order = 1,

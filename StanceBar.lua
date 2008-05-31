@@ -57,10 +57,11 @@ function StanceBarMod:OnDisable()
 	self:ToggleOptions()
 end
 
+local button_count = 10
 function StanceBarMod:SetupOptions()
 	if not self.options then
 		self.optionobject = Bartender4.ButtonBar.prototype:GetOptionObject()
-		
+		self.optionobject.table.general.args.rows.max = button_count
 		local enabled = {
 			type = "toggle",
 			order = 1,
@@ -249,6 +250,11 @@ function StanceBar:UpdateStanceButtons()
 	
 	for i = num_stances+1, #buttons do
 		buttons[i]:Hide()
+	end
+	
+	button_count = num_stances
+	if StanceBarMod.optionobject then
+		StanceBarMod.optionobject.table.general.args.rows.max = num_stances
 	end
 	
 	self.buttons = buttons

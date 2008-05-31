@@ -27,8 +27,7 @@ local noopFunc = function() end
 
 function BagBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.ButtonBar:Create("Bags", self.db.profile), {__index = BagBar})
-		self.bar:FeedButtons()
+		self.bar = setmetatable(Bartender4.ButtonBar:Create("Bag", self.db.profile), {__index = BagBar})
 		
 		-- TODO: real start position
 		self.bar:SetPoint("CENTER")
@@ -49,9 +48,11 @@ function BagBarMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
+local button_count = 5
 function BagBarMod:SetupOptions()
 	if not self.options then
 		self.optionobject = ButtonBar:GetOptionObject()
+		self.optionobject.table.general.args.rows.max = button_count
 		local enabled = {
 			type = "toggle",
 			order = 1,
@@ -62,6 +63,26 @@ function BagBarMod:SetupOptions()
 			handler = self,
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
+		
+		local onebag = {
+			type = "toggle",
+			order = 80,
+			name = "One Bag",
+			desc = "Only show one Bag Button in the BagBar.",
+			get = function() return self.db.profile.onebag end,
+			set = function(info, state) self.db.profile.onebag = state; self.bar:FeedButtons(); self.bar:UpdateButtonLayout() end,
+		}
+		self.optionobject:AddElement("general", "onebag", onebag)
+		
+		local keyring = {
+			type = "toggle",
+			order = 80,
+			name = "Keyring",
+			desc = "Show the keyring button.",
+			get = function() return self.db.profile.keyring end,
+			set = function(info, state) self.db.profile.keyring = state; self.bar:FeedButtons(); self.bar:UpdateButtonLayout() end,
+		}
+		self.optionobject:AddElement("general", "keyring", keyring)
 		
 		self.disabledoptions = {
 			general = {
@@ -81,7 +102,7 @@ function BagBarMod:SetupOptions()
 			desc = "Configure the Bag Bar",
 			childGroups = "tab",
 		}
-		Bartender4:RegisterBarOptions("Bags", self.options)
+		Bartender4:RegisterBarOptions("Bag", self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
 end
@@ -94,6 +115,7 @@ end
 
 function BagBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
+	self:FeedButtons()
 	self:UpdateButtonLayout()
 end
 
@@ -105,11 +127,13 @@ end
 BagBar.button_width = 37
 BagBar.button_height = 37
 function BagBar:FeedButtons()
+	local count = 1
 	if self.buttons then
 		while next(self.buttons) do
 			local btn = table.remove(self.buttons)
 			btn:Hide()
-			btn:SetParent(nil)
+			btn:SetParent(UIParent)
+			btn:ClearSetPoint("CENTER")
 			if btn ~= KeyRingButton and btn.LBFButtonData then 
 				local group = self.LBFGroup
 				group:RemoveButton(btn)
@@ -121,6 +145,7 @@ function BagBar:FeedButtons()
 	
 	if self.config.keyring then
 		table_insert(self.buttons, KeyRingButton)
+		count = count + 1
 	end
 	
 	if not self.config.onebag then
@@ -128,6 +153,7 @@ function BagBar:FeedButtons()
 		table_insert(self.buttons, CharacterBag2Slot) 
 		table_insert(self.buttons, CharacterBag1Slot) 
 		table_insert(self.buttons, CharacterBag0Slot)
+		count = count + 4
 	end
 	
 	table_insert(self.buttons, MainMenuBarBackpackButton)
@@ -135,8 +161,8 @@ function BagBar:FeedButtons()
 	for i,v in pairs(self.buttons) do 
 		v:SetParent(self)
 		v:Show()
-		if v ~= KeyRingButton then 
-			v:SetNormalTexture("") 
+		if v ~= KeyRingButton then
+			v:SetNormalTexture("")
 			
 			if LBF then
 				local group = self.LBFGroup
@@ -151,6 +177,11 @@ function BagBar:FeedButtons()
 		end
 		
 		v.ClearSetPoint = clearSetPoint
+	end
+	
+	button_count = count
+	if BagBarMod.optionobject then
+		BagBarMod.optionobject.table.general.args.rows.max = count
 	end
 end
 
