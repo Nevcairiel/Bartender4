@@ -436,10 +436,10 @@ end
 
 function Bar:ControlFadeOut()
 	if self.config.fadeout then
-		if MouseIsOver(self) and self.faded then
+		if self.faded and MouseIsOver(self) then
 			self:SetAlpha(self.config.alpha)
 			self.faded = nil
-		elseif not MouseIsOver(self) and not self.faded then
+		elseif not self.faded and not MouseIsOver(self) then
 			self:SetAlpha(self.config.fadeoutalpha)
 			self.faded = true
 		end
