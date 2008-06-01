@@ -291,6 +291,11 @@ function Bar:Unlock()
 	else
 		self.overlay:SetBackdropColor(0, 1, 0, 0.5)
 	end
+	if self.config.fadeout then
+		self:SetScript("OnUpdate", nil)
+		self.faded = nil
+		self:SetConfigAlpha()
+	end
 end
 
 function Bar:Lock()
@@ -301,6 +306,8 @@ function Bar:Lock()
 	self:ConfigureShowStates()
 	
 	self.overlay:Hide()
+	
+	self:SetFadeOut()
 end
 
 function Bar:LoadPosition()
@@ -369,7 +376,9 @@ function Bar:SetConfigAlpha(alpha)
 	if alpha then
 		self.config.alpha = alpha
 	end
-	self:SetAlpha(self.config.alpha)
+	if not self.faded then
+		self:SetAlpha(self.config.alpha)
+	end
 end
 
 function Bar:GetConfigScale()
@@ -394,8 +403,11 @@ function Bar:SetFadeOut(fadeout)
 	end
 	if self.config.fadeout then
 		self:SetScript("OnUpdate", barOnUpdateFunc)
+		self:ControlFadeOut()
 	else
 		self:SetScript("OnUpdate", nil)
+		self.faded = nil
+		self:SetConfigAlpha()
 	end
 end
 
