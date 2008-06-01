@@ -28,6 +28,7 @@ do
 		states = "StateOption",
 		actionbar = "StateOption",
 		possess = "StateOption",
+		autoassist = "ConfigAutoAssist",
 	}
 	-- retrieves a valid bar object from the modules actionbars table
 	function getBar(id)
@@ -127,6 +128,16 @@ function module:GetStateOptionsTable()
 			desc = "Switch this bar to the Possess Bar when possessing a npc (eg. Mind Control)",
 			get = optGetter,
 			set = optSetter,
+			width = "half",
+		},
+		autoassist = {
+			order = 6,
+			type = "toggle",
+			name = "Auto-Assist",
+			desc = "Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell.",
+			get = optGetter,
+			set = optSetter,
+			width = "half",
 		},
 		def_desc = {
 			order = 10,
@@ -390,5 +401,16 @@ end
 
 function ActionBar:SetDefaultState(_, value)
 	self.config.states.default = value
+	self:UpdateStates()
+end
+
+function ActionBar:GetConfigAutoAssist()
+	return self.config.autoassist
+end
+
+function ActionBar:SetConfigAutoAssist(_, value)
+	if value ~= nil then
+		self.config.autoassist = value
+	end
 	self:UpdateStates()
 end

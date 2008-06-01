@@ -11,6 +11,7 @@ local abdefaults = {
 		hidemacrotext = false,
 		hidehotkey = false,
 		showgrid = false,
+		autoassist = false,
 		states = { 
 			enabled = false, 
 			possess = false,

@@ -182,6 +182,43 @@ function onUpdate(self, elapsed)
 end
 
 function Button:SetStateAction(state, action)
+	local isAction = true
+	if self.parent.config.autoassist then
+		local type, id, subtype = GetActionInfo(action)
+		if type == "spell" then
+			local spellName, spellRank = GetSpellInfo(id, subtype)
+			isAction = false
+			self:SetAttribute(("*type-S%d"):format(state), "macro")
+			self:SetAttribute(("*type-S%dRight"):format(state), "macro")
+			
+			local macroText
+			if IsHarmfulSpell(id, subtype) then
+				macroText = "/cast [harm] [target=targettarget, harm] [target=none]"
+			else
+				macroText = "/cast %s[help] [target=targettarget, help] [target=none]"
+				
+				-- Hack to get Selfcast working with macrotext syntax
+				local selfcast = ""
+				if Bartender4.db.profile.selfcastrightclick then
+					selfcast = selfcast .. "[button:2, target=player]"
+				end
+				if Bartender4.db.profile.selfcastmodifier then
+					selfcast = selfcast .. "[modifier:".. GetModifiedClick("SELFCAST").. ", target=player]"
+				end
+				macroText = macroText:format(selfcast)
+			end
+			macroText = ("%s%s(%s)"):format(macroText, spellName, spellRank)
+			
+			self:SetAttribute(("*macrotext-S%d"):format(state), macroText)
+			self:SetAttribute(("*macrotext-S%dRight"):format(state), macroText)
+		end
+	end
+	
+	if isAction then
+		self:SetAttribute(("*type-S%d"):format(state), "action")
+		self:SetAttribute(("*type-S%dRight"):format(state), "action")
+	end
+	
 	self:SetAttribute(("*action-S%d"):format(state), action)
 	self:SetAttribute(("*action-S%dRight"):format(state), action)
 end
