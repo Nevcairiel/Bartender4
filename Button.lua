@@ -190,8 +190,6 @@ function Button:SetStateAction(state, action)
 		local type, id, subtype = GetActionInfo(action)
 		if type == "spell" then
 			local spellName, spellRank = GetSpellInfo(id, subtype)
-			self:SetAttribute(("*type-S%d"):format(state), "macro")
-			self:SetAttribute(("*type-S%dRight"):format(state), "macro")
 			
 			local macroText
 			if IsHelpfulSpell(id, subtype) then
@@ -206,14 +204,18 @@ function Button:SetStateAction(state, action)
 					selfcast = selfcast .. "[modifier:".. GetModifiedClick("SELFCAST").. ", target=player]"
 				end
 				macroText = macroText:format(selfcast)
-			else
+			elseif IsHarmfulSpell(id, subtype) then
 				macroText = "/cast [harm] [target=targettarget, harm] [target=none]"
 			end
 			
-			macroText = ("%s%s(%s)"):format(macroText, spellName, spellRank)
+			if macroText then
+				self:SetAttribute(("*type-S%d"):format(state), "macro")
+				self:SetAttribute(("*type-S%dRight"):format(state), "macro")
+				macroText = ("%s%s(%s)"):format(macroText, spellName, spellRank)
 			
-			self:SetAttribute(("*macrotext-S%d"):format(state), macroText)
-			self:SetAttribute(("*macrotext-S%dRight"):format(state), macroText)
+				self:SetAttribute(("*macrotext-S%d"):format(state), macroText)
+				self:SetAttribute(("*macrotext-S%dRight"):format(state), macroText)
+			end
 		end
 	end
 	
