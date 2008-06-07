@@ -205,14 +205,14 @@ function PetButtonPrototype:Update()
 	self.isToken = isToken
 	self.tooltipSubtext = subtext
 	self:SetChecked(isActive and 1 or 0)
-	if autoCastAllowed then
+	if autoCastAllowed and not autoCastEnabled then
 		self.autocastable:Show()
-	else
+		self.autocast:Hide()
+	elseif autoCastAllowed and autoCastEnabled then
 		self.autocastable:Hide()
-	end
-	if autoCastEnabled then
 		self.autocast:Show()
 	else
+		self.autocastable:Hide()
 		self.autocast:Hide()
 	end
 	

@@ -107,6 +107,10 @@ end
 function StanceBarMod:ApplyConfig()
 	if not self:IsEnabled() then return end
 	self.bar:ApplyConfig(self.db.profile)
+	
+	if GetNumShapeshiftForms() == 0 then
+		self:Disable()
+	end
 end
 
 function StanceBarMod:ReassignBindings()
@@ -263,6 +267,7 @@ function StanceBar:UpdateStanceButtons()
 	if updateBindings then
 		StanceBarMod:ReassignBindings()
 	end
+	self.disabled = (GetNumShapeshiftForms() == 0) and true or nil
 end
 
 function StanceBar:OnEvent(event, ...)
