@@ -40,7 +40,7 @@ function Bartender4.Button:Create(id, parent)
 	button:SetNormalTexture("")
 	
 	button.Proxy = CreateFrame("CheckButton", name, button, "ActionButtonTemplate")
-	button.Proxy:SetFrameStrata("LOW")
+	button.Proxy:SetFrameStrata("MEDIUM")
 	button.Proxy:ClearAllPoints()
 	button.Proxy:SetAllPoints(button)
 	button.Proxy:SetPushedTexture("")
@@ -114,6 +114,11 @@ function Bartender4.Button:Create(id, parent)
 	return button
 end
 
+function Button:SetLevels()
+	local parent = self:GetParent()
+	self:SetFrameLevel(parent:GetFrameLevel() + 3)
+	self.Proxy:SetFrameLevel(parent:GetFrameLevel() + 2)
+end
 
 function onDragStart(button)
 	if InCombatLockdown() then return end
