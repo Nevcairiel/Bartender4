@@ -29,6 +29,7 @@ function Bartender4.Button:Create(id, parent)
 	button.parent = parent
 	
 	button:SetFrameStrata("MEDIUM")
+	button:SetFrameLevel(parent:GetFrameLevel() + 2)
 	button:SetWidth(36)
 	button:SetHeight(36)
 	
@@ -41,6 +42,7 @@ function Bartender4.Button:Create(id, parent)
 	
 	button.Proxy = CreateFrame("CheckButton", name, button, "ActionButtonTemplate")
 	button.Proxy:SetFrameStrata("MEDIUM")
+	button.Proxy:SetFrameLevel(parent:GetFrameLevel() + 1)
 	button.Proxy:ClearAllPoints()
 	button.Proxy:SetAllPoints(button)
 	button.Proxy:SetPushedTexture("")
@@ -120,20 +122,20 @@ function Button:SetLevels()
 	self.Proxy:SetFrameLevel(parent:GetFrameLevel() + 2)
 end
 
-function onDragStart(button)
+function onDragStart(self)
 	if InCombatLockdown() then return end
 	if not Bartender4.db.profile.buttonlock or IsModifiedClick("PICKUPACTION") then
-		PickupAction(button.action)
-		button:UpdateState()
-		button:UpdateFlash()
+		PickupAction(self.action)
+		self:UpdateState()
+		self:UpdateFlash()
 	end
 end
 
-function onReceiveDrag(button)
+function onReceiveDrag(self)
 	if InCombatLockdown() then return end
-	PlaceAction(button.action)
-	button:UpdateState()
-	button:UpdateFlash()
+	PlaceAction(self.action)
+	self:UpdateState()
+	self:UpdateFlash()
 end
 
 function onEnter(self)
