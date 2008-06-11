@@ -338,7 +338,7 @@ function ActionBar:GetStanceState(stance)
 	else
 		state = stanceconfig[stance]
 	end
-	return state
+	return state or 0
 end
 
 function ActionBar:GetStanceStateOption(stance)

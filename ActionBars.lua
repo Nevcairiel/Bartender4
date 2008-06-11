@@ -21,7 +21,7 @@ local abdefaults = {
 			alt = 0,
 			shift = 0,
 			stance = { 
-				['**'] = {
+				['*'] = {
 					['*'] = 0,
 				},
 			},
