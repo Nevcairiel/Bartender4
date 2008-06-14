@@ -114,6 +114,7 @@ function StanceBarMod:ApplyConfig()
 end
 
 function StanceBarMod:ReassignBindings()
+	if InCombatLockdown() then return end
 	if not self.bar or not self.bar.buttons then return end
 	ClearOverrideBindings(self.bar)
 	for i = 1, min(#self.bar.buttons, 10) do

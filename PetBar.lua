@@ -174,6 +174,7 @@ function PetBarMod:ToggleOptions()
 end
 
 function PetBarMod:ReassignBindings()
+	if InCombatLockdown() then return end
 	if not self.bar or not self.bar.buttons then return end
 	ClearOverrideBindings(self.bar)
 	for i = 1, 10 do

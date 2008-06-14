@@ -178,6 +178,7 @@ function BT4ActionBars:CreateBarOption(id, options)
 end
 
 function BT4ActionBars:ReassignBindings()
+	if InCombatLockdown() then return end
 	if not self.actionbars or not self.actionbars[1] then return end
 	local frame = self.actionbars[1]
 	ClearOverrideBindings(frame)
