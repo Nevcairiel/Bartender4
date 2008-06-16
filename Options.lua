@@ -33,14 +33,14 @@ local function getOptions()
 					get = function() return Bartender4.Locked end,
 					set = function(info, value) Bartender4[value and "Lock" or "Unlock"](Bartender4) end,
 				},
-				buttonlock = {
+				--[[buttonlock = {
 					order = 2,
 					type = "toggle",
 					name = "Button Lock",
 					desc = "Lock the buttons.",
 					get = getFunc,
 					set = setFunc,
-				},
+				},--]]
 				bars = {
 					order = 20,
 					type = "group",
