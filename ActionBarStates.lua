@@ -324,11 +324,10 @@ function ActionBar:UpdateStates()
 	
 	RegisterStateDriver(self, "page", table_concat(statedriver, ";"))
 	self:SetAttribute("statemap-page", "$input")
-	self:SetAttribute("state", self:GetAttribute("state-page"))
-	
 	self:ApplyStateButton()
 	
 	SecureStateHeader_Refresh(self)
+	self:SetAttribute("state", self:GetAttribute("state-page"))
 end
 
 function ActionBar:GetStanceState(stance)

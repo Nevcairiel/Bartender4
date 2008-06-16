@@ -171,10 +171,9 @@ function ActionBar:UpdateButtons(numbuttons)
 	
 	-- show active buttons
 	for i = 1, numbuttons do
-		buttons[i]:SetParent(self)
-		buttons[i]:SetLevels()
+		self:SetAttribute("addchild", buttons[i])
 		buttons[i]:Show()
-		buttons[i]:UpdateAction(true)
+		buttons[i]:Update()
 	end
 	
 	-- hide inactive buttons
@@ -252,7 +251,7 @@ function ActionBar:SetHideHotkey(state)
 	if state ~= nil then
 		self.config.hidehotkey = state
 	end
-	self:ForAll("Update")
+	self:ForAll("UpdateHotkey")
 end
 
 function ActionBar:GetHideHotkey()
