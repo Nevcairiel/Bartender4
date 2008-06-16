@@ -172,6 +172,7 @@ function ActionBar:UpdateButtons(numbuttons)
 	-- show active buttons
 	for i = 1, numbuttons do
 		buttons[i]:SetParent(self)
+		buttons[i]:SetLevels()
 		buttons[i]:Show()
 		buttons[i]:UpdateAction(true)
 	end
