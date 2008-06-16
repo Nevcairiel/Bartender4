@@ -39,7 +39,6 @@ function Bartender4:RegisterDefaultsKey(key, subdefaults)
 end
 
 function Bartender4:UpdateModuleConfigs()
-	self:Lock()
 	for k,v in AceAddon:IterateModulesOfAddon(self) do
 		v:ToggleModule()
 		if v:IsEnabled() and type(v.ApplyConfig) == "function" then
