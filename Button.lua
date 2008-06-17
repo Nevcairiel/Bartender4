@@ -31,6 +31,7 @@ function Bartender4.Button:Create(id, parent)
 	
 	button.hotkey = _G[("%sHotKey"):format(name)]
 	button.icon = _G[("%sIcon"):format(name)]
+	button.flash = _G[("%sFlash"):format(name)]
 	
 	button:SetNormalTexture("")
 	local oldNT = _G[("%sNormalTexture"):format(name)]
