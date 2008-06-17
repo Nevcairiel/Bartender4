@@ -196,7 +196,9 @@ function BT4ActionBars:ReassignBindings()
 
 		for k=1, select('#', GetBindingKey(button)) do
 			local key = select(k, GetBindingKey(button))
-			SetBindingClick(key, real_button, "LeftButton")
+			if key and key ~= "" then
+				SetBindingClick(key, real_button, "LeftButton")
+			end
 		end
 	end
 	SaveBindings(GetCurrentBindingSet())
