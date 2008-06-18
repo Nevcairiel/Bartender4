@@ -28,8 +28,8 @@ local function getOptions()
 				lock = {
 					order = 1,
 					type = "toggle",
-					name = "Lock",
-					desc = "Lock all bars.",
+					name = L["Lock"],
+					desc = L["Lock all bars."],
 					get = function() return Bartender4.Locked end,
 					set = function(info, value) Bartender4[value and "Lock" or "Unlock"](Bartender4) end,
 				},
@@ -44,13 +44,13 @@ local function getOptions()
 				bars = {
 					order = 20,
 					type = "group",
-					name = "Bars",
+					name = L["Bars"],
 					args = {
 						selfcastmodifier = {
 							order = 1,
 							type = "toggle",
-							name = "Self-Cast by modifier",
-							desc = "Toggle the use of the modifier-based self-cast functionality.",
+							name = L["Self-Cast by modifier"],
+							desc = L["Toggle the use of the modifier-based self-cast functionality."],
 							get = getFunc,
 							set = function(info, value)
 								Bartender4.db.profile.selfcastmodifier = value
@@ -60,8 +60,8 @@ local function getOptions()
 						selfcastrightclick = {
 							order = 2,
 							type = "toggle",
-							name = "Right-click Self-Cast",
-							desc = "Toggle the use of the right-click self-cast functionality.",
+							name = L["Right-click Self-Cast"],
+							desc = L["Toggle the use of the right-click self-cast functionality."],
 							get = getFunc,
 							set = function(info, value)
 								Bartender4.db.profile.selfcastrightclick = value
@@ -70,8 +70,8 @@ local function getOptions()
 						},
 						range = {
 							order = 10,
-							name = "Out of Range Indicator",
-							desc = "Configure how the Out of Range Indicator should display on the buttons.",
+							name = L["Out of Range Indicator"],
+							desc = L["Configure how the Out of Range Indicator should display on the buttons."],
 							type = "select",
 							style = "dropdown",
 							get = function()
@@ -87,7 +87,7 @@ local function getOptions()
 							order = 13,
 							type = "group",
 							guiInline = true,
-							name = "Colors",
+							name = L["Colors"],
 							get = function(info)
 								local color = Bartender4.db.profile.colors[info[#info]]
 								return color.r, color.g, color.b
@@ -101,22 +101,22 @@ local function getOptions()
 								range = {
 									order = 1,
 									type = "color",
-									name = "Out of Range Indicator",
-									desc = "Specify the Color of the Out of Range Indicator",
+									name = L["Out of Range Indicator"],
+									desc = L["Specify the Color of the Out of Range Indicator"],
 								},
 								mana = {
 									order = 2,
 									type = "color",
-									name = "Out of Mana Indicator",
-									desc = "Specify the Color of the Out of Mana Indicator",
+									name = L["Out of Mana Indicator"],
+									desc = L["Specify the Color of the Out of Mana Indicator"],
 								},
 							},
 						},
 						tooltip = {
 							order = 20,
-							name = "Button Tooltip",
+							name = L["Button Tooltip"],
 							type = "select",
-							desc = "Configure the Button Tooltip.",
+							desc = L["Configure the Button Tooltip."],
 							values = { ["disabled"] = "Disabled", ["nocombat"] = "Disabled in Combat", ["enabled"] = "Enabled" },
 							get = function() return Bartender4.db.profile.tooltip end,
 							set = function(info, value) Bartender4.db.profile.tooltip = value end,
@@ -124,8 +124,8 @@ local function getOptions()
 					},
 				},
 				faq = {
-					name = "FAQ",
-					desc = "Frequently Asked Questions",
+					name = L["FAQ"],
+					desc = L["Frequently Asked Questions"],
 					type = "group",
 					order = 200,
 					args = {
