@@ -70,4 +70,4 @@ L["General Settings"] = "一般设置"
 L["Bag Bar"] = "背包栏"
 L["Configure the Bag Bar"] = "设置背包栏。"
 --Bar.lua
-L["Show/Hide"]
+L["Show/Hide"] = "显示/隐藏"
