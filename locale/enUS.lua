@@ -87,6 +87,12 @@ L["Always Show"] = true
 L["Always Hide"] = true
 L["Show in Combat"] = true
 L["Hide in Combat"] = true
+L["Bar "] = true
+--L[id.." Bar"]
+L["Pet Bar"] = true
+L["Bag Bar"] = true
+L["Stance Bar"] = true
+L["MicroMenu Bar"] = true
 --ButtonBar.lua
 L["Padding"] = true
 L["Configure the padding of the buttons."] = true

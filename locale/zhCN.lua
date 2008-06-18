@@ -88,6 +88,12 @@ L["Always Show"] = "始终显示"
 L["Always Hide"] = "始终隐藏"
 L["Show in Combat"] = "战斗中显示"
 L["Hide in Combat"] = "战斗中隐藏"
+L["Bar "] = "动作条 "
+--L[id.." Bar"]
+L["Pet Bar"] = "宠物动作条"
+L["Bag Bar"] = "背包栏"
+L["Stance Bar"] = "姿态栏"
+L["MicroMenu Bar"] = "微型菜单栏"
 --ButtonBar.lua
 L["Padding"] = "间距"
 L["Configure the padding of the buttons."] = "配置按钮之间的距离"
