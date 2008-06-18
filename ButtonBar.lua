@@ -1,5 +1,5 @@
 --[[ $Id$ ]]
-
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 --[[ Generic Template for a Bar which contains Buttons ]]
 
 local Bar = Bartender4.Bar.prototype
@@ -100,25 +100,25 @@ function ButtonBar:GetOptionObject()
 		padding = {
 			order = 40,
 			type = "range",
-			name = "Padding",
-			desc = "Configure the padding of the buttons.",
+			name = L["Padding"],
+			desc = L["Configure the padding of the buttons."],
 			min = -10, max = 20, step = 1,
 			set = optSetter,
 			get = optGetter,
 		},
 		zoom = {
 			order = 59,
-			name = "Zoom",
+			name = L["Zoom"],
 			type = "toggle",
-			desc = "Toggle Button Zoom\nFor more style options you need to install ButtonFacade",
+			desc = L["Toggle Button Zoom\nFor more style options you need to install ButtonFacade"],
 			get = optGetter,
 			set = optSetter,
 			hidden = function() return LBF and true or false end,
 		},
 		rows = {
 			order = 70,
-			name = "Rows",
-			desc = "Number of rows.",
+			name = L["Rows"],
+			desc = L["Number of rows."],
 			type = "range",
 			min = 1, max = 12, step = 1,
 			set = optSetter,

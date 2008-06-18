@@ -1,5 +1,5 @@
 --[[ $Id$ ]]
-
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
 local MicroMenuMod = Bartender4:NewModule("MicroMenu", "AceHook-3.0")
 
@@ -72,8 +72,8 @@ function MicroMenuMod:SetupOptions()
 		local enabled = {
 			type = "toggle",
 			order = 1,
-			name = "Enabled",
-			desc = "Enable the Micro Menu",
+			name = L["Enabled"],
+			desc = L["Enable the Micro Menu"],
 			get = function() return self.db.profile.enabled end,
 			set = "ToggleModule",
 			handler = self,
@@ -83,7 +83,7 @@ function MicroMenuMod:SetupOptions()
 		self.disabledoptions = {
 			general = {
 				type = "group",
-				name = "General Settings",
+				name = L["General Settings"],
 				cmdInline = true,
 				order = 1,
 				args = {
@@ -94,8 +94,8 @@ function MicroMenuMod:SetupOptions()
 		self.options = {
 			order = 30,
 			type = "group",
-			name = "Micro Menu",
-			desc = "Configure the Micro Menu",
+			name = L["Micro Menu"],
+			desc = L["Configure the Micro Menu"],
 			childGroups = "tab",
 		}
 		Bartender4:RegisterBarOptions("MicroMenu", self.options)

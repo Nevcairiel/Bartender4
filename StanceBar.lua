@@ -1,5 +1,5 @@
 --[[ $Id$ ]]
-
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
 local StanceBarMod = Bartender4:NewModule("StanceBar", "AceEvent-3.0")
 
@@ -65,8 +65,8 @@ function StanceBarMod:SetupOptions()
 		local enabled = {
 			type = "toggle",
 			order = 1,
-			name = "Enabled",
-			desc = "Enable the StanceBar",
+			name = L["Enabled"],
+			desc = L["Enable the StanceBar"],
 			get = function() return self.db.profile.enabled end,
 			set = "ToggleModule",
 			handler = self,
@@ -76,7 +76,7 @@ function StanceBarMod:SetupOptions()
 		self.disabledoptions = {
 			general = {
 				type = "group",
-				name = "General Settings",
+				name = L["General Settings"],
 				cmdInline = true,
 				order = 1,
 				args = {
@@ -88,8 +88,8 @@ function StanceBarMod:SetupOptions()
 		self.options = {
 			order = 30,
 			type = "group",
-			name = "Stance Bar",
-			desc = "Configure  the Stance Bar",
+			name = L["Stance Bar"],
+			desc = L["Configure  the Stance Bar"],
 			childGroups = "tab",
 			disabled = function(info) return GetNumShapeshiftForms() == 0 end,
 		}

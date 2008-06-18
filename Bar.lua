@@ -172,7 +172,7 @@ do
 	end
 end
 
-local showOptions = { alwaysshow = "Always Show", alwayshide = "Always Hide", combatshow = "Show in Combat", combathide = "Hide in Combat" }
+local showOptions = { alwaysshow = L["Always Show"], alwayshide = L["Always Hide"], combatshow = L["Show in Combat"], combathide = L["Hide in Combat"] }
 
 local options
 function Bar:GetOptionObject()
@@ -180,14 +180,14 @@ function Bar:GetOptionObject()
 		general = {
 			type = "group",
 			cmdInline = true,
-			name = "General Settings",
+			name = L["General Settings"],
 			order = 1,
 			args = {
 				show = {
 					order = 5,
 					type = "select",
 					name = L["Show/Hide"],
-					desc = "Configure when to Show/Hide the bar.",
+					desc = L["Configure when to Show/Hide the bar."],
 					get = optGetter,
 					set = optSetter,
 					values = showOptions,
@@ -195,12 +195,12 @@ function Bar:GetOptionObject()
 				styleheader = {
 					order = 10,
 					type = "header",
-					name = "Bar Style & Layout",
+					name = L["Bar Style & Layout"],
 				},
 				alpha = {
 					order = 20,
-					name = "Alpha",
-					desc = "Configure the alpha of the bar.",
+					name = L["Alpha"],
+					desc = L["Configure the alpha of the bar."],
 					type = "range",
 					min = .1, max = 1, bigStep = 0.1,
 					get = optGetter,
@@ -208,8 +208,8 @@ function Bar:GetOptionObject()
 				},
 				scale = {
 					order = 30,
-					name = "Scale",
-					desc = "Configure the scale of the bar.",
+					name = L["Scale"],
+					desc = L["Configure the scale of the bar."],
 					type = "range",
 					min = .1, max = 2, step = 0.05,
 					get = optGetter,
@@ -217,8 +217,8 @@ function Bar:GetOptionObject()
 				},
 				fadeout = {
 					order = 100,
-					name = "Fade Out",
-					desc = "Enable the FadeOut mode",
+					name = L["Fade Out"],
+					desc = L["Enable the FadeOut mode"],
 					type = "toggle",
 					get = optGetter,
 					set = optSetter,
@@ -226,8 +226,8 @@ function Bar:GetOptionObject()
 				},
 				fadeoutalpha = {
 					order = 101,
-					name = "Fade Out Alpha",
-					desc = "Enable the FadeOut mode",
+					name = L["Fade Out Alpha"],
+					desc = L["Enable the FadeOut mode"],
 					type = "range",
 					min = 0, max = 1, step = 0.05,
 					get = optGetter,
@@ -236,8 +236,8 @@ function Bar:GetOptionObject()
 				},
 				fadeoutdelay = {
 					order = 102,
-					name = "Fade Out Delay",
-					desc = "Enable the FadeOut mode",
+					name = L["Fade Out Delay"],
+					desc = L["Enable the FadeOut mode"],
 					type = "range",
 					min = 0, max = 1, step = 0.01,
 					get = optGetter,
@@ -249,13 +249,13 @@ function Bar:GetOptionObject()
 		align = {
 			type = "group",
 			cmdInline = true,
-			name = "Alignment",
+			name = L["Alignment"],
 			order = 10,
 			args = {
 				info = {
 					order = 1,
 					type = "description",
-					name = "The Alignment menu is still on the TODO.\n\nAs a quick preview of whats planned:\n\n\t- Absolute and relative Bar Positioning\n\t- Bars \"snapping\" together and building clusters",
+					name = L["The Alignment menu is still on the TODO.\n\nAs a quick preview of whats planned:\n\n\t- Absolute and relative Bar Positioning\n\t- Bars \"snapping\" together and building clusters"],
 				},
 			},
 		}

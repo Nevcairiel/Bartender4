@@ -1,7 +1,9 @@
 --[[ $Id$ ]]
 local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "enUS", true)
 if not L then return end
-
+--General 
+L["Enabled"] = true
+L["General Settings"] = true
 -- Options.lua
 L["Lock"] = true
 L["Lock all bars."] = true
@@ -22,7 +24,6 @@ L["Configure the Button Tooltip."] = true
 L["FAQ"] = true
 L["Frequently Asked Questions"] = true
 --ActionBarPrototype.lua
-L["Enabled"] = true
 L["Enable/Disable the bar."] = true
 L["Button Grid"] = true
 L["Toggle the button grid."] = true
@@ -35,13 +36,10 @@ L["Hide Hotkey"] = true
 L["Hide the Hotkey on the buttons of this bar."] = true
 L["State Configuration"] = true
 --ActionBars.lua
-L["General Settings"] = true
-L["Enabled"] = true
 L["Enable/Disable the bar."] = true
 L["Bar %s"] = true
 L["Configure Bar %s"] = true
 --ActionBarStates.lua
-L["Enabled"] = true
 L["Enable State-based Button Swaping"] = true
 L["ActionBar Switching"] = true
 L["Enable Bar Switching based on the actionbar controls provided by the game."] = true
@@ -59,17 +57,51 @@ L["Configure actionbar paging when the alt key is down."] = true
 L["SHIFT"] = true
 L["Stance Configuration"] = true
 --BagBar.lua
-L["Enabled"] = true
 L["Enable the Bag Bar"] = true
 L["One Bag"] = true
 L["Only show one Bag Button in the BagBar."] = true
 L["Keyring"] = true
 L["Show the keyring button."] = true
-L["General Settings"] = true
 L["Bag Bar"] = true
 L["Configure the Bag Bar"] = true
 --Bar.lua
 L["Show/Hide"] = true
+L["Configure when to Show/Hide the bar."] = true
+L["Bar Style & Layout"] = true
+L["Alpha"] = true
+L["Configure the alpha of the bar."] = true
+L["Scale"] = true
+L["Configure the scale of the bar."] = true
+L["Fade Out"] = true
+L["Enable the FadeOut mode"] = true
+L["Fade Out Alpha"] = true
+L["Fade Out Delay"] = true
+L["Alignment"] = true
+L["The Alignment menu is still on the TODO.\n\nAs a quick preview of whats planned:\n\n\t- Absolute and relative Bar Positioning\n\t- Bars \"snapping\" together and building clusters"] = true
+L["Always Show"] = true
+L["Always Hide"] = true
+L["Show in Combat"] = true
+L["Hide in Combat"] = true
+--ButtonBar.lua
+L["Padding"] = true
+L["Configure the padding of the buttons."] = true
+L["Zoom"] = true
+L["Toggle Button Zoom\nFor more style options you need to install ButtonFacade"] = true
+L["Rows"] = true
+L["Number of rows."] = true
+--MicroMenu.lua
+L["Enable the Micro Menu"] = true
+L["Micro Menu"] = true
+L["Configure the Micro Menu"] = true
+--PetBar.lua
+L["Enable the PetBar"] = true
+L["Pet Bar"] = true
+L["Configure the Pet Bar"] = true
+--StanceBar.lua
+L["Enable the StanceBar"] = true
+L["Stance Bar"] = true
+L["Configure  the Stance Bar"] = true
+
 
 L["FAQ_TEXT"] = [[
 |cffffd200

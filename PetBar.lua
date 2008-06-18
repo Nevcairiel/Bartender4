@@ -1,5 +1,5 @@
 --[[ $Id$ ]]
-
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
 local PetBarMod = Bartender4:NewModule("PetBar", "AceEvent-3.0")
 
@@ -135,8 +135,8 @@ function PetBarMod:SetupOptions()
 		local enabled = {
 			type = "toggle",
 			order = 1,
-			name = "Enabled",
-			desc = "Enable the PetBar",
+			name = L["Enabled"],
+			desc = L["Enable the PetBar"],
 			get = function() return self.db.profile.enabled end,
 			set = "ToggleModule",
 			handler = self,
@@ -146,7 +146,7 @@ function PetBarMod:SetupOptions()
 		self.disabledoptions = {
 			general = {
 				type = "group",
-				name = "General Settings",
+				name = L["General Settings"],
 				cmdInline = true,
 				order = 1,
 				args = {
@@ -158,8 +158,8 @@ function PetBarMod:SetupOptions()
 		self.options = {
 			order = 30,
 			type = "group",
-			name = "Pet Bar",
-			desc = "Configure the Pet Bar",
+			name = L["Pet Bar"],
+			desc = L["Configure the Pet Bar"],
 			childGroups = "tab",
 		}
 		Bartender4:RegisterBarOptions("Pet", self.options)
