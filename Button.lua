@@ -32,6 +32,7 @@ function Bartender4.Button:Create(id, parent)
 	button.hotkey = _G[("%sHotKey"):format(name)]
 	button.icon = _G[("%sIcon"):format(name)]
 	button.flash = _G[("%sFlash"):format(name)]
+	button.macroName = _G[("%sName"):format(name)]
 	
 	button:SetNormalTexture("")
 	local oldNT = _G[("%sNormalTexture"):format(name)]
@@ -193,6 +194,11 @@ end
 function Button:Update()
 	oor = nil
 	self:BlizzCall(ActionButton_Update)
+	if self.parent.config.hidemacrotext then
+		self.macroName:Hide()
+	else
+		self.macroName:Show()
+	end
 end
 
 orig_ActionButton_UpdateHotkeys = ActionButton_UpdateHotkeys
