@@ -81,7 +81,7 @@ local function getOptions()
 								Bartender4.db.profile.outofrange = value
 								Bartender4.Bar:ForAll("ApplyConfig")
 							end,
-							values = { none = "No Display", button = "Full Button Mode", hotkey = "Hotkey Mode" },
+							values = { none = L["No Display"], button = L["Full Button Mode"], hotkey = L["Hotkey Mode"] },
 						},
 						colors = {
 							order = 13,
@@ -117,7 +117,7 @@ local function getOptions()
 							name = L["Button Tooltip"],
 							type = "select",
 							desc = L["Configure the Button Tooltip."],
-							values = { ["disabled"] = "Disabled", ["nocombat"] = "Disabled in Combat", ["enabled"] = "Enabled" },
+							values = { ["disabled"] = L["Disabled"], ["nocombat"] = L["Disabled in Combat"], ["enabled"] = L["Enabled"] },
 							get = function() return Bartender4.db.profile.tooltip end,
 							set = function(info, value) Bartender4.db.profile.tooltip = value end,
 						},

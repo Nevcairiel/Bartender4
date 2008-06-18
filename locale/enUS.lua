@@ -23,6 +23,11 @@ L["Button Tooltip"] = true
 L["Configure the Button Tooltip."] = true
 L["FAQ"] = true
 L["Frequently Asked Questions"] = true
+L["Disabled"] = true
+L["Disabled in Combat"] = true
+L["No Display"] = true
+L["Full Button Mode"] = true
+L["Hotkey Mode"] =true
 --ActionBarPrototype.lua
 L["Enable/Disable the bar."] = true
 L["Button Grid"] = true
