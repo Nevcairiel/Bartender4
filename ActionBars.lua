@@ -1,5 +1,5 @@
 --[[ $Id$ ]]
-
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local BT4ActionBars = Bartender4:NewModule("ActionBars", "AceEvent-3.0")
 
 local ActionBar, ActionBar_MT
@@ -102,14 +102,14 @@ function BT4ActionBars:SetupOptions()
 		self.disabledoptions = {
 			general = {
 				type = "group",
-				name = "General Settings",
+				name = L["General Settings"],
 				cmdInline = true,
 				order = 1,
 				args = {
 					enabled = {
 						type = "toggle",
-						name = "Enabled",
-						desc = "Enable/Disable the bar.",
+						name = L["Enabled"],
+						desc = L["Enable/Disable the bar."],
 						set = function(info, v) if v then BT4ActionBars:EnableBar(info[2]) end end,
 						get = function() return false end,
 					}
@@ -166,8 +166,8 @@ function BT4ActionBars:CreateBarOption(id, options)
 		self.options[id] = {
 			order = 10 + tonumber(id),
 			type = "group",
-			name = ("Bar %s"):format(id),
-			desc = ("Configure Bar %s"):format(id),
+			name = (L["Bar %s"]):format(id),
+			desc = (L["Configure Bar %s"]):format(id),
 			childGroups = "tab",
 		}
 	end

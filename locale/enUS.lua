@@ -21,6 +21,55 @@ L["Button Tooltip"] = true
 L["Configure the Button Tooltip."] = true
 L["FAQ"] = true
 L["Frequently Asked Questions"] = true
+--ActionBarPrototype.lua
+L["Enabled"] = true
+L["Enable/Disable the bar."] = true
+L["Button Grid"] = true
+L["Toggle the button grid."] = true
+L["Buttons"] = true
+L["Number of buttons."] = true
+L["Button Look"] = true
+L["Hide Macro Text"] = true
+L["Hide the Macro Text on the buttons of this bar."] = true
+L["Hide Hotkey"] = true
+L["Hide the Hotkey on the buttons of this bar."] = true
+L["State Configuration"] = true
+--ActionBars.lua
+L["General Settings"] = true
+L["Enabled"] = true
+L["Enable/Disable the bar."] = true
+L["Bar %s"] = true
+L["Configure Bar %s"] = true
+--ActionBarStates.lua
+L["Enabled"] = true
+L["Enable State-based Button Swaping"] = true
+L["ActionBar Switching"] = true
+L["Enable Bar Switching based on the actionbar controls provided by the game."] = true
+L["Possess Bar"] = true
+L["Switch this bar to the Possess Bar when possessing a npc (eg. Mind Control)"] = true
+L["Auto-Assist"] = true
+L["Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell."] = true
+L["The default behaviour of this bar when no state-based paging option affects it."] = true
+L["Default Bar State"] = true
+L["Modifier Based Switching"] = true
+L["CTRL"] = true
+L["Configure actionbar paging when the ctrl key is down."] = true
+L["ALT"] = true
+L["Configure actionbar paging when the alt key is down."] = true
+L["SHIFT"] = true
+L["Stance Configuration"] = true
+--BagBar.lua
+L["Enabled"] = true
+L["Enable the Bag Bar"] = true
+L["One Bag"] = true
+L["Only show one Bag Button in the BagBar."] = true
+L["Keyring"] = true
+L["Show the keyring button."] = true
+L["General Settings"] = true
+L["Bag Bar"] = true
+L["Configure the Bag Bar"] = true
+--Bar.lua
+L["Show/Hide"] = true
 
 L["FAQ_TEXT"] = [[
 |cffffd200

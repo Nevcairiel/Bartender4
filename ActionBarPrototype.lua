@@ -1,5 +1,5 @@
 --[[ $Id$ ]]
-
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local ButtonBar = Bartender4.ButtonBar.prototype
 local ActionBar = setmetatable({}, {__index = ButtonBar})
 Bartender4.ActionBar = ActionBar
@@ -66,8 +66,8 @@ function module:GetOptionsObject()
 		local cat_general = {
 			enabled ={
 				order = 4,
-				name = "Enabled",
-				desc = "Enable/Disable the bar.",
+				name = L["Enabled"],
+				desc = L["Enable/Disable the bar."],
 				type = "toggle",
 				set = optSetter,
 				get = optGetter,
@@ -75,15 +75,15 @@ function module:GetOptionsObject()
 			grid = {
 				order = 60,
 				type = "toggle",
-				name = "Button Grid",
-				desc = "Toggle the button grid.",
+				name = L["Button Grid"],
+				desc = L["Toggle the button grid."],
 				set = optSetter,
 				get = optGetter,
 			},
 			buttons = {
 				order = 50,
-				name = "Buttons",
-				desc = "Number of buttons.",
+				name = L["Buttons"],
+				desc = L["Number of buttons."],
 				type = "range",
 				min = 1, max = 12, step = 1,
 				set = optSetter,
@@ -91,22 +91,22 @@ function module:GetOptionsObject()
 			},
 			hidedesc = {
 				order = 80,
-				name = "Button Look",
+				name = L["Button Look"],
 				type = "header",
 			},
 			macrotext = {
 				order = 81,
 				type = "toggle",
-				name = "Hide Macro Text",
-				desc = "Hide the Macro Text on the buttons of this bar.",
+				name = L["Hide Macro Text"],
+				desc = L["Hide the Macro Text on the buttons of this bar."],
 				set = optSetter,
 				get = optGetter,
 			},
 			hotkey = {
 				order = 82,
 				type = "toggle",
-				name = "Hide Hotkey",
-				desc = "Hide the Hotkey on the buttons of this bar.",
+				name = L["Hide Hotkey"],
+				desc = L["Hide the Hotkey on the buttons of this bar."],
 				set = optSetter,
 				get = optGetter,
 			},
@@ -115,7 +115,7 @@ function module:GetOptionsObject()
 		
 		local states = {
 			type = "group",
-			name = "State Configuration",
+			name = L["State Configuration"],
 			cmdInline = true,
 			order = 2,
 			args = self:GetStateOptionsTable(),

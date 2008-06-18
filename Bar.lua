@@ -3,7 +3,7 @@
 ]]
 
 --[[ $Id$ ]]
-
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = CreateFrame("Button")
 local Bar_MT = {__index = Bar}
 
@@ -186,7 +186,7 @@ function Bar:GetOptionObject()
 				show = {
 					order = 5,
 					type = "select",
-					name = "Show/Hide",
+					name = L["Show/Hide"],
 					desc = "Configure when to Show/Hide the bar.",
 					get = optGetter,
 					set = optSetter,

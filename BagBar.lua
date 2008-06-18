@@ -1,5 +1,5 @@
 --[[ $Id$ ]]
-
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
 local BagBarMod = Bartender4:NewModule("BagBar", "AceHook-3.0")
 
@@ -56,8 +56,8 @@ function BagBarMod:SetupOptions()
 		local enabled = {
 			type = "toggle",
 			order = 1,
-			name = "Enabled",
-			desc = "Enable the Bag Bar",
+			name = L["Enabled"],
+			desc = L["Enable the Bag Bar"],
 			get = function() return self.db.profile.enabled end,
 			set = "ToggleModule",
 			handler = self,
@@ -67,8 +67,8 @@ function BagBarMod:SetupOptions()
 		local onebag = {
 			type = "toggle",
 			order = 80,
-			name = "One Bag",
-			desc = "Only show one Bag Button in the BagBar.",
+			name = L["One Bag"],
+			desc = L["Only show one Bag Button in the BagBar."],
 			get = function() return self.db.profile.onebag end,
 			set = function(info, state) self.db.profile.onebag = state; self.bar:FeedButtons(); self.bar:UpdateButtonLayout() end,
 		}
@@ -77,8 +77,8 @@ function BagBarMod:SetupOptions()
 		local keyring = {
 			type = "toggle",
 			order = 80,
-			name = "Keyring",
-			desc = "Show the keyring button.",
+			name = L["Keyring"],
+			desc = L["Show the keyring button."],
 			get = function() return self.db.profile.keyring end,
 			set = function(info, state) self.db.profile.keyring = state; self.bar:FeedButtons(); self.bar:UpdateButtonLayout() end,
 		}
@@ -87,7 +87,7 @@ function BagBarMod:SetupOptions()
 		self.disabledoptions = {
 			general = {
 				type = "group",
-				name = "General Settings",
+				name = L["General Settings"],
 				cmdInline = true,
 				order = 1,
 				args = {
@@ -98,8 +98,8 @@ function BagBarMod:SetupOptions()
 		self.options = {
 			order = 30,
 			type = "group",
-			name = "Bag Bar",
-			desc = "Configure the Bag Bar",
+			name = L["Bag Bar"],
+			desc = L["Configure the Bag Bar"],
 			childGroups = "tab",
 		}
 		Bartender4:RegisterBarOptions("Bag", self.options)

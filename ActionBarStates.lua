@@ -1,5 +1,5 @@
 --[[ $Id$ ]]
-
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local ActionBar = Bartender4.ActionBar
 
 local module = Bartender4:GetModule("ActionBars")
@@ -103,8 +103,8 @@ function module:GetStateOptionsTable()
 		enabled = {
 			order = 1,
 			type = "toggle",
-			name = "Enabled",
-			desc = "Enable State-based Button Swaping",
+			name = L["Enabled"],
+			desc = L["Enable State-based Button Swaping"],
 			get = optGetter,
 			set = optSetter,
 		},
@@ -116,16 +116,16 @@ function module:GetStateOptionsTable()
 		actionbar = {
 			order = 5,
 			type = "toggle",
-			name = "ActionBar Switching",
-			desc = "Enable Bar Switching based on the actionbar controls provided by the game.",
+			name = L["ActionBar Switching"],
+			desc = L["Enable Bar Switching based on the actionbar controls provided by the game."],
 			get = optGetter,
 			set = optSetter,
 		},
 		possess = {
 			order = 5,
 			type = "toggle",
-			name = "Possess Bar",
-			desc = "Switch this bar to the Possess Bar when possessing a npc (eg. Mind Control)",
+			name = L["Possess Bar"],
+			desc = L["Switch this bar to the Possess Bar when possessing a npc (eg. Mind Control)"],
 			get = optGetter,
 			set = optSetter,
 			width = "half",
@@ -133,8 +133,8 @@ function module:GetStateOptionsTable()
 		autoassist = {
 			order = 6,
 			type = "toggle",
-			name = "Auto-Assist",
-			desc = "Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell.",
+			name = L["Auto-Assist"],
+			desc = L["Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell."],
 			get = optGetter,
 			set = optSetter,
 			width = "half",
@@ -142,12 +142,12 @@ function module:GetStateOptionsTable()
 		def_desc = {
 			order = 10,
 			type = "description",
-			name = "The default behaviour of this bar when no state-based paging option affects it.",
+			name = L["The default behaviour of this bar when no state-based paging option affects it."],
 		},
 		def_state = {
 			order = 11,
 			type = "select",
-			name = "Default Bar State",
+			name = L["Default Bar State"],
 			values = validStanceTable,
 			get = optGetter,
 			set = optSetter,
@@ -165,33 +165,33 @@ function module:GetStateOptionsTable()
 				header = {
 					order = 1,
 					type = "header",
-					name = "Modifier Based Switching",
+					name = L["Modifier Based Switching"],
 				},
 				ctrl = {
 					order = 10,
 					type = "select",
-					name = "CTRL",
+					name = L["CTRL"],
 					arg = "states",
 					values = validStanceTable,
-					desc = "Configure actionbar paging when the ctrl key is down.",
+					desc = L["Configure actionbar paging when the ctrl key is down."],
 					--width = "half",
 				},
 				alt = {
 					order = 15,
 					type = "select",
-					name = "ALT",
+					name = L["ALT"],
 					arg = "states",
 					values = validStanceTable,
-					desc = "Configure actionbar paging when the alt key is down.",
+					desc = L["Configure actionbar paging when the alt key is down."],
 					--width = "half",
 				},
 				shift = {
 					order = 20,
 					type = "select",
-					name = "SHIFT",
+					name = L["SHIFT"],
 					arg = "states",
 					values = validStanceTable,
-					desc = "Configure actionbar paging when the shift key is down.",
+					desc = L["Configure actionbar paging when the shift key is down."],
 					--width = "half",
 				},
 			},
@@ -209,7 +209,7 @@ function module:GetStateOptionsTable()
 				stance_header = {
 					order = 1,
 					type = "header",
-					name = "Stance Configuration",
+					name = L["Stance Configuration"],
 				},
 			},
 		},
