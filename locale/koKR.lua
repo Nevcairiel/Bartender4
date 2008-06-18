@@ -1,25 +1,27 @@
-﻿--[[ $Id$ ]]
-local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4","koKR")
+--[[ $Id$ ]]
+local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "koKR")
 if not L then return end
 
-   L["Lock"]="고정"
-   L["Lock all bars."]="모든 바를 고정합니다."
-   L["Bars"]="바"
-   L["Self-Cast by modifier"]="기능키로 자신에게 시전"
-   L["Toggle the use of the modifier-based self-cast functionality."]="기능키를 이용하여 자신에게 주문을 시전합니다."
-   L["Right-click Self-Cast"]="오른쪽 클릭 자신에게 시전"
-   L["Toggle the use of the right-click self-cast functionality."]="마우스 오른쪽 버튼을 클릭하여 자신에게 주문을 시전합니다."
-   L["Out of Range Indicator"]="사거리 표시"
-   L["Configure how the Out of Range Indicator should display on the buttons."]="주문이나 기술의 사거리에 따른 버튼의 지시기에 관한 설정입니다."
-   L["Colors"]="색상"
-   L["Out of Range Indicator"]="사거리 표시"
-   L["Specify the Color of the Out of Range Indicator"]="사거리 표시를 색상화 합니다."
-   L["Out of Mana Indicator"]="마나 표시"
-   L["Specify the Color of the Out of Mana Indicator"]="마나 표시를 색상화 합니다."
-   L["Button Tooltip"]="버튼 툴팁"
-   L["Configure the Button Tooltip."]="버튼에 표시되는 툴팁에 관한 설정입니다."
-   L["FAQ"]="FAQ"
-   L["Frequently Asked Questions"]="Frequently Asked Questions"
+-- Options.lua
+L["Lock"] = "고정"
+L["Lock all bars"] = "모든 바를 고정합니다."
+L["Bars"] = "바"
+L["Self-Cast by modifier"] = "기능키로 자신에게 시전"
+L["Toggle the use of the modifier-based self-cast functionality"] = "기능키를 이용하여 자신에게 주문을 시전합니다."
+L["Right-click Self-Cast"] = "오른쪽 클릭 자신에게 시전"
+L["Toggle the use of the right-click self-cast functionality"] = "마우스 오른쪽 버튼을 클릭하여 자신에게 주문을 시전합니다."
+L["Out of Range Indicator"] = "사거리 표시"
+L["Configure how the Out of Range Indicator should display on the buttons"] = "주문이나 기술의 사거리에 따른 버튼의 지시기에 관한 설정입니다."
+L["Colors"] = "색상"
+L["Out of Range Indicator"] = "사거리 표시"
+L["Specify the Color of the Out of Range Indicator"] = "사거리 표시를 색상화 합니다."
+L["Out of Mana Indicator"] = "마나 표시"
+L["Specify the Color of the Out of Mana Indicator"] = "마나 표시를 색상화 합니다."
+L["Button Tooltip"] = "버튼 툴팁"
+L["Configure the Button Tooltip"] = "버튼에 표시되는 툴팁에 관한 설정입니다."
+--L["FAQ"] = "FAQ"
+--L["Frequently Asked Questions"] = "Frequently Asked Questions"
+
 L["FAQ_TEXT"] = [[
 |cffffd200
 방금 Bartender4를 설치했습니다. 그런데 단축키가 표시되지 않거나 전부 작동하지 않아요.

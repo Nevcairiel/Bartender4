@@ -1,25 +1,27 @@
 --[[ $Id$ ]]
-local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4","enUS",true)
+local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "enUS", true)
 if not L then return end
 
-   L["Lock"]="Lock"
-   L["Lock all bars."]="Lock all bars."
-   L["Bars"]="Bars"
-   L["Self-Cast by modifier"]="Self-Cast by modifier"
-   L["Toggle the use of the modifier-based self-cast functionality."]="Toggle the use of the modifier-based self-cast functionality."
-   L["Right-click Self-Cast"]="Right-click Self-Cast"
-   L["Toggle the use of the right-click self-cast functionality."]="Toggle the use of the right-click self-cast functionality."
-   L["Out of Range Indicator"]="Out of Range Indicator"
-   L["Configure how the Out of Range Indicator should display on the buttons."]="Configure how the Out of Range Indicator should display on the buttons."
-   L["Colors"]="Colors"
-   L["Out of Range Indicator"]="Out of Range Indicator"
-   L["Specify the Color of the Out of Range Indicator"]="Specify the Color of the Out of Range Indicator"
-   L["Out of Mana Indicator"]="Out of Mana Indicator"
-   L["Specify the Color of the Out of Mana Indicator"]="Specify the Color of the Out of Mana Indicator"
-   L["Button Tooltip"]="Button Tooltip"
-   L["Configure the Button Tooltip."]="Configure the Button Tooltip."
-   L["FAQ"]="FAQ"
-   L["Frequently Asked Questions"]="Frequently Asked Questions"
+-- Options.lua
+L["Lock"] = true
+L["Lock all bars."] = true
+L["Bars"] = true
+L["Self-Cast by modifier"] = true
+L["Toggle the use of the modifier-based self-cast functionality."] = true
+L["Right-click Self-Cast"] = true
+L["Toggle the use of the right-click self-cast functionality."] = true
+L["Out of Range Indicator"] = true
+L["Configure how the Out of Range Indicator should display on the buttons."] = true
+L["Colors"] = true
+L["Out of Range Indicator"] = true
+L["Specify the Color of the Out of Range Indicator"] = true
+L["Out of Mana Indicator"] = true
+L["Specify the Color of the Out of Mana Indicator"] = true
+L["Button Tooltip"] = true
+L["Configure the Button Tooltip."] = true
+L["FAQ"] = true
+L["Frequently Asked Questions"] = true
+
 L["FAQ_TEXT"] = [[
 |cffffd200
 I just installed Bartender4, but my keybindings do not show up on the buttons/do not work entirely.
