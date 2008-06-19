@@ -60,6 +60,7 @@ L["Configure actionbar paging when the ctrl key is down."] = true
 L["ALT"] = true
 L["Configure actionbar paging when the alt key is down."] = true
 L["SHIFT"] = true
+L["Configure actionbar paging when the shift key is down."] = true
 L["Stance Configuration"] = true
 --BagBar.lua
 L["Enable the Bag Bar"] = true
