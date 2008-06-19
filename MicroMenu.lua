@@ -26,7 +26,7 @@ local noopFunc = function() end
 
 function MicroMenuMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.Bar:Create("MicroMenu", self.db.profile), {__index = MicroMenuBar})
+		self.bar = setmetatable(Bartender4.Bar:Create(L["MicroMenu"], self.db.profile), {__index = MicroMenuBar})
 		local buttons = {}
 		table_insert(buttons, CharacterMicroButton)
 		table_insert(buttons, SpellbookMicroButton)
@@ -98,7 +98,7 @@ function MicroMenuMod:SetupOptions()
 			desc = L["Configure the Micro Menu"],
 			childGroups = "tab",
 		}
-		Bartender4:RegisterBarOptions("MicroMenu", self.options)
+		Bartender4:RegisterBarOptions(L["MicroMenu"], self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
 end
