@@ -3,6 +3,7 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "zhCN")
 if not L then return end
 
+-- L["%s Bar"] = true
 L["ALT"] = "按下ALT"
 L["ActionBar Switching"] = "切换动作条"
 L["Alignment"] = "对齐"
@@ -11,7 +12,6 @@ L["Always Hide"] = "始终隐藏"
 L["Always Show"] = "始终显示"
 L["Auto-Assist"] = "自动协助"
 L["Bag Bar"] = "背包栏"
-L["Bar "] = "动作条 "
 L["Bar %s"] = "动作条 %s"
 L["Bar Style & Layout"] = "动作条风格与布局"
 L["Bars"] = "动作条"
@@ -49,6 +49,7 @@ L["Enable the StanceBar"] = "开启姿态栏"
 L["Enable/Disable the bar."] = "开启/关闭 该动作条。"
 L["Enabled"] = "开启"
 L["FAQ"] = "帮助"
+-- L["FAQ_TEXT"] = true
 L["Fade Out"] = "淡出"
 L["Fade Out Alpha"] = "淡出程度"
 L["Fade Out Delay"] = "淡出延迟"

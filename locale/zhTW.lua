@@ -3,6 +3,7 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "zhTW")
 if not L then return end
 
+-- L["%s Bar"] = true
 -- L["ALT"] = true
 -- L["ActionBar Switching"] = true
 -- L["Alignment"] = true
@@ -11,7 +12,6 @@ if not L then return end
 -- L["Always Show"] = true
 -- L["Auto-Assist"] = true
 -- L["Bag Bar"] = true
--- L["Bar "] = true
 -- L["Bar %s"] = true
 -- L["Bar Style & Layout"] = true
 -- L["Bars"] = true
@@ -49,6 +49,7 @@ if not L then return end
 -- L["Enable/Disable the bar."] = true
 -- L["Enabled"] = true
 -- L["FAQ"] = true
+-- L["FAQ_TEXT"] = true
 -- L["Fade Out"] = true
 -- L["Fade Out Alpha"] = true
 -- L["Fade Out Delay"] = true
