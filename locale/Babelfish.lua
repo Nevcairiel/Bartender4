@@ -45,7 +45,7 @@ local AceLocaleHeader = "local L ="
 local BabbleFishHeader = "L = {} -- "
 
 local function replaceHeader(content)
-	return content:gsub(AceLocaleHeader, BabbleFishHeader)
+	return content:gsub(AceLocaleHeader, BabbleFishHeader):gsub("\\", "\\\\"):gsub("\\\"", "\\\\\"")
 end
 
 local localizedStrings = {}

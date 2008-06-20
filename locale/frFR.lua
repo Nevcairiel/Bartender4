@@ -3,7 +3,6 @@
 local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "frFR")
 if not L then return end
 
--- L["%s Bar"] = true
 -- L["ALT"] = true
 -- L["ActionBar Switching"] = true
 -- L["Alignment"] = true
@@ -11,7 +10,6 @@ if not L then return end
 -- L["Always Hide"] = true
 -- L["Always Show"] = true
 -- L["Auto-Assist"] = true
---L["Bag"] = true
 -- L["Bag Bar"] = true
 -- L["Bar %s"] = true
 -- L["Bar Style & Layout"] = true
@@ -50,7 +48,6 @@ if not L then return end
 -- L["Enable/Disable the bar."] = true
 -- L["Enabled"] = true
 -- L["FAQ"] = true
--- L["FAQ_TEXT"] = true
 -- L["Fade Out"] = true
 -- L["Fade Out Alpha"] = true
 -- L["Fade Out Delay"] = true
@@ -66,7 +63,6 @@ if not L then return end
 -- L["Keyring"] = true
 -- L["Lock"] = true
 -- L["Lock all bars."] = true
---L["MicroMenu"] = true
 -- L["Micro Menu"] = true
 -- L["Modifier Based Switching"] = true
 -- L["No Display"] = true
@@ -77,7 +73,6 @@ if not L then return end
 -- L["Out of Mana Indicator"] = true
 -- L["Out of Range Indicator"] = true
 -- L["Padding"] = true
---L["Pet"] = true
 -- L["Pet Bar"] = true
 -- L["Possess Bar"] = true
 -- L["Right-click Self-Cast"] = true
@@ -90,7 +85,6 @@ if not L then return end
 -- L["Show/Hide"] = true
 -- L["Specify the Color of the Out of Mana Indicator"] = true
 -- L["Specify the Color of the Out of Range Indicator"] = true
---L["Stance"] = true
 -- L["Stance Bar"] = true
 -- L["Stance Configuration"] = true
 -- L["State Configuration"] = true
