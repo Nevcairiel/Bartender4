@@ -1,6 +1,7 @@
 --[[ $Id$ ]]
 
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
+local FAQ = LibStub("AceLocale-3.0"):GetLocale("Bartender4_FAQ")
 
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
@@ -131,7 +132,7 @@ local function getOptions()
 					args = {
 						faq = {
 							type = "description",
-							name = L["FAQ_TEXT"],
+							name = FAQ["FAQ_TEXT"],
 						},
 					},
 				},

@@ -64,13 +64,14 @@ Bartender4.Bar = {}
 Bartender4.Bar.defaults = defaults
 Bartender4.Bar.prototype = Bar
 Bartender4.Bar.barregistry = barregistry
-function Bartender4.Bar:Create(id, config)
+function Bartender4.Bar:Create(id, config, name)
 	id = tostring(id)
 	assert(not barregistry[id], "duplicated entry in barregistry.")
 	
 	local bar = setmetatable(CreateFrame("Frame", ("BT4Bar%s"):format(id), UIParent, "SecureStateHeaderTemplate"), Bar_MT)
 	barregistry[id] = bar
 	bar.id = id
+	bar.name = name or id
 	bar:SetMovable(true)
 	
 	local overlay = CreateFrame("Button", bar:GetName() .. "Overlay", bar)
@@ -90,7 +91,7 @@ function Bartender4.Bar:Create(id, config)
 	overlay:SetBackdropBorderColor(0.5, 0.5, 0, 0)
 	overlay.Text = overlay:CreateFontString(nil, "ARTWORK")
 	overlay.Text:SetFontObject(GameFontNormal)
-	overlay.Text:SetText((tonumber(id) and L["Bar %s"] or L["%s Bar"]):format(id))
+	overlay.Text:SetText(name)
 	overlay.Text:Show()
 	overlay.Text:ClearAllPoints()
 	overlay.Text:SetPoint("CENTER", overlay, "CENTER")

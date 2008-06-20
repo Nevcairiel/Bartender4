@@ -27,7 +27,7 @@ end
 
 function PetBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.ButtonBar:Create(L["Pet"], self.db.profile), {__index = PetBar})
+		self.bar = setmetatable(Bartender4.ButtonBar:Create("PetBar", self.db.profile, L["Pet Bar"]), {__index = PetBar})
 		
 		local buttons = {}
 		for i=1,10 do
@@ -162,7 +162,7 @@ function PetBarMod:SetupOptions()
 			desc = L["Configure the Pet Bar"],
 			childGroups = "tab",
 		}
-		Bartender4:RegisterBarOptions(L["Pet"], self.options)
+		Bartender4:RegisterBarOptions("PetBar", self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
 end

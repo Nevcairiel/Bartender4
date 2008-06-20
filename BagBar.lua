@@ -27,7 +27,7 @@ local noopFunc = function() end
 
 function BagBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.ButtonBar:Create(L["Bag"], self.db.profile), {__index = BagBar})
+		self.bar = setmetatable(Bartender4.ButtonBar:Create("BagBar", self.db.profile, L["Bag Bar"]), {__index = BagBar})
 		
 		-- TODO: real start position
 		self.bar:SetPoint("CENTER")
@@ -102,7 +102,7 @@ function BagBarMod:SetupOptions()
 			desc = L["Configure the Bag Bar"],
 			childGroups = "tab",
 		}
-		Bartender4:RegisterBarOptions(L["Bag"], self.options)
+		Bartender4:RegisterBarOptions("BagBar", self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
 end

@@ -29,7 +29,7 @@ end
 
 function StanceBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.ButtonBar:Create(L["Stance"], self.db.profile), {__index = StanceBar})
+		self.bar = setmetatable(Bartender4.ButtonBar:Create("StanceBar", self.db.profile, L["Stance Bar"]), {__index = StanceBar})
 		
 		self.bar:ClearSetPoint("CENTER")
 		self.bar:SetScript("OnEvent", StanceBar.OnEvent)
@@ -93,7 +93,7 @@ function StanceBarMod:SetupOptions()
 			childGroups = "tab",
 			disabled = function(info) return GetNumShapeshiftForms() == 0 end,
 		}
-		Bartender4:RegisterBarOptions(L["Stance"], self.options)
+		Bartender4:RegisterBarOptions("StanceBar", self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
 end
