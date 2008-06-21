@@ -268,7 +268,7 @@ function module:CreateStanceMap()
 	self.stancemap = defstancemap
 end
 
-function ActionBar:UpdateStates()
+function ActionBar:UpdateStates(noHideDriver)
 	self.statebutton = {}
 	if not module.stancemap and module.DefaultStanceMap[playerclass] then 
 		module.stancemap = module.DefaultStanceMap[playerclass]
@@ -277,7 +277,7 @@ function ActionBar:UpdateStates()
 		self:AddButtonStates(i)
 	end
 	
-	local statedriver = {}
+	local statedriver, hidedriver = {}, {}
 	if self:GetStateOption("possess") then
 		self:AddButtonStates(11)
 		table_insert(statedriver, "[bonusbar:5]11")
@@ -291,7 +291,11 @@ function ActionBar:UpdateStates()
 		for _,v in pairs(modifiers) do
 			local page = self:GetStateOption(v)
 			if page and page ~= 0 then
-				table_insert(statedriver, fmt("[modifier:%s]%s", v, page)) 
+				if page == -1 then
+					table_insert(hidedriver, fmt("[modifier:%s]hide", v))
+				else
+					table_insert(statedriver, fmt("[modifier:%s]%s", v, page)) 
+				end
 			end
 		end
 		
@@ -311,19 +315,38 @@ function ActionBar:UpdateStates()
 					if playerclass == "DRUID" and v.id == "cat" then
 						local prowl = self:GetStanceState("prowl")
 						if prowl then
-							table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
+							if prowl == -1 then
+								table_insert(hidedriver, fmt("[bonusbar:%s,stealth:1]hide", v.index))
+							else
+								table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
+							end
 						end
 					end
-					table_insert(statedriver, fmt("[bonusbar:%s]%s", v.index, state))
+					if state == -1 then
+						table_insert(hidedriver, fmt("[bonusbar:%s]hide", v.index))
+					else
+						table_insert(statedriver, fmt("[bonusbar:%s]%s", v.index, state))
+					end
 				end
 			end
 		end
 	end
 	
 	table_insert(statedriver, tostring(self:GetDefaultState() or 0))
+	table_insert(hidedriver, "show")
 	
 	RegisterStateDriver(self, "page", table_concat(statedriver, ";"))
 	self:SetAttribute("statemap-page", "$input")
+	
+	if not noHideDriver then
+		RegisterStateDriver(self, "visibility", table_concat(hidedriver, ";"))
+		self:SetAttribute("statemap-visibility", "$input")
+		self:SetAttribute("state-visibility",  self:GetAttribute("state-visibility"))
+	else
+		UnregisterStateDriver(self, "visibility")
+		self:Show()
+	end
+	
 	self:ApplyStateButton()
 	
 	SecureStateHeader_Refresh(self)
