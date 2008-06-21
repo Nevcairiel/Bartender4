@@ -7,6 +7,8 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = CreateFrame("Button")
 local Bar_MT = {__index = Bar}
 
+local table_concat, table_insert = table.concat, table.insert
+
 --[[===================================================================================
 	Universal Bar Contructor
 ===================================================================================]]--
@@ -109,6 +111,7 @@ function Bartender4.Bar:Create(id, config, name)
 	
 	bar.config = config
 	bar.elapsed = 0
+	bar.hidedriver = {}
 	
 	return bar
 end
@@ -273,18 +276,20 @@ function Bar:ApplyConfig(config)
 		self.config = config
 	end
 	if self.disabled then return end
+	self:InitVisibilityDriver()
 	self:SetShow()
 	self:Lock()
 	self:LoadPosition()
 	self:SetConfigScale()
 	self:SetConfigAlpha()
 	self:SetFadeOut()
+	self:ApplyVisibilityDriver()
 end
 
 function Bar:Unlock()
 	if self.disabled or self.unlocked then return end
 	self.unlocked = true
-	UnregisterStateDriver(self, "visibility")
+	self:DisableVisibilityDriver()
 	self:Show()
 	self.overlay:Show()
 	if self.config.show == "alwayshide" then
@@ -304,7 +309,7 @@ function Bar:Lock()
 	self.unlocked = nil
 	barOnDragStop(self.overlay)
 	
-	self:ConfigureShowStates()
+	self:ApplyVisibilityDriver()
 	
 	self.overlay:Hide()
 	
@@ -344,7 +349,8 @@ function Bar:SetShow(show)
 		self.config.show = show
 	end
 	if not self.unlocked then
-		self:ConfigureShowStates()
+		self:InitVisibilityDriver()
+		self:ApplyVisibilityDriver()
 	else
 		self:Show()
 		if self.config.show == "alwayshide" then
@@ -352,20 +358,6 @@ function Bar:SetShow(show)
 		else
 			self.overlay:SetBackdropColor(0, 1, 0, 0.5)
 		end
-	end
-end
-
-function Bar:ConfigureShowStates()
-	UnregisterStateDriver(self, 'visibility')
-	local conditions
-	if self.config.show == "alwaysshow" or self.config.show == true then
-		self:Show()
-	elseif self.config.show == "alwayshide" or self.config.show == false then
-		self:Hide()
-	elseif self.config.show == "combatshow" then
-		RegisterStateDriver(self, 'visibility', '[combat]show;hide')
-	elseif self.config.show == "combathide" then
-		RegisterStateDriver(self, 'visibility', '[combat]hide;show')
 	end
 end
 
@@ -445,6 +437,40 @@ function Bar:ControlFadeOut()
 			self.faded = true
 		end
 	end
+end
+
+
+function Bar:InitVisibilityDriver()
+	self.hidedriver = {}
+	UnregisterStateDriver(self, 'visibility')
+	if self.config.show == "alwaysshow" or self.config.show == true then
+		--
+	elseif self.config.show == "alwayshide" or self.config.show == false then
+		self:RegisterVisibilityCondition("hide")
+	elseif self.config.show == "combatshow" then
+		self:RegisterVisibilityCondition("[nocombat]hide")
+	elseif self.config.show == "combathide" then
+		self:RegisterVisibilityCondition("[combat]hide")
+	end
+end
+
+function Bar:RegisterVisibilityCondition(condition)
+	table_insert(self.hidedriver, condition)
+end
+
+function Bar:ApplyVisibilityDriver()
+	if self.unlocked then return end
+	-- default state is shown
+	self:RegisterVisibilityCondition("show")
+	RegisterStateDriver(self, "visibility", table_concat(self.hidedriver, ";"))
+	self:SetAttribute("statemap-visibility", "$input")
+	self:SetAttribute("state-visibility",  self:GetAttribute("state-visibility"))
+end
+
+function Bar:DisableVisibilityDriver()
+	UnregisterStateDriver(self, "visibility")
+	self:SetAttribute("state-visibility", nil)
+	self:Show()
 end
 
 --[[

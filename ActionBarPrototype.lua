@@ -197,16 +197,9 @@ function ActionBar:SkinChanged(...)
 	self:ForAll("Update")
 end
 
-function ActionBar:Lock()
-	if self.disabled or not self.unlocked then return end
-	ButtonBar.Lock(self)
+function ActionBar:SetShow(...)
+	ButtonBar.SetShow(self, ...)
 	self:UpdateStates()
-end
-
-function ActionBar:Unlock()
-	if self.disabled or self.unlocked then return end
-	ButtonBar.Unlock(self)
-	self:UpdateStates(true)
 end
 
 
