@@ -342,7 +342,9 @@ function ActionBar:UpdateStates()
 	self:ApplyStateButton()
 	
 	SecureStateHeader_Refresh(self)
-	self:SetAttribute("state", self:GetAttribute("state-page"))
+	
+	local newState = self:GetAttribute("state-page")
+	self:SetAttribute("state", newState)
 	
 	self:ApplyVisibilityDriver()
 end

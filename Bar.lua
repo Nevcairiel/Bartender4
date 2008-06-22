@@ -463,8 +463,6 @@ function Bar:ApplyVisibilityDriver()
 	-- default state is shown
 	self:RegisterVisibilityCondition("show")
 	RegisterStateDriver(self, "visibility", table_concat(self.hidedriver, ";"))
-	self:SetAttribute("statemap-visibility", "$input")
-	self:SetAttribute("state-visibility",  self:GetAttribute("state-visibility"))
 end
 
 function Bar:DisableVisibilityDriver()
