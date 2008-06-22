@@ -94,14 +94,14 @@ Je viens juste d'installer Bartender4, mais mes raccourcis ne s'affichent pas su
 Bartender4 convertit uniquement les raccourcis de la barre 1 afin d'être immédiatement utilisable. Toutes les autres barres devront être réassociées avec les touches de Bartender4. Un moyen rapide de voir si vos raccourcis sont correctements définis est d'activer l'affichage des raccourcis sur les buttons. Si les raccourcis s'affichent correctement sur vos boutons, tout devrait bien fonctionner.
 
 |cffffd200
-Comment puis-je alors changer les raccourcis de Bartender4 ?
+Comment puis-je alors changer les raccourcis de Bartender4 ?
 |r
 En attendant qu'un accès rapide soit mis en place (minicarte/FuBar/etc.), il vous faut utiliser la commande |cffffff78/kb|r pour ouvrir le panneau de contrôle de keyBound. 
 
 Une fois ouvert, survolez tout simplement le bouton que vous voulez configurer, et appuyez sur la touche à associer à ce bouton. La bulle d'aide de keyBound et le statut à l'écran vous informeront si des raccourcis existent déjà sur ce bouton et du succès de votre tentative d'association.
 
 |cffffd200
-J'ai trouvé un bogue ! Où puis-je le signaler ?
+J'ai trouvé un bogue ! Où puis-je le signaler ?
 |r
 Vous pouvez signaler des bogues ou faire des suggestions sur |cffffff78http://www.wowace.com/forums/index.php?topic=13258.0|r
 
@@ -110,8 +110,8 @@ Vous pouvez également nous trouver sur |cffffff78irc://irc.freenode.org/wowace|
 Quand vous voulez signaler un bogue, essayez de fournir les |cffffff78étapes à suivre pour reproduire ce bogue|r, indiquez les |cffffff78messages d'erreur|r que vous avez vus, donnez le |cffffff78numéro de révision|r de Bartender4 où le problème a été découvert et précisez également la |cffffff78langue de votre jeu|r.
 
 |cffffd200
-Qui a écrit cet addon qui déchire ?
+Qui a écrit cet addon qui déchire ?
 |r
-Bartender4 a été écrit par Nevcairiel (EU-Antonidas), l'auteur de Bartender3 !
+Bartender4 a été écrit par Nevcairiel (EU-Antonidas), l'auteur de Bartender3 !
 ]]
 end
