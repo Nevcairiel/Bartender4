@@ -244,7 +244,8 @@ module.DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 			{ id = "cat", name = GetSpellInfo(768), index = 1 },
 				-- prowl is virtual, no real stance
 			{ id = "prowl", name = ("%s (%s)"):format((GetSpellInfo(768)), (GetSpellInfo(5215))), index = false},
-			{ id = "moonkintree", name = ("%s/%s"):format((GetSpellInfo(24858)), (GetSpellInfo(33891))), index = 2 },
+			{ id = "moonkin", name = GetSpellInfo(24858), index = 4 },
+			{ id = "treeoflife", name = GetSpellInfo(33891), index = 2 },
 		}
 	elseif k == "ROGUE" then
 		newT = {
