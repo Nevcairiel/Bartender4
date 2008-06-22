@@ -15,7 +15,7 @@ if not L then return end
 -- L["Bar Style & Layout"] = true
 -- L["Bars"] = true
 -- L["Button Grid"] = true
---L["Button Lock"] = true
+-- L["Button Lock"] = true
 -- L["Button Look"] = true
 -- L["Button Tooltip"] = true
 -- L["Buttons"] = true
@@ -64,7 +64,7 @@ if not L then return end
 -- L["Keyring"] = true
 -- L["Lock"] = true
 -- L["Lock all bars."] = true
---L["Lock the buttons."] = true
+-- L["Lock the buttons."] = true
 -- L["Micro Menu"] = true
 -- L["Modifier Based Switching"] = true
 -- L["No Display"] = true
