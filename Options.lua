@@ -37,8 +37,8 @@ local function getOptions()
 				buttonlock = {
 					order = 2,
 					type = "toggle",
-					name = "Button Lock",
-					desc = "Lock the buttons.",
+					name = L["Button Lock"],
+					desc = L["Lock the buttons."],
 					get = getFunc,
 					set = setFunc,
 				},
