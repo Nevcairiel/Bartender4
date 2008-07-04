@@ -6,7 +6,8 @@ local locale = {
 	"esES",
 	"zhCN",
 	"zhTW",
-	"koKR"
+	"koKR",
+	"ruRU"
 }
 local files = {
 	"ActionBarPrototype.lua",
