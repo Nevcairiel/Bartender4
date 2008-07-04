@@ -173,7 +173,7 @@ function module:GetStateOptionsTable()
 					name = L["CTRL"],
 					arg = "states",
 					values = validStanceTable,
-					desc = L["Configure actionbar paging when the ctrl key is down."],
+					desc = (L["Configure actionbar paging when the %s key is down."]):format(L["CTRL"]),
 					--width = "half",
 				},
 				alt = {
@@ -182,7 +182,7 @@ function module:GetStateOptionsTable()
 					name = L["ALT"],
 					arg = "states",
 					values = validStanceTable,
-					desc = L["Configure actionbar paging when the alt key is down."],
+					desc = (L["Configure actionbar paging when the %s key is down."]):format(L["ALT"]),
 					--width = "half",
 				},
 				shift = {
@@ -191,7 +191,7 @@ function module:GetStateOptionsTable()
 					name = L["SHIFT"],
 					arg = "states",
 					values = validStanceTable,
-					desc = L["Configure actionbar paging when the shift key is down."],
+					desc = (L["Configure actionbar paging when the %s key is down."]):format(L["SHIFT"]),
 					--width = "half",
 				},
 			},
