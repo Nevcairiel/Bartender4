@@ -222,8 +222,7 @@ function BT4ActionBars:DisableBar(id)
 	if not bar then return end
 	
 	bar.config.enabled = false
-	bar.disabled = true
-	bar:Hide()
+	bar:Disable()
 	self:CreateBarOption(id, self.disabledoptions)
 end
 

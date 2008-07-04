@@ -34,7 +34,7 @@ function StanceBarMod:OnEnable()
 		self.bar:ClearSetPoint("CENTER")
 		self.bar:SetScript("OnEvent", StanceBar.OnEvent)
 	end
-	self.bar.disabled = nil
+	self.bar:Enable()
 	
 	self:ToggleOptions()
 	self.bar:RegisterEvent("PLAYER_ENTERING_WORLD")
@@ -51,9 +51,7 @@ end
 
 function StanceBarMod:OnDisable()
 	if not self.bar then return end
-	self.bar.disabled = true
-	self.bar:UnregisterAllEvents()
-	self.bar:Hide()
+	self.bar:Disable()
 	self:ToggleOptions()
 end
 

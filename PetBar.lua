@@ -42,7 +42,7 @@ function PetBarMod:OnEnable()
 		
 		self.bar:SetAttribute("unit", "pet")
 	end
-	self.bar.disabled = nil
+	self.bar:Enable()
 	
 	RegisterUnitWatch(self.bar, false)
 	
@@ -66,12 +66,10 @@ end
 
 function PetBarMod:OnDisable()
 	if not self.bar then return end
-	self.bar.disabled = true
-	
+		
 	UnregisterUnitWatch(self.bar)
 	
-	self.bar:UnregisterAllEvents()
-	self.bar:Hide()
+	self.bar:Disable()
 	self:ToggleOptions()
 end
 

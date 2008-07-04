@@ -471,6 +471,19 @@ function Bar:DisableVisibilityDriver()
 	self:Show()
 end
 
+function Bar:Enable()
+	if not self.disabled then return end
+	self.disabled = nil
+end
+
+function Bar:Disable()
+	if self.disabled then return end
+	self.disabled = true
+	self:UnregisterAllEvents()
+	self:DisableVisibilityDriver()
+	self:Hide()
+end
+
 --[[
 	Lazyness functions
 ]]
