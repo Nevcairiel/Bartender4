@@ -153,29 +153,6 @@ function BT4ActionBars:UpdateButtons(force)
 	end
 end
 
-function BT4ActionBars:CreateBarOption(id, options)
-	if not self.options then return end
-	
-	if not options then 
-		options = self:GetOptionsTable() 
-	end
-	
-	id = tostring(id)
-	if not self.options[id] then
-		self.options[id] = {
-			order = 10 + tonumber(id),
-			type = "group",
-			name = (L["Bar %s"]):format(id),
-			desc = (L["Configure Bar %s"]):format(id),
-			childGroups = "tab",
-		}
-	end
-	self.options[id].args = options
-	
-	-- register options in the BT GUI
-	Bartender4:RegisterBarOptions(id, self.options[id])
-end
-
 function BT4ActionBars:ReassignBindings()
 	if InCombatLockdown() then return end
 	if not self.actionbars or not self.actionbars[1] then return end

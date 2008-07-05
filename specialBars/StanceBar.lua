@@ -55,52 +55,7 @@ function StanceBarMod:OnDisable()
 	self:ToggleOptions()
 end
 
-local button_count = 10
-function StanceBarMod:SetupOptions()
-	if not self.options then
-		self.optionobject = Bartender4.ButtonBar.prototype:GetOptionObject()
-		self.optionobject.table.general.args.rows.max = button_count
-		local enabled = {
-			type = "toggle",
-			order = 1,
-			name = L["Enabled"],
-			desc = L["Enable the StanceBar"],
-			get = function() return self.db.profile.enabled end,
-			set = "ToggleModule",
-			handler = self,
-		}
-		self.optionobject:AddElement("general", "enabled", enabled)
-		
-		self.disabledoptions = {
-			general = {
-				type = "group",
-				name = L["General Settings"],
-				cmdInline = true,
-				order = 1,
-				args = {
-					enabled = enabled,
-				}
-			}
-		}
-		
-		self.options = {
-			order = 30,
-			type = "group",
-			name = L["Stance Bar"],
-			desc = L["Configure  the Stance Bar"],
-			childGroups = "tab",
-			disabled = function(info) return GetNumShapeshiftForms() == 0 end,
-		}
-		Bartender4:RegisterBarOptions("StanceBar", self.options)
-	end
-	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
-end
-
-function StanceBarMod:ToggleOptions()
-	if self.options then
-		self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
-	end
-end
+StanceBarMod.button_count = 10
 
 function StanceBarMod:ApplyConfig()
 	if not self:IsEnabled() then return end
@@ -255,7 +210,7 @@ function StanceBar:UpdateStanceButtons()
 		buttons[i]:Hide()
 	end
 	
-	button_count = num_stances
+	StanceBarMod.button_count = num_stances
 	if StanceBarMod.optionobject then
 		StanceBarMod.optionobject.table.general.args.rows.max = num_stances
 	end

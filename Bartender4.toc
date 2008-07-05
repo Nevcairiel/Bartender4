@@ -17,15 +17,10 @@ Bartender4.lua
 Options.lua
 
 ## Prototypes ##
-Bar.lua
-ButtonBar.lua
-Button.lua
+barPrototype\Bar.xml
+buttonBarPrototype\ButtonBar.xml
+buttonPrototypes\Buttons.xml
 
 ## Modules ##
-ActionBars.lua
-ActionBarPrototype.lua
-ActionBarStates.lua
-StanceBar.lua
-PetBar.lua
-MicroMenu.lua
-BagBar.lua
+actionBar\ActionBars.xml
+specialBars\SpecialBars.xml

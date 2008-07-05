@@ -47,71 +47,6 @@ function BagBarMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
-local button_count = 5
-function BagBarMod:SetupOptions()
-	if not self.options then
-		self.optionobject = ButtonBar:GetOptionObject()
-		self.optionobject.table.general.args.rows.max = button_count
-		local enabled = {
-			type = "toggle",
-			order = 1,
-			name = L["Enabled"],
-			desc = L["Enable the Bag Bar"],
-			get = function() return self.db.profile.enabled end,
-			set = "ToggleModule",
-			handler = self,
-		}
-		self.optionobject:AddElement("general", "enabled", enabled)
-		
-		local onebag = {
-			type = "toggle",
-			order = 80,
-			name = L["One Bag"],
-			desc = L["Only show one Bag Button in the BagBar."],
-			get = function() return self.db.profile.onebag end,
-			set = function(info, state) self.db.profile.onebag = state; self.bar:FeedButtons(); self.bar:UpdateButtonLayout() end,
-		}
-		self.optionobject:AddElement("general", "onebag", onebag)
-		
-		local keyring = {
-			type = "toggle",
-			order = 80,
-			name = L["Keyring"],
-			desc = L["Show the keyring button."],
-			get = function() return self.db.profile.keyring end,
-			set = function(info, state) self.db.profile.keyring = state; self.bar:FeedButtons(); self.bar:UpdateButtonLayout() end,
-		}
-		self.optionobject:AddElement("general", "keyring", keyring)
-		
-		self.disabledoptions = {
-			general = {
-				type = "group",
-				name = L["General Settings"],
-				cmdInline = true,
-				order = 1,
-				args = {
-					enabled = enabled,
-				}
-			}
-		}
-		self.options = {
-			order = 30,
-			type = "group",
-			name = L["Bag Bar"],
-			desc = L["Configure the Bag Bar"],
-			childGroups = "tab",
-		}
-		Bartender4:RegisterBarOptions("BagBar", self.options)
-	end
-	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
-end
-
-function BagBarMod:ToggleOptions()
-	if self.options then
-		self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
-	end
-end
-
 function BagBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 	self:FeedButtons()
@@ -125,6 +60,7 @@ end
 
 BagBar.button_width = 37
 BagBar.button_height = 37
+BagBarMod.button_count = 5
 function BagBar:FeedButtons()
 	local count = 1
 	if self.buttons then
@@ -178,9 +114,8 @@ function BagBar:FeedButtons()
 		v.ClearSetPoint = clearSetPoint
 	end
 	
-	button_count = count
+	BagBarMod.button_count = count
 	if BagBarMod.optionobject then
 		BagBarMod.optionobject.table.general.args.rows.max = count
 	end
 end
-

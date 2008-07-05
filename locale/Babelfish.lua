@@ -10,18 +10,27 @@ local locale = {
 	"ruRU"
 }
 local files = {
-	"ActionBarPrototype.lua",
-	"ActionBars.lua",
-	"ActionBarStates.lua",
-	"BagBar.lua",
-	"Bar.lua",
 	"Bartender4.lua",
-	"Button.lua",
-	"ButtonBar.lua",
-	"MicroMenu.lua",
 	"Options.lua",
-	"PetBar.lua",
-	"StanceBar.lua",
+	"actionBar/Prototype.lua",
+	"actionBar/Options.lua",
+	"actionBar/ActionBars.lua",
+	"actionBar/States.lua",
+	"actionBar/StatesOptions.lua",
+	"barPrototype/Prototype.lua",
+	"barPrototype/Options.lua",
+	"buttonBarPrototype/Prototype.lua",
+	"buttonBarPrototype/Options.lua",
+	"buttonPrototypes/ActionButton.lua",
+	"buttonPrototypes/PetButton.lua",
+	"specialBars/BagBar.lua",
+	"specialBars/BagBarOptions.lua",
+	"specialBars/MicroMenu.lua",
+	"specialBars/MicroMenuOptions.lua",
+	"specialBars/PetBar.lua",
+	"specialBars/PetBarOptions.lua",
+	"specialBars/StanceBar.lua",
+	"specialBars/StanceBarOptions.lua",
 }
 
 local strings = {}

@@ -99,4 +99,10 @@ function Bartender4.modulePrototype:ToggleModule(info, value)
 		self:Disable()
 	end
 end
+
+function Bartender4.modulePrototype:ToggleOptions()
+	if self.options then
+		self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
+	end
+end
 Bartender4:SetDefaultModulePrototype(Bartender4.modulePrototype)
