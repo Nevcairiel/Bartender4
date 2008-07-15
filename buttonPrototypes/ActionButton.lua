@@ -27,6 +27,7 @@ function Bartender4.Button:Create(id, parent)
 	button.rid = id
 	button.id = absid
 	button.parent = parent
+	button.stateactions = {}
 	
 	button:SetFrameStrata("MEDIUM")
 	button:SetFrameLevel(parent:GetFrameLevel() + 2)
@@ -128,6 +129,7 @@ function onDragStart(self)
 		PickupAction(self.action)
 		self:UpdateState()
 		self:UpdateFlash()
+		self:RefreshStateAction()
 	end
 end
 
@@ -136,6 +138,7 @@ function onReceiveDrag(self)
 	PlaceAction(self.action)
 	self:UpdateState()
 	self:UpdateFlash()
+	self:RefreshStateAction()
 end
 
 function onEnter(self)
@@ -188,8 +191,32 @@ function onUpdate(self, elapsed)
 	end
 end
 
+function Button:ClearStateAction()
+	for state in pairs(self.stateactions) do
+		self:SetAttribute(("*type-S%d"):format(state), nil)
+		self:SetAttribute(("*action-S%d"):format(state), nil)
+		self:SetAttribute(("*action-S%dRight"):format(state), nil)
+		self:SetAttribute(("*macrotext-S%d"):format(state), nil)
+		self:SetAttribute(("*macrotext-S%dRight"):format(state), nil)
+		
+		self.stateactions = {}
+	end
+end
+
 function Button:SetStateAction(state, action)
-	
+	self.stateactions[state] = action
+	self:RefreshStateAction(state)
+end
+
+function Button:RefreshAllStateActions()
+	for state in pairs(self.stateactions) do
+		self:RefreshStateAction(state)
+	end
+end
+
+function Button:RefreshStateAction(state)
+	local state = tonumber(state or self:GetAttribute("state-parent"))
+	local action = self.stateactions[state]
 	self:SetAttribute(("*type-S%d"):format(state), "action")
 	self:SetAttribute(("*type-S%dRight"):format(state), "action")
 	

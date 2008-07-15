@@ -65,6 +65,8 @@ function ActionBar:UpdateStates()
 	if not module.stancemap and module.DefaultStanceMap[playerclass] then 
 		module.stancemap = module.DefaultStanceMap[playerclass]
 	end
+	
+	self:ForAll("ClearStateAction")
 	for i=0,10 do
 		self:AddButtonStates(i)
 	end
