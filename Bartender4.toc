@@ -1,4 +1,5 @@
 ﻿## Interface: 20400
+## Notes-ruRU: Простой и усовершенствованный - Аддон паненей команд Бармен4 
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
 ## Title: Bartender4
 ## Author: Nevcairiel
