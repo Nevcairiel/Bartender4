@@ -129,11 +129,13 @@ function ActionBar:UpdateStates()
 	table_insert(statedriver, tostring(self:GetDefaultState() or 0))
 	
 	RegisterStateDriver(self, "page", table_concat(statedriver, ";"))
-	self:SetAttribute("statemap-page", "$input")
 	
 	self:ApplyStateButton()
 	
-	SecureStateHeader_Refresh(self)
+	self:SetAttribute("_onstate-page", [[
+		self:SetAttribute("state", newstate)
+		return true
+	]])
 	
 	local newState = self:GetAttribute("state-page")
 	self:SetAttribute("state", newState)

@@ -85,14 +85,18 @@ function Bartender4.Button:Create(id, parent)
 	button.textureCache.pushed = button.pushedTexture:GetTexture()
 	button.textureCache.highlight = button.highlightTexture:GetTexture()
 	
-	parent:SetAttribute("addchild", button)
-	
 	button:SetAttribute("type", "action")
 	button:SetAttribute("action", absid)
 	
 	button:SetAttribute("useparent-unit", true)
 	button:SetAttribute("useparent-statebutton", true)
 	--button:SetAttribute("hidestates", "-1")
+	
+	parent:SetAttribute('_adopt', button)
+	button:SetAttribute('_childupdate', [[
+		self:SetAttribute("state",)
+	]]
+	)
 	
 	button:RegisterForDrag("LeftButton", "RightButton")
 	button:RegisterForClicks("AnyUp")
@@ -222,7 +226,7 @@ function Button:RefreshStateAction(state)
 	
 	if self.parent.config.autoassist then
 		local type, id, subtype = GetActionInfo(action)
-		if type == "spell" then
+		if type == "spell" and id > 0 then
 			local spellName, spellRank = GetSpellInfo(id, subtype)
 			
 			local macroText

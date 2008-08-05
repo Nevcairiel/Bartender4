@@ -69,7 +69,7 @@ function Bartender4.Bar:Create(id, config, name)
 	id = tostring(id)
 	assert(not barregistry[id], "duplicated entry in barregistry.")
 	
-	local bar = setmetatable(CreateFrame("Frame", ("BT4Bar%s"):format(id), UIParent, "SecureStateHeaderTemplate"), Bar_MT)
+	local bar = setmetatable(CreateFrame("Frame", ("BT4Bar%s"):format(id), UIParent, "SecureHandlerStateTemplate"), Bar_MT)
 	barregistry[id] = bar
 	bar.id = id
 	bar.name = name or id
