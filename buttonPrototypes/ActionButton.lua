@@ -94,7 +94,7 @@ function Bartender4.Button:Create(id, parent)
 	
 	parent:SetAttribute('_adopt', button)
 	button:SetAttribute('_childupdate', [[
-		self:SetAttribute("state",)
+		--self:SetAttribute("state", )
 	]]
 	)
 	
