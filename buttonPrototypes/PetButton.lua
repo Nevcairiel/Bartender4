@@ -41,7 +41,7 @@ function Bartender4.PetButton:Create(id, parent)
 	button.cooldown = _G[name .. "Cooldown"]
 	button.icon = _G[name .. "Icon"]
 	button.autocastable = _G[name .. "AutoCastable"]
-	button.autocast = _G[name .. "AutoCast"]
+	button.autocast = _G[name .. "Shine"]
 	
 	button:SetNormalTexture("")
 	local oldNT = button:GetNormalTexture()
@@ -87,10 +87,10 @@ function PetButtonPrototype:Update()
 		self.autocast:Hide()
 	elseif autoCastAllowed and autoCastEnabled then
 		self.autocastable:Hide()
-		self.autocast:Show()
+		AutoCastShine_AutoCastStart(self.autocast)
 	else
 		self.autocastable:Hide()
-		self.autocast:Hide()
+		AutoCastShine_AutoCastStop(self.autocast)
 	end
 	
 	if texture then
