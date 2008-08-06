@@ -84,8 +84,8 @@ function PetButtonPrototype:Update()
 	self:SetChecked(isActive and 1 or 0)
 	if autoCastAllowed and not autoCastEnabled then
 		self.autocastable:Show()
-		self.autocast:Hide()
-	elseif autoCastAllowed and autoCastEnabled then
+		AutoCastShine_AutoCastStop(self.autocast)
+	elseif autoCastAllowed then
 		self.autocastable:Hide()
 		AutoCastShine_AutoCastStart(self.autocast)
 	else
