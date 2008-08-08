@@ -126,20 +126,17 @@ function ActionBar:UpdateStates()
 		end
 	end
 	
-	table_insert(statedriver, tostring(self:GetDefaultState() or 0))
-	
-	RegisterStateDriver(self, "page", table_concat(statedriver, ";"))
-	
-	self:ApplyStateButton()
-	
 	self:SetAttribute("_onstate-page", [[
 		self:SetAttribute("state", newstate)
 		_G["newBTState"] = newstate
 		return true
 	]])
 	
-	local newState = self:GetAttribute("state-page")
-	self:SetAttribute("state", newState)
+	table_insert(statedriver, tostring(self:GetDefaultState() or 0))
+	RegisterStateDriver(self, "page", table_concat(statedriver, ";"))
+	
+	--local newState = self:GetAttribute("state-page")
+	--self:SetAttribute("state", newState)
 	
 	self:ApplyVisibilityDriver()
 end
@@ -187,16 +184,6 @@ function ActionBar:AddRightClickState(state)
 	local target = scrc and "player" or nil
 	
 	self:SetAttribute("unit-S" .. state .. "Right", target)
-end
-
-function ActionBar:ApplyStateButton()
-	local states1, states2 = {}, {}
-	for _,v in pairs(self.statebutton) do
-		table_insert(states1, fmt("%s:S%s;", v, v))
-		table_insert(states2, fmt("%s:S%sRight;", v, v))
-	end
-	self:SetAttribute("statebutton", table_concat(states1, ""))
-	self:SetAttribute("statebutton2", table_concat(states2, ""))
 end
 
 function ActionBar:GetStateOption(key)

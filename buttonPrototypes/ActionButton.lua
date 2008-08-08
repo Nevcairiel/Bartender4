@@ -90,14 +90,9 @@ function Bartender4.Button:Create(id, parent)
 	button:SetAttribute("action", absid)
 	
 	button:SetAttribute("useparent-unit", true)
-	button:SetAttribute("useparent-statebutton", true)
 	--button:SetAttribute("hidestates", "-1")
 	
 	parent:SetAttribute('_adopt', button)
-	button:SetAttribute('_childupdate', [[
-		self:SetAttribute("state", newBTState)
-	]]
-	)
 	
 	button:RegisterForDrag("LeftButton", "RightButton")
 	button:RegisterForClicks("AnyUp")
@@ -197,12 +192,6 @@ end
 
 function Button:ClearStateAction()
 	for state in pairs(self.stateactions) do
-		self:SetAttribute(("*type-S%d"):format(state), nil)
-		self:SetAttribute(("*action-S%d"):format(state), nil)
-		self:SetAttribute(("*action-S%dRight"):format(state), nil)
-		self:SetAttribute(("*macrotext-S%d"):format(state), nil)
-		self:SetAttribute(("*macrotext-S%dRight"):format(state), nil)
-		
 		self.stateactions = {}
 		self.stateconfig = {}
 	end
@@ -223,10 +212,11 @@ end
 function Button:RebuildStateFunction()
 	local newFunc = "local config = newtable()\n"
 	for state, config in pairs(self.stateconfig) do
-		newFunc = newFunc .. ("local config_part = newtable(); config_part.type = %q; config_part.action = %d; config_part.macrotext = %q; config[%d] = config_part;\n"):format(config.type, config.action, config.macrotext, state)
+		newFunc = newFunc .. ("local config_part = newtable(); config_part.type = %q; config_part.action = %d; config_part.macrotext = %q; config[%d] = config_part;\n"):format(config.type, config.action, config.macrotext or "", state)
 	end
 	newFunc = newFunc .. [[
 	local state = tonumber(newBTState)
+	self:SetAttribute("state", state)
 	self:SetAttribute("type", config[state].type)
 	self:SetAttribute("action", config[state].action)
 	self:SetAttribute("macrotext", config[state].macrotext)
@@ -237,7 +227,7 @@ end
 function Button:RefreshStateAction(state)
 	local state = tonumber(state or self:GetAttribute("state"))
 	local action = self.stateactions[state]
-	local config = { type = "action", action = action, macrotext = action }
+	local config = { type = "action", action = action, macrotext = nil }
 	
 	if self.parent.config.autoassist then
 		local type, id, subtype = GetActionInfo(action)
