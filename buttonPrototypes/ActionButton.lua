@@ -28,6 +28,7 @@ function Bartender4.Button:Create(id, parent)
 	button.id = absid
 	button.parent = parent
 	button.stateactions = {}
+	button.stateconfig = {}
 	
 	button:SetFrameStrata("MEDIUM")
 	button:SetFrameLevel(parent:GetFrameLevel() + 2)
@@ -94,7 +95,7 @@ function Bartender4.Button:Create(id, parent)
 	
 	parent:SetAttribute('_adopt', button)
 	button:SetAttribute('_childupdate', [[
-		--self:SetAttribute("state", )
+		self:SetAttribute("state", newBTState)
 	]]
 	)
 	
@@ -117,7 +118,6 @@ function Bartender4.Button:Create(id, parent)
 		}
 		group:AddButton(button.Proxy, button.LBFButtonData)
 	end
-	
 	return button
 end
 
@@ -204,6 +204,7 @@ function Button:ClearStateAction()
 		self:SetAttribute(("*macrotext-S%dRight"):format(state), nil)
 		
 		self.stateactions = {}
+		self.stateconfig = {}
 	end
 end
 
@@ -213,16 +214,30 @@ function Button:SetStateAction(state, action)
 end
 
 function Button:RefreshAllStateActions()
+	self.stateconfig = {}
 	for state in pairs(self.stateactions) do
 		self:RefreshStateAction(state)
 	end
 end
 
+function Button:RebuildStateFunction()
+	local newFunc = "local config = newtable()\n"
+	for state, config in pairs(self.stateconfig) do
+		newFunc = newFunc .. ("local config_part = newtable(); config_part.type = %q; config_part.action = %d; config_part.macrotext = %q; config[%d] = config_part;\n"):format(config.type, config.action, config.macrotext, state)
+	end
+	newFunc = newFunc .. [[
+	local state = tonumber(newBTState)
+	self:SetAttribute("type", config[state].type)
+	self:SetAttribute("action", config[state].action)
+	self:SetAttribute("macrotext", config[state].macrotext)
+	]]
+	self:SetAttribute('_childupdate', newFunc)
+end
+
 function Button:RefreshStateAction(state)
-	local state = tonumber(state or self:GetAttribute("state-parent"))
+	local state = tonumber(state or self:GetAttribute("state"))
 	local action = self.stateactions[state]
-	self:SetAttribute(("*type-S%d"):format(state), "action")
-	self:SetAttribute(("*type-S%dRight"):format(state), "action")
+	local config = { type = "action", action = action, macrotext = action }
 	
 	if self.parent.config.autoassist then
 		local type, id, subtype = GetActionInfo(action)
@@ -247,18 +262,13 @@ function Button:RefreshStateAction(state)
 			end
 			
 			if macroText then
-				self:SetAttribute(("*type-S%d"):format(state), "macro")
-				self:SetAttribute(("*type-S%dRight"):format(state), "macro")
-				macroText = ("%s%s(%s)"):format(macroText, spellName, spellRank)
-			
-				self:SetAttribute(("*macrotext-S%d"):format(state), macroText)
-				self:SetAttribute(("*macrotext-S%dRight"):format(state), macroText)
+				config.type = "macro"
+				config.macrotext = ("%s%s(%s)"):format(macroText, spellName, spellRank)
 			end
 		end
 	end
-	
-	self:SetAttribute(("*action-S%d"):format(state), action)
-	self:SetAttribute(("*action-S%dRight"):format(state), action)
+	self.stateconfig[state] = config
+	self:RebuildStateFunction()
 end
 
 function Button:CalculateAction()

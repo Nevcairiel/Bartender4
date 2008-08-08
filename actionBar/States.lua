@@ -134,6 +134,7 @@ function ActionBar:UpdateStates()
 	
 	self:SetAttribute("_onstate-page", [[
 		self:SetAttribute("state", newstate)
+		_G["newBTState"] = newstate
 		return true
 	]])
 	
