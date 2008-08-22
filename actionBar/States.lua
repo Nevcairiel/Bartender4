@@ -128,8 +128,7 @@ function ActionBar:UpdateStates()
 	
 	self:SetAttribute("_onstate-page", [[
 		self:SetAttribute("state", newstate)
-		newBTState = newstate
-		return true
+		control:ChildUpdate("state", newstate)
 	]])
 	
 	table_insert(statedriver, tostring(self:GetDefaultState() or 0))

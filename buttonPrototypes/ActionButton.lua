@@ -92,15 +92,16 @@ function Bartender4.Button:Create(id, parent)
 	--button:SetAttribute("hidestates", "-1")
 	
 	parent:SetAttribute('_adopt', button)
-	button:SetAttribute('_childupdate', [[
-		local state = newBTState
-		self:SetAttribute("state", state)
-		local type = self:GetAttribute("type--" .. state)
+	button:SetAttribute('_childupdate-state', [[
+		-- evil hack due to bug in the code
+		scriptid, message = message, scriptid
+		self:SetAttribute("state", message)
+		local type = self:GetAttribute("type--" .. message)
 		if type == "macro" then
-			self:SetAttribute("macrotext", self:GetAttribute("macrotext--" .. state))
+			self:SetAttribute("macrotext", self:GetAttribute("macrotext--" .. message))
 		end
 		self:SetAttribute("type", type)
-		self:SetAttribute("action", self:GetAttribute("action--" .. state))
+		self:SetAttribute("action", self:GetAttribute("action--" .. message))
 	]])
 	
 	button:RegisterForDrag("LeftButton", "RightButton")
