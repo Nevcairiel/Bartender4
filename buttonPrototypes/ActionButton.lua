@@ -93,8 +93,6 @@ function Bartender4.Button:Create(id, parent)
 	
 	parent:SetAttribute('_adopt', button)
 	button:SetAttribute('_childupdate-state', [[
-		-- evil hack due to bug in the code
-		scriptid, message = message, scriptid
 		self:SetAttribute("state", message)
 		local type = self:GetAttribute("type--" .. message)
 		if type == "macro" then
