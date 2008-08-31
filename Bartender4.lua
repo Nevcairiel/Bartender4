@@ -25,6 +25,7 @@ function Bartender4:OnInitialize()
 	self:RegisterEvent("PLAYER_REGEN_DISABLED", "CombatLockdown")
 	MainMenuBarArtFrame:Hide()
 	MainMenuBar:Hide()
+	MainMenuBarArtFrame:UnregisterAllEvents()
 end
 
 --[[ function Bartender4:OnEnable()
