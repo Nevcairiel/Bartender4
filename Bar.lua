@@ -308,6 +308,8 @@ function Bar:InitVisibilityDriver()
 							table_insert(self.hidedriver, ("[stance:%d]hide"):format(k))
 						end
 					end
+				elseif key == "custom" or key == "customdata" then
+					-- do nothing
 				else
 					Bartender4:Print("Invalid visibility state: "..key)
 				end
