@@ -87,19 +87,43 @@ function Bartender4.Button:Create(id, parent)
 	
 	button:SetAttribute("type", "action")
 	button:SetAttribute("action", absid)
+	button:SetAttribute("checkselfcast", true)
 	
-	button:SetAttribute("useparent-unit", true)
-	--button:SetAttribute("hidestates", "-1")
+	--button:SetAttribute("useparent-unit", true)
 	
 	parent:SetAttribute('_adopt', button)
 	button:SetAttribute('_childupdate-state', [[
 		self:SetAttribute("state", message)
-		local type = self:GetAttribute("type--" .. message)
-		if type == "macro" then
-			self:SetAttribute("macrotext", self:GetAttribute("macrotext--" .. message))
+		local type = self:GetAttribute("type-" .. message)
+		if type == "special" then
+			-- TODO
 		end
 		self:SetAttribute("type", type)
-		self:SetAttribute("action", self:GetAttribute("action--" .. message))
+		self:SetAttribute("action", self:GetAttribute("action-" .. message))
+		
+		-- fix unit on state change
+		if self:GetAttribute("assisttype-"..message) == 1 then
+			self:SetAttribute("unit", G_assist_help)
+		elseif self:GetAttribute("assisttype-"..message) == 2 then
+			self:SetAttribute("unit", G_assist_harm)
+		else
+			self:SetAttribute("unit", nil)
+		end
+		G_state = message
+	]])
+	
+	button:SetAttribute('_childupdate-assist-help', [[
+		if self:GetAttribute("assisttype-"..G_state) == 1 then
+			self:SetAttribute("unit", message)
+		end
+		G_assist_help = message
+	]])
+	
+	button:SetAttribute('_childupdate-assist-harm', [[
+		if self:GetAttribute("assisttype"..G_state) == 2 then
+			self:SetAttribute("unit", message)
+		end
+		G_assist_harm = message
 	]])
 	
 	button:RegisterForDrag("LeftButton", "RightButton")
@@ -224,35 +248,18 @@ end
 function Button:RefreshStateAction(state)
 	local state = tonumber(state or self:GetAttribute("state") or 0)
 	local action = self.stateactions[state]
-	self:SetAttribute("type--" .. state, "action")
-	self:SetAttribute("action--" .. state, action)
+	self:SetAttribute("type-" .. state, "action")
+	self:SetAttribute("action-" .. state, action)
 	
+	self:SetAttribute("assisttype", nil)
+	self:SetAttribute("unit", nil)
 	if self.parent.config.autoassist then
 		local type, id, subtype = GetActionInfo(action)
 		if type == "spell" and id > 0 then
-			local spellName, spellRank = GetSpellInfo(id, subtype)
-			
-			local macroText
 			if IsHelpfulSpell(id, subtype) then
-				macroText = "/cast %s[help] [target=targettarget, help] [target=none]"
-				
-				-- Hack to get Selfcast working with macrotext syntax
-				local selfcast = ""
-				if Bartender4.db.profile.selfcastrightclick then
-					selfcast = selfcast .. "[button:2, target=player]"
-				end
-				if Bartender4.db.profile.selfcastmodifier then
-					selfcast = selfcast .. "[modifier:".. GetModifiedClick("SELFCAST").. ", target=player]"
-				end
-				macroText = macroText:format(selfcast)
+				self:SetAttribute("assisttype-"..state, 1)
 			elseif IsHarmfulSpell(id, subtype) then
-				macroText = "/cast [harm] [target=targettarget, harm] [target=none]"
-			end
-			
-			if macroText then
-				self:SetAttribute("type--" .. state, "macro")
-				local macrotext = ("%s%s(%s)"):format(macroText, spellName, spellRank)
-				self:SetAttribute("macrotext--" .. state, macrotext)
+				self:SetAttribute("assisttype-"..state, 2)
 			end
 		end
 	end

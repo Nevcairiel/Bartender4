@@ -115,8 +115,23 @@ function ActionBar:UpdateStates()
 	table_insert(statedriver, tostring(self:GetDefaultState() or 0))
 	RegisterStateDriver(self, "page", table_concat(statedriver, ";"))
 	
-	--local newState = self:GetAttribute("state-page")
-	--self:SetAttribute("state", newState)
+	self:SetAttribute("_onstate-assist-help", [[
+		local state = (newstate ~= "nil") and newstate or nil
+		control:ChildUpdate("assist-help", state)
+	]])
+	
+	self:SetAttribute("_onstate-assist-harm", [[
+		local state = (newstate ~= "nil") and newstate or nil
+		control:ChildUpdate("assist-harm", state)
+	]])
+	
+	local pre = ""
+	if Bartender4.db.profile.selfcastmodifier then
+		pre = "[mod:"..GetModifiedClick("SELFCAST").."]player;"
+	end
+	-- TODO: fix rightclick selfcast
+	RegisterStateDriver(self, "assist-help", ("%s[help]nil; [target=targettarget, help]targettarget; nil"):format(pre))
+	RegisterStateDriver(self, "assist-harm", "[harm]nil; [target=targettarget, harm]targettarget; nil")
 end
 
 function ActionBar:GetStanceState(stance)
