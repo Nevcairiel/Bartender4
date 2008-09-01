@@ -1,8 +1,6 @@
 --[[ $Id$ ]]
 local ActionBar = Bartender4.ActionBar
 
-local module = Bartender4:GetModule("ActionBars")
-
 local table_insert = table.insert
 local table_concat = table.concat
 local fmt = string.format
@@ -19,7 +17,7 @@ end
 local _, playerclass = UnitClass("player")
 
 -- specifiy the available stances for each class
-module.DefaultStanceMap = setmetatable({}, { __index = function(t,k)
+local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 	local newT = nil
 	if k == "WARRIOR" then
 		newT = {
@@ -50,20 +48,16 @@ module.DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 	return newT
 end})
 
-local searchFunc = function(h, n) return (h.match == n or h.match2 == n or h.id == n) end
-function module:CreateStanceMap()
-	local defstancemap = self.DefaultStanceMap[playerclass]
-	if not defstancemap then return end
-	
-	self.stancemap = defstancemap
-end
 
+local searchFunc = function(h, n) return (h.match == n or h.match2 == n or h.id == n) end
+
+local stancemap
 function ActionBar:UpdateStates()
 	if not self.buttons then return end
 	self:InitVisibilityDriver()
 	self.statebutton = {}
-	if not module.stancemap and module.DefaultStanceMap[playerclass] then 
-		module.stancemap = module.DefaultStanceMap[playerclass]
+	if not stancemap and DefaultStanceMap[playerclass] then 
+		stancemap = DefaultStanceMap[playerclass]
 	end
 	
 	self:ForAll("ClearStateAction")
@@ -101,9 +95,9 @@ function ActionBar:UpdateStates()
 		end
 		
 		-- third priority the stances
-		if module.stancemap then
+		if stancemap then
 			if not stateconfig.stance[playerclass] then stateconfig.stance[playerclass] = {} end
-			for i,v in pairs(module.stancemap) do
+			for i,v in pairs(stancemap) do
 				local state = self:GetStanceState(v)
 				if state and state ~= 0 and v.index then
 					if playerclass == "DRUID" and v.id == "cat" then
