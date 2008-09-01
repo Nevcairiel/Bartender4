@@ -226,9 +226,9 @@ function Button:ClearStateAction()
 	for state in pairs(self.stateactions) do
 		self.stateactions = {}
 		for i=0,10 do
-			self:SetAttribute("type--" .. i, nil)
-			self:SetAttribute("action--" .. i, nil)
-			self:SetAttribute("macrotext--" .. i, nil)
+			self:SetAttribute("type-" .. i, nil)
+			self:SetAttribute("action-" .. i, nil)
+			self:SetAttribute("macrotext-" .. i, nil)
 		end
 	end
 end
@@ -248,10 +248,10 @@ end
 function Button:RefreshStateAction(state)
 	local state = tonumber(state or self:GetAttribute("state") or 0)
 	local action = self.stateactions[state]
-	self:SetAttribute("type-" .. state, "action")
-	self:SetAttribute("action-" .. state, action)
+	self:SetAttribute("type-"..state, "action")
+	self:SetAttribute("action-"..state, action)
 	
-	self:SetAttribute("assisttype", nil)
+	self:SetAttribute("assisttype-"..state, nil)
 	self:SetAttribute("unit", nil)
 	if self.parent.config.autoassist then
 		local type, id, subtype = GetActionInfo(action)
