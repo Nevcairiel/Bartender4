@@ -16,7 +16,6 @@ do
 	optionMap = {
 		alpha = "ConfigAlpha",
 		scale = "ConfigScale",
-		show = "Show",
 		fadeout = "FadeOut",
 		fadeoutalpha = "FadeOutAlpha",
 		fadeoutdelay = "FadeOutDelay",
@@ -51,8 +50,6 @@ do
 	end
 end
 
-local showOptions = { alwaysshow = L["Always Show"], alwayshide = L["Always Hide"], combatshow = L["Show in Combat"], combathide = L["Hide in Combat"] }
-
 local options
 function Bar:GetOptionObject()
 	local otbl = {
@@ -62,15 +59,6 @@ function Bar:GetOptionObject()
 			name = L["General Settings"],
 			order = 1,
 			args = {
-				show = {
-					order = 5,
-					type = "select",
-					name = L["Show/Hide"],
-					desc = L["Configure when to Show/Hide the bar."],
-					get = optGetter,
-					set = optSetter,
-					values = showOptions,
-				},
 				styleheader = {
 					order = 10,
 					type = "header",

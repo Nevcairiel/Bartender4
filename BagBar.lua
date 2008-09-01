@@ -16,6 +16,9 @@ local defaults = { profile = Bartender4:Merge({
 	enabled = true,
 	keyring = false,
 	onebag = false,
+	visibility = {
+		possess = false,
+	},
 }, Bartender4.ButtonBar.defaults) }
 
 function BagBarMod:OnInitialize()

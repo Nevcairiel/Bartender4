@@ -37,6 +37,9 @@ local abdefaults = {
 				ROGUE = { stealth = 7 }
 			},
 		},
+		visibility = {
+			possess = false,
+		},
 	},
 	[7] = {
 		enabled = false,

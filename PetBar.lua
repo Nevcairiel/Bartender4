@@ -13,6 +13,9 @@ local PetBar = setmetatable({}, {__index = ButtonBar})
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
 	scale = 1.0,
+	visibility = {
+		nopet = true,
+	},
 }, Bartender4.ButtonBar.defaults) }
 
 function PetBarMod:OnInitialize()
@@ -108,11 +111,6 @@ end
 function PetBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 	self:UpdateButtonLayout()
-	self:InitVisibilityDriver()
-	self:RegisterVisibilityCondition("[bonusbar:5]hide")
-	self:RegisterVisibilityCondition("[pet]show")
-	self:RegisterVisibilityCondition("hide")
-	self:ApplyVisibilityDriver()
 	self:ForAll("Update")
 	self:ForAll("ApplyStyle", self.config.style)
 end

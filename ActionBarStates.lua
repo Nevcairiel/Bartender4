@@ -54,7 +54,6 @@ local searchFunc = function(h, n) return (h.match == n or h.match2 == n or h.id 
 local stancemap
 function ActionBar:UpdateStates()
 	if not self.buttons then return end
-	self:InitVisibilityDriver()
 	self.statebutton = {}
 	if not stancemap and DefaultStanceMap[playerclass] then 
 		stancemap = DefaultStanceMap[playerclass]
@@ -79,11 +78,7 @@ function ActionBar:UpdateStates()
 		for _,v in pairs(modifiers) do
 			local page = self:GetStateOption(v)
 			if page and page ~= 0 then
-				if page == -1 then
-					self:RegisterVisibilityCondition(fmt("[modifier:%s]hide", v))
-				else
-					table_insert(statedriver, fmt("[modifier:%s]%s", v, page)) 
-				end
+				table_insert(statedriver, fmt("[modifier:%s]%s", v, page)) 
 			end
 		end
 		
@@ -103,18 +98,10 @@ function ActionBar:UpdateStates()
 					if playerclass == "DRUID" and v.id == "cat" then
 						local prowl = self:GetStanceState("prowl")
 						if prowl then
-							if prowl == -1 then
-								self:RegisterVisibilityCondition(fmt("[bonusbar:%s,stealth:1]hide", v.index))
-							else
-								table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
-							end
+							table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
 						end
 					end
-					if state == -1 then
-						self:RegisterVisibilityCondition(fmt("[bonusbar:%s]hide", v.index))
-					else
-						table_insert(statedriver, fmt("[bonusbar:%s]%s", v.index, state))
-					end
+					table_insert(statedriver, fmt("[bonusbar:%s]%s", v.index, state))
 				end
 			end
 		end
@@ -130,8 +117,6 @@ function ActionBar:UpdateStates()
 	
 	--local newState = self:GetAttribute("state-page")
 	--self:SetAttribute("state", newState)
-	
-	self:ApplyVisibilityDriver()
 end
 
 function ActionBar:GetStanceState(stance)

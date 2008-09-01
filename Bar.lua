@@ -18,7 +18,9 @@ local defaults = {
 	fadeout = false,
 	fadeoutalpha = 0.1,
 	fadeoutdelay = 0.2,
-	show = "alwaysshow",
+	visibility = {
+		possess = true,
+	},
 }
 
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUpdateFunc
@@ -138,7 +140,6 @@ function Bar:ApplyConfig(config)
 	end
 	if self.disabled then return end
 	self:InitVisibilityDriver()
-	self:SetShow()
 	self:Lock()
 	self:LoadPosition()
 	self:SetConfigScale()
@@ -199,28 +200,6 @@ end
 function Bar:SetSize(width, height)
 	self:SetWidth(width)
 	self:SetHeight(height or width)
-end
-
-function Bar:GetShow()
-	return self.config.show
-end
-
-function Bar:SetShow(show)
-	if show ~= nil then
-		self.config.show = show
-	end
-	if not self.unlocked then
-		self:InitVisibilityDriver()
-		self:ApplyVisibilityDriver()
-	else
-		self:Show()
-		self:InitVisibilityDriver()
-		if self.config.show == "alwayshide" then
-			self.overlay:SetBackdropColor(1, 0, 0, 0.5)
-		else
-			self.overlay:SetBackdropColor(0, 1, 0, 0.5)
-		end
-	end
 end
 
 function Bar:GetConfigAlpha()
@@ -301,29 +280,37 @@ function Bar:ControlFadeOut()
 	end
 end
 
-
+local directVisCond = {
+	pet = true,
+	nopet = true,
+	combat = true,
+	nocomat = true,
+	mounted = true,
+}
 function Bar:InitVisibilityDriver()
 	self.hidedriver = {}
 	UnregisterStateDriver(self, 'visibility')
-	if self.config.show == "alwaysshow" or self.config.show == true then
-		--
-	elseif self.config.show == "alwayshide" or self.config.show == false then
-		self:RegisterVisibilityCondition("hide")
-	elseif self.config.show == "combatshow" then
-		self:RegisterVisibilityCondition("[nocombat]hide")
-	elseif self.config.show == "combathide" then
-		self:RegisterVisibilityCondition("[combat]hide")
+	
+	for key, value in pairs(self.config.visibility) do
+		if value then
+			if key == "always" then
+				table_insert(self.hidedriver, "hide")
+			elseif key == "possess" then
+				table_insert(self.hidedriver, "[bonusbar:5]hide")
+			elseif directVisCond[key] then
+				table_insert(self.hidedriver, ("[%s]hide"):format(key))
+			else
+				Bartender4:Print("Invalid visibility state: "..key)
+			end
+		end
 	end
-end
-
-function Bar:RegisterVisibilityCondition(condition)
-	table_insert(self.hidedriver, condition)
+	table_insert(self.hidedriver, "show")
 end
 
 function Bar:ApplyVisibilityDriver()
 	if self.unlocked then return end
 	-- default state is shown
-	RegisterStateDriver(self, "visibility", table_concat(self.hidedriver, ";") .. ";show")
+	RegisterStateDriver(self, "visibility", table_concat(self.hidedriver, ";"))
 end
 
 function Bar:DisableVisibilityDriver()

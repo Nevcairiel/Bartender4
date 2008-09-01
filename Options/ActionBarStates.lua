@@ -50,7 +50,6 @@ end
 local hasStances
 
 local validStanceTable = { 
-	[-1] = "Hide", 
 	[0] = "Don't Page", 
 	("Page %2d"):format(1),
 	("Page %2d"):format(2), 

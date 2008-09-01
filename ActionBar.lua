@@ -73,11 +73,6 @@ function ActionBar:SkinChanged(...)
 	self:ForAll("Update")
 end
 
-function ActionBar:SetShow(...)
-	ButtonBar.SetShow(self, ...)
-	self:UpdateStates()
-end
-
 
 --[[===================================================================================
 	ActionBar Config Interface
