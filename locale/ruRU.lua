@@ -1,6 +1,5 @@
 --[[ $Id$ ]]
 -- Please make sure to save the file as UTF-8, BUT WITHOUT THE UTF-8 BOM HEADER; ¶
--- Translated by  Eritnull ( StingerSoft aka Шептун) & Alekc
 local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "ruRU")
 if not L then return end
 
@@ -9,7 +8,6 @@ L["ActionBar Switching"] = "Переключение панелей"
 L["Alignment"] = "Регулировка"
 L["Alpha"] = "Прозрачность"
 L["Always Hide"] = "Всегда Скрывать"
-L["Always Show"] = "Всегда Показывать"
 L["Auto-Assist"] = "Авто-Помощь"
 L["Bag Bar"] = "Панель Сумок"
 L["Bar %s"] = "Панель №%s"
@@ -33,7 +31,6 @@ L["Configure the Pet Bar"] = "Настройка панели питомца"
 L["Configure the alpha of the bar."] = "Настройка степени прозрачности панели (1 - непрозрачная)."
 L["Configure the padding of the buttons."] = "Настройка ширины промежутков между кнопками."
 L["Configure the scale of the bar."] = "Настройка масштаба панели"
-L["Configure when to Show/Hide the bar."] = "Выберите когда необходимо отображать/скрывать данную панель."
 L["Default Bar State"] = "Состояние по-умолчанию"
 L["Disabled"] = "Отключено"
 L["Disabled in Combat"] = "Отключать в бою"
@@ -57,8 +54,17 @@ L["General Settings"] = "Основные параметры"
 L["Hide Hotkey"] = "Скрыть горячие клавиши"
 L["Hide Macro Text"] = "Скрывать макросы"
 L["Hide in Combat"] = "Скрывать в бою"
+-- L["Hide in Stance/Form"] = true
+-- L["Hide out of Combat"] = true
 L["Hide the Hotkey on the buttons of this bar."] = "Не отображать сочетания клавиш на кнопках этой панели."
 L["Hide the Macro Text on the buttons of this bar."] = "Не отображать текст/название макросов на кнопках этой панели."
+-- L["Hide this bar in a specific Stance or Form."] = true
+-- L["Hide this bar when you are possessing a NPC."] = true
+-- L["Hide this bar when you have a pet."] = true
+-- L["Hide this bar when you have no pet."] = true
+-- L["Hide when Possessing"] = true
+-- L["Hide with pet"] = true
+-- L["Hide without pet"] = true
 L["Hotkey Mode"] = "Использовать ярлык"
 L["Keyring"] = "Связка ключей"
 L["Lock"] = "Блокировка"
@@ -81,9 +87,7 @@ L["Rows"] = "Строки"
 L["SHIFT"] = "SHIFT"
 L["Scale"] = "Масштаб"
 L["Self-Cast by modifier"] = "Чтение на себя по умолчанию"
-L["Show in Combat"] = "Отображать в бою"
 L["Show the keyring button."] = "Показывать кнопку для связки ключей"
-L["Show/Hide"] = "Показать/Скрыть"
 L["Specify the Color of the Out of Mana Indicator"] = "Выберите цвет для индикации нехватки маны"
 L["Specify the Color of the Out of Range Indicator"] = "Выберите цвет для индикации 'Вне Зоны'"
 L["Stance Bar"] = "Панель стоек"
@@ -91,9 +95,14 @@ L["Stance Configuration"] = "Настройка стоек"
 L["State Configuration"] = "Настройка состояния"
 L["Switch this bar to the Possess Bar when possessing a npc (eg. Mind Control)"] = "Переключать эту панель на панель контроля, когда вы контрлируете NPC (например 'Контроль Разума')"
 L["The Alignment menu is still on the TODO.\n\nAs a quick preview of whats planned:\n\n\t- Absolute and relative Bar Positioning\n\t- Bars \"snapping\" together and building clusters"] = "Настройки выравнивания все еще в разработке.\n\nВ качестве информации, планируется:\n\n\t- Абсолютное и относительное позиционирование панелей\n\t- Панели 'прилипающие' друг к другу и создание кластеров"
+-- L["The bar default is to be visible all the time, you can configure conditions here to control when the bar should be hidden."] = true
 L["The default behaviour of this bar when no state-based paging option affects it."] = "Поведение данной панели когда она не попадает под какие-либо другие модификаторы состояния."
+-- L["This bar will be hidden once you enter combat."] = true
+-- L["This bar will be hidden whenever you are not in combat."] = true
 L["Toggle Button Zoom\nFor more style options you need to install ButtonFacade"] = "Переключение увеличения кнопок\nДля дополнительных стилей и настроек необходимо установить ButtonFacade"
 L["Toggle the button grid."] = "Переключение отображения пустых кнопок."
 L["Toggle the use of the modifier-based self-cast functionality."] = "Переключение использования функции Чтение на себя по умолчанию."
 L["Toggle the use of the right-click self-cast functionality."] = "Переключение использования функции ПКМ Чтение на себя."
+-- L["Visibility"] = true
+-- L["You can set the bar to be always hidden, if you only wish to access it using key-bindings."] = true
 L["Zoom"] = "Увеличение"

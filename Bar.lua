@@ -20,6 +20,7 @@ local defaults = {
 	fadeoutdelay = 0.2,
 	visibility = {
 		possess = true,
+		stance = {},
 	},
 }
 
@@ -139,13 +140,12 @@ function Bar:ApplyConfig(config)
 		self.config = config
 	end
 	if self.disabled then return end
-	self:InitVisibilityDriver()
 	self:Lock()
 	self:LoadPosition()
 	self:SetConfigScale()
 	self:SetConfigAlpha()
 	self:SetFadeOut()
-	self:ApplyVisibilityDriver()
+	self:InitVisibilityDriver()
 end
 
 function Bar:Unlock()
@@ -284,7 +284,7 @@ local directVisCond = {
 	pet = true,
 	nopet = true,
 	combat = true,
-	nocomat = true,
+	nocombat = true,
 	mounted = true,
 }
 function Bar:InitVisibilityDriver()
@@ -299,12 +299,19 @@ function Bar:InitVisibilityDriver()
 				table_insert(self.hidedriver, "[bonusbar:5]hide")
 			elseif directVisCond[key] then
 				table_insert(self.hidedriver, ("[%s]hide"):format(key))
+			elseif key == "stance" then
+				for k,v in pairs(value) do
+					if v then
+						table_insert(self.hidedriver, ("[stance:%d]hide"):format(k))
+					end
+				end
 			else
 				Bartender4:Print("Invalid visibility state: "..key)
 			end
 		end
 	end
 	table_insert(self.hidedriver, "show")
+	self:ApplyVisibilityDriver()
 end
 
 function Bar:ApplyVisibilityDriver()
@@ -317,6 +324,23 @@ function Bar:DisableVisibilityDriver()
 	UnregisterStateDriver(self, "visibility")
 	self:SetAttribute("state-visibility", nil)
 	self:Show()
+end
+
+function Bar:GetVisibilityOption(option, index)
+	if option == "stance" then
+		return self.config.visibility.stance[index]
+	else
+		return self.config.visibility[option]
+	end
+end
+
+function Bar:SetVisibilityOption(option, value, arg)
+	if option == "stance" then
+		self.config.visibility.stance[value] = arg
+	else
+		self.config.visibility[option] = value
+	end
+	self:InitVisibilityDriver()
 end
 
 function Bar:Enable()

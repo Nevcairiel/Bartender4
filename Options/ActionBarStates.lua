@@ -72,7 +72,7 @@ local function createOptionGroup(k, id)
 		type = "select",
 		arg = "stance",
 		values = validStanceTable,
-		name = module.DefaultStanceMap[playerclass][k].name,
+		name = Bartender4.StanceMap[playerclass][k].name,
 	}
 	return tbl
 end

@@ -9,7 +9,7 @@ local Bar = Bartender4.Bar.prototype
 local barregistry = Bartender4.Bar.barregistry
 
 -- option utilty functions
-local optGetter, optSetter
+local optGetter, optSetter, visibilityGetter, visibilitySetter
 do
 	local getBar, optionMap, callFunc
 	-- maps option keys to function names
@@ -48,6 +48,28 @@ do
 		local option = info[#info]
 		return callFunc(bar, "Set", option, ...)
 	end
+	
+	function visibilityGetter(info, ...)
+		local bar = getBar(info[2])
+		local option = info[#info]
+		return bar:GetVisibilityOption(option, ...)
+	end
+	
+	function visibilitySetter(info, ...)
+		local bar = getBar(info[2])
+		local option = info[#info]
+		bar:SetVisibilityOption(option, ...)
+	end
+end
+
+local function getStanceTable()
+	local num = GetNumShapeshiftForms()
+	
+	local tbl = {}
+	for i = 1, num do
+		tbl[i] = select(2, GetShapeshiftFormInfo(i))
+	end
+	return tbl
 end
 
 local options
@@ -113,11 +135,71 @@ function Bar:GetOptionObject()
 				},
 			},
 		},
+		visibility = {
+			type = "group",
+			name = L["Visibility"],
+			order = 2,
+			get = visibilityGetter,
+			set = visibilitySetter,
+			args = {
+				info = {
+					order = 1,
+					type = "description",
+					name = L["The bar default is to be visible all the time, you can configure conditions here to control when the bar should be hidden."] .. "\n",
+				},
+				always = {
+					order = 10,
+					type = "toggle",
+					name = L["Always Hide"],
+					desc = L["You can set the bar to be always hidden, if you only wish to access it using key-bindings."],
+					width = "full",
+				},
+				possess = {
+					order = 15,
+					type = "toggle",
+					name = L["Hide when Possessing"],
+					desc = L["Hide this bar when you are possessing a NPC."],
+					width = "full",
+				},
+				combat = {
+					order = 20,
+					type = "toggle",
+					name = L["Hide in Combat"],
+					desc = L["This bar will be hidden once you enter combat."],
+				},
+				nocombat = {
+					order = 21,
+					type = "toggle",
+					name = L["Hide out of Combat"],
+					desc = L["This bar will be hidden whenever you are not in combat."],
+				},
+				pet = {
+					order = 30,
+					type = "toggle",
+					name = L["Hide with pet"],
+					desc = L["Hide this bar when you have a pet."],
+				},
+				nopet = {
+					order = 31,
+					type = "toggle",
+					name = L["Hide without pet"],
+					desc = L["Hide this bar when you have no pet."],
+				},
+				stance = {
+					order = 50,
+					type = "multiselect",
+					name = L["Hide in Stance/Form"],
+					desc = L["Hide this bar in a specific Stance or Form."],
+					values = getStanceTable,
+					hidden = function() return (GetNumShapeshiftForms() < 1) end,
+				},
+			},
+		},
 		align = {
 			type = "group",
 			cmdInline = true,
 			name = L["Alignment"],
-			order = 10,
+			order = 20,
 			args = {
 				info = {
 					order = 1,
