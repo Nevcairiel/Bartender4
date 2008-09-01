@@ -185,7 +185,7 @@ function module:GetStateOptionsTable()
 			type = "group",
 			inline = true,
 			name = "",
-			hidden = function() return not (module.DefaultStanceMap[playerclass]) end,
+			hidden = function() return not (Bartender4.StanceMap[playerclass]) end,
 			get = optGetter,
 			set = optSetter,
 			disabled = disabledFunc,
@@ -200,7 +200,7 @@ function module:GetStateOptionsTable()
 	}
 	
 	do
-		local defstancemap = self.DefaultStanceMap[playerclass]
+		local defstancemap = Bartender4.StanceMap[playerclass]
 		if defstancemap then
 			for k,v in pairs(defstancemap) do
 				if not options.stances.args[v.id] then

@@ -47,7 +47,7 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 	
 	return newT
 end})
-
+Bartender4.StanceMap = DefaultStanceMap
 
 local searchFunc = function(h, n) return (h.match == n or h.match2 == n or h.id == n) end
 
