@@ -2,7 +2,6 @@
 local ButtonBar = Bartender4.ButtonBar.prototype
 local ActionBar = setmetatable({}, {__index = ButtonBar})
 Bartender4.ActionBar = ActionBar
-local module = Bartender4:GetModule("ActionBars")
 
 --[[===================================================================================
 	ActionBar Prototype
@@ -65,7 +64,7 @@ function ActionBar:UpdateButtons(numbuttons)
 	self:UpdateButtonLayout()
 	self:SetGrid()
 	if updateBindings and self.id == "1" then
-		module:ReassignBindings()
+		self.module:ReassignBindings()
 	end
 end
 
@@ -99,7 +98,7 @@ end
 
 function ActionBar:SetEnabled(state)
 	if not state then
-		module:DisableBar(self.id)
+		self.module:DisableBar(self.id)
 	end
 end
 

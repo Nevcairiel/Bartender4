@@ -15,13 +15,22 @@ locale\locale.xml
 
 ## Core ##
 Bartender4.lua
-Options.lua
 
 ## Prototypes ##
-barPrototype\Bar.xml
-buttonBarPrototype\ButtonBar.xml
-buttonPrototypes\Buttons.xml
+Bar.lua
+ButtonBar.lua
+ActionBar.lua
+
+## Buttons ##
+ActionButton.lua
+PetButton.lua
 
 ## Modules ##
-actionBar\ActionBars.xml
-specialBars\SpecialBars.xml
+ActionBars.lua
+BagBar.lua
+PetBar.lua
+StanceBar.lua
+MicroMenu.lua
+
+## Options ##
+Options\Options.xml
