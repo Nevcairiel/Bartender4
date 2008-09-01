@@ -9,7 +9,7 @@ local Bar = Bartender4.Bar.prototype
 local barregistry = Bartender4.Bar.barregistry
 
 -- option utilty functions
-local optGetter, optSetter, visibilityGetter, visibilitySetter
+local optGetter, optSetter, visibilityGetter, visibilitySetter, customEnabled
 do
 	local getBar, optionMap, callFunc
 	-- maps option keys to function names
@@ -59,6 +59,11 @@ do
 		local bar = getBar(info[2])
 		local option = info[#info]
 		bar:SetVisibilityOption(option, ...)
+	end
+	
+	function customEnabled(info)
+		local bar = getBar(info[2])
+		return bar:GetVisibilityOption("custom")
 	end
 end
 
@@ -153,6 +158,7 @@ function Bar:GetOptionObject()
 					name = L["Always Hide"],
 					desc = L["You can set the bar to be always hidden, if you only wish to access it using key-bindings."],
 					width = "full",
+					disabled = customEnabled,
 				},
 				possess = {
 					order = 15,
@@ -160,30 +166,35 @@ function Bar:GetOptionObject()
 					name = L["Hide when Possessing"],
 					desc = L["Hide this bar when you are possessing a NPC."],
 					width = "full",
+					disabled = customEnabled,
 				},
 				combat = {
 					order = 20,
 					type = "toggle",
 					name = L["Hide in Combat"],
 					desc = L["This bar will be hidden once you enter combat."],
+					disabled = customEnabled,
 				},
 				nocombat = {
 					order = 21,
 					type = "toggle",
 					name = L["Hide out of Combat"],
 					desc = L["This bar will be hidden whenever you are not in combat."],
+					disabled = customEnabled,
 				},
 				pet = {
 					order = 30,
 					type = "toggle",
 					name = L["Hide with pet"],
 					desc = L["Hide this bar when you have a pet."],
+					disabled = customEnabled,
 				},
 				nopet = {
 					order = 31,
 					type = "toggle",
 					name = L["Hide without pet"],
 					desc = L["Hide this bar when you have no pet."],
+					disabled = customEnabled,
 				},
 				stance = {
 					order = 50,
@@ -192,6 +203,21 @@ function Bar:GetOptionObject()
 					desc = L["Hide this bar in a specific Stance or Form."],
 					values = getStanceTable,
 					hidden = function() return (GetNumShapeshiftForms() < 1) end,
+					disabled = customEnabled,
+				},
+				custom = {
+					order = 100,
+					type = "toggle",
+					name = L["Use Custom Condition"],
+					desc = L["Enable the use of a custom condition, disabling all of the above."],
+					width = "full",
+				},
+				customdata = {
+					order = 101,
+					type = "input",
+					name = L["Custom Conditionals"],
+					desc = L["You can use any macro conditionals in the custom string, using \"show\" and \"hide\" as values.\n\nExample: [combat]hide;show"],
+					width = "full",
 				},
 			},
 		},

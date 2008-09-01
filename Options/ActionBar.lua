@@ -116,7 +116,7 @@ function module:GetOptionsObject()
 			type = "group",
 			name = L["State Configuration"],
 			cmdInline = true,
-			order = 2,
+			order = 5,
 			args = self:GetStateOptionsTable(),
 		}
 		obj:NewCategory("state", states)

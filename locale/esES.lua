@@ -31,6 +31,7 @@ if not L then return end
 -- L["Configure the alpha of the bar."] = true
 -- L["Configure the padding of the buttons."] = true
 -- L["Configure the scale of the bar."] = true
+-- L["Custom Conditionals"] = true
 -- L["Default Bar State"] = true
 -- L["Disabled"] = true
 -- L["Disabled in Combat"] = true
@@ -42,6 +43,7 @@ if not L then return end
 -- L["Enable the Micro Menu"] = true
 -- L["Enable the PetBar"] = true
 -- L["Enable the StanceBar"] = true
+-- L["Enable the use of a custom condition, disabling all of the above."] = true
 -- L["Enable/Disable the bar."] = true
 -- L["Enabled"] = true
 -- L["FAQ"] = true
@@ -103,6 +105,8 @@ if not L then return end
 -- L["Toggle the button grid."] = true
 -- L["Toggle the use of the modifier-based self-cast functionality."] = true
 -- L["Toggle the use of the right-click self-cast functionality."] = true
+-- L["Use Custom Condition"] = true
 -- L["Visibility"] = true
 -- L["You can set the bar to be always hidden, if you only wish to access it using key-bindings."] = true
+-- L["You can use any macro conditionals in the custom string, using \"show\" and \"hide\" as values.\n\nExample: [combat]hide;show"] = true
 -- L["Zoom"] = true

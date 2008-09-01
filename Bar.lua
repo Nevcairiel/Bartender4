@@ -291,22 +291,26 @@ function Bar:InitVisibilityDriver()
 	self.hidedriver = {}
 	UnregisterStateDriver(self, 'visibility')
 	
-	for key, value in pairs(self.config.visibility) do
-		if value then
-			if key == "always" then
-				table_insert(self.hidedriver, "hide")
-			elseif key == "possess" then
-				table_insert(self.hidedriver, "[bonusbar:5]hide")
-			elseif directVisCond[key] then
-				table_insert(self.hidedriver, ("[%s]hide"):format(key))
-			elseif key == "stance" then
-				for k,v in pairs(value) do
-					if v then
-						table_insert(self.hidedriver, ("[stance:%d]hide"):format(k))
+	if self.config.visibility.custom then
+		table_insert(self.hidedriver, self.config.visibility.customdata or "")
+	else
+		for key, value in pairs(self.config.visibility) do
+			if value then
+				if key == "always" then
+					table_insert(self.hidedriver, "hide")
+				elseif key == "possess" then
+					table_insert(self.hidedriver, "[bonusbar:5]hide")
+				elseif directVisCond[key] then
+					table_insert(self.hidedriver, ("[%s]hide"):format(key))
+				elseif key == "stance" then
+					for k,v in pairs(value) do
+						if v then
+							table_insert(self.hidedriver, ("[stance:%d]hide"):format(k))
+						end
 					end
+				else
+					Bartender4:Print("Invalid visibility state: "..key)
 				end
-			else
-				Bartender4:Print("Invalid visibility state: "..key)
 			end
 		end
 	end
