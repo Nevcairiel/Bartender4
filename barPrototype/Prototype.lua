@@ -323,8 +323,7 @@ end
 function Bar:ApplyVisibilityDriver()
 	if self.unlocked then return end
 	-- default state is shown
-	self:RegisterVisibilityCondition("show")
-	RegisterStateDriver(self, "visibility", table_concat(self.hidedriver, ";"))
+	RegisterStateDriver(self, "visibility", table_concat(self.hidedriver, ";") .. ";show")
 end
 
 function Bar:DisableVisibilityDriver()

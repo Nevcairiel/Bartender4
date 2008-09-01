@@ -35,11 +35,9 @@ function PetBarMod:OnEnable()
 		
 		self.bar:SetScript("OnEvent", PetBar.OnEvent)
 		
-		self.bar:SetAttribute("unit", "pet")
+		--self.bar:SetAttribute("unit", "pet")
 	end
 	self.bar:Enable()
-	
-	RegisterUnitWatch(self.bar, false)
 	
 	self.bar:RegisterEvent("PLAYER_CONTROL_LOST")
 	self.bar:RegisterEvent("PLAYER_CONTROL_GAINED")
@@ -62,7 +60,9 @@ end
 function PetBarMod:OnDisable()
 	if not self.bar then return end
 		
-	UnregisterUnitWatch(self.bar)
+	UnregisterStateDriver(self.bar)
+	self:SetAttribute("state-visibility", nil)
+	self.bar:Hide()
 	
 	self.bar:Disable()
 	self:ToggleOptions()
@@ -108,16 +108,11 @@ end
 function PetBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 	self:UpdateButtonLayout()
+	self:InitVisibilityDriver()
+	self:RegisterVisibilityCondition("[bonusbar:5]hide")
+	self:RegisterVisibilityCondition("[pet]show")
+	self:RegisterVisibilityCondition("hide")
+	self:ApplyVisibilityDriver()
 	self:ForAll("Update")
 	self:ForAll("ApplyStyle", self.config.style)
-end
-
-function PetBar:Unlock()
-	UnregisterUnitWatch(self)
-	ButtonBar.Unlock(self)
-end
-
-function PetBar:Lock()
-	ButtonBar.Lock(self)
-	RegisterUnitWatch(self, false)
 end
