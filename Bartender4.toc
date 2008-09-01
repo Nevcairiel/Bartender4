@@ -20,6 +20,7 @@ Bartender4.lua
 Bar.lua
 ButtonBar.lua
 ActionBar.lua
+ActionBarStates.lua
 
 ## Buttons ##
 ActionButton.lua
