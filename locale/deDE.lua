@@ -110,3 +110,5 @@ if not L then return end
 -- L["You can set the bar to be always hidden, if you only wish to access it using key-bindings."] = true
 -- L["You can use any macro conditionals in the custom string, using \"show\" and \"hide\" as values.\n\nExample: [combat]hide;show"] = true
 -- L["Zoom"] = true
+-- L["|cffffff00Click|r to toggle bar lock"] = true
+-- L["|cffffff00Right-click|r to open the options menu"] = true
