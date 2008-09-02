@@ -96,3 +96,5 @@ L["Toggle the button grid."] = "버튼 무늬를 전환합니다."
 L["Toggle the use of the modifier-based self-cast functionality."] = "기능키-기반 자신에게 시전 기능의 사용을 전환합니다."
 L["Toggle the use of the right-click self-cast functionality."] = "우-클릭시 자신에게 시전 기능의 사용을 전환합니다."
 L["Zoom"] = "확대"
+-- L["|cffffff00Click|r to toggle bar lock"] = true
+-- L["|cffffff00Right-click|r to open the options menu"] = true

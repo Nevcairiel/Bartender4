@@ -96,3 +96,5 @@ L["Toggle the button grid."] = true
 L["Toggle the use of the modifier-based self-cast functionality."] = true
 L["Toggle the use of the right-click self-cast functionality."] = true
 L["Zoom"] = true
+L["|cffffff00Click|r to toggle bar lock"] = true
+L["|cffffff00Right-click|r to open the options menu"] = true

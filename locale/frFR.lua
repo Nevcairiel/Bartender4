@@ -96,3 +96,5 @@ L["Toggle the button grid."] = "Affiche ou non la grille des boutons."
 L["Toggle the use of the modifier-based self-cast functionality."] = "Utilise ou non la fonctionnalité de ciblage auto. basé sur les modificateurs."
 L["Toggle the use of the right-click self-cast functionality."] = "Utilise ou non la fonctionnalité de ciblage auto. au clic droit."
 L["Zoom"] = "Zoom"
+-- L["|cffffff00Click|r to toggle bar lock"] = true
+-- L["|cffffff00Right-click|r to open the options menu"] = true

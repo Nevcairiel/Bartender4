@@ -96,3 +96,5 @@ L["Toggle the button grid."] = "顯示空白按鈕"
 L["Toggle the use of the modifier-based self-cast functionality."] = "切換使用自我施法功能"
 L["Toggle the use of the right-click self-cast functionality."] = "切換使用右鍵自我施法功能"
 L["Zoom"] = "放大"
+-- L["|cffffff00Click|r to toggle bar lock"] = true
+-- L["|cffffff00Right-click|r to open the options menu"] = true

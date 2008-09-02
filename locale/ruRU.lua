@@ -1,6 +1,5 @@
 --[[ $Id$ ]]
 -- Please make sure to save the file as UTF-8, BUT WITHOUT THE UTF-8 BOM HEADER; ¶
--- Translated by  Eritnull ( StingerSoft aka Шептун) & Alekc
 local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "ruRU")
 if not L then return end
 
@@ -97,3 +96,5 @@ L["Toggle the button grid."] = "Переключение отображения 
 L["Toggle the use of the modifier-based self-cast functionality."] = "Переключение использования функции Чтение на себя по умолчанию."
 L["Toggle the use of the right-click self-cast functionality."] = "Переключение использования функции ПКМ Чтение на себя."
 L["Zoom"] = "Увеличение"
+-- L["|cffffff00Click|r to toggle bar lock"] = true
+-- L["|cffffff00Right-click|r to open the options menu"] = true
