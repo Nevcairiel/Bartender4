@@ -2,6 +2,8 @@
 local AceAddon = LibStub("AceAddon-3.0")
 Bartender4 = AceAddon:NewAddon("Bartender4", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0")
 
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
+
 local defaults = {
 	profile = {
 		tooltip = "enabled",
