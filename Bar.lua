@@ -289,7 +289,16 @@ local directVisCond = {
 }
 function Bar:InitVisibilityDriver()
 	self.hidedriver = {}
-	UnregisterStateDriver(self, 'visibility')
+	UnregisterStateDriver(self, 'vis')
+	
+	self:SetAttribute("_onstate-vis", [[
+		if newstate == "show" or newstate == "fade" then
+			self:Show()
+			self:SetAttribute("fade", (newstate == "fade"))
+		elseif newstate == "hide" then
+			self:Hide()
+		end
+	]])
 	
 	if self.config.visibility.custom then
 		table_insert(self.hidedriver, self.config.visibility.customdata or "")
@@ -323,12 +332,11 @@ end
 function Bar:ApplyVisibilityDriver()
 	if self.unlocked then return end
 	-- default state is shown
-	RegisterStateDriver(self, "visibility", table_concat(self.hidedriver, ";"))
+	RegisterStateDriver(self, "vis", table_concat(self.hidedriver, ";"))
 end
 
 function Bar:DisableVisibilityDriver()
-	UnregisterStateDriver(self, "visibility")
-	self:SetAttribute("state-visibility", nil)
+	UnregisterStateDriver(self, "vis")
 	self:Show()
 end
 
