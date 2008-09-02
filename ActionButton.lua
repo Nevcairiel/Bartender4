@@ -91,7 +91,6 @@ function Bartender4.Button:Create(id, parent)
 	
 	--button:SetAttribute("useparent-unit", true)
 	
-	parent:SetAttribute('_adopt', button)
 	button:SetAttribute('_childupdate-state', [[
 		self:SetAttribute("state", message)
 		local type = self:GetAttribute("type-" .. message)
