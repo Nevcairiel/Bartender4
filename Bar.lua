@@ -54,7 +54,7 @@ do
 		-- TODO: Once dropdown config is stable, show dropdown on rightclick
 	end
 	
-	function barOnUpdateFunc(self, elapsed) 
+	function barOnUpdateFunc(self, elapsed)
 		self.elapsed = self.elapsed + elapsed
 		if self.elapsed > self.config.fadeoutdelay then
 			self:ControlFadeOut(self.elapsed)

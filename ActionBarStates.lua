@@ -55,7 +55,7 @@ local stancemap
 function ActionBar:UpdateStates()
 	if not self.buttons then return end
 	self.statebutton = {}
-	if not stancemap and DefaultStanceMap[playerclass] then 
+	if not stancemap and DefaultStanceMap[playerclass] then
 		stancemap = DefaultStanceMap[playerclass]
 	end
 	
@@ -78,7 +78,7 @@ function ActionBar:UpdateStates()
 		for _,v in pairs(modifiers) do
 			local page = self:GetStateOption(v)
 			if page and page ~= 0 then
-				table_insert(statedriver, fmt("[modifier:%s]%s", v, page)) 
+				table_insert(statedriver, fmt("[modifier:%s]%s", v, page))
 			end
 		end
 		
@@ -136,7 +136,7 @@ end
 
 function ActionBar:GetStanceState(stance)
 	local stanceconfig = self.config.states.stance[playerclass]
-	if type(stance) == "table" then 
+	if type(stance) == "table" then
 		state = stanceconfig[stance.id]
 	else
 		state = stanceconfig[stance]
@@ -167,7 +167,7 @@ end
 
 function ActionBar:AddToStateButton(state)
 	if not self.statebutton then self.statebutton = {} end
-	if not tfind(self.statebutton, state) then 
+	if not tfind(self.statebutton, state) then
 		table_insert(self.statebutton, state)
 	end
 end

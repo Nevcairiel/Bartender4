@@ -12,7 +12,7 @@ local BagBar = setmetatable({}, {__index = ButtonBar})
 
 local table_insert = table.insert
 
-local defaults = { profile = Bartender4:Merge({ 
+local defaults = { profile = Bartender4:Merge({
 	enabled = true,
 	keyring = false,
 	onebag = false,
@@ -72,7 +72,7 @@ function BagBar:FeedButtons()
 			btn:Hide()
 			btn:SetParent(UIParent)
 			btn:ClearSetPoint("CENTER")
-			if btn ~= KeyRingButton and btn.LBFButtonData then 
+			if btn ~= KeyRingButton and btn.LBFButtonData then
 				local group = self.LBFGroup
 				group:RemoveButton(btn)
 			end
@@ -87,16 +87,16 @@ function BagBar:FeedButtons()
 	end
 	
 	if not self.config.onebag then
-		table_insert(self.buttons, CharacterBag3Slot) 
-		table_insert(self.buttons, CharacterBag2Slot) 
-		table_insert(self.buttons, CharacterBag1Slot) 
+		table_insert(self.buttons, CharacterBag3Slot)
+		table_insert(self.buttons, CharacterBag2Slot)
+		table_insert(self.buttons, CharacterBag1Slot)
 		table_insert(self.buttons, CharacterBag0Slot)
 		count = count + 4
 	end
 	
 	table_insert(self.buttons, MainMenuBarBackpackButton)
 	
-	for i,v in pairs(self.buttons) do 
+	for i,v in pairs(self.buttons) do
 		v:SetParent(self)
 		v:Show()
 		if v ~= KeyRingButton then

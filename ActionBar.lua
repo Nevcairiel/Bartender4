@@ -8,7 +8,7 @@ Bartender4.ActionBar = ActionBar
 ===================================================================================]]--
 
 local initialPosition
-do 
+do
 	-- Sets the Bar to its initial Position in the Center of the Screen
 	function initialPosition(bar)
 		bar:ClearSetPoint("CENTER", 0, -250 + (bar.id-1) * 38)

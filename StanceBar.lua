@@ -17,7 +17,7 @@ local format = string.format
 local LBF = LibStub("LibButtonFacade", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
 
-local defaults = { profile = Bartender4:Merge({ 
+local defaults = { profile = Bartender4:Merge({
 	enabled = true,
 	scale = 1.5,
 }, Bartender4.ButtonBar.defaults) }
@@ -120,7 +120,7 @@ function StanceButtonPrototype:GetBindings()
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
 		if keys ~= "" then
-			keys = keys .. ', ' 
+			keys = keys .. ', '
 		end
 		keys = keys .. GetBindingText(hotKey,'KEY_')
 	end
@@ -129,7 +129,7 @@ function StanceButtonPrototype:GetBindings()
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
 		if keys ~= "" then
-			keys = keys .. ', ' 
+			keys = keys .. ', '
 		end
 		keys = keys.. GetBindingText(hotKey,'KEY_')
 	end

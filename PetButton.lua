@@ -182,7 +182,7 @@ function PetButtonPrototype:GetBindings()
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
 		if keys ~= "" then
-			keys = keys .. ', ' 
+			keys = keys .. ', '
 		end
 		keys = keys .. GetBindingText(hotKey,'KEY_')
 	end
@@ -191,7 +191,7 @@ function PetButtonPrototype:GetBindings()
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
 		if keys ~= "" then
-			keys = keys .. ', ' 
+			keys = keys .. ', '
 		end
 		keys = keys.. GetBindingText(hotKey,'KEY_')
 	end

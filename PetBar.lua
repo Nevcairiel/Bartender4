@@ -93,7 +93,7 @@ end
 PetBar.button_width = 30
 PetBar.button_height = 30
 function PetBar:OnEvent(event, arg1)
-	if event == "PET_BAR_UPDATE" or 
+	if event == "PET_BAR_UPDATE" or
 		(event == "UNIT_PET" and arg1 == "player") or
 		((event == "UNIT_FLAGS" or event == "UNIT_AURA") and arg1 == "pet") or
 		event == "PLAYER_CONTROL_LOST" or event == "PLAYER_CONTROL_GAINED" or event == "PLAYER_FARSIGHT_FOCUS_CHANGED"

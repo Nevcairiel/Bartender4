@@ -210,8 +210,8 @@ function onUpdate(self, elapsed)
 			local valid = IsActionInRange(self.action)
 			local hotkey = self.hotkey
 			local hkshown = (hotkey:GetText() == RANGE_INDICATOR and oor == "hotkey")
-			if valid and hkshown then 
-				hotkey:Show() 
+			if valid and hkshown then
+				hotkey:Show()
 			elseif hkshown then
 				hotkey:Hide()
 			end
@@ -389,7 +389,7 @@ function Button:GetBindings()
 		for i = 1, select('#', GetBindingKey(binding)) do
 			local hotKey = select(i, GetBindingKey(binding))
 			if keys ~= "" then
-				keys = keys .. ', ' 
+				keys = keys .. ', '
 			end
 			keys = keys .. GetBindingText(hotKey,'KEY_')
 		end
@@ -399,7 +399,7 @@ function Button:GetBindings()
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
 		if keys ~= "" then
-			keys = keys .. ', ' 
+			keys = keys .. ', '
 		end
 		keys = keys .. GetBindingText(hotKey,'KEY_')
 	end
@@ -445,7 +445,7 @@ end
 function Button:UpdateUsable(force)
 	local isUsable, notEnoughMana = IsUsableAction(self.action)
 	local icon, hotkey = self.icon, self.hotkey
-	if force or not oor then 
+	if force or not oor then
 		oor = Bartender4.db.profile.outofrange
 		oorcolor, oomcolor = Bartender4.db.profile.colors.range, Bartender4.db.profile.colors.mana
 	end

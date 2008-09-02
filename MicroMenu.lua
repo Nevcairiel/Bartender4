@@ -12,7 +12,7 @@ local MicroMenuBar = setmetatable({}, {__index = Bar})
 
 local table_insert = table.insert
 
-local defaults = { profile = Bartender4:Merge({ 
+local defaults = { profile = Bartender4:Merge({
 	enabled = true,
 	vertical = false,
 	visibility = {
@@ -45,9 +45,9 @@ function MicroMenuMod:OnEnable()
 		
 		self:RawHook("UpdateTalentButton", noopFunc, true)
 		
-		for i,v in pairs(buttons) do 
+		for i,v in pairs(buttons) do
 			v:SetParent(self.bar)
-			v:Show() 
+			v:Show()
 			v:SetFrameLevel(self.bar:GetFrameLevel() + 1)
 		end
 		

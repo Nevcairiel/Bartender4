@@ -12,15 +12,15 @@ local abdefaults = {
 		hidehotkey = false,
 		showgrid = false,
 		autoassist = false,
-		states = { 
-			enabled = false, 
+		states = {
+			enabled = false,
 			possess = false,
 			actionbar = false,
-			default = 0, 
+			default = 0,
 			ctrl = 0,
 			alt = 0,
 			shift = 0,
-			stance = { 
+			stance = {
 				['*'] = {
 				},
 			},
@@ -55,10 +55,10 @@ local abdefaults = {
 	},
 }
 
-local defaults = { 
-	profile = { 
+local defaults = {
+	profile = {
 		actionbars = abdefaults,
-	} 
+	}
 }
 
 function BT4ActionBars:OnInitialize()
