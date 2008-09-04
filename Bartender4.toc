@@ -10,6 +10,7 @@
 ## Version: 4.0
 
 embeds.xml
+libs\LibDataBroker-1.1.lua
 
 locale\locale.xml
 
