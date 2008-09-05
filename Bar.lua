@@ -24,6 +24,14 @@ local defaults = {
 	},
 }
 
+local Sticky = LibStub("LibSimpleSticky-1.0")
+
+local barregistry = {}
+Bartender4.Bar = {}
+Bartender4.Bar.defaults = defaults
+Bartender4.Bar.prototype = Bar
+Bartender4.Bar.barregistry = barregistry
+
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUpdateFunc
 do
 	function barOnEnter(self)
@@ -36,7 +44,8 @@ do
 
 	function barOnDragStart(self)
 		local parent = self:GetParent()
-		parent:StartMoving()
+		local offset = 8 - (parent.config.padding or 0)
+		Sticky:StartMoving(parent, barregistry, offset, offset, offset, offset)
 		self:SetBackdropBorderColor(0, 0, 0, 0)
 		parent.isMoving = true
 	end
@@ -44,7 +53,8 @@ do
 	function barOnDragStop(self)
 		local parent = self:GetParent()
 		if parent.isMoving then
-			parent:StopMovingOrSizing()
+			local sticky, stickTo = Sticky:StopMoving(parent)
+			--Bartender4:Print(sticky, stickTo and stickTo:GetName() or nil)
 			parent:SavePosition()
 		end
 	end
@@ -63,11 +73,6 @@ do
 	end
 end
 
-local barregistry = {}
-Bartender4.Bar = {}
-Bartender4.Bar.defaults = defaults
-Bartender4.Bar.prototype = Bar
-Bartender4.Bar.barregistry = barregistry
 function Bartender4.Bar:Create(id, config, name)
 	id = tostring(id)
 	assert(not barregistry[id], "duplicated entry in barregistry.")
