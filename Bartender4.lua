@@ -110,32 +110,35 @@ function Bartender4.modulePrototype:ToggleOptions()
 end
 Bartender4:SetDefaultModulePrototype(Bartender4.modulePrototype)
 
-local L_BT_LEFT = L["|cffffff00Click|r to toggle bar lock"]
-local L_BT_RIGHT = L["|cffffff00Right-click|r to open the options menu"]
+local LDB = LibStub("LibDataBroker-1.1", true)
+if LDB then
+	local L_BT_LEFT = L["|cffffff00Click|r to toggle bar lock"]
+	local L_BT_RIGHT = L["|cffffff00Right-click|r to open the options menu"]
 
-LibStub("LibDataBroker-1.1"):NewDataObject("Bartender4", {
-	type = "launcher",
-	text = "Bartender4",
-	OnClick = function(_, msg)
-		if msg == "LeftButton" then
-			if Bartender4.Locked then
-				Bartender4["Unlock"](Bartender4)
-			else
-				Bartender4["Lock"](Bartender4)
+	LibStub("LibDataBroker-1.1"):NewDataObject("Bartender4", {
+		type = "launcher",
+		text = "Bartender4",
+		OnClick = function(_, msg)
+			if msg == "LeftButton" then
+				if Bartender4.Locked then
+					Bartender4["Unlock"](Bartender4)
+				else
+					Bartender4["Lock"](Bartender4)
+				end
+			elseif msg == "RightButton" then
+				if LibStub("AceConfigDialog-3.0").OpenFrames["Bartender4"] then
+					LibStub("AceConfigDialog-3.0"):Close("Bartender4")
+				else
+					LibStub("AceConfigDialog-3.0"):Open("Bartender4")
+				end
 			end
-		elseif msg == "RightButton" then
-			if LibStub("AceConfigDialog-3.0").OpenFrames["Bartender4"] then
-				LibStub("AceConfigDialog-3.0"):Close("Bartender4")
-			else
-				LibStub("AceConfigDialog-3.0"):Open("Bartender4")
-			end
-		end
-	end,
-	icon = "Interface\\Icons\\INV_Drink_05",
-	OnTooltipShow = function(tooltip)
-		if not tooltip or not tooltip.AddLine then return end
-		tooltip:AddLine("Bartender4")
-		tooltip:AddLine(L_BT_LEFT)
-		tooltip:AddLine(L_BT_RIGHT)
-	end,
-})
+		end,
+		icon = "Interface\\Icons\\INV_Drink_05",
+		OnTooltipShow = function(tooltip)
+			if not tooltip or not tooltip.AddLine then return end
+			tooltip:AddLine("Bartender4")
+			tooltip:AddLine(L_BT_LEFT)
+			tooltip:AddLine(L_BT_RIGHT)
+		end,
+	})
+end
