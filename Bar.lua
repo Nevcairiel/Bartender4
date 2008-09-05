@@ -27,7 +27,7 @@ local defaults = {
 local Sticky = LibStub("LibSimpleSticky-1.0")
 local snapBars = { WorldFrame, UIParent }
 
-local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUpdateFunc
+local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUpdateFunc, barOnAttributeChanged
 do
 	function barOnEnter(self)
 		self:SetBackdropBorderColor(0.5, 0.5, 0, 1)
@@ -66,6 +66,19 @@ do
 			self.elapsed = 0
 		end
 	end
+	
+	function barOnAttributeChanged(self, attribute, value)
+		if attribute == "fade" then
+			if value then
+				self:SetScript("OnUpdate", barOnUpdateFunc)
+				self:ControlFadeOut()
+			else
+				self:SetScript("OnUpdate", nil)
+				self.faded = nil
+				self:SetConfigAlpha()
+			end
+		end
+	end
 end
 
 local barregistry = {}
@@ -84,6 +97,7 @@ function Bartender4.Bar:Create(id, config, name)
 	bar.id = id
 	bar.name = name or id
 	bar:SetMovable(true)
+	bar:HookScript("OnAttributeChanged", barOnAttributeChanged)
 	
 	local overlay = CreateFrame("Button", bar:GetName() .. "Overlay", bar)
 	bar.overlay = overlay
@@ -151,7 +165,6 @@ function Bar:ApplyConfig(config)
 	self:LoadPosition()
 	self:SetConfigScale()
 	self:SetConfigAlpha()
-	self:SetFadeOut()
 	self:InitVisibilityDriver()
 end
 
@@ -166,11 +179,6 @@ function Bar:Unlock()
 	else
 		self.overlay:SetBackdropColor(0, 1, 0, 0.5)
 	end
-	if self.config.fadeout then
-		self:SetScript("OnUpdate", nil)
-		self.faded = nil
-		self:SetConfigAlpha()
-	end
 end
 
 function Bar:Lock()
@@ -181,8 +189,6 @@ function Bar:Lock()
 	self:ApplyVisibilityDriver()
 	
 	self.overlay:Hide()
-	
-	self:SetFadeOut()
 end
 
 function Bar:LoadPosition()
@@ -241,14 +247,7 @@ end
 function Bar:SetFadeOut(fadeout)
 	if fadeout ~= nil then
 		self.config.fadeout = fadeout
-	end
-	if self.config.fadeout then
-		self:SetScript("OnUpdate", barOnUpdateFunc)
-		self:ControlFadeOut()
-	else
-		self:SetScript("OnUpdate", nil)
-		self.faded = nil
-		self:SetConfigAlpha()
+		self:InitVisibilityDriver()
 	end
 end
 
@@ -276,14 +275,12 @@ function Bar:SetFadeOutDelay(delay)
 end
 
 function Bar:ControlFadeOut()
-	if self.config.fadeout then
-		if self.faded and MouseIsOver(self) then
-			self:SetAlpha(self.config.alpha)
-			self.faded = nil
-		elseif not self.faded and not MouseIsOver(self) then
-			self:SetAlpha(self.config.fadeoutalpha)
-			self.faded = true
-		end
+	if self.faded and MouseIsOver(self) then
+		self:SetAlpha(self.config.alpha)
+		self.faded = nil
+	elseif not self.faded and not MouseIsOver(self) then
+		self:SetAlpha(self.config.fadeoutalpha)
+		self.faded = true
 	end
 end
 
@@ -332,7 +329,7 @@ function Bar:InitVisibilityDriver()
 			end
 		end
 	end
-	table_insert(self.hidedriver, "show")
+	table_insert(self.hidedriver, self.config.fadeout and "fade" or "show")
 	self:ApplyVisibilityDriver()
 end
 
@@ -345,6 +342,9 @@ end
 function Bar:DisableVisibilityDriver()
 	UnregisterStateDriver(self, "vis")
 	self:Show()
+	self:SetScript("OnUpdate", nil)
+	self.faded = nil
+	self:SetConfigAlpha()
 end
 
 function Bar:GetVisibilityOption(option, index)
