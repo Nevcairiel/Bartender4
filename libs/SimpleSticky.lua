@@ -134,7 +134,8 @@ function StickyFrames:GetUpdateFunc(frame, frameList, xoffset, yoffset, left, to
 		frame:SetPoint("CENTER", UIParent, "BOTTOMLEFT", x+xoffset, y+yoffset)
 		
 		StickyFrames.sticky[frame] = nil
-		for k,v in pairs(frameList) do
+		for i = 1, #frameList do
+			local v = frameList[i]
 			if frame ~= v and not IsShiftKeyDown() and v:IsVisible() then
 				if self:SnapFrame(frame, v, left, top, right, bottom) then
 					StickyFrames.sticky[frame] = v

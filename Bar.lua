@@ -25,12 +25,7 @@ local defaults = {
 }
 
 local Sticky = LibStub("LibSimpleSticky-1.0")
-
-local barregistry = {}
-Bartender4.Bar = {}
-Bartender4.Bar.defaults = defaults
-Bartender4.Bar.prototype = Bar
-Bartender4.Bar.barregistry = barregistry
+local snapBars = { WorldFrame, UIParent }
 
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUpdateFunc
 do
@@ -45,7 +40,7 @@ do
 	function barOnDragStart(self)
 		local parent = self:GetParent()
 		local offset = 8 - (parent.config.padding or 0)
-		Sticky:StartMoving(parent, barregistry, offset, offset, offset, offset)
+		Sticky:StartMoving(parent, snapBars, offset, offset, offset, offset)
 		self:SetBackdropBorderColor(0, 0, 0, 0)
 		parent.isMoving = true
 	end
@@ -73,12 +68,19 @@ do
 	end
 end
 
+local barregistry = {}
+Bartender4.Bar = {}
+Bartender4.Bar.defaults = defaults
+Bartender4.Bar.prototype = Bar
+Bartender4.Bar.barregistry = barregistry
 function Bartender4.Bar:Create(id, config, name)
 	id = tostring(id)
 	assert(not barregistry[id], "duplicated entry in barregistry.")
 	
 	local bar = setmetatable(CreateFrame("Frame", ("BT4Bar%s"):format(id), UIParent, "SecureHandlerStateTemplate"), Bar_MT)
 	barregistry[id] = bar
+	table_insert(snapBars, bar)
+	
 	bar.id = id
 	bar.name = name or id
 	bar:SetMovable(true)
