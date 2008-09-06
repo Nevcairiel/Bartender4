@@ -15,7 +15,9 @@ local _G = _G
 local format = string.format
 
 local function onEnter(self, ...)
-	self:OnEnter(...)
+	if not (Bartender4.db.profile.tooltip == "nocombat" and InCombatLockdown()) and Bartender4.db.profile.tooltip ~= "disabled" then
+		self:OnEnter(...)
+	end
 	KeyBound:Set(self)
 end
 
