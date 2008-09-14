@@ -1,4 +1,3 @@
---[[ $Id$ ]]
 local ButtonBar = Bartender4.ButtonBar.prototype
 local ActionBar = setmetatable({}, {__index = ButtonBar})
 Bartender4.ActionBar = ActionBar

@@ -1,5 +1,3 @@
---[[ $Id$ ]]
-
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local FAQ = LibStub("AceLocale-3.0"):GetLocale("Bartender4_FAQ")
 

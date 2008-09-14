@@ -1,4 +1,3 @@
---[[ $Id$ ]]
 --[[ Generic Template for a Bar which contains Buttons ]]
 
 local Bar = Bartender4.Bar.prototype

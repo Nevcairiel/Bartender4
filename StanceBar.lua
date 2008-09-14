@@ -1,4 +1,3 @@
---[[ $Id$ ]]
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
 local StanceBarMod = Bartender4:NewModule("StanceBar", "AceEvent-3.0")

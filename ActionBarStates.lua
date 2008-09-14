@@ -1,4 +1,3 @@
---[[ $Id$ ]]
 local ActionBar = Bartender4.ActionBar
 
 local table_insert = table.insert

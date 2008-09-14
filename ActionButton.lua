@@ -1,9 +1,6 @@
 --[[
 	Action Button Template
 ]]
-
---[[ $Id$ ]]
-
 local Button = CreateFrame("CheckButton")
 local Button_MT = {__index = Button}
 

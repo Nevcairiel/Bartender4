@@ -1,4 +1,3 @@
---[[ $Id$ ]]
 -- Please make sure to save the file as UTF-8, BUT WITHOUT THE UTF-8 BOM HEADER; ¶
 local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "deDE")
 if not L then return end

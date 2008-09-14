@@ -2,8 +2,6 @@
 	Pet Button template
 ]]
 
---[[ $Id$ ]]
-
 local PetButtonPrototype = CreateFrame("CheckButton")
 local PetButton_MT = {__index = PetButtonPrototype}
 

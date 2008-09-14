@@ -1,8 +1,6 @@
 --[[
 	Generic Bar Frame Template
 ]]
-
---[[ $Id$ ]]
 local Bar = CreateFrame("Button")
 local Bar_MT = {__index = Bar}
 

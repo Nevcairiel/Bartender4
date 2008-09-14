@@ -1,4 +1,3 @@
---[[ $Id$ ]]
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
 local MicroMenuMod = Bartender4:NewModule("MicroMenu", "AceHook-3.0")
