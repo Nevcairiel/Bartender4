@@ -24,6 +24,9 @@ function Bartender4.Button:Create(id, parent)
 	local absid = (parent.id - 1) * 12 + id
 	local name =  ("BT4Button%d"):format(absid)
 	local button = setmetatable(CreateFrame("CheckButton", name.."Secure", parent, "SecureActionButtonTemplate"), Button_MT)
+	-- work around for "blocked" message when using /click macros
+	GetClickFrame(name .. "Secure")
+	
 	button.rid = id
 	button.id = absid
 	button.parent = parent
