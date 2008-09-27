@@ -43,7 +43,7 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 		}
 	elseif k == "WARLOCK" then
 		newT = {
-			{ id = "metamorphosis", name = GetSpellInfo(59672), index = 1 },
+			{ id = "metamorphosis", name = GetSpellInfo(59672), index = 2 },
 		}
 	end
 	rawset(t, k, newT)
@@ -98,13 +98,17 @@ function ActionBar:UpdateStates()
 			for i,v in pairs(stancemap) do
 				local state = self:GetStanceState(v)
 				if state and state ~= 0 and v.index then
-					if playerclass == "DRUID" and v.id == "cat" then
-						local prowl = self:GetStanceState("prowl")
-						if prowl then
-							table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
+					if playerclass == "WARLOCK" then
+						table_insert(statedriver, fmt("[stance:%s]%s", v.index, state))
+					else
+						if playerclass == "DRUID" and v.id == "cat" then
+							local prowl = self:GetStanceState("prowl")
+							if prowl then
+								table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
+							end
 						end
+						table_insert(statedriver, fmt("[bonusbar:%s]%s", v.index, state))
 					end
-					table_insert(statedriver, fmt("[bonusbar:%s]%s", v.index, state))
 				end
 			end
 		end
