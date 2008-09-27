@@ -66,12 +66,18 @@ do
 	end
 end
 
+local _, class = UnitClass("player")
+
 local function getStanceTable()
 	local num = GetNumShapeshiftForms()
 	
 	local tbl = {}
 	for i = 1, num do
 		tbl[i] = select(2, GetShapeshiftFormInfo(i))
+	end
+	-- HACK: Metamorphosis work around, it is on slot 1 in GetShapeshiftFormInfo() but stance:2 is active..
+	if class == "WARLOCK" and tbl[1] == GetSpellInfo(59672) then
+		tbl[2], tbl[1] = tbl[1], nil
 	end
 	return tbl
 end
