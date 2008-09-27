@@ -7,7 +7,7 @@
 ## OptionalDeps: Ace3, ButtonFacade, LibKeyBound-1.0
 ## X-Embeds: Ace3, LibKeyBound-1.0
 ## X-Category: Action Bars
-## Version: 4.1
+## Version: 4.1.0-Alpha
 
 embeds.xml
 libs\LibDataBroker-1.1.lua
