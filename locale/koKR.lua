@@ -3,7 +3,7 @@ local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "koKR")
 if not L then return end
 
 L["ALT"] = "ALT"
-L["ActionBar Switching"] = "행동바 교체"
+-- L["ActionBar Paging"] = true
 L["Alignment"] = "정렬"
 L["Alpha"] = "투명도"
 L["Always Hide"] = "항상 숨기기"
@@ -37,7 +37,7 @@ L["Default Bar State"] = "기본 바 형세"
 L["Disabled"] = "비활성화"
 L["Disabled in Combat"] = "전투중 비활성화"
 L["Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell."] = "이 바에 대해 자동-지원 기능을 사용합니다. 자동-지원 기능은 선택된 주문에 대해 당신의 대상이 유효한 대상이 아니라면 당신의 대상의 대상에게 자동으로 시전하려고 할 것입니다."
-L["Enable Bar Switching based on the actionbar controls provided by the game."] = "블리자드에서 제공되는 행동 단축바 조절 기능에 기반한 바 교체를 사용합니다."
+-- L["Enable Bar Switching based on the actionbar controls provided by the game. \nSee Blizzard Key Bindings for assignments - Usually Shift-Mouse Wheel and Shift+1 - Shift+6."] = true
 L["Enable State-based Button Swaping"] = "형세-기반 버튼 교체를 사용합니다."
 L["Enable the Bag Bar"] = "가방 바를 사용합니다."
 L["Enable the FadeOut mode"] = "사라짐 모드를 사용합니다."

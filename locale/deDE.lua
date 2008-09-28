@@ -3,7 +3,7 @@ local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "deDE")
 if not L then return end
 
 -- L["ALT"] = true
--- L["ActionBar Switching"] = true
+-- L["ActionBar Paging"] = true
 -- L["Alignment"] = true
 -- L["Alpha"] = true
 -- L["Always Hide"] = true
@@ -37,7 +37,7 @@ if not L then return end
 -- L["Disabled"] = true
 -- L["Disabled in Combat"] = true
 -- L["Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell."] = true
--- L["Enable Bar Switching based on the actionbar controls provided by the game."] = true
+-- L["Enable Bar Switching based on the actionbar controls provided by the game. \nSee Blizzard Key Bindings for assignments - Usually Shift-Mouse Wheel and Shift+1 - Shift+6."] = true
 -- L["Enable State-based Button Swaping"] = true
 -- L["Enable the Bag Bar"] = true
 -- L["Enable the FadeOut mode"] = true

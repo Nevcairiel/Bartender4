@@ -3,7 +3,7 @@ local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "frFR")
 if not L then return end
 
 L["ALT"] = "ALT"
-L["ActionBar Switching"] = "Permutations du jeu"
+-- L["ActionBar Paging"] = true
 L["Alignment"] = "Alignement"
 L["Alpha"] = "Transparence"
 L["Always Hide"] = "Toujours masquer"
@@ -37,7 +37,7 @@ L["Default Bar State"] = "État par défaut de la barre"
 L["Disabled"] = "Désactivée"
 L["Disabled in Combat"] = "Désactivée en combat"
 L["Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell."] = "Active le soutien automatique pour cett barre.\nLe soutient automatique tentera automatiquement d'incanter le sort sur la cible de votre cible si votre cible n'est pas une cible valide pour le sort sélectionné."
-L["Enable Bar Switching based on the actionbar controls provided by the game."] = "Active la permutation de la barre basée sur les contrôles de la barre d'actions fournit par le jeu."
+-- L["Enable Bar Switching based on the actionbar controls provided by the game. \nSee Blizzard Key Bindings for assignments - Usually Shift-Mouse Wheel and Shift+1 - Shift+6."] = true
 L["Enable State-based Button Swaping"] = "Active la permutation des boutons basés sur les états."
 L["Enable the Bag Bar"] = "Active la barre des sacs."
 L["Enable the FadeOut mode"] = "Active le mode Fondu."

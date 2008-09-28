@@ -102,10 +102,11 @@ function module:GetStateOptionsTable()
 		actionbar = {
 			order = 5,
 			type = "toggle",
-			name = L["ActionBar Switching"],
-			desc = L["Enable Bar Switching based on the actionbar controls provided by the game."],
+			name = L["ActionBar Paging"],
+			desc = L["Enable Bar Switching based on the actionbar controls provided by the game. \nSee Blizzard Key Bindings for assignments - Usually Shift-Mouse Wheel and Shift+1 - Shift+6."],
 			get = optGetter,
 			set = optSetter,
+			width = "full",
 		},
 		possess = {
 			order = 5,
@@ -114,7 +115,6 @@ function module:GetStateOptionsTable()
 			desc = L["Switch this bar to the Possess Bar when possessing a npc (eg. Mind Control)"],
 			get = optGetter,
 			set = optSetter,
-			width = "half",
 		},
 		autoassist = {
 			order = 6,
@@ -123,7 +123,6 @@ function module:GetStateOptionsTable()
 			desc = L["Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell."],
 			get = optGetter,
 			set = optSetter,
-			width = "half",
 		},
 		def_desc = {
 			order = 10,

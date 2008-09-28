@@ -3,7 +3,7 @@ local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "zhTW")
 if not L then return end
 
 L["ALT"] = "ALT"
-L["ActionBar Switching"] = "切換動作條"
+-- L["ActionBar Paging"] = true
 L["Alignment"] = "對齊"
 L["Alpha"] = "透明度"
 L["Always Hide"] = "總是隱藏"
@@ -37,7 +37,7 @@ L["Default Bar State"] = "預設動作條狀態"
 L["Disabled"] = "關閉"
 L["Disabled in Combat"] = "戰鬥中關閉"
 L["Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell."] = "開啟自動協助. \n 自動協助會自動地試著對你目標的目標施法,假如選定的技能目標是個無效的目標"
-L["Enable Bar Switching based on the actionbar controls provided by the game."] = "開啟切換動作條頁面假設為遊戲控制"
+-- L["Enable Bar Switching based on the actionbar controls provided by the game. \nSee Blizzard Key Bindings for assignments - Usually Shift-Mouse Wheel and Shift+1 - Shift+6."] = true
 L["Enable State-based Button Swaping"] = "開啟狀態配置的按鈕切換"
 L["Enable the Bag Bar"] = "開啟背包列"
 L["Enable the FadeOut mode"] = "開啟淡出模式"

@@ -3,7 +3,7 @@ local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4", "ruRU")
 if not L then return end
 
 L["ALT"] = "ALT"
-L["ActionBar Switching"] = "Переключение панелей"
+-- L["ActionBar Paging"] = true
 L["Alignment"] = "Регулировка"
 L["Alpha"] = "Прозрачность"
 L["Always Hide"] = "Всегда Скрывать"
@@ -37,7 +37,7 @@ L["Default Bar State"] = "Состояние по-умолчанию"
 L["Disabled"] = "Отключено"
 L["Disabled in Combat"] = "Отключать в бою"
 L["Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell."] = "Включить авто-помощь для данной панели.\nАвто-помощь будет автоматически пытаться применить ваше заклинание на цель вашей цели, если оно не может быть использовано на вашу цель."
-L["Enable Bar Switching based on the actionbar controls provided by the game."] = "Включить переключение панелей с помощью кнопок настроенных в игре."
+-- L["Enable Bar Switching based on the actionbar controls provided by the game. \nSee Blizzard Key Bindings for assignments - Usually Shift-Mouse Wheel and Shift+1 - Shift+6."] = true
 L["Enable State-based Button Swaping"] = "Включить переключение панелей"
 L["Enable the Bag Bar"] = "Включить панель Сумок"
 L["Enable the FadeOut mode"] = "Включить режим сокрытия панели когда она не используется"
