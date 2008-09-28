@@ -222,8 +222,8 @@ function module:GetStateOptionsTable()
 		customCopy = {
 			order = 51,
 			type = "execute",
-			name = "Copy Conditionals",
-			desc = "Create a copy of the auto-generated conditionals in the custom configuration as a base template",
+			name = L["Copy Conditionals"],
+			desc = L["Create a copy of the auto-generated conditionals in the custom configuration as a base template."],
 			func = optSetter,
 		},
 		customDesc = {
