@@ -289,10 +289,15 @@ local directVisCond = {
 	nocombat = true,
 	mounted = true,
 }
-function Bar:InitVisibilityDriver()
+function Bar:InitVisibilityDriver(returnOnly)
+	local tmpDriver
+	if returnOnly then
+		tmpDriver = self.hidedriver
+	else
+		UnregisterStateDriver(self, 'vis')
+	end
 	self.hidedriver = {}
-	UnregisterStateDriver(self, 'vis')
-	
+		
 	self:SetAttribute("_onstate-vis", [[
 		if newstate == "show" or newstate == "fade" then
 			self:Show()
@@ -302,7 +307,7 @@ function Bar:InitVisibilityDriver()
 		end
 	]])
 	
-	if self.config.visibility.custom then
+	if self.config.visibility.custom and not returnOnly then
 		table_insert(self.hidedriver, self.config.visibility.customdata or "")
 	else
 		for key, value in pairs(self.config.visibility) do
@@ -328,7 +333,13 @@ function Bar:InitVisibilityDriver()
 		end
 	end
 	table_insert(self.hidedriver, self.config.fadeout and "fade" or "show")
-	self:ApplyVisibilityDriver()
+	
+	if not returnOnly then
+		self:ApplyVisibilityDriver()
+	else
+		self.hidedriver, tmpDriver = tmpDriver, self.hidedriver
+		return table_concat(tmpDriver, ";")
+	end
 end
 
 function Bar:ApplyVisibilityDriver()
@@ -359,6 +370,11 @@ function Bar:SetVisibilityOption(option, value, arg)
 	else
 		self.config.visibility[option] = value
 	end
+	self:InitVisibilityDriver()
+end
+
+function Bar:CopyCustomConditionals()
+	self.config.visibility.customdata = self:InitVisibilityDriver(true)
 	self:InitVisibilityDriver()
 end
 

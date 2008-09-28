@@ -64,6 +64,11 @@ do
 		local bar = getBar(info[2])
 		return bar:GetVisibilityOption("custom")
 	end
+	
+	function customCopy(info)
+		local bar = getBar(info[2])
+		bar:CopyCustomConditionals()
+	end
 end
 
 local _, class = UnitClass("player")
@@ -210,15 +215,36 @@ function Bar:GetOptionObject()
 					hidden = function() return (GetNumShapeshiftForms() < 1) end,
 					disabled = customEnabled,
 				},
+				customNl = {
+					order = 98,
+					type = "description",
+					name = "\n",
+				},
+				customHeader = {
+					order = 99,
+					type = "header",
+					name = L["Custom Conditionals"],
+				},
 				custom = {
 					order = 100,
 					type = "toggle",
 					name = L["Use Custom Condition"],
 					desc = L["Enable the use of a custom condition, disabling all of the above."],
-					width = "full",
+				},
+				customCopy = {
+					order = 101,
+					type = "execute",
+					name = L["Copy Conditionals"],
+					desc = L["Create a copy of the auto-generated conditionals in the custom configuration as a base template."],
+					func = customCopy,
+				},
+				customDesc = {
+					order = 102,
+					type = "description",
+					name = L["Note: Enabling Custom Conditionals will disable all of the above settings!"],
 				},
 				customdata = {
-					order = 101,
+					order = 103,
 					type = "input",
 					name = L["Custom Conditionals"],
 					desc = L["You can use any macro conditionals in the custom string, using \"show\" and \"hide\" as values.\n\nExample: [combat]hide;show"],
