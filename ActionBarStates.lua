@@ -175,22 +175,6 @@ function ActionBar:AddButtonStates(state, page)
 		local action = (page == 0) and button.id or (button.rid + (page - 1) * 12)
 		button:SetStateAction(state, action)
 	end
-	self:AddRightClickState(state)
-	self:AddToStateButton(state)
-end
-
-function ActionBar:AddToStateButton(state)
-	if not self.statebutton then self.statebutton = {} end
-	if not tfind(self.statebutton, state) then
-		table_insert(self.statebutton, state)
-	end
-end
-
-function ActionBar:AddRightClickState(state)
-	local scrc = Bartender4.db.profile.selfcastrightclick
-	local target = scrc and "player" or nil
-	
-	self:SetAttribute("unit-S" .. state .. "Right", target)
 end
 
 function ActionBar:GetStateOption(key)

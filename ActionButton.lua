@@ -262,6 +262,15 @@ function Button:RefreshStateAction(state)
 			end
 		end
 	end
+	self:UpdateRightClickSelfCast()
+end
+
+function Button:UpdateRightClickSelfCast()
+	if Bartender4.db.profile.selfcastrightclick then
+		self:SetAttribute("unit2", "player")
+	else
+		self:SetAttribute("unit2", nil)
+	end
 end
 
 function Button:CalculateAction()
