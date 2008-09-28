@@ -15,6 +15,7 @@ do
 	end
 end
 
+local KB = LibStub("LibKeyBound-1.0")
 local function getOptions()
 	if not Bartender4.options then
 		Bartender4.options = {
@@ -39,6 +40,16 @@ local function getOptions()
 					desc = L["Lock the buttons."],
 					get = getFunc,
 					set = setFunc,
+				},
+				kb = {
+					order = 3,
+					type = "execute",
+					name = L["Key Bindings"],
+					desc = L["Switch to key-binding mode"],
+					func = function()
+						KB:Toggle()
+						AceConfigDialog:Close("Bartender4")
+					end,
 				},
 				bars = {
 					order = 20,
