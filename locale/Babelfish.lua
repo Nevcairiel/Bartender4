@@ -4,6 +4,7 @@ local locale = {
 	"deDE",
 	"frFR",
 	"esES",
+	"esMX",
 	"zhCN",
 	"zhTW",
 	"koKR",
