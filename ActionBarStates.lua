@@ -224,4 +224,5 @@ end
 
 function ActionBar:SetCopyCustomConditionals()
 	self.config.states.custom = self:UpdateStates(true)
+	self:UpdateStates()
 end
