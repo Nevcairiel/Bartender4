@@ -43,7 +43,7 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 		}
 	elseif k == "WARLOCK" then
 		newT = {
-			{ id = "metamorphosis", name = GetSpellInfo(59672), index = 2, type = "stance"},
+			{ id = "metamorphosis", name = GetSpellInfo(59672), index = 2, type = "form"},
 		}
 	end
 	rawset(t, k, newT)
@@ -55,7 +55,7 @@ Bartender4.StanceMap = DefaultStanceMap
 local searchFunc = function(h, n) return (h.match == n or h.match2 == n or h.id == n) end
 
 local stancemap
-function ActionBar:UpdateStates()
+function ActionBar:UpdateStates(returnOnly)
 	if not self.buttons then return end
 	self.statebutton = {}
 	if not stancemap and DefaultStanceMap[playerclass] then
@@ -63,51 +63,59 @@ function ActionBar:UpdateStates()
 	end
 	
 	self:ForAll("ClearStateAction")
-	for i=0,10 do
+	for i=0,11 do
 		self:AddButtonStates(i)
 	end
 	
-	local statedriver = {}
-	if self:GetStateOption("possess") then
-		self:AddButtonStates(11)
-		table_insert(statedriver, "[bonusbar:5]11")
-	end
+	local statedriver
 	
-	local stateconfig = self.config.states
-	if self:GetStateOption("enabled") then
-		-- arguments will be parsed from left to right, so we have a priority here
-		
-		-- highest priority have our temporary quick-swap keys
-		for _,v in pairs(modifiers) do
-			local page = self:GetStateOption(v)
-			if page and page ~= 0 then
-				table_insert(statedriver, fmt("[modifier:%s]%s", v, page))
-			end
+	if returnOnly or not self:GetStateOption("customEnabled") then
+		statedriver = {}
+		if self:GetStateOption("possess") then
+			table_insert(statedriver, "[bonusbar:5]11")
 		end
 		
-		-- second priority the manual changes using the actionbar options
-		if self:GetStateOption("actionbar") then
-			for i=2,6 do
-				table_insert(statedriver, fmt("[actionbar:%s]%s", i, i))
+		local stateconfig = self.config.states
+		if self:GetStateOption("enabled") then
+			-- arguments will be parsed from left to right, so we have a priority here
+			
+			-- highest priority have our temporary quick-swap keys
+			for _,v in pairs(modifiers) do
+				local page = self:GetStateOption(v)
+				if page and page ~= 0 then
+					table_insert(statedriver, fmt("[mod:%s]%s", v, page))
+				end
 			end
-		end
-		
-		-- third priority the stances
-		if stancemap then
-			if not stateconfig.stance[playerclass] then stateconfig.stance[playerclass] = {} end
-			for i,v in pairs(stancemap) do
-				local state = self:GetStanceState(v)
-				if state and state ~= 0 and v.index then
-					if playerclass == "DRUID" and v.id == "cat" then
-						local prowl = self:GetStanceState("prowl")
-						if prowl then
-							table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
+			
+			-- second priority the manual changes using the actionbar options
+			if self:GetStateOption("actionbar") then
+				for i=2,6 do
+					table_insert(statedriver, fmt("[bar:%s]%s", i, i))
+				end
+			end
+			
+			-- third priority the stances
+			if stancemap then
+				if not stateconfig.stance[playerclass] then stateconfig.stance[playerclass] = {} end
+				for i,v in pairs(stancemap) do
+					local state = self:GetStanceState(v)
+					if state and state ~= 0 and v.index then
+						if playerclass == "DRUID" and v.id == "cat" then
+							local prowl = self:GetStanceState("prowl")
+							if prowl then
+								table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
+							end
 						end
+						table_insert(statedriver, fmt("[%s:%s]%s", v.type or "bonusbar", v.index, state))
 					end
-					table_insert(statedriver, fmt("[%s:%s]%s", v.type or "bonusbar", v.index, state))
 				end
 			end
 		end
+		
+		table_insert(statedriver, tostring(self:GetDefaultState() or 0))
+		statedriver = table_concat(statedriver, ";")
+	else
+		statedriver = self:GetStateOption("custom")
 	end
 	
 	self:SetAttribute("_onstate-page", [[
@@ -115,8 +123,9 @@ function ActionBar:UpdateStates()
 		control:ChildUpdate("state", newstate)
 	]])
 	
-	table_insert(statedriver, tostring(self:GetDefaultState() or 0))
-	RegisterStateDriver(self, "page", table_concat(statedriver, ";"))
+	if not returnOnly then
+		RegisterStateDriver(self, "page", statedriver or "")
+	end
 	
 	self:SetAttribute("_onstate-assist-help", [[
 		local state = (newstate ~= "nil") and newstate or nil
@@ -130,11 +139,13 @@ function ActionBar:UpdateStates()
 	
 	local pre = ""
 	if Bartender4.db.profile.selfcastmodifier then
-		pre = "[mod:"..GetModifiedClick("SELFCAST").."]player;"
+		pre = "[mod:SELFCAST]player;"
 	end
 	-- TODO: fix rightclick selfcast
 	RegisterStateDriver(self, "assist-help", ("%s[help]nil; [target=targettarget, help]targettarget; nil"):format(pre))
 	RegisterStateDriver(self, "assist-harm", "[harm]nil; [target=targettarget, harm]targettarget; nil")
+	
+	return statedriver
 end
 
 function ActionBar:GetStanceState(stance)
@@ -209,4 +220,8 @@ function ActionBar:SetConfigAutoAssist(_, value)
 		self.config.autoassist = value
 	end
 	self:ForAll("RefreshAllStateActions")
+end
+
+function ActionBar:SetCopyCustomConditionals()
+	self.config.states.custom = self:UpdateStates(true)
 end

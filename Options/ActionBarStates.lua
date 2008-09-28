@@ -15,6 +15,9 @@ do
 		actionbar = "StateOption",
 		possess = "StateOption",
 		autoassist = "ConfigAutoAssist",
+		customEnabled = "StateOption",
+		custom = "StateOption",
+		customCopy = "CopyCustomConditionals",
 	}
 	-- retrieves a valid bar object from the modules actionbars table
 	function getBar(id)
@@ -195,6 +198,48 @@ function module:GetStateOptionsTable()
 					name = L["Stance Configuration"],
 				},
 			},
+		},
+		customNl = {
+			order = 48,
+			type = "description",
+			name = "\n",
+		},
+		customHeader = {
+			order = 49,
+			type = "header",
+			name = L["Custom Conditionals"],
+		},
+		customEnabled = {
+			order = 50,
+			type = "toggle",
+			name = L["Use Custom Condition"],
+			desc = L["Enable the use of a custom condition, disabling all of the above."],
+			get = optGetter,
+			set = optSetter,
+			disabled = disabledFunc,
+			--width = "double",
+		},
+		customCopy = {
+			order = 51,
+			type = "execute",
+			name = "Copy Conditionals",
+			desc = "Create a copy of the auto-generated conditionals in the custom configuration as a base template",
+			func = optSetter,
+		},
+		customDesc = {
+			order = 52,
+			type = "description",
+			name = L["Note: Enabling Custom Conditionals will disable all of the above settings!"],
+		},
+		custom = {
+			order = 55,
+			type = "input",
+			name = L["Custom Conditionals"],
+			desc = L["You can use any macro conditionals in the custom string, using the number of the bar as target value.\nExample: [form:1]9;0"],
+			width = "full",
+			get = optGetter,
+			set = optSetter,
+			disabled = disabledFunc,
 		},
 	}
 	
