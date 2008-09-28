@@ -64,7 +64,7 @@ local function getOptions()
 							get = getFunc,
 							set = function(info, value)
 								Bartender4.db.profile.selfcastrightclick = value
-								Bartender4:GetModule("ActionBars"):ForAll("ForAll", "UpdateRightClickSelfCast")
+								Bartender4.Bar:ForAll("ForAll", "UpdateRightClickSelfCast")
 							end,
 						},
 						range = {
