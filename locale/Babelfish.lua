@@ -126,7 +126,7 @@ for idx, lang in ipairs(locale) do
 	file:write("\n")
 	local L = localizedStrings[lang]
 	for idx, match in ipairs(work) do
-		if L[match] then
+		if type(L[match]) == "string" then
 			file:write(string.format("L[\"%s\"] = \"%s\"\n", match, L[match]))
 		else
 			local value = "true"
