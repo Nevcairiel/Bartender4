@@ -77,7 +77,7 @@ function MicroMenuBar:PerformLayout()
 	if self.config.vertical then
 		-- TODO: vertical
 	else
-		self:SetSize(212, 45)
+		self:SetSize(252, 45)
 		self.buttons[1]:ClearAllPoints()
 		self.buttons[1]:SetPoint("TOPLEFT", self, "TOPLEFT", 5, 18)
 		for i = 2, #self.buttons do
