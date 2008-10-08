@@ -93,6 +93,7 @@ if not L then return end
 -- L["SHIFT"] = true
 -- L["Scale"] = true
 -- L["Self-Cast by modifier"] = true
+-- L["Show the MicroMenu vertically."] = true
 -- L["Show the keyring button."] = true
 -- L["Specify the Color of the Out of Mana Indicator"] = true
 -- L["Specify the Color of the Out of Range Indicator"] = true
@@ -111,6 +112,7 @@ if not L then return end
 -- L["Toggle the use of the modifier-based self-cast functionality."] = true
 -- L["Toggle the use of the right-click self-cast functionality."] = true
 -- L["Use Custom Condition"] = true
+-- L["Vertical MicroMenu"] = true
 -- L["Visibility"] = true
 -- L["You can set the bar to be always hidden, if you only wish to access it using key-bindings."] = true
 -- L["You can use any macro conditionals in the custom string, using \"show\" and \"hide\" as values.\n\nExample: [combat]hide;show"] = true

@@ -19,6 +19,16 @@ function MicroMenuMod:SetupOptions()
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
 		
+		local vertical = {
+			type = "toggle",
+			order = 150,
+			name = L["Vertical MicroMenu"],
+			desc = L["Show the MicroMenu vertically."],
+			get = function() return self.db.profile.vertical end,
+			set = function(info, state) self.db.profile.vertical = state; self.bar:PerformLayout() end,
+		}
+		self.optionobject:AddElement("general", "vertical", vertical)
+		
 		self.disabledoptions = {
 			general = {
 				type = "group",

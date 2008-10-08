@@ -43,6 +43,7 @@ function MicroMenuMod:OnEnable()
 		self.bar.buttons = buttons
 		
 		self:RawHook("UpdateTalentButton", noopFunc, true)
+		self:RawHook("AchievementMicroButton_Update",  noopFunc, true)
 		
 		for i,v in pairs(buttons) do
 			v:SetParent(self.bar)
@@ -75,7 +76,13 @@ end
 
 function MicroMenuBar:PerformLayout()
 	if self.config.vertical then
-		-- TODO: vertical
+		self:SetSize(35, 377)
+		self.buttons[1]:ClearAllPoints()
+		self.buttons[1]:SetPoint("TOPLEFT", self, "TOPLEFT", 5, 18)
+		for i = 2, #self.buttons do
+			self.buttons[i]:ClearAllPoints()
+			self.buttons[i]:SetPoint("TOPLEFT", self.buttons[i-1], "BOTTOMLEFT", 0, 21)
+		end
 	else
 		self:SetSize(252, 45)
 		self.buttons[1]:ClearAllPoints()
