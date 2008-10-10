@@ -249,6 +249,7 @@ function Bar:GetOptionObject()
 					name = L["Custom Conditionals"],
 					desc = L["You can use any macro conditionals in the custom string, using \"show\" and \"hide\" as values.\n\nExample: [combat]hide;show"],
 					width = "full",
+					multiline = true,
 				},
 			},
 		},

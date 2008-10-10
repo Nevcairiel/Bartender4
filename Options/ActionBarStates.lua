@@ -239,6 +239,7 @@ function module:GetStateOptionsTable()
 			get = optGetter,
 			set = optSetter,
 			disabled = disabledFunc,
+			multiline = true,
 		},
 	}
 	
