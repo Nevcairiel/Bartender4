@@ -1,6 +1,15 @@
 --[[
 	Action Button Template
+	
+	Note:
+	Some IDs produce a special behaviour!
+		- Button ID 132 (Last Button in Possess Bar) Creates a Leave Vehicle Button
 ]]
+
+local specialButtons = {
+	[132] = { script = "/script VehicleExit();", icon = "Interface\\Icons\\Spell_Shadow_SacrificialShield", tooltip = LEAVE_VEHICLE}, -- Vehicle Leave Button
+}
+
 local Button = CreateFrame("CheckButton")
 local Button_MT = {__index = Button}
 
@@ -93,12 +102,15 @@ function Bartender4.Button:Create(id, parent)
 	
 	button:SetAttribute('_childupdate-state', [[
 		self:SetAttribute("state", message)
-		local type = self:GetAttribute("type-" .. message)
-		if type == "special" then
-			-- TODO
+		local action = self:GetAttribute("action-" .. message)
+		local special = self:GetAttribute("special-" .. tostring(action))
+		if special then
+			self:SetAttribute("type", "macro")
+			self:SetAttribute("macrotext", special)
+		else
+			self:SetAttribute("type", "action")
 		end
-		self:SetAttribute("type", type)
-		self:SetAttribute("action", self:GetAttribute("action-" .. message))
+		self:SetAttribute("action", action)
 		
 		-- fix unit on state change
 		if self:GetAttribute("assisttype-"..message) == 1 then
@@ -131,6 +143,10 @@ function Bartender4.Button:Create(id, parent)
 	button.showgrid = 0
 	button.flashing = 0
 	button.flashtime = 0
+	
+	for k,v in pairs(specialButtons) do
+		button:SetAttribute("special-" .. tostring(k), v.script)
+	end
 	
 	button:RegisterButtonEvents()
 	
@@ -225,9 +241,7 @@ function Button:ClearStateAction()
 	for state in pairs(self.stateactions) do
 		self.stateactions = {}
 		for i=0,10 do
-			self:SetAttribute("type-" .. i, nil)
 			self:SetAttribute("action-" .. i, nil)
-			self:SetAttribute("macrotext-" .. i, nil)
 		end
 	end
 end
@@ -247,7 +261,6 @@ end
 function Button:RefreshStateAction(state)
 	local state = tonumber(state or self:GetAttribute("state") or 0)
 	local action = self.stateactions[state]
-	self:SetAttribute("type-"..state, "action")
 	self:SetAttribute("action-"..state, action)
 	
 	self:SetAttribute("assisttype-"..state, nil)
@@ -294,7 +307,7 @@ function Button:Update()
 	self:UpdateIcon()
 	self:UpdateCount()
 	self:UpdateHotkeys()
-	if ( HasAction(action) ) then
+	if HasAction(action) or specialButtons[action] then
 		self:RegisterActionEvents()
 		
 		self:UpdateState()
@@ -336,7 +349,7 @@ function Button:Update()
 end
 
 function Button:UpdateIcon()
-	local texture = GetActionTexture(self.action)
+	local texture = specialButtons[self.action] and specialButtons[self.action].icon or GetActionTexture(self.action)
 	if ( texture ) then
 		self.rangeTimer = -1
 		self.icon:SetTexture(texture)
@@ -468,7 +481,7 @@ function Button:UpdateUsable(force)
 			hotkey:SetVertexColor(1.0, 1.0, 1.0)
 		end
 		
-		if isUsable then
+		if isUsable or specialButtons[self.action] then
 			icon:SetVertexColor(1.0, 1.0, 1.0)
 		elseif notEnoughMana then
 			icon:SetVertexColor(oomcolor.r, oomcolor.g, oomcolor.b)
@@ -511,10 +524,15 @@ function Button:SetTooltip()
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	end
 	
-	if ( GameTooltip:SetAction(self.action) ) then
+	if specialButtons[self.action] then
+		GameTooltip:SetText(specialButtons[self.action].tooltip)
 		self.UpdateTooltip = self.SetTooltip
 	else
-		self.UpdateTooltip = nil
+		if ( GameTooltip:SetAction(self.action) ) then
+			self.UpdateTooltip = self.SetTooltip
+		else
+			self.UpdateTooltip = nil
+		end
 	end
 end
 
