@@ -3,4 +3,3 @@ Bartender4 TODO List
 - Option to change self-cast modifier assignment (Blizzard kinda removed that <.<)
 - Alignment Menu
 - Options to control the removal of the Blizzard Artwork Bottom Bar
-- Improved Show/Hide functionality
