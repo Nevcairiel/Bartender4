@@ -131,7 +131,7 @@ function Bartender4.Button:Create(id, parent)
 	]])
 	
 	button:SetAttribute('_childupdate-assist-harm', [[
-		if self:GetAttribute("assisttype"..G_state) == 2 then
+		if self:GetAttribute("assisttype-"..G_state) == 2 then
 			self:SetAttribute("unit", message)
 		end
 		G_assist_harm = message
