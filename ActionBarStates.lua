@@ -124,6 +124,7 @@ function ActionBar:UpdateStates(returnOnly)
 	]])
 	
 	if not returnOnly then
+		UnregisterStateDriver(self, "page")
 		RegisterStateDriver(self, "page", statedriver or "")
 	end
 	
@@ -141,9 +142,14 @@ function ActionBar:UpdateStates(returnOnly)
 	if Bartender4.db.profile.selfcastmodifier then
 		pre = "[mod:SELFCAST]player;"
 	end
-	-- TODO: fix rightclick selfcast
-	RegisterStateDriver(self, "assist-help", ("%s[help]nil; [target=targettarget, help]targettarget; nil"):format(pre))
-	RegisterStateDriver(self, "assist-harm", "[harm]nil; [target=targettarget, harm]targettarget; nil")
+	
+	UnregisterStateDriver(self, "assist-help")
+	UnregisterStateDriver(self, "assist-help")
+	
+	if self.config.autoassist then
+		RegisterStateDriver(self, "assist-help", ("%s[help]nil; [target=targettarget, help]targettarget; nil"):format(pre))
+		RegisterStateDriver(self, "assist-harm", "[harm]nil; [target=targettarget, harm]targettarget; nil")
+	end
 	
 	return statedriver
 end
