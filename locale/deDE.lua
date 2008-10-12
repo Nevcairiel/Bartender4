@@ -28,6 +28,8 @@ if not L then return end
 -- L["Configure the Button Tooltip."] = true
 -- L["Configure the Micro Menu"] = true
 -- L["Configure the Pet Bar"] = true
+-- L["Configure the Reputation Bar"] = true
+-- L["Configure the XP Bar"] = true
 -- L["Configure the alpha of the bar."] = true
 -- L["Configure the padding of the buttons."] = true
 -- L["Configure the scale of the bar."] = true
@@ -44,7 +46,9 @@ if not L then return end
 -- L["Enable the FadeOut mode"] = true
 -- L["Enable the Micro Menu"] = true
 -- L["Enable the PetBar"] = true
+-- L["Enable the Reputation Bar"] = true
 -- L["Enable the StanceBar"] = true
+-- L["Enable the XP Bar"] = true
 -- L["Enable the use of a custom condition, disabling all of the above."] = true
 -- L["Enable/Disable the bar."] = true
 -- L["Enabled"] = true
@@ -88,6 +92,7 @@ if not L then return end
 -- L["Padding"] = true
 -- L["Pet Bar"] = true
 -- L["Possess Bar"] = true
+-- L["Reputation Bar"] = true
 -- L["Right-click Self-Cast"] = true
 -- L["Rows"] = true
 -- L["SHIFT"] = true
@@ -114,6 +119,7 @@ if not L then return end
 -- L["Use Custom Condition"] = true
 -- L["Vertical MicroMenu"] = true
 -- L["Visibility"] = true
+-- L["XP Bar"] = true
 -- L["You can set the bar to be always hidden, if you only wish to access it using key-bindings."] = true
 -- L["You can use any macro conditionals in the custom string, using \"show\" and \"hide\" as values.\n\nExample: [combat]hide;show"] = true
 -- L["You can use any macro conditionals in the custom string, using the number of the bar as target value.\nExample: [form:1]9;0"] = true

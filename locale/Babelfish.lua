@@ -27,6 +27,7 @@ local files = {
 	"MicroMenu.lua",
 	"PetBar.lua",
 	"PetButton.lua",
+	"RepXPBar.lua",
 	"StanceBar.lua",
 	--
 	"Options/ActionBar.lua",
@@ -36,6 +37,7 @@ local files = {
 	"Options/ButtonBar.lua",
 	"Options/MicroMenu.lua",
 	"Options/PetBar.lua",
+	"Options/RepXPBar.lua",
 	"Options/StanceBar.lua",
 	"Options/Options.lua",
 }
