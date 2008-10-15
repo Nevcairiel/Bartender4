@@ -33,7 +33,7 @@ function PetBarMod:OnEnable()
 		self.bar.buttons = buttons
 		
 		-- TODO: real positioning
-		self.bar:ClearSetPoint("CENTER")
+		self.bar:ClearSetPoint("CENTER", 0, 70)
 		
 		self.bar:SetScript("OnEvent", PetBar.OnEvent)
 		

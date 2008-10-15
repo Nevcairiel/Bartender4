@@ -31,8 +31,7 @@ function BagBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("BagBar", self.db.profile, L["Bag Bar"]), {__index = BagBar})
 		
-		-- TODO: real start position
-		self.bar:SetPoint("CENTER")
+		self.bar:SetPoint("CENTER", 142, -18)
 	end
 	self.bar:Enable()
 	self:ToggleOptions()

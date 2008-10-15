@@ -30,7 +30,7 @@ function StanceBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("StanceBar", self.db.profile, L["Stance Bar"]), {__index = StanceBar})
 		
-		self.bar:ClearSetPoint("CENTER")
+		self.bar:ClearSetPoint("CENTER", -55, -10)
 		self.bar:SetScript("OnEvent", StanceBar.OnEvent)
 	end
 	self.bar:Enable()

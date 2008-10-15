@@ -50,8 +50,7 @@ function MicroMenuMod:OnEnable()
 			v:SetFrameLevel(self.bar:GetFrameLevel() + 1)
 		end
 		
-		-- TODO: real start position
-		self.bar:SetPoint("CENTER")
+		self.bar:SetPoint("CENTER", -105, 27)
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
