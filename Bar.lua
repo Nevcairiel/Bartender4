@@ -345,13 +345,23 @@ end
 function Bar:ApplyVisibilityDriver()
 	if self.unlocked then return end
 	-- default state is shown
-	RegisterStateDriver(self, "vis", table_concat(self.hidedriver, ";"))
+	local driver = table_concat(self.hidedriver, ";")
+	RegisterStateDriver(self, "vis", driver)
+	
+	local state = self:GetAttribute("state-vis")
+	if state == "hide" then
+		self:Hide()
+	elseif state == "show" or state == "fade" then
+		self:Show()
+		self:SetAttribute("fade", (state == "fade"))
+	end
 end
 
 function Bar:DisableVisibilityDriver()
 	UnregisterStateDriver(self, "vis")
 	self:Show()
 	self:SetScript("OnUpdate", nil)
+	self:SetAttribute("fade", nil)
 	self.faded = nil
 	self:SetConfigAlpha()
 end
