@@ -118,7 +118,7 @@ function Bartender4.Bar:Create(id, config, name)
 		edgeSize = 16,
 		insets = {left = 5, right = 3, top = 3, bottom = 5}
 	})
-	overlay:SetBackdropColor(0, 0, 0, 0)
+	overlay:SetBackdropColor(0, 1, 0, 0.5)
 	overlay:SetBackdropBorderColor(0.5, 0.5, 0, 0)
 	overlay.Text = overlay:CreateFontString(nil, "ARTWORK")
 	overlay.Text:SetFontObject(GameFontNormal)
@@ -180,11 +180,6 @@ function Bar:Unlock()
 	self:DisableVisibilityDriver()
 	self:Show()
 	self.overlay:Show()
-	if self.config.show == "alwayshide" then
-		self.overlay:SetBackdropColor(1, 0, 0, 0.5)
-	else
-		self.overlay:SetBackdropColor(0, 1, 0, 0.5)
-	end
 end
 
 function Bar:Lock()
