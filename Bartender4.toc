@@ -7,7 +7,7 @@
 ## SavedVariables: Bartender4DB
 ## OptionalDeps: Ace3, ButtonFacade, LibKeyBound-1.0
 ## X-Category: Action Bars
-## Version: 4.1.0
+## Version: 4.1.1
 
 embeds.xml
 libs\LibDataBroker-1.1.lua
