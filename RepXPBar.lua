@@ -1,15 +1,7 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
--- register module
-local XPBarMod = Bartender4:NewModule("RepXPBar")
-
--- create prototype information
-local XPBar = setmetatable({}, {__index = Bar})
-
 -- fetch upvalues
 local Bar = Bartender4.Bar.prototype
-
-
 
 local table_insert = table.insert
 
@@ -45,12 +37,6 @@ function RepBarMod:OnEnable()
 	self.bar:Enable()
 	self:ToggleOptions()
 	self.bar:ApplyConfig(self.db.profile)
-end
-
-function RepBarMod:OnDisable()
-	if not self.bar then return end
-	self.bar:Disable()
-	self:ToggleOptions()
 end
 
 function RepBarMod:ApplyConfig()
@@ -97,7 +83,6 @@ function XPBarMod:OnEnable()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
-XPBarMod.OnDisable = RepBarMod.OnDisable
 XPBarMod.ApplyConfig = RepBarMod.ApplyConfig
 XPBar.ApplyConfig = RepBar.ApplyConfig
 XPBar.PerformLayout = RepBar.PerformLayout

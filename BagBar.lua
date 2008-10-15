@@ -39,12 +39,6 @@ function BagBarMod:OnEnable()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
-function BagBarMod:OnDisable()
-	if not self.bar then return end
-	self.bar:Disable()
-	self:ToggleOptions()
-end
-
 function BagBarMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
 end

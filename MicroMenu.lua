@@ -58,12 +58,6 @@ function MicroMenuMod:OnEnable()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
-function MicroMenuMod:OnDisable()
-	if not self.bar then return end
-	self.bar:Disable()
-	self:ToggleOptions()
-end
-
 function MicroMenuMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
 end

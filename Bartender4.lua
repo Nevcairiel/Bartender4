@@ -116,6 +116,15 @@ function Bartender4.modulePrototype:ToggleOptions()
 		self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
 	end
 end
+
+function Bartender4.modulePrototype:OnDisable()
+	if not self.bar then return end
+	-- assign new config table
+	self.bar.config = self.db.profile
+	self.bar:Disable()
+	self:ToggleOptions()
+end
+
 Bartender4:SetDefaultModulePrototype(Bartender4.modulePrototype)
 
 local LDB = LibStub("LibDataBroker-1.1", true)

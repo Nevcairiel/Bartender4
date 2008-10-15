@@ -46,8 +46,15 @@ function Bartender4.ButtonBar:SkinChanged(SkinID, Gloss, Backdrop, Group, Button
 	bar:SkinChanged(SkinID, Gloss, Backdrop, Colors, Button)
 end
 
+function ButtonBar:UpdateSkin()
+	if not self.LBFGroup then return end
+	local config = self.config
+	self.LBFGroup:Skin(config.skin.ID, config.skin.Gloss, config.skin.Backdrop, config.skin.Colors)
+end
+
 function ButtonBar:ApplyConfig(config)
 	Bar.ApplyConfig(self, config)
+	ButtonBar.UpdateSkin(self)
 	-- any module inherting this template should call UpdateButtonLayout after setting up its buttons, we cannot call it here
 	--self:UpdateButtonLayout()
 end

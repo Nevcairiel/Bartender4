@@ -134,8 +134,10 @@ end
 function BT4ActionBars:ApplyConfig()
 	for i=1,10 do
 		local config = self.db.profile.actionbars[i]
-		-- make sure the bar has its current config object
-		self.actionbars[i].config = config
+		-- make sure the bar has its current config object if it exists already
+		if self.actionbars[i] then
+			self.actionbars[i].config = config
+		end
 		if config.enabled then
 			self:EnableBar(i)
 		else

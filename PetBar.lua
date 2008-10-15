@@ -59,17 +59,6 @@ function PetBarMod:OnEnable()
 	self:ReassignBindings()
 end
 
-function PetBarMod:OnDisable()
-	if not self.bar then return end
-		
-	UnregisterStateDriver(self.bar)
-	self:SetAttribute("state-visibility", nil)
-	self.bar:Hide()
-	
-	self.bar:Disable()
-	self:ToggleOptions()
-end
-
 function PetBarMod:ReassignBindings()
 	if InCombatLockdown() then return end
 	if not self.bar or not self.bar.buttons then return end

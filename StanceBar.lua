@@ -48,12 +48,6 @@ function StanceBarMod:OnEnable()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
-function StanceBarMod:OnDisable()
-	if not self.bar then return end
-	self.bar:Disable()
-	self:ToggleOptions()
-end
-
 StanceBarMod.button_count = 10
 
 function StanceBarMod:ApplyConfig()
