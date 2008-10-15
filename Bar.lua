@@ -37,8 +37,12 @@ do
 
 	function barOnDragStart(self)
 		local parent = self:GetParent()
-		local offset = 8 - (parent.config.padding or 0)
-		Sticky:StartMoving(parent, snapBars, offset, offset, offset, offset)
+		if Bartender4.db.profile.snapping then
+			local offset = 8 - (parent.config.padding or 0)
+			Sticky:StartMoving(parent, snapBars, offset, offset, offset, offset)
+		else
+			parent:StartMoving()
+		end
 		self:SetBackdropBorderColor(0, 0, 0, 0)
 		parent.isMoving = true
 	end
@@ -46,8 +50,12 @@ do
 	function barOnDragStop(self)
 		local parent = self:GetParent()
 		if parent.isMoving then
-			local sticky, stickTo = Sticky:StopMoving(parent)
-			--Bartender4:Print(sticky, stickTo and stickTo:GetName() or nil)
+			if Bartender4.db.profile.snapping then
+				local sticky, stickTo = Sticky:StopMoving(parent)
+				--Bartender4:Print(sticky, stickTo and stickTo:GetName() or nil)
+			else
+				parent:StopMovingOrSizing()
+			end
 			parent:SavePosition()
 		end
 	end
@@ -182,11 +190,15 @@ end
 function Bar:Lock()
 	if self.disabled or not self.unlocked then return end
 	self.unlocked = nil
-	barOnDragStop(self.overlay)
+	self:StopDragging()
 	
 	self:ApplyVisibilityDriver()
 	
 	self.overlay:Hide()
+end
+
+function Bar:StopDragging()
+	barOnDragStop(self.overlay)
 end
 
 function Bar:LoadPosition()

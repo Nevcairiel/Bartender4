@@ -11,6 +11,7 @@ local defaults = {
 		colors = { range = { r = 0.8, g = 0.1, b = 0.1 }, mana = { r = 0.5, g = 0.5, b = 1.0 } },
 		selfcastmodifier = true,
 		selfcastrightclick = false,
+		snapping = true,
 	}
 }
 
@@ -71,10 +72,101 @@ function Bartender4:ToggleLock()
 	end
 end
 
+local getSnap, setSnap
+do
+	function getSnap()
+		return Bartender4.db.profile.snapping
+	end
+	
+	function setSnap(value)
+		Bartender4.Bar:ForAll("StopDragging")
+		Bartender4.db.profile.snapping = value
+		LibStub("AceConfigRegistry-3.0"):NotifyChange("Bartender4")
+	end
+end
+
+function Bartender4:ShowUnlockDialog()
+	if not self.unlock_dialog then
+		local f = CreateFrame('Frame', 'Bartender4Dialog', UIParent)
+		f:SetFrameStrata('DIALOG')
+		f:SetToplevel(true) 
+		f:EnableMouse(true)
+		f:SetClampedToScreen(true)
+		f:SetWidth(360)
+		f:SetHeight(110)
+		f:SetBackdrop{
+			bgFile='Interface\\DialogFrame\\UI-DialogBox-Background' ,
+			edgeFile='Interface\\DialogFrame\\UI-DialogBox-Border',
+			tile = true,
+			insets = {left = 11, right = 12, top = 12, bottom = 11},
+			tileSize = 32,
+			edgeSize = 32,
+		}
+		f:SetPoint('TOP', 0, -50)
+		f:Hide()
+		f:SetScript('OnShow', function() PlaySound('igMainMenuOption') end)
+		f:SetScript('OnHide', function() PlaySound('gsTitleOptionExit') end)
+
+		local tr = f:CreateTitleRegion()
+		tr:SetAllPoints(f)
+		
+		local header = f:CreateTexture(nil, 'ARTWORK')
+		header:SetTexture('Interface\\DialogFrame\\UI-DialogBox-Header')
+		header:SetWidth(256); header:SetHeight(64)
+		header:SetPoint('TOP', 0, 12)
+		
+		local title = f:CreateFontString('ARTWORK')
+		title:SetFontObject('GameFontNormal')
+		title:SetPoint('TOP', header, 'TOP', 0, -14)
+		title:SetText(L["Bartender4"])
+
+		local desc = f:CreateFontString('ARTWORK')
+		desc:SetFontObject('GameFontHighlight')
+		desc:SetJustifyV('TOP')
+		desc:SetJustifyH('LEFT')
+		desc:SetPoint('TOPLEFT', 18, -32)
+		desc:SetPoint('BOTTOMRIGHT', -18, 48)
+		desc:SetText(L["Bars unlocked. Move them now and click Lock when you are done."])
+
+		local snapping = CreateFrame('CheckButton', 'Bartender4Snapping', f, 'OptionsCheckButtonTemplate')
+		_G[snapping:GetName() .. 'Text']:SetText(L["Bar Snapping"])
+
+		snapping:SetScript('OnShow', function(self)
+			self:SetChecked(getSnap())
+		end)
+
+		snapping:SetScript('OnClick', function(self)
+			setSnap(snapping:GetChecked())
+		end)
+
+		local lockBars = CreateFrame('CheckButton', 'Bartender4DialogLock', f, 'OptionsButtonTemplate')
+		getglobal(lockBars:GetName() .. 'Text'):SetText(L["Lock"])
+
+		lockBars:SetScript('OnClick', function(self)
+			Bartender4:Lock()
+			LibStub("AceConfigRegistry-3.0"):NotifyChange("Bartender4")
+		end)
+
+		--position buttons
+		snapping:SetPoint('BOTTOMLEFT', 14, 10)
+		lockBars:SetPoint('BOTTOMRIGHT', -14, 14)
+
+		self.unlock_dialog = f
+	end
+	self.unlock_dialog:Show()
+end
+
+function Bartender4:HideUnlockDialog()
+	if self.unlock_dialog then
+		self.unlock_dialog:Hide()
+	end
+end
+
 function Bartender4:Unlock()
 	if self.Locked then
 		self.Locked = false
 		Bartender4.Bar:ForAll("Unlock")
+		self:ShowUnlockDialog()
 	end
 end
 
@@ -82,6 +174,7 @@ function Bartender4:Lock()
 	if not self.Locked then
 		self.Locked = true
 		Bartender4.Bar:ForAll("Lock")
+		self:HideUnlockDialog()
 	end
 end
 
