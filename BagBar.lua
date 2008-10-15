@@ -54,8 +54,8 @@ function clearSetPoint(btn, ...)
 	btn:SetPoint(...)
 end
 
-BagBar.button_width = 37
-BagBar.button_height = 37
+BagBar.button_width = 30
+BagBar.button_height = 30
 BagBarMod.button_count = 5
 function BagBar:FeedButtons()
 	local count = 1
