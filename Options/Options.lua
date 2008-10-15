@@ -173,6 +173,8 @@ function Bartender4:SetupOptions()
 	LibStub("AceConsole-3.0"):RegisterChatCommand( "bar", optFunc)
 	LibStub("AceConsole-3.0"):RegisterChatCommand( "bt", optFunc)
 	LibStub("AceConsole-3.0"):RegisterChatCommand( "bt4", optFunc)
+	LibStub("AceConsole-3.0"):RegisterChatCommand( "bartender", optFunc)
+	LibStub("AceConsole-3.0"):RegisterChatCommand( "bartender4", optFunc)
 end
 
 function Bartender4:RegisterModuleOptions(key, table)
