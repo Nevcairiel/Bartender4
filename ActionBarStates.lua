@@ -114,6 +114,9 @@ function ActionBar:UpdateStates(returnOnly)
 		
 		table_insert(statedriver, tostring(self:GetDefaultState() or 0))
 		statedriver = table_concat(statedriver, ";")
+		if returnOnly then
+			return statedriver
+		end
 	else
 		statedriver = self:GetStateOption("custom")
 	end
@@ -123,10 +126,8 @@ function ActionBar:UpdateStates(returnOnly)
 		control:ChildUpdate("state", newstate)
 	]])
 	
-	if not returnOnly then
-		UnregisterStateDriver(self, "page")
-		RegisterStateDriver(self, "page", statedriver or "")
-	end
+	UnregisterStateDriver(self, "page")
+	RegisterStateDriver(self, "page", statedriver or "")
 	
 	self:SetAttribute("_onstate-assist-help", [[
 		local state = (newstate ~= "nil") and newstate or nil
@@ -149,14 +150,12 @@ function ActionBar:UpdateStates(returnOnly)
 	end
 	
 	UnregisterStateDriver(self, "assist-help")
-	UnregisterStateDriver(self, "assist-help")
+	UnregisterStateDriver(self, "assist-harm")
 	
 	if self.config.autoassist then
 		RegisterStateDriver(self, "assist-help", ("%s%s[help]nil; [target=targettarget, help]targettarget; nil"):format(preSelf, preFocus))
 		RegisterStateDriver(self, "assist-harm", ("%s[harm]nil; [target=targettarget, harm]targettarget; nil"):format(preFocus))
 	end
-	
-	return statedriver
 end
 
 function ActionBar:GetStanceState(stance)
