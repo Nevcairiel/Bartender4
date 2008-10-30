@@ -393,6 +393,7 @@ function Bar:Disable()
 	self.disabled = true
 	self:UnregisterAllEvents()
 	self:DisableVisibilityDriver()
+	self:SetAttribute("state-vis", nil)
 	self:Hide()
 end
 
