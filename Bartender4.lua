@@ -3,6 +3,9 @@ Bartender4 = AceAddon:NewAddon("Bartender4", "AceConsole-3.0", "AceEvent-3.0", "
 
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
+local LDB = LibStub("LibDataBroker-1.1", true)
+local LDBIcon = LibStub("LibDBIcon-1.0", true)
+
 local defaults = {
 	profile = {
 		tooltip = "enabled",
@@ -13,6 +16,7 @@ local defaults = {
 		focuscastmodifier = true,
 		selfcastrightclick = false,
 		snapping = true,
+		minimapIcon = {},
 	}
 }
 
@@ -38,6 +42,10 @@ function Bartender4:OnInitialize()
 	MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERED_VEHICLE")
 	MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITING_VEHICLE")
 	MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITED_VEHICLE")
+	
+	if LDB then
+		createLDBLauncher()
+	end
 end
 
 --[[ function Bartender4:OnEnable()
@@ -57,6 +65,9 @@ function Bartender4:UpdateModuleConfigs()
 		if v:IsEnabled() and type(v.ApplyConfig) == "function" then
 			v:ApplyConfig()
 		end
+	end
+	if LDB and LDBIcon then
+		LDBIcon:Refresh("Bartender4", Bartender4.db.profile.minimapIcon)
 	end
 end
 
@@ -221,12 +232,11 @@ end
 
 Bartender4:SetDefaultModulePrototype(Bartender4.modulePrototype)
 
-local LDB = LibStub("LibDataBroker-1.1", true)
-if LDB then
+function createLDBLauncher()
 	local L_BT_LEFT = L["|cffffff00Click|r to toggle bar lock"]
 	local L_BT_RIGHT = L["|cffffff00Right-click|r to open the options menu"]
 
-	LibStub("LibDataBroker-1.1"):NewDataObject("Bartender4", {
+	local LDBObj = LibStub("LibDataBroker-1.1"):NewDataObject("Bartender4", {
 		type = "launcher",
 		text = "Bartender4",
 		OnClick = function(_, msg)
@@ -252,4 +262,8 @@ if LDB then
 			tooltip:AddLine(L_BT_RIGHT)
 		end,
 	})
+	
+	if LDBIcon then
+		LDBIcon:Register("Bartender4", LDBObj, Bartender4.db.profile.minimapIcon)
+	end
 end

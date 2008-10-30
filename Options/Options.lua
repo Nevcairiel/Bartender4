@@ -16,6 +16,7 @@ do
 end
 
 local KB = LibStub("LibKeyBound-1.0")
+local LDBIcon = LibStub("LibDBIcon-1.0", true)
 local function getOptions()
 	if not Bartender4.options then
 		Bartender4.options = {
@@ -32,6 +33,7 @@ local function getOptions()
 					desc = L["Lock all bars."],
 					get = function() return Bartender4.Locked end,
 					set = function(info, value) Bartender4[value and "Lock" or "Unlock"](Bartender4) end,
+					width = "half",
 				},
 				buttonlock = {
 					order = 2,
@@ -41,8 +43,17 @@ local function getOptions()
 					get = getFunc,
 					set = setFunc,
 				},
-				kb = {
+				minimapIcon = {
 					order = 3,
+					type = "toggle",
+					name = L["Minimap Icon"],
+					desc = L["Show a Icon to open the config at the Minimap"],
+					get = function() return not Bartender4.db.profile.minimapIcon.hide end,
+					set = function(info, value) Bartender4.db.profile.minimapIcon.hide = not value; LDBIcon[value and "Show" or "Hide"](LDBIcon, "Bartender4") end,
+					disabled = function() return not LDBIcon end,
+				},
+				kb = {
+					order = 4,
 					type = "execute",
 					name = L["Key Bindings"],
 					desc = L["Switch to key-binding mode"],

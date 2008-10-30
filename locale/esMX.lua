@@ -85,6 +85,7 @@ if not L then return end
 -- L["Lock all bars."] = true
 -- L["Lock the buttons."] = true
 -- L["Micro Menu"] = true
+-- L["Minimap Icon"] = true
 -- L["Modifier Based Switching"] = true
 -- L["No Display"] = true
 -- L["None"] = true
@@ -107,6 +108,7 @@ if not L then return end
 -- L["Select the Self-Cast Modifier"] = true
 -- L["Self-Cast Modifier"] = true
 -- L["Self-Cast by modifier"] = true
+-- L["Show a Icon to open the config at the Minimap"] = true
 -- L["Show the MicroMenu vertically."] = true
 -- L["Show the keyring button."] = true
 -- L["Specify the Color of the Out of Mana Indicator"] = true
