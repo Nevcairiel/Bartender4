@@ -213,6 +213,7 @@ function ActionBar:SetConfigAutoAssist(_, value)
 	if value ~= nil then
 		self.config.autoassist = value
 	end
+	self:UpdateStates()
 	self:ForAll("RefreshAllStateActions")
 end
 
