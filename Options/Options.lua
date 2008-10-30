@@ -67,8 +67,47 @@ local function getOptions()
 								Bartender4.Bar:ForAll("UpdateSelfCast")
 							end,
 						},
-						selfcastrightclick = {
+						setselfcastmod = {
 							order = 2,
+							type = "select",
+							name = L["Self-Cast Modifier"],
+							desc = L["Select the Self-Cast Modifier"],
+							get = function(info) return GetModifiedClick("SELFCAST") end,
+							set = function(info, value) SetModifiedClick("SELFCAST", value) end,
+							values = { NONE = L["None"], ALT = L["ALT"], SHIFT = L["SHIFT"], CTRL = L["CTRL"] },
+						},
+						selfcast_nl = {
+							order = 3,
+							type = "description",
+							name = "",
+						},
+						focuscastmodifier = {
+							order = 5,
+							type = "toggle",
+							name = L["Focus-Cast by modifier"],
+							desc = L["Toggle the use of the modifier-based focus-cast functionality."],
+							get = getFunc,
+							set = function(info, value)
+								Bartender4.db.profile.focuscastmodifier = value
+								Bartender4.Bar:ForAll("UpdateSelfCast")
+							end,
+						},
+						setfocuscastmod = {
+							order = 6,
+							type = "select",
+							name = L["Focus-Cast Modifier"],
+							desc = L["Select the Focus-Cast Modifier"],
+							get = function(info) return GetModifiedClick("FOCUSCAST") end,
+							set = function(info, value) SetModifiedClick("FOCUSCAST", value) end,
+							values = { NONE = L["None"], ALT = L["ALT"], SHIFT = L["SHIFT"], CTRL = L["CTRL"] },
+						},
+						focuscast_nl = {
+							order = 7,
+							type = "description",
+							name = "",
+						},
+						selfcastrightclick = {
+							order = 8,
 							type = "toggle",
 							name = L["Right-click Self-Cast"],
 							desc = L["Toggle the use of the right-click self-cast functionality."],
@@ -77,6 +116,11 @@ local function getOptions()
 								Bartender4.db.profile.selfcastrightclick = value
 								Bartender4.Bar:ForAll("ForAll", "UpdateRightClickSelfCast")
 							end,
+						},
+						rightclickselfcast_nl = {
+							order = 9,
+							type = "description",
+							name = "",
 						},
 						range = {
 							order = 10,

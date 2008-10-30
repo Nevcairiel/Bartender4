@@ -140,7 +140,11 @@ function ActionBar:UpdateStates(returnOnly)
 	
 	local pre = ""
 	if Bartender4.db.profile.selfcastmodifier then
-		pre = "[mod:SELFCAST]player;"
+		pre = pre .. "[mod:SELFCAST]player;"
+	end
+	
+	if Bartender4.db.profile.focuscastmodifier then
+		pre = pre .. "[mod:FOCUSCAST,target=focus,exists,nodead]focus;"
 	end
 	
 	UnregisterStateDriver(self, "assist-help")
