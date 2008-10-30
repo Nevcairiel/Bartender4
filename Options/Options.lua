@@ -73,7 +73,7 @@ local function getOptions()
 							name = L["Self-Cast Modifier"],
 							desc = L["Select the Self-Cast Modifier"],
 							get = function(info) return GetModifiedClick("SELFCAST") end,
-							set = function(info, value) SetModifiedClick("SELFCAST", value) end,
+							set = function(info, value) SetModifiedClick("SELFCAST", value); SaveBindings(GetCurrentBindingSet()) end,
 							values = { NONE = L["None"], ALT = L["ALT"], SHIFT = L["SHIFT"], CTRL = L["CTRL"] },
 						},
 						selfcast_nl = {
@@ -98,7 +98,7 @@ local function getOptions()
 							name = L["Focus-Cast Modifier"],
 							desc = L["Select the Focus-Cast Modifier"],
 							get = function(info) return GetModifiedClick("FOCUSCAST") end,
-							set = function(info, value) SetModifiedClick("FOCUSCAST", value) end,
+							set = function(info, value) SetModifiedClick("FOCUSCAST", value); SaveBindings(GetCurrentBindingSet()) end,
 							values = { NONE = L["None"], ALT = L["ALT"], SHIFT = L["SHIFT"], CTRL = L["CTRL"] },
 						},
 						focuscast_nl = {
