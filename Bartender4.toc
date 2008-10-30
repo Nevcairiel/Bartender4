@@ -5,12 +5,29 @@
 ## Author: Nevcairiel
 ## X-Email: h.leppkes AT gmail DOT com
 ## SavedVariables: Bartender4DB
-## OptionalDeps: Ace3, ButtonFacade, LibKeyBound-1.0
+## OptionalDeps: Ace3, ButtonFacade, LibKeyBound-1.0, LibDBIcon-1.0
 ## X-Category: Action Bars
 ## Version: 4.1.2
 
-embeds.xml
+#@no-lib-strip@
+libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 libs\LibDataBroker-1.1.lua
+
+libs\AceAddon-3.0\AceAddon-3.0.xml
+libs\AceDB-3.0\AceDB-3.0.xml
+libs\AceDBOptions-3.0\AceDBOptions-3.0.xml
+libs\AceEvent-3.0\AceEvent-3.0.xml
+libs\AceConsole-3.0\AceConsole-3.0.xml
+libs\AceHook-3.0\AceHook-3.0.xml
+libs\AceLocale-3.0\AceLocale-3.0.xml
+libs\AceGUI-3.0\AceGUI-3.0.xml
+libs\AceConfig-3.0\AceConfig-3.0.xml
+
+libs\LibKeyBound-1.0\lib.xml
+libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
+#@end-no-lib-strip@
+
 libs\SimpleSticky.lua
 
 locale\locale.xml
