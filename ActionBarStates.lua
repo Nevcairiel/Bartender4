@@ -138,21 +138,22 @@ function ActionBar:UpdateStates(returnOnly)
 		control:ChildUpdate("assist-harm", state)
 	]])
 	
-	local pre = ""
+	local preSelf = ""
 	if Bartender4.db.profile.selfcastmodifier then
-		pre = pre .. "[mod:SELFCAST]player;"
+		preSelf = "[mod:SELFCAST]player;"
 	end
 	
+	local preFocus = ""
 	if Bartender4.db.profile.focuscastmodifier then
-		pre = pre .. "[mod:FOCUSCAST,target=focus,exists,nodead]focus;"
+		preFocus = "[mod:FOCUSCAST,target=focus,exists,nodead]focus;"
 	end
 	
 	UnregisterStateDriver(self, "assist-help")
 	UnregisterStateDriver(self, "assist-help")
 	
 	if self.config.autoassist then
-		RegisterStateDriver(self, "assist-help", ("%s[help]nil; [target=targettarget, help]targettarget; nil"):format(pre))
-		RegisterStateDriver(self, "assist-harm", "[harm]nil; [target=targettarget, harm]targettarget; nil")
+		RegisterStateDriver(self, "assist-help", ("%s%s[help]nil; [target=targettarget, help]targettarget; nil"):format(preSelf, preFocus))
+		RegisterStateDriver(self, "assist-harm", ("%s[harm]nil; [target=targettarget, harm]targettarget; nil"):format(preFocus))
 	end
 	
 	return statedriver
