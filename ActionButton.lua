@@ -96,7 +96,8 @@ function Bartender4.Button:Create(id, parent)
 	
 	button:SetAttribute("type", "action")
 	button:SetAttribute("action", absid)
-	button:SetAttribute("checkselfcast", true)
+	
+	button:UpdateSelfCast()
 	
 	--button:SetAttribute("useparent-unit", true)
 	
@@ -278,12 +279,13 @@ function Button:RefreshStateAction(state)
 	self:UpdateRightClickSelfCast()
 end
 
+function Button:UpdateSelfCast()
+	self:SetAttribute("checkselfcast", Bartender4.db.profile.selfcastmodifier and true or nil)
+	self:SetAttribute("checkfocuscast", Bartender4.db.profile.focuscastmodifier and true or nil)
+end
+
 function Button:UpdateRightClickSelfCast()
-	if Bartender4.db.profile.selfcastrightclick then
-		self:SetAttribute("unit2", "player")
-	else
-		self:SetAttribute("unit2", nil)
-	end
+	self:SetAttribute("unit2", Bartender4.db.profile.selfcastrightclick and "player" or nil)
 end
 
 function Button:CalculateAction()

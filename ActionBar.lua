@@ -134,6 +134,6 @@ function ActionBar:GetHideHotkey()
 end
 
 function ActionBar:UpdateSelfCast()
-	self:ForAll("SetAttribute", "checkselfcast", Bartender4.db.profile.selfcastmodifier and true or nil)
+	self:ForAll("UpdateSelfCast")
 	self:UpdateStates()
 end
