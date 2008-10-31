@@ -238,7 +238,7 @@ function createLDBLauncher()
 
 	local LDBObj = LibStub("LibDataBroker-1.1"):NewDataObject("Bartender4", {
 		type = "launcher",
-		text = "Bartender4",
+		label = "Bartender4",
 		OnClick = function(_, msg)
 			if msg == "LeftButton" then
 				if Bartender4.Locked then
