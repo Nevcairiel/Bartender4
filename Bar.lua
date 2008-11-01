@@ -284,7 +284,13 @@ function Bar:ControlFadeOut()
 		self:SetAlpha(self.config.alpha)
 		self.faded = nil
 	elseif not self.faded and not MouseIsOver(self) then
-		self:SetAlpha(self.config.fadeoutalpha)
+		local fade = self:GetAttribute("fade")
+		if tonumber(fade) then
+			fade = min(max(fade, 0), 100) / 100
+			self:SetAlpha(fade)
+		else
+			self:SetAlpha(self.config.fadeoutalpha)
+		end
 		self.faded = true
 	end
 end
@@ -306,9 +312,12 @@ function Bar:InitVisibilityDriver(returnOnly)
 	self.hidedriver = {}
 		
 	self:SetAttribute("_onstate-vis", [[
-		if newstate == "show" or newstate == "fade" then
+		if newstate == "show" then
 			self:Show()
-			self:SetAttribute("fade", (newstate == "fade"))
+			self:SetAttribute("fade", false)
+		elseif strsub(newstate, 1, 4) == "fade" then
+			self:Show()
+			self:SetAttribute("fade", (newstate == "fade") and true or strsub(newstate, 6))
 		elseif newstate == "hide" then
 			self:Hide()
 		end
