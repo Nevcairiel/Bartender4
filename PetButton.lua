@@ -42,6 +42,7 @@ function Bartender4.PetButton:Create(id, parent)
 	button.icon = _G[name .. "Icon"]
 	button.autocastable = _G[name .. "AutoCastable"]
 	button.autocast = _G[name .. "Shine"]
+	button.hotkey = _G[name .. "HotKey"]
 	
 	button:SetNormalTexture("")
 	local oldNT = button:GetNormalTexture()
@@ -120,6 +121,19 @@ function PetButtonPrototype:Update()
 		end
 	end
 	self:UpdateCooldown()
+	self:UpdateHotkeys()
+end
+
+function PetButtonPrototype:UpdateHotkeys()
+	local key = self:GetHotkey() or ""
+	local hotkey = self.hotkey
+	
+	if key == "" or self.parent.config.hidehotkey then
+		hotkey:Hide()
+	else
+		hotkey:SetText(key)
+		hotkey:Show()
+	end
 end
 
 function PetButtonPrototype:ShowButton()

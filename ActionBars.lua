@@ -8,7 +8,6 @@ local abdefaults = {
 		enabled = true,
 		buttons = 12,
 		hidemacrotext = false,
-		hidehotkey = false,
 		showgrid = false,
 		autoassist = false,
 		states = {

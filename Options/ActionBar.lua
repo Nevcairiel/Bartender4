@@ -17,8 +17,6 @@ do
 		buttons = "Buttons",
 		enabled = "Enabled",
 		grid = "Grid",
-		macrotext = "HideMacroText",
-		hotkey = "HideHotkey",
 	}
 	
 	-- retrieves a valid bar object from the modules actionbars table
@@ -84,27 +82,6 @@ function module:GetOptionsObject()
 				desc = L["Number of buttons."],
 				type = "range",
 				min = 1, max = 12, step = 1,
-				set = optSetter,
-				get = optGetter,
-			},
-			hidedesc = {
-				order = 80,
-				name = L["Button Look"],
-				type = "header",
-			},
-			macrotext = {
-				order = 81,
-				type = "toggle",
-				name = L["Hide Macro Text"],
-				desc = L["Hide the Macro Text on the buttons of this bar."],
-				set = optSetter,
-				get = optGetter,
-			},
-			hotkey = {
-				order = 82,
-				type = "toggle",
-				name = L["Hide Hotkey"],
-				desc = L["Hide the Hotkey on the buttons of this bar."],
 				set = optSetter,
 				get = optGetter,
 			},

@@ -111,28 +111,6 @@ function ActionBar:SetGrid(state)
 	end
 end
 
-function ActionBar:SetHideMacroText(state)
-	if state ~= nil then
-		self.config.hidemacrotext = state
-	end
-	self:ForAll("Update")
-end
-
-function ActionBar:GetHideMacroText()
-	return self.config.hidemacrotext
-end
-
-function ActionBar:SetHideHotkey(state)
-	if state ~= nil then
-		self.config.hidehotkey = state
-	end
-	self:ForAll("Update")
-end
-
-function ActionBar:GetHideHotkey()
-	return self.config.hidehotkey
-end
-
 function ActionBar:UpdateSelfCast()
 	self:ForAll("UpdateSelfCast")
 	self:UpdateStates()

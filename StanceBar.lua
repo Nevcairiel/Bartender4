@@ -19,6 +19,7 @@ local KeyBound = LibStub("LibKeyBound-1.0")
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
 	scale = 1.5,
+	hidehotkey = true,
 }, Bartender4.ButtonBar.defaults) }
 
 function StanceBarMod:OnInitialize()
@@ -99,6 +100,20 @@ function StanceButtonPrototype:Update()
 	else
 		self.icon:SetVertexColor(0.4, 0.4, 0.4)
 	end
+	
+	self:UpdateHotkeys()
+end
+
+function StanceButtonPrototype:UpdateHotkeys()
+	local key = self:GetHotkey() or ""
+	local hotkey = self.hotkey
+	
+	if key == "" or self.parent.config.hidehotkey then
+		hotkey:Hide()
+	else
+		hotkey:SetText(key)
+		hotkey:Show()
+	end
 end
 
 function StanceButtonPrototype:GetHotkey()
@@ -167,9 +182,11 @@ end
 
 function StanceBarMod:CreateStanceButton(id)
 	local button = setmetatable(CreateFrame("CheckButton", "BT4StanceButton" .. id, self.bar, "ShapeshiftButtonTemplate"), StanceButton_MT)
+	button.parent = self.bar
 	button:SetID(id)
 	button.icon = _G[button:GetName() .. "Icon"]
 	button.cooldown = _G[button:GetName() .. "Cooldown"]
+	button.hotkey = _G[button:GetName() .. "HotKey"]
 	button.normalTexture = button:GetNormalTexture()
 	button.normalTexture:SetTexture("")
 --	button.checkedTexture = button:GetCheckedTexture()

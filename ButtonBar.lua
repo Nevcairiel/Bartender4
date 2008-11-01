@@ -7,6 +7,7 @@ local ButtonBar_MT = {__index = ButtonBar}
 local defaults = Bartender4:Merge({
 	padding = 2,
 	rows = 1,
+	hidehotkey = false,
 	skin = {
 		ID = "DreamLayout",
 		Backdrop = true,
@@ -93,6 +94,28 @@ end
 function ButtonBar:SetZoom(zoom)
 	self.config.skin.Zoom = zoom
 	self:UpdateButtonLayout()
+end
+
+function ButtonBar:SetHideMacroText(state)
+	if state ~= nil then
+		self.config.hidemacrotext = state
+	end
+	self:ForAll("Update")
+end
+
+function ButtonBar:GetHideMacroText()
+	return self.config.hidemacrotext
+end
+
+function ButtonBar:SetHideHotkey(state)
+	if state ~= nil then
+		self.config.hidehotkey = state
+	end
+	self:ForAll("Update")
+end
+
+function ButtonBar:GetHideHotkey()
+	return self.config.hidehotkey
 end
 
 local math_floor = math.floor
