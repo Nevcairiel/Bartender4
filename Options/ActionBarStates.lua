@@ -84,6 +84,16 @@ local disabledFunc = function(info)
 	return not bar:GetStateOption("enabled")
 end
 
+local stateOffOrCustomOn = function(info)
+	local bar = module.actionbars[tonumber(info[2])]
+	return (not bar:GetStateOption("enabled")) or (bar:GetStateOption("customEnabled"))
+end
+
+local stateOffOrCustomOff = function(info)
+	local bar = module.actionbars[tonumber(info[2])]
+	return (not bar:GetStateOption("enabled")) or (not bar:GetStateOption("customEnabled"))
+end
+
 function module:GetStateOptionsTable()
 	local options = {
 		enabled = {
@@ -99,11 +109,11 @@ function module:GetStateOptionsTable()
 			type = "description",
 			name = "",
 		},
-		actionbar = {
-			order = 5,
+		autoassist = {
+			order = 3,
 			type = "toggle",
-			name = L["ActionBar Paging"],
-			desc = L["Enable Bar Switching based on the actionbar controls provided by the game. \nSee Blizzard Key Bindings for assignments - Usually Shift-Mouse Wheel and Shift+1 - Shift+6."],
+			name = L["Auto-Assist"],
+			desc = L["Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell."],
 			get = optGetter,
 			set = optSetter,
 			width = "full",
@@ -115,14 +125,16 @@ function module:GetStateOptionsTable()
 			desc = L["Switch this bar to the Possess Bar when possessing a npc (eg. Mind Control)"],
 			get = optGetter,
 			set = optSetter,
+			disabled = stateOffOrCustomOn,
 		},
-		autoassist = {
+		actionbar = {
 			order = 6,
 			type = "toggle",
-			name = L["Auto-Assist"],
-			desc = L["Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell."],
+			name = L["ActionBar Paging"],
+			desc = L["Enable Bar Switching based on the actionbar controls provided by the game. \nSee Blizzard Key Bindings for assignments - Usually Shift-Mouse Wheel and Shift+1 - Shift+6."],
 			get = optGetter,
 			set = optSetter,
+			disabled = stateOffOrCustomOn,
 		},
 		def_desc = {
 			order = 10,
@@ -136,7 +148,7 @@ function module:GetStateOptionsTable()
 			values = validStanceTable,
 			get = optGetter,
 			set = optSetter,
-			disabled = disabledFunc,
+			disabled = stateOffOrCustomOn,
 		},
 		modifiers = {
 			order = 30,
@@ -145,7 +157,7 @@ function module:GetStateOptionsTable()
 			name = "",
 			get = optGetter,
 			set = optSetter,
-			disabled = disabledFunc,
+			disabled = stateOffOrCustomOn,
 			args = {
 				header = {
 					order = 1,
@@ -189,7 +201,7 @@ function module:GetStateOptionsTable()
 			hidden = function() return not (Bartender4.StanceMap[playerclass]) end,
 			get = optGetter,
 			set = optSetter,
-			disabled = disabledFunc,
+			disabled = stateOffOrCustomOn,
 			args = {
 				stance_header = {
 					order = 1,
@@ -224,6 +236,7 @@ function module:GetStateOptionsTable()
 			name = L["Copy Conditionals"],
 			desc = L["Create a copy of the auto-generated conditionals in the custom configuration as a base template."],
 			func = optSetter,
+			disabled = disabledFunc,
 		},
 		customDesc = {
 			order = 52,
@@ -238,7 +251,7 @@ function module:GetStateOptionsTable()
 			width = "full",
 			get = optGetter,
 			set = optSetter,
-			disabled = disabledFunc,
+			disabled = stateOffOrCustomOff,
 			multiline = true,
 		},
 	}

@@ -8,7 +8,7 @@ local Bar = Bartender4.Bar.prototype
 local barregistry = Bartender4.Bar.barregistry
 
 -- option utilty functions
-local optGetter, optSetter, visibilityGetter, visibilitySetter, customEnabled
+local optGetter, optSetter, visibilityGetter, visibilitySetter, customEnabled, customDisabled, customCopy
 do
 	local getBar, optionMap, callFunc
 	-- maps option keys to function names
@@ -63,6 +63,11 @@ do
 	function customEnabled(info)
 		local bar = getBar(info[2])
 		return bar:GetVisibilityOption("custom")
+	end
+	
+	function customDisabled(info)
+		local bar = getBar(info[2])
+		return not bar:GetVisibilityOption("custom")
 	end
 	
 	function customCopy(info)
@@ -250,6 +255,7 @@ function Bar:GetOptionObject()
 					desc = L["You can use any macro conditionals in the custom string, using \"show\" and \"hide\" as values.\n\nExample: [combat]hide;show"],
 					width = "full",
 					multiline = true,
+					disabled = customDisabled,
 				},
 			},
 		},

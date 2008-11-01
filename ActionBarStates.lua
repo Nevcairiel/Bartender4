@@ -71,13 +71,13 @@ function ActionBar:UpdateStates(returnOnly)
 	
 	if returnOnly or not self:GetStateOption("customEnabled") then
 		statedriver = {}
-		if self:GetStateOption("possess") then
-			table_insert(statedriver, "[bonusbar:5]11")
-		end
-		
 		local stateconfig = self.config.states
 		if self:GetStateOption("enabled") then
 			-- arguments will be parsed from left to right, so we have a priority here
+			
+			if self:GetStateOption("possess") then
+				table_insert(statedriver, "[bonusbar:5]11")
+			end
 			
 			-- highest priority have our temporary quick-swap keys
 			for _,v in pairs(modifiers) do
