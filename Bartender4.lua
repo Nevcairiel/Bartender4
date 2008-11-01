@@ -30,8 +30,30 @@ function Bartender4:OnInitialize()
 	
 	self.Locked = true
 	self:RegisterEvent("PLAYER_REGEN_DISABLED", "CombatLockdown")
-	MainMenuBarArtFrame:Hide()
+	
+	self:HideBlizzard()
+	
+	if LDB then
+		createLDBLauncher()
+	end
+end
+
+function Bartender4:HideBlizzard()
+	MultiActionBar_Update = function() end
+	MultiActionBar_UpdateGrid = function() end
+
+	UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarRight'] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarLeft'] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarBottomLeft'] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarBottomRight'] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS['MainMenuBar'] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS['ShapeshiftBarFrame'] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS['PossessBarFrame'] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS['PETACTIONBAR_YPOS'] = nil
+
+	MainMenuBar:UnregisterAllEvents()
 	MainMenuBar:Hide()
+	
 	MainMenuBarArtFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	--MainMenuBarArtFrame:UnregisterEvent("BAG_UPDATE")
 	MainMenuBarArtFrame:UnregisterEvent("ACTIONBAR_PAGE_CHANGED")
@@ -42,10 +64,19 @@ function Bartender4:OnInitialize()
 	MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERED_VEHICLE")
 	MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITING_VEHICLE")
 	MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITED_VEHICLE")
+	MainMenuBarArtFrame:Hide()
 	
-	if LDB then
-		createLDBLauncher()
-	end
+	MainMenuExpBar:UnregisterAllEvents()
+	MainMenuExpBar:Hide()
+
+	ShapeshiftBarFrame:UnregisterAllEvents()
+	ShapeshiftBarFrame:Hide()
+
+	BonusActionBarFrame:UnregisterAllEvents()
+	BonusActionBarFrame:Hide()
+
+	PossessBarFrame:UnregisterAllEvents()
+	PossessBarFrame:Hide()
 end
 
 --[[ function Bartender4:OnEnable()
