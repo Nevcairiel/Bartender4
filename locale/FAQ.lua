@@ -18,7 +18,7 @@ Once open, simply hover the button you want to bind, and press the key you want 
 |cffffd200
 I've found a bug! Where do I report it?
 |r
-You can report bugs or give suggestions at |cffffff78http://www.wowace.com/forums/index.php?topic=13258.0|r
+You can report bugs or give suggestions at |cffffff78http://forums.wowace.com/showthread.php?t=12513|r
 
 Alternatively, you can also find us on |cffffff78irc://irc.freenode.org/wowace|r
 
@@ -49,7 +49,7 @@ Bartender4는 직접적으로 사용할 수 있는 1번 바의 단축키만 적�
 |cffffd200
 버그를 발견했습니다! 리포팅 할려면 어떻게 해야 하나요?
 |r
-버고 보고나 제안은 |cffffff78http://www.wowace.com/forums/index.php?topic=13258.0|r로 하실 수 있습니다.
+버고 보고나 제안은 |cffffff78http://forums.wowace.com/showthread.php?t=12513|r로 하실 수 있습니다.
 
 또한 |cffffff78irc://irc.freenode.org/wowace|r에서 저희를 만나실 수 있습니다.
 
@@ -103,7 +103,7 @@ Une fois ouvert, survolez tout simplement le bouton que vous voulez configurer, 
 |cffffd200
 J'ai trouvé un bogue ! Où puis-je le signaler ?
 |r
-Vous pouvez signaler des bogues ou faire des suggestions sur |cffffff78http://www.wowace.com/forums/index.php?topic=13258.0|r
+Vous pouvez signaler des bogues ou faire des suggestions sur |cffffff78http://forums.wowace.com/showthread.php?t=12513|r
 
 Vous pouvez également nous trouver sur |cffffff78irc://irc.freenode.org/wowace|r
 
@@ -134,7 +134,7 @@ Bartender4 преобразовывает только сочетания кла
 |cffffd200
 Я нашел ошибку! Куда мне послать её описание ?
 |r
-Вы можете сообщить о найденных ошибках или своих предложениях на странице |cffffff78http://www.wowace.com/forums/index.php?topic=13258.0|r
+Вы можете сообщить о найденных ошибках или своих предложениях на странице |cffffff78http://forums.wowace.com/showthread.php?t=12513|r
 
 Также вы можете найти нас на канале |cffffff78irc://irc.freenode.org/wowace|r
 
