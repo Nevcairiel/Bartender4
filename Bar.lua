@@ -28,7 +28,9 @@ local snapBars = { WorldFrame, UIParent }
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUpdateFunc, barOnAttributeChanged
 do
 	function barOnEnter(self)
-		self:SetBackdropBorderColor(0.5, 0.5, 0, 1)
+		if not self:GetParent().isMoving then
+			self:SetBackdropBorderColor(0.5, 0.5, 0, 1)
+		end
 	end
 
 	function barOnLeave(self)
