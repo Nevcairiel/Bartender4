@@ -134,6 +134,18 @@ function StanceButtonPrototype:SetKey(key)
 	SetBinding(key, format("SHAPESHIFTBUTTON%d", self:GetID()))
 end
 
+function StanceButtonPrototype:ClearBindings()
+	local binding = format("SHAPESHIFTBUTTON%d", self:GetID())
+	while GetBindingKey(binding) do
+		SetBinding(GetBindingKey(binding), nil)
+	end
+	
+	binding = "CLICK "..self:GetName()..":LeftButton"
+	while GetBindingKey(binding) do
+		SetBinding(GetBindingKey(binding), nil)
+	end
+end
+
 local actionTmpl = "Stance Button %d (%s)"
 function StanceButtonPrototype:GetActionName()
 	local id = self:GetID()

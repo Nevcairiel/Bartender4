@@ -203,6 +203,18 @@ function PetButtonPrototype:SetKey(key)
 	SetBinding(key, format("BONUSACTIONBUTTON%d", self.id))
 end
 
+function PetButtonPrototype:ClearBindings()
+	local binding = format("BONUSACTIONBUTTON%d", self:GetID())
+	while GetBindingKey(binding) do
+		SetBinding(GetBindingKey(binding), nil)
+	end
+	
+	binding = "CLICK "..self:GetName()..":LeftButton"
+	while GetBindingKey(binding) do
+		SetBinding(GetBindingKey(binding), nil)
+	end
+end
+
 local actionTmpl = "Pet Button %d (%s)"
 function PetButtonPrototype:GetActionName()
 	local id = self.id
