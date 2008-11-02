@@ -314,6 +314,7 @@ function Bar:InitVisibilityDriver(returnOnly)
 	self.hidedriver = {}
 		
 	self:SetAttribute("_onstate-vis", [[
+		if not newstate then return end
 		if newstate == "show" then
 			self:Show()
 			self:SetAttribute("fade", false)
