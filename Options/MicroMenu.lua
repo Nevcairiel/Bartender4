@@ -3,11 +3,12 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local MicroMenuMod = Bartender4:GetModule("MicroMenu")
 
 -- fetch upvalues
-local Bar = Bartender4.Bar.prototype
+local ButtonBar = Bartender4.ButtonBar.prototype
 
 function MicroMenuMod:SetupOptions()
 	if not self.options then
-		self.optionobject = Bar:GetOptionObject()
+		self.optionobject = ButtonBar:GetOptionObject()
+		self.optionobject.table.general.args.rows.max = self.button_count
 		local enabled = {
 			type = "toggle",
 			order = 1,
@@ -18,16 +19,6 @@ function MicroMenuMod:SetupOptions()
 			handler = self,
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
-		
-		local vertical = {
-			type = "toggle",
-			order = 150,
-			name = L["Vertical MicroMenu"],
-			desc = L["Show the MicroMenu vertically."],
-			get = function() return self.db.profile.vertical end,
-			set = function(info, state) self.db.profile.vertical = state; self.bar:PerformLayout() end,
-		}
-		self.optionobject:AddElement("general", "vertical", vertical)
 		
 		self.disabledoptions = {
 			general = {
@@ -47,6 +38,7 @@ function MicroMenuMod:SetupOptions()
 			desc = L["Configure the Micro Menu"],
 			childGroups = "tab",
 		}
+		self.optionobject.table.general.args.padding.min = -30
 		Bartender4:RegisterBarOptions("MicroMenu", self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions

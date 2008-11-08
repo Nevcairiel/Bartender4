@@ -109,7 +109,6 @@ if not L then return end
 -- L["Self-Cast Modifier"] = true
 -- L["Self-Cast by modifier"] = true
 -- L["Show a Icon to open the config at the Minimap"] = true
--- L["Show the MicroMenu vertically."] = true
 -- L["Show the keyring button."] = true
 -- L["Specify the Color of the Out of Mana Indicator"] = true
 -- L["Specify the Color of the Out of Range Indicator"] = true
@@ -129,7 +128,6 @@ if not L then return end
 -- L["Toggle the use of the modifier-based self-cast functionality."] = true
 -- L["Toggle the use of the right-click self-cast functionality."] = true
 -- L["Use Custom Condition"] = true
--- L["Vertical MicroMenu"] = true
 -- L["Visibility"] = true
 -- L["XP Bar"] = true
 -- L["You can set the bar to be always hidden, if you only wish to access it using key-bindings."] = true
