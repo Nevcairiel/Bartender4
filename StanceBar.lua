@@ -3,7 +3,6 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local StanceBarMod = Bartender4:NewModule("StanceBar", "AceEvent-3.0")
 
 -- fetch upvalues
-local ActionBars = Bartender4:GetModule("ActionBars")
 local ButtonBar = Bartender4.ButtonBar.prototype
 
 -- create prototype information
