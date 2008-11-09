@@ -41,7 +41,15 @@ function Bartender4.Button:Create(id, parent)
 	button.parent = parent
 	button.stateactions = {}
 	
-	button:SetFrameStrata("MEDIUM")
+	button:SetRealNormalTexture("")
+	local oldNT = _G[("%sNormalTexture"):format(name)]
+	oldNT:Hide()
+	
+	button.normalTexture = button:CreateTexture(("%sBTNT"):format(name))
+	button.normalTexture:SetAllPoints(oldNT)
+
+	
+	--button:SetFrameStrata("MEDIUM")
 	
 	-- overwrite some scripts with out customized versions
 	button:SetScript("OnEnter", onEnter)
@@ -181,6 +189,16 @@ function onUpdate(self, elapsed)
 			self.rangeTimer = TOOLTIP_UPDATE_TIME
 		end
 	end
+end
+
+Button.SetRealNormalTexture = Button.SetNormalTexture
+function Button:SetNormalTexture(...)
+	self.normalTexture:SetTexture(...)
+end
+
+Button.GetRealNormalTexture = Button.GetNormalTexture
+function Button:GetNormalTexture()
+	return self.normalTexture
 end
 
 function Button:ClearStateAction()
