@@ -154,16 +154,6 @@ end
 
 local oor, oorcolor, oomcolor
 
-local orig_ActionButton_OnUpdate = ActionButton_OnUpdate
-ActionButton_OnUpdate = function(self, elapsed)
-	local name = self:GetName()
-	if self.BT4init then
-		onUpdate(self, elapsed)
-	else
-		orig_ActionButton_OnUpdate(self, elapsed)
-	end
-end
-
 function onUpdate(self, elapsed)
 	if self.flashing == 1 then
 		self.flashtime = self.flashtime - elapsed
@@ -257,6 +247,7 @@ end
 
 function Button:Update()
 	self:UpdateAction(true)
+	self:UpdateHotkeys()
 	self:ToggleButtonElements()
 end
 
@@ -291,7 +282,7 @@ function Button:UpdateHotkeys()
 	local key = self:GetHotkey() or ""
 	local hotkey = self.hotkey
 	
-	if key == "" or self.parent.config.hidehotkey or not HasAction(self.action) then
+	if key == "" or self.parent.config.hidehotkey then
 		hotkey:SetText(RANGE_INDICATOR)
 		hotkey:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -2)
 		hotkey:Hide()
