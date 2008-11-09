@@ -46,12 +46,8 @@ function Bartender4.Button:Create(id, parent)
 	-- overwrite some scripts with out customized versions
 	button:SetScript("OnEnter", onEnter)
 	button:SetScript("OnUpdate", onUpdate)
-	
-	--[[button:SetScript("OnEvent", button.EventHandler)
 	button:SetScript("OnDragStart", onDragStart)
 	button:SetScript("OnReceiveDrag", onReceiveDrag)
-	button:SetScript("PostClick", button.UpdateState)
-	]]
 	
 	button.icon = _G[("%sIcon"):format(name)]
 	button.border = _G[("%sBorder"):format(name)]
@@ -146,10 +142,6 @@ function onEnter(self)
 		self:SetTooltip(self)
 	end
 	KeyBound:Set(self)
-end
-
-function onLeave()
-	GameTooltip:Hide()
 end
 
 local oor, oorcolor, oomcolor
