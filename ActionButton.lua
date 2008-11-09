@@ -26,6 +26,7 @@ local KeyBound = LibStub("LibKeyBound-1.0")
 
 Bartender4.Button = {}
 Bartender4.Button.prototype = Button
+Button.BT4init = true
 function Bartender4.Button:Create(id, parent)
 	local absid = (parent.id - 1) * 12 + id
 	local name =  ("BT4Button%d"):format(absid)
@@ -41,18 +42,6 @@ function Bartender4.Button:Create(id, parent)
 	button.stateactions = {}
 	
 	button:SetFrameStrata("MEDIUM")
-	button:SetNormalTexture("")
-	
-	local NormalTexture = button:GetNormalTexture()
-	NormalTexture:SetWidth(66)
-	NormalTexture:SetHeight(66)
-	NormalTexture:ClearAllPoints()
-	NormalTexture:SetPoint("CENTER", 0, -1)
-	NormalTexture:Show()
-	
-	button.normalTexture = NormalTexture
-	button.pushedTexture = button:GetPushedTexture()
-	button.highlightTexture = button:GetHighlightTexture()
 	
 	-- overwrite some scripts with out customized versions
 	button:SetScript("OnEnter", onEnter)
@@ -121,14 +110,13 @@ function Bartender4.Button:Create(id, parent)
 		button:SetAttribute("special-" .. tostring(k), v.script)
 	end
 	
-	--button:RegisterButtonEvents()
-	
 	if LBF and parent.LBFGroup then
 		local group = parent.LBFGroup
 		group:AddButton(button)
 	end
 	
-	--ActionButton_UpdateAction(button)
+	--self:UpdateAction(true)
+	button:UpdateHotkeys()
 	
 	return button
 end
@@ -153,7 +141,7 @@ end
 
 function onEnter(self)
 	if not (Bartender4.db.profile.tooltip == "nocombat" and InCombatLockdown()) and Bartender4.db.profile.tooltip ~= "disabled" then
-		ActionButton_SetTooltip(self)
+		self:SetTooltip(self)
 	end
 	KeyBound:Set(self)
 end
@@ -260,6 +248,19 @@ function Button:UpdateAction(force)
 		self.action = 0
 	end
 	ActionButton_UpdateAction(self)
+end
+
+local orig_ActionButton_UpdateHotkeys = ActionButton_UpdateHotkeys
+
+ActionButton_UpdateHotkeys = function(self, ...)
+	local name = self:GetName()
+	if name and name:find("^BT4Button") then
+		if self.BT4init then
+			self:UpdateHotkeys()
+		end
+	else
+		orig_ActionButton_UpdateHotkeys(self, ...)
+	end
 end
 
 function Button:UpdateHotkeys()
