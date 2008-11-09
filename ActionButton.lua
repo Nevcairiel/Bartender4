@@ -191,6 +191,13 @@ function onUpdate(self, elapsed)
 	end
 end
 
+local function updateSpecialIcon(self)
+	if self.action and specialButtons[self.action] then
+		self.icon:SetTexture(specialButtons[self.action].icon)
+	end
+end
+hooksecurefunc("ActionButton_Update", updateSpecialIcon)
+
 Button.SetRealNormalTexture = Button.SetNormalTexture
 function Button:SetNormalTexture(...)
 	self.normalTexture:SetTexture(...)
