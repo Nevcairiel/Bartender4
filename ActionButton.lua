@@ -262,9 +262,6 @@ function Button:Update()
 end
 
 function Button:UpdateAction(force)
-	if force then
-		self.action = 0
-	end
 	ActionButton_UpdateAction(self)
 end
 
@@ -276,7 +273,7 @@ function Button:ToggleButtonElements()
 	end
 end
 
-local orig_ActionButton_UpdateHotkeys = ActionButton_UpdateHotkeys
+orig_ActionButton_UpdateHotkeys = ActionButton_UpdateHotkeys
 ActionButton_UpdateHotkeys = function(self, ...)
 	local name = self:GetName()
 	if name and name:find("^BT4Button") then
@@ -360,17 +357,11 @@ function Button:GetActionName()
 	return format(actionTmpl, self.parent.id, self.rid)
 end
 
-local orig_ActionButton_UpdateUsable = ActionButton_UpdateUsable
-ActionButton_UpdateUsable = function(self, ...)
-	local name = self:GetName()
-	if name and name:find("^BT4Button") then
-		if self.BT4init then
-			self:UpdateUsable()
-		end
-	else
-		orig_ActionButton_UpdateUsable(self, ...)
+hooksecurefunc("ActionButton_UpdateUsable", function(self)
+	if self.BT4init then
+		self:UpdateUsable()
 	end
-end
+end)
 
 function Button:UpdateUsable(force)
 	local isUsable, notEnoughMana = IsUsableAction(self.action)
