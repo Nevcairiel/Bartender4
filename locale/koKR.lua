@@ -16,6 +16,7 @@ L["Bar Style & Layout"] = "바 스타일 & 배치"
 L["Bars"] = "바"
 -- L["Bars unlocked. Move them now and click Lock when you are done."] = true
 -- L["Bartender4"] = true
+-- L["Button %s"] = true
 L["Button Grid"] = "버튼 무늬"
 L["Button Lock"] = "버튼 고정"
 L["Button Look"] = "버튼 외형"

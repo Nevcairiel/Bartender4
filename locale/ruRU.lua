@@ -16,6 +16,7 @@ L["Bar Style & Layout"] = "Расположение и вид панелей"
 L["Bars"] = "Панели"
 -- L["Bars unlocked. Move them now and click Lock when you are done."] = true
 -- L["Bartender4"] = true
+-- L["Button %s"] = true
 L["Button Grid"] = "Пустые кнопоки"
 L["Button Lock"] = "Блокировать кнопки"
 L["Button Look"] = "Вид кнопок"

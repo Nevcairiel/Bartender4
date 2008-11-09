@@ -16,6 +16,7 @@ L["Bar Style & Layout"] = "動作條樣式和佈局"
 L["Bars"] = "動作條"
 -- L["Bars unlocked. Move them now and click Lock when you are done."] = true
 -- L["Bartender4"] = true
+-- L["Button %s"] = true
 L["Button Grid"] = "顯示空按鈕"
 L["Button Lock"] = "按鈕鎖定"
 L["Button Look"] = "按鈕外觀"

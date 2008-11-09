@@ -16,6 +16,7 @@ L["Bar Style & Layout"] = "Disposition & style de la barre"
 L["Bars"] = "Barres"
 L["Bars unlocked. Move them now and click Lock when you are done."] = "Barres déverrouillées. Déplacez-les maintenant et cliquez sur Verr. une fois que vous avez terminé."
 L["Bartender4"] = "Bartender4"
+-- L["Button %s"] = true
 L["Button Grid"] = "Grille des boutons"
 L["Button Lock"] = "Verrouiller les boutons"
 L["Button Look"] = "Look des boutons"

@@ -16,6 +16,7 @@ L["Bar Style & Layout"] = true
 L["Bars"] = true
 L["Bars unlocked. Move them now and click Lock when you are done."] = true
 L["Bartender4"] = true
+L["Button %s"] = true
 L["Button Grid"] = true
 L["Button Lock"] = true
 L["Button Look"] = true
