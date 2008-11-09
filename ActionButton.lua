@@ -119,9 +119,14 @@ function Bartender4.Button:Create(id, parent)
 		group:AddButton(button)
 	end
 	
+	if button.parent.config.showgrid then
+		button:ShowGrid()
+	end
+	
 	--self:UpdateAction(true)
 	button:UpdateHotkeys()
 	button:UpdateUsable()
+	button:UpdateGrid()
 	button:ToggleButtonElements()
 	
 	return button
@@ -414,6 +419,30 @@ function Button:SetTooltip()
 		else
 			self.UpdateTooltip = nil
 		end
+	end
+end
+
+function Button:UpdateGrid()
+	if self:GetAttribute("showgrid") > 0 then
+		ActionButton_ShowGrid(self)
+	else
+		ActionButton_HideGrid(self)
+	end
+end
+
+function Button:ShowGrid()
+	if not self.gridShown then
+		self.gridShown = true
+		self:SetAttribute("showgrid", self:GetAttribute("showgrid") + 1)
+		self:UpdateGrid()
+	end
+end
+
+function Button:HideGrid()
+	if self.gridShown then
+		self.gridShown = nil
+		self:SetAttribute("showgrid", max(0, self:GetAttribute("showgrid") - 1))
+		self:UpdateGrid()
 	end
 end
 
