@@ -19,6 +19,22 @@ local function onEnter(self, ...)
 	KeyBound:Set(self)
 end
 
+local function onDragStart(self)
+	if InCombatLockdown() then return end
+	if not Bartender4.db.profile.buttonlock or IsModifiedClick("PICKUPACTION") then
+		self:SetChecked(0)
+		PickupPetAction(self.id)
+		self:Update()
+	end
+end
+
+local function onReceiveDrag(self)
+	if InCombatLockdown() then return end
+	self:SetChecked(0)
+	PickupPetAction(self.id)
+	self:Update()
+end
+
 Bartender4.PetButton = {}
 Bartender4.PetButton.prototype = PetButtonPrototype
 function Bartender4.PetButton:Create(id, parent)
@@ -36,6 +52,9 @@ function Bartender4.PetButton:Create(id, parent)
 	
 	button.OnEnter = button:GetScript("OnEnter")
 	button:SetScript("OnEnter", onEnter)
+	
+	button:SetScript("OnDragStart", onDragStart)
+	button:SetScript("OnReceiveDrag", onReceiveDrag)
 	
 	button.flash = _G[name .. "Flash"]
 	button.cooldown = _G[name .. "Cooldown"]
