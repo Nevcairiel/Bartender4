@@ -131,8 +131,8 @@ function onDragStart(self)
 	if InCombatLockdown() then return end
 	if not Bartender4.db.profile.buttonlock or IsModifiedClick("PICKUPACTION") then
 		PickupAction(self.action)
-		self:UpdateState()
-		self:UpdateFlash()
+		ActionButton_UpdateState(self)
+		ActionButton_UpdateFlash(self)
 		self:RefreshStateAction()
 	end
 end
@@ -140,8 +140,8 @@ end
 function onReceiveDrag(self)
 	if InCombatLockdown() then return end
 	PlaceAction(self.action)
-	self:UpdateState()
-	self:UpdateFlash()
+	ActionButton_UpdateState(self)
+	ActionButton_UpdateFlash(self)
 	self:RefreshStateAction()
 end
 
