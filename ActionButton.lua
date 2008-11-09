@@ -117,6 +117,7 @@ function Bartender4.Button:Create(id, parent)
 	
 	--self:UpdateAction(true)
 	button:UpdateHotkeys()
+	button:UpdateUsable()
 	
 	return button
 end
@@ -152,6 +153,16 @@ end
 
 local oor, oorcolor, oomcolor
 
+local orig_ActionButton_OnUpdate = ActionButton_OnUpdate
+ActionButton_OnUpdate = function(self, elapsed)
+	local name = self:GetName()
+	if self.BT4init then
+		onUpdate(self, elapsed)
+	else
+		orig_ActionButton_OnUpdate(self, elapsed)
+	end
+end
+
 function onUpdate(self, elapsed)
 	if self.flashing == 1 then
 		self.flashtime = self.flashtime - elapsed
@@ -163,7 +174,7 @@ function onUpdate(self, elapsed)
 			self.flashtime = ATTACK_BUTTON_FLASH_TIME - overtime
 			
 			local flashTexture = self.flash
-			if flashTexture:IsVisible() then
+			if flashTexture:IsShown() then
 				flashTexture:Hide()
 			else
 				flashTexture:Show()
@@ -251,7 +262,6 @@ function Button:UpdateAction(force)
 end
 
 local orig_ActionButton_UpdateHotkeys = ActionButton_UpdateHotkeys
-
 ActionButton_UpdateHotkeys = function(self, ...)
 	local name = self:GetName()
 	if name and name:find("^BT4Button") then
@@ -333,6 +343,18 @@ end
 local actionTmpl = "BT4 Bar %d Button %d"
 function Button:GetActionName()
 	return format(actionTmpl, self.parent.id, self.rid)
+end
+
+local orig_ActionButton_UpdateUsable = ActionButton_UpdateUsable
+ActionButton_UpdateUsable = function(self, ...)
+	local name = self:GetName()
+	if name and name:find("^BT4Button") then
+		if self.BT4init then
+			self:UpdateUsable()
+		end
+	else
+		orig_ActionButton_UpdateUsable(self, ...)
+	end
 end
 
 function Button:UpdateUsable(force)
