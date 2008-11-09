@@ -118,6 +118,7 @@ function Bartender4.Button:Create(id, parent)
 	--self:UpdateAction(true)
 	button:UpdateHotkeys()
 	button:UpdateUsable()
+	button:ToggleButtonElements()
 	
 	return button
 end
@@ -254,11 +255,24 @@ function Button:GetActionID()
 	return self.action
 end
 
+function Button:Update()
+	self:UpdateAction(true)
+	self:ToggleButtonElements()
+end
+
 function Button:UpdateAction(force)
 	if force then
 		self.action = 0
 	end
 	ActionButton_UpdateAction(self)
+end
+
+function Button:ToggleButtonElements()
+	if self.parent.config.hidemacrotext then
+		self.macroName:Hide()
+	else
+		self.macroName:Show()
+	end
 end
 
 local orig_ActionButton_UpdateHotkeys = ActionButton_UpdateHotkeys

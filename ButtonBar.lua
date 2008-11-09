@@ -7,6 +7,7 @@ local ButtonBar_MT = {__index = ButtonBar}
 local defaults = Bartender4:Merge({
 	padding = 2,
 	rows = 1,
+	hidemacrotext = false,
 	hidehotkey = false,
 	skin = {
 		ID = "DreamLayout",
