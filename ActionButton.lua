@@ -29,9 +29,11 @@ Bartender4.Button.prototype = Button
 function Bartender4.Button:Create(id, parent)
 	local absid = (parent.id - 1) * 12 + id
 	local name =  ("BT4Button%d"):format(absid)
-	local button = setmetatable(CreateFrame("CheckButton", name.."Secure", parent, "SecureActionButtonTemplate"), Button_MT)
+	local button = setmetatable(CreateFrame("CheckButton", name, parent, "ActionBarButtonTemplate"), Button_MT)
 	-- work around for "blocked" message when using /click macros
-	GetClickFrame(name .. "Secure")
+	GetClickFrame(name)
+	
+	_G[name .. "Secure"] = button
 	
 	button.rid = id
 	button.id = absid
@@ -39,29 +41,9 @@ function Bartender4.Button:Create(id, parent)
 	button.stateactions = {}
 	
 	button:SetFrameStrata("MEDIUM")
-	button:SetFrameLevel(parent:GetFrameLevel() + 2)
-	button:SetWidth(36)
-	button:SetHeight(36)
-	
-	button:SetPushedTexture("Interface\\Buttons\\UI-Quickslot-Depress")
-	button:SetHighlightTexture("Interface\\Buttons\\ButtonHilight-Square")
-	button:GetHighlightTexture():SetBlendMode("ADD")
-	button:SetCheckedTexture("Interface\\Buttons\\CheckButtonHilight")
-	button:GetCheckedTexture():SetBlendMode("ADD")
 	button:SetNormalTexture("")
 	
-	button.Proxy = CreateFrame("CheckButton", name, button, "ActionButtonTemplate")
-	button.Proxy:SetFrameStrata("MEDIUM")
-	button.Proxy:SetFrameLevel(parent:GetFrameLevel() + 1)
-	button.Proxy:ClearAllPoints()
-	button.Proxy:SetAllPoints(button)
-	button.Proxy:SetPushedTexture("")
-	button.Proxy:SetHighlightTexture("")
-	button.Proxy:SetCheckedTexture("")
-	button.Proxy:Show()
-	button.Proxy.Secure = button
-	
-	local NormalTexture = button.Proxy:GetNormalTexture()
+	local NormalTexture = button:GetNormalTexture()
 	NormalTexture:SetWidth(66)
 	NormalTexture:SetHeight(66)
 	NormalTexture:ClearAllPoints()
@@ -72,14 +54,15 @@ function Bartender4.Button:Create(id, parent)
 	button.pushedTexture = button:GetPushedTexture()
 	button.highlightTexture = button:GetHighlightTexture()
 	
-	button:SetScript("OnEvent", button.EventHandler)
-	button:SetScript("OnUpdate", onUpdate)
+	-- overwrite some scripts with out customized versions
 	button:SetScript("OnEnter", onEnter)
-	button:SetScript("OnLeave", onLeave)
-	button:SetScript("OnAttributeChanged", button.UpdateAction)
+	button:SetScript("OnUpdate", onUpdate)
+	
+	--[[button:SetScript("OnEvent", button.EventHandler)
 	button:SetScript("OnDragStart", onDragStart)
 	button:SetScript("OnReceiveDrag", onReceiveDrag)
 	button:SetScript("PostClick", button.UpdateState)
+	]]
 	
 	button.icon = _G[("%sIcon"):format(name)]
 	button.border = _G[("%sBorder"):format(name)]
@@ -90,16 +73,12 @@ function Bartender4.Button:Create(id, parent)
 	button.flash = _G[("%sFlash"):format(name)]
 	button.flash:Hide()
 	
-	button.textureCache = {}
-	button.textureCache.pushed = button.pushedTexture:GetTexture()
-	button.textureCache.highlight = button.highlightTexture:GetTexture()
-	
 	button:SetAttribute("type", "action")
 	button:SetAttribute("action", absid)
+	button:SetAttribute("useparent-unit", nil);
+	button:SetAttribute("useparent-actionpage", nil);
 	
 	button:UpdateSelfCast()
-	
-	--button:SetAttribute("useparent-unit", true)
 	
 	button:SetAttribute('_childupdate-state', [[
 		self:SetAttribute("state", message)
@@ -138,36 +117,20 @@ function Bartender4.Button:Create(id, parent)
 		G_assist_harm = message
 	]])
 	
-	button:RegisterForDrag("LeftButton", "RightButton")
-	button:RegisterForClicks("AnyUp")
-	
-	button.showgrid = 0
-	button.flashing = 0
-	button.flashtime = 0
-	
 	for k,v in pairs(specialButtons) do
 		button:SetAttribute("special-" .. tostring(k), v.script)
 	end
 	
-	button:RegisterButtonEvents()
+	--button:RegisterButtonEvents()
 	
 	if LBF and parent.LBFGroup then
 		local group = parent.LBFGroup
-		button.LBFButtonData = {
-			Button = button.Proxy,
-			Highlight = button:GetHighlightTexture(),
-			Pushed = button:GetPushedTexture(),
-			Checked = button:GetCheckedTexture(),
-		}
-		group:AddButton(button.Proxy, button.LBFButtonData)
+		group:AddButton(button)
 	end
+	
+	--ActionButton_UpdateAction(button)
+	
 	return button
-end
-
-function Button:SetLevels()
-	local parent = self:GetParent()
-	self:SetFrameLevel(parent:GetFrameLevel() + 3)
-	self.Proxy:SetFrameLevel(parent:GetFrameLevel() + 2)
 end
 
 function onDragStart(self)
@@ -190,7 +153,7 @@ end
 
 function onEnter(self)
 	if not (Bartender4.db.profile.tooltip == "nocombat" and InCombatLockdown()) and Bartender4.db.profile.tooltip ~= "disabled" then
-		self:SetTooltip()
+		ActionButton_SetTooltip(self)
 	end
 	KeyBound:Set(self)
 end
@@ -288,100 +251,15 @@ function Button:UpdateRightClickSelfCast()
 	self:SetAttribute("unit2", Bartender4.db.profile.selfcastrightclick and "player" or nil)
 end
 
-function Button:CalculateAction()
-	return SecureButton_GetModifiedAttribute(self, "action", SecureButton_GetEffectiveButton(self)) or 1
-end
-
 function Button:GetActionID()
 	return self.action
 end
 
 function Button:UpdateAction(force)
-	local action = self:CalculateAction()
-	if action ~= self.action or force then
-		self.action = action
-		self:Update()
+	if force then
+		self.action = 0
 	end
-end
-
-function Button:Update()
-	local action = self.action
-	self:UpdateIcon()
-	self:UpdateCount()
-	self:UpdateHotkeys()
-	if HasAction(action) or specialButtons[action] then
-		self:RegisterActionEvents()
-		
-		self:UpdateState()
-		self:UpdateUsable(true)
-		self:UpdateCooldown()
-		self:UpdateFlash()
-		
-		self:ShowButton()
-		self:SetScript("OnUpdate", onUpdate)
-	else
-		self:UnregisterActionEvents()
-		
-		self.cooldown:Hide()
-		
-		if ( self.showgrid == 0 and not self.parent.config.showgrid ) then
-			self:HideButton()
-		end
-		
-		self:SetScript("OnUpdate", nil)
-	end
-	
-	if ( IsEquippedAction(action) ) then
-		self.border:SetVertexColor(0, 1.0, 0, 0.75)
-		self.border:Show()
-	else
-		self.border:Hide()
-	end
-	
-	if ( GameTooltip:GetOwner() == self) then
-		self:SetTooltip()
-	end
-	
-	if not IsConsumableAction(action) and not IsStackableAction(action) and not self.parent.config.hidemacrotext then
-		self.macroName:SetText(GetActionText(action))
-	else
-		self.macroName:SetText("")
-	end
-	
-end
-
-function Button:UpdateIcon()
-	local texture = specialButtons[self.action] and specialButtons[self.action].icon or GetActionTexture(self.action)
-	if ( texture ) then
-		self.rangeTimer = -1
-		self.icon:SetTexture(texture)
-		self.icon:Show()
-		self.normalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot2")
-		self.normalTexture:SetTexCoord(0, 0, 0, 0)
-		self.iconTex = texture
-	else
-		self.rangeTimer = nil
-		self.icon:Hide()
-		self.cooldown:Hide()
-		self.normalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot")
-		self.normalTexture:SetTexCoord(-0.15, 1.15, -0.15, 1.17)
-		self.hotkey:SetVertexColor(0.6, 0.6, 0.6)
-		self.iconTex = nil
-	end
-	if self.parent.config.hidemacrotext then
-		self.macroName:Hide()
-	else
-		self.macroName:Show()
-	end
-end
-
-function Button:UpdateCount()
-	local action = self.action
-	if ( IsConsumableAction(action) or IsStackableAction(action) ) then
-		self.count:SetText(GetActionCount(action))
-	else
-		self.count:SetText("")
-	end
+	ActionButton_UpdateAction(self)
 end
 
 function Button:UpdateHotkeys()
@@ -456,15 +334,6 @@ function Button:GetActionName()
 	return format(actionTmpl, self.parent.id, self.rid)
 end
 
-function Button:UpdateState()
-	local action = self.action
-	if ( IsCurrentAction(action) or IsAutoRepeatAction(action) ) then
-		self:SetChecked(1)
-	else
-		self:SetChecked(0)
-	end
-end
-
 function Button:UpdateUsable(force)
 	local isUsable, notEnoughMana = IsUsableAction(self.action)
 	local icon, hotkey = self.icon, self.hotkey
@@ -493,32 +362,6 @@ function Button:UpdateUsable(force)
 	end
 end
 
-function Button:UpdateCooldown()
-	local start, duration, enable = GetActionCooldown(self.action)
-	CooldownFrame_SetTimer(self.cooldown, start, duration, enable)
-end
-
-function Button:UpdateFlash()
-	local action = self.action
-	if ( (IsAttackAction(action) and IsCurrentAction(action)) or IsAutoRepeatAction(action) ) then
-		self:StartFlash()
-	else
-		self:StopFlash()
-	end
-end
-
-function Button:StartFlash()
-	self.flashing = 1
-	self.flashtime = 0
-	self:UpdateState()
-end
-
-function Button:StopFlash()
-	self.flashing = 0
-	self.flash:Hide()
-	self:UpdateState()
-end
-
 function Button:SetTooltip()
 	if ( GetCVar("UberTooltips") == "1" ) then
 		GameTooltip_SetDefaultAnchor(GameTooltip, self)
@@ -534,130 +377,6 @@ function Button:SetTooltip()
 			self.UpdateTooltip = self.SetTooltip
 		else
 			self.UpdateTooltip = nil
-		end
-	end
-end
-
-function Button:ShowButton()
-	if self.Proxy:IsShown() then return end
-	self.pushedTexture:SetTexture(self.textureCache.pushed)
-	self.highlightTexture:SetTexture(self.textureCache.highlight)
-	
-	self.Proxy:Show()
-end
-
-function Button:HideButton()
-	if not self.Proxy:IsShown() then return end
-	self.textureCache.pushed = self.pushedTexture:GetTexture()
-	self.textureCache.highlight = self.highlightTexture:GetTexture()
-	
-	self.pushedTexture:SetTexture("")
-	self.highlightTexture:SetTexture("")
-	
-	self.Proxy:Hide()
-end
-
-function Button:ShowGrid()
-	self.showgrid = self.showgrid + 1
-	
-	self:ShowButton()
-end
-
-function Button:HideGrid()
-	if self.showgrid > 0 then self.showgrid = self.showgrid - 1 end
-	if ( self.showgrid == 0 and not HasAction(self.action) and not self.parent.config.showgrid ) then
-		self:HideButton()
-	end
-end
-
-function Button:RegisterButtonEvents()
-	self:RegisterEvent("ACTIONBAR_SLOT_CHANGED")
-	self:RegisterEvent("PLAYER_ENTERING_WORLD")
-	self:RegisterEvent("ACTIONBAR_PAGE_CHANGED")
-	self:RegisterEvent("ACTIONBAR_SHOWGRID")
-	self:RegisterEvent("ACTIONBAR_HIDEGRID")
-	self:RegisterEvent("UPDATE_BINDINGS")
-	self:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
-end
-
-local actionevents = {
-	"PLAYER_TARGET_CHANGED",
-	"ACTIONBAR_UPDATE_STATE",
-	"ACTIONBAR_UPDATE_USABLE",
-	"ACTIONBAR_UPDATE_COOLDOWN",
-	--"UPDATE_INVENTORY_ALERTS",
-	--"PLAYER_AURAS_CHANGED",
-	"CRAFT_SHOW",
-	"CRAFT_CLOSE",
-	"TRADE_SKILL_SHOW",
-	"TRADE_SKILL_CLOSE",
-	"PLAYER_ENTER_COMBAT",
-	"PLAYER_LEAVE_COMBAT",
-	"START_AUTOREPEAT_SPELL",
-	"STOP_AUTOREPEAT_SPELL",
-}
-
-function Button:RegisterActionEvents()
-	if self.eventsregistered then return end
-	self.eventsregistered = true
-	
-	for _, event in ipairs(actionevents) do
-		self:RegisterEvent(event)
-	end
-end
-
-function Button:UnregisterActionEvents()
-	if not self.eventsregistered then return end
-	self.eventsregistered = nil
-	
-	for _, event in ipairs(actionevents) do
-		self:UnregisterEvent(event)
-	end
-end
-
-function Button:EventHandler(event, arg1)
-	if ( event == "ACTIONBAR_SLOT_CHANGED" ) then
-		if ( arg1 == 0 or arg1 == self.action ) then
-			self:Update()
-		end
-	elseif ( event == "PLAYER_ENTERING_WORLD" ) then
-		self:Update()
-	elseif ( event == "ACTIONBAR_PAGE_CHANGED" or event == "UPDATE_BONUS_ACTIONBAR" ) then
-		self:UpdateAction()
-	elseif ( event == "ACTIONBAR_SHOWGRID" ) then
-		self:ShowGrid()
-	elseif ( event == "ACTIONBAR_HIDEGRID" ) then
-		self:HideGrid()
-	elseif ( event == "UPDATE_BINDINGS" ) then
-		self:UpdateHotkeys()
-	elseif not self.eventsregistered then
-		return
-	-- Action Event Handlers, only set when the button actually has an action
-	elseif ( event == "PLAYER_TARGET_CHANGED" ) then
-		self.rangeTimer = -1
-	elseif ( event == "ACTIONBAR_UPDATE_STATE" ) then
-		self:UpdateState()
-	elseif ( event == "ACTIONBAR_UPDATE_USABLE" ) then
-		self:UpdateUsable()
-	elseif ( event == "ACTIONBAR_UPDATE_COOLDOWN" ) then
-		self:UpdateCooldown()
-	elseif ( event == "CRAFT_SHOW" or event == "CRAFT_CLOSE" or event == "TRADE_SKILL_SHOW" or event == "TRADE_SKILL_CLOSE" ) then
-		self:UpdateState()
-	elseif ( event == "PLAYER_ENTER_COMBAT" ) then
-		if ( IsAttackAction(self.action) ) then
-			self:StartFlash()
-		end
-	elseif ( event == "PLAYER_LEAVE_COMBAT" ) then
-		if ( IsAttackAction(self.action) ) then
-			self:StopFlash()
-		end
-	elseif ( event == "START_AUTOREPEAT_SPELL" ) then
-		if ( IsAutoRepeatAction(self.action) ) then
-			self:StartFlash()
-		end
-	elseif ( event == "STOP_AUTOREPEAT_SPELL" ) then
-		if ( self.flashing == 1 and not IsAttackAction(self.action) ) then
-			self:StopFlash()
 		end
 	end
 end
