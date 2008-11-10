@@ -34,7 +34,9 @@ function Bartender4.Button:Create(id, parent)
 	-- work around for "blocked" message when using /click macros
 	GetClickFrame(name)
 	
+	-- Backwards Compat to pre-4.2.0 button names/layout
 	_G[name .. "Secure"] = button
+	button.Secure = button
 	
 	button.rid = id
 	button.id = absid
