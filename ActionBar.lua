@@ -104,10 +104,11 @@ function ActionBar:SetGrid(state)
 		self.config.showgrid = state
 	end
 	if self.config.showgrid then
-		self:ForAll("ShowGrid", true)
+		self:ForAll("ShowGrid")
 	else
-		self:ForAll("HideGrid", true)
+		self:ForAll("HideGrid")
 	end
+	self:ForAll("UpdateGrid")
 end
 
 function ActionBar:UpdateSelfCast()
