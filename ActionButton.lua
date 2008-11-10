@@ -199,7 +199,7 @@ function onUpdate(self, elapsed)
 end
 
 local function updateSpecialIcon(self)
-	if self.action and specialButtons[self.action] then
+	if self.BT4init and self.action and specialButtons[self.action] then
 		self.icon:SetTexture(specialButtons[self.action].icon)
 	end
 end
