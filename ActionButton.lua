@@ -210,14 +210,23 @@ function onUpdate(self, elapsed)
 	end
 end
 
-local function updateSpecialIcon(self)
-	if self.BT4init and self.action and specialButtons[self.action] then
-		self.icon:SetTexture(specialButtons[self.action].icon)
-		self.icon:Show()
-		self:UpdateUsable()
+local function updateIcon(self)
+	if self.BT4init and self.action then
+		if specialButtons[self.action] then
+			self.normalTexture:SetTexCoord(0, 0, 0, 0)
+			self.icon:SetTexture(specialButtons[self.action].icon)
+			self.icon:Show()
+			self:UpdateUsable()
+		else
+			if GetActionTexture(self.action) then
+				self.normalTexture:SetTexCoord(0, 0, 0, 0)
+			else
+				self.normalTexture:SetTexCoord(-0.15, 1.15, -0.15, 1.17)
+			end
+		end
 	end
 end
-hooksecurefunc("ActionButton_Update", updateSpecialIcon)
+hooksecurefunc("ActionButton_Update", updateIcon)
 
 Button.SetRealNormalTexture = Button.SetNormalTexture
 function Button:SetNormalTexture(...)
