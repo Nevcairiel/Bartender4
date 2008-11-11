@@ -48,7 +48,11 @@ function Bartender4.Button:Create(id, parent)
 	oldNT:Hide()
 	
 	button.normalTexture = button:CreateTexture(("%sBTNT"):format(name))
-	button.normalTexture:SetAllPoints(oldNT)
+	button.normalTexture:SetWidth(66)
+	button.normalTexture:SetHeight(66)
+	button.normalTexture:ClearAllPoints()
+	button.normalTexture:SetPoint("CENTER", 0, -1)
+	button.normalTexture:Show()
 
 	
 	--button:SetFrameStrata("MEDIUM")
