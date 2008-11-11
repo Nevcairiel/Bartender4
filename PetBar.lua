@@ -33,12 +33,7 @@ function PetBarMod:OnEnable()
 		end
 		self.bar.buttons = buttons
 		
-		-- TODO: real positioning
-		self.bar:ClearSetPoint("CENTER", 0, 70)
-		
 		self.bar:SetScript("OnEvent", PetBar.OnEvent)
-		
-		--self.bar:SetAttribute("unit", "pet")
 	end
 	self.bar:Enable()
 	
@@ -99,6 +94,12 @@ end
 
 function PetBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
+	
+	if not self.config.position then
+		self:ClearSetPoint("CENTER", 0, 70)
+		self:SavePosition()
+	end
+	
 	self:UpdateButtonLayout()
 	self:ForAll("Update")
 	self:ForAll("ApplyStyle", self.config.style)

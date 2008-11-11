@@ -30,8 +30,6 @@ local noopFunc = function() end
 function BagBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("BagBar", self.db.profile, L["Bag Bar"]), {__index = BagBar})
-		
-		self.bar:SetPoint("CENTER", 142, -18)
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
@@ -44,6 +42,12 @@ end
 
 function BagBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
+	
+	if not self.config.position then
+		self:ClearSetPoint("CENTER", 142, -18)
+		self:SavePosition()
+	end
+	
 	self:FeedButtons()
 	self:UpdateButtonLayout()
 end

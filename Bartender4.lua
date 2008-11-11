@@ -128,6 +128,12 @@ function Bartender4:RegisterDefaultsKey(key, subdefaults)
 end
 
 function Bartender4:UpdateModuleConfigs()
+	local unlock = false
+	if not self.Locked then
+		self:Lock()
+		unlock = true
+	end
+	
 	for k,v in AceAddon:IterateModulesOfAddon(self) do
 		v:ToggleModule()
 		if v:IsEnabled() and type(v.ApplyConfig) == "function" then
@@ -136,6 +142,10 @@ function Bartender4:UpdateModuleConfigs()
 	end
 	if LDB and LDBIcon then
 		LDBIcon:Refresh("Bartender4", Bartender4.db.profile.minimapIcon)
+	end
+	
+	if unlock then
+		self:Unlock()
 	end
 end
 

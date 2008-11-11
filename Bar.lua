@@ -59,6 +59,7 @@ do
 				parent:StopMovingOrSizing()
 			end
 			parent:SavePosition()
+			parent.isMoving = nil
 		end
 	end
 	

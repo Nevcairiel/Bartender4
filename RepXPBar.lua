@@ -30,9 +30,6 @@ function RepBarMod:OnEnable()
 		self.bar.content:SetParent(self.bar)
 		self.bar.content:Show()
 		self.bar.content:SetFrameLevel(self.bar:GetFrameLevel() + 1)
-		
-		-- TODO: real start position
-		self.bar:SetPoint("CENTER")
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
@@ -45,6 +42,12 @@ end
 
 function RepBar:ApplyConfig(config)
 	Bar.ApplyConfig(self, config)
+	
+	if not self.config.position then
+		self:ClearSetPoint("CENTER")
+		self:SavePosition()
+	end
+	
 	self:PerformLayout()
 end
 
@@ -74,9 +77,6 @@ function XPBarMod:OnEnable()
 		self.bar.content:SetParent(self.bar)
 		self.bar.content:Show()
 		self.bar.content:SetFrameLevel(self.bar:GetFrameLevel() + 1)
-		
-		-- TODO: real start position
-		self.bar:SetPoint("CENTER")
 	end
 	self.bar:Enable()
 	self:ToggleOptions()

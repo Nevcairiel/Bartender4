@@ -52,8 +52,6 @@ function MicroMenuMod:OnEnable()
 			v:SetFrameLevel(self.bar:GetFrameLevel() + 1)
 			v.ClearSetPoint = self.bar.ClearSetPoint
 		end
-		
-		self.bar:SetPoint("CENTER", -105, 27)
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
@@ -69,5 +67,11 @@ MicroMenuBar.button_height = 58
 MicroMenuBar.vpad_offset = -21
 function MicroMenuBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
+	
+	if not self.config.position then
+		self:ClearSetPoint("CENTER", -105, 27)
+		self:SavePosition()
+	end
+	
 	self:UpdateButtonLayout()
 end
