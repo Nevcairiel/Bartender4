@@ -17,6 +17,7 @@ if not L then return end
 -- L["Bars unlocked. Move them now and click Lock when you are done."] = true
 -- L["Bartender4"] = true
 -- L["Button %s"] = true
+-- L["Button Border"] = true
 -- L["Button Grid"] = true
 -- L["Button Lock"] = true
 -- L["Button Look"] = true
@@ -123,7 +124,7 @@ if not L then return end
 -- L["The default behaviour of this bar when no state-based paging option affects it."] = true
 -- L["This bar will be hidden once you enter combat."] = true
 -- L["This bar will be hidden whenever you are not in combat."] = true
--- L["Toggle Button Zoom\nFor more style options you need to install ButtonFacade"] = true
+-- L["Toggle Button Border\nFor more style options you need to install ButtonFacade"] = true
 -- L["Toggle the button grid."] = true
 -- L["Toggle the use of the modifier-based focus-cast functionality."] = true
 -- L["Toggle the use of the modifier-based self-cast functionality."] = true
@@ -134,6 +135,5 @@ if not L then return end
 -- L["You can set the bar to be always hidden, if you only wish to access it using key-bindings."] = true
 -- L["You can use any macro conditionals in the custom string, using \"show\" and \"hide\" as values.\n\nExample: [combat]hide;show"] = true
 -- L["You can use any macro conditionals in the custom string, using the number of the bar as target value.\nExample: [form:1]9;0"] = true
--- L["Zoom"] = true
 -- L["|cffffff00Click|r to toggle bar lock"] = true
 -- L["|cffffff00Right-click|r to open the options menu"] = true

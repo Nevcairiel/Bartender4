@@ -64,9 +64,9 @@ function ButtonBar:GetOptionObject()
 		},
 		zoom = {
 			order = 59,
-			name = L["Zoom"],
+			name = L["Button Border"],
 			type = "toggle",
-			desc = L["Toggle Button Zoom\nFor more style options you need to install ButtonFacade"],
+			desc = L["Toggle Button Border\nFor more style options you need to install ButtonFacade"],
 			get = optGetter,
 			set = optSetter,
 			hidden = function() return LibStub("LibButtonFacade", true) and true or false end,

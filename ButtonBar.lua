@@ -162,10 +162,13 @@ function ButtonBar:UpdateButtonLayout()
 	if not LBF then
 		for i = 1, #buttons do
 			local button = buttons[i]
-			if button.icon and self.config.skin.Zoom then
+			if button.icon then
 				button.icon:SetTexCoord(0.07,0.93,0.07,0.93)
-			elseif button.icon then
-				button.icon:SetTexCoord(0,1,0,1)
+				if self.config.skin.Zoom then
+					button.normalTexture:Hide()
+				else
+					button.normalTexture:Show()
+				end
 			end
 		end
 	end
