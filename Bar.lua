@@ -170,7 +170,11 @@ function Bar:ApplyConfig(config)
 		self.config = config
 	end
 	if self.disabled then return end
-	self:Lock()
+	if Bartender4.Locked then
+		self:Lock()
+	else
+		self:Unlock()
+	end
 	self:LoadPosition()
 	self:SetConfigScale()
 	self:SetConfigAlpha()
@@ -372,6 +376,7 @@ end
 function Bar:DisableVisibilityDriver()
 	UnregisterStateDriver(self, "vis")
 	self:SetAttribute("state-vis", "show")
+	self:Show()
 end
 
 function Bar:GetVisibilityOption(option, index)
@@ -403,6 +408,7 @@ end
 
 function Bar:Disable()
 	if self.disabled then return end
+	self:Lock()
 	self.disabled = true
 	self:UnregisterAllEvents()
 	self:DisableVisibilityDriver()
