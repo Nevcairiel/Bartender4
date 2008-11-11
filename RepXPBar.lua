@@ -33,7 +33,7 @@ function RepBarMod:OnEnable()
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
-	self.bar:ApplyConfig(self.db.profile)
+	self:ApplyConfig()
 end
 
 function RepBarMod:ApplyConfig()
@@ -80,7 +80,7 @@ function XPBarMod:OnEnable()
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
-	self.bar:ApplyConfig(self.db.profile)
+	self:ApplyConfig()
 end
 
 XPBarMod.ApplyConfig = RepBarMod.ApplyConfig

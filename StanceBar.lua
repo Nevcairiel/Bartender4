@@ -43,7 +43,7 @@ function StanceBarMod:OnEnable()
 	self.bar:RegisterEvent("ACTIONBAR_PAGE_CHANGED")
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
 	self:ReassignBindings()
-	self.bar:ApplyConfig(self.db.profile)
+	self:ApplyConfig()
 end
 
 StanceBarMod.button_count = 10
