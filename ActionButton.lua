@@ -82,8 +82,16 @@ function Bartender4.Button:Create(id, parent)
 		if special then
 			self:SetAttribute("type", "macro")
 			self:SetAttribute("macrotext", special)
+			if not self:GetAttribute("isSpecial") then
+				self:SetAttribute("showgrid", self:GetAttribute("showgrid") + 1)
+				self:SetAttribute("isSpecial", true)
+			end
 		else
 			self:SetAttribute("type", "action")
+			if self:GetAttribute("isSpecial") then
+				self:SetAttribute("isSpecial", nil)
+				self:SetAttribute("showgrid", max(0, self:GetAttribute("showgrid") - 1))
+			end
 		end
 		self:SetAttribute("action", action)
 		
@@ -201,6 +209,8 @@ end
 local function updateSpecialIcon(self)
 	if self.BT4init and self.action and specialButtons[self.action] then
 		self.icon:SetTexture(specialButtons[self.action].icon)
+		self.icon:Show()
+		self:UpdateUsable()
 	end
 end
 hooksecurefunc("ActionButton_Update", updateSpecialIcon)
