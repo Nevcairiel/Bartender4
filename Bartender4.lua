@@ -64,6 +64,9 @@ function Bartender4:HideBlizzard()
 	
 	-- Hide MultiBar Buttons, but keep the bars alive
 	for i=1,12 do
+		_G["ActionButton" .. i]:Hide()
+		_G["ActionButton" .. i]:UnregisterAllEvents()
+		
 		_G["MultiBarBottomLeftButton" .. i]:Hide()
 		_G["MultiBarBottomLeftButton" .. i]:UnregisterAllEvents()
 		
@@ -101,7 +104,7 @@ function Bartender4:HideBlizzard()
 	MainMenuBarArtFrame:Hide()
 	
 	--MainMenuExpBar:UnregisterAllEvents()
-	MainMenuExpBar:Hide()
+	--MainMenuExpBar:Hide()
 
 	ShapeshiftBarFrame:UnregisterAllEvents()
 	ShapeshiftBarFrame:Hide()
