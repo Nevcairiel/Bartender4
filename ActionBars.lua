@@ -182,7 +182,7 @@ function BT4ActionBars:ReassignBindings()
 			end
 		end
 	end
-	SaveBindings(GetCurrentBindingSet())
+	SaveBindings(GetCurrentBindingSet() or 1)
 end
 
 -- Creates a new bar object based on the id and the specified config
