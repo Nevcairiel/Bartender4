@@ -16,6 +16,8 @@ local defaults = { profile = Bartender4:Merge({
 	visibility = {
 		possess = false,
 	},
+	padding = -3,
+	scale = 0.8,
 }, Bartender4.ButtonBar.defaults) }
 
 function MicroMenuMod:OnInitialize()
