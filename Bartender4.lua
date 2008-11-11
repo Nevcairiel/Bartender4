@@ -59,13 +59,27 @@ function Bartender4:OnInitialize()
 end
 
 function Bartender4:HideBlizzard()
-	MultiActionBar_Update = function() end
+	--MultiActionBar_Update = function() end
 	MultiActionBar_UpdateGrid = function() end
-
-	UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarRight'] = nil
-	UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarLeft'] = nil
-	UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarBottomLeft'] = nil
-	UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarBottomRight'] = nil
+	
+	-- Hide MultiBar Buttons, but keep the bars alive
+	for i=1,12 do
+		_G["MultiBarBottomLeftButton" .. i]:Hide()
+		_G["MultiBarBottomLeftButton" .. i]:UnregisterAllEvents()
+		
+		_G["MultiBarBottomRightButton" .. i]:Hide()
+		_G["MultiBarBottomRightButton" .. i]:UnregisterAllEvents()
+		
+		_G["MultiBarRightButton" .. i]:Hide()
+		_G["MultiBarRightButton" .. i]:UnregisterAllEvents()
+		
+		_G["MultiBarLeftButton" .. i]:Hide()
+		_G["MultiBarLeftButton" .. i]:UnregisterAllEvents()
+	end
+	--UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarRight'] = nil
+	--UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarLeft'] = nil
+	--UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarBottomLeft'] = nil
+	--UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarBottomRight'] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS['MainMenuBar'] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS['ShapeshiftBarFrame'] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS['PossessBarFrame'] = nil
@@ -86,7 +100,7 @@ function Bartender4:HideBlizzard()
 	MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITED_VEHICLE")
 	MainMenuBarArtFrame:Hide()
 	
-	MainMenuExpBar:UnregisterAllEvents()
+	--MainMenuExpBar:UnregisterAllEvents()
 	MainMenuExpBar:Hide()
 
 	ShapeshiftBarFrame:UnregisterAllEvents()
