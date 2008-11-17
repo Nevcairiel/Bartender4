@@ -29,6 +29,7 @@ local files = {
 	"PetButton.lua",
 	"RepXPBar.lua",
 	"StanceBar.lua",
+	"VehicleBar.lua",
 	--
 	"Options/ActionBar.lua",
 	"Options/ActionBarStates.lua",
@@ -40,6 +41,7 @@ local files = {
 	"Options/RepXPBar.lua",
 	"Options/StanceBar.lua",
 	"Options/Options.lua",
+	"Options/VehicleBar.lua",
 }
 
 --[[

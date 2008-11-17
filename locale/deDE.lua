@@ -33,6 +33,7 @@ if not L then return end
 -- L["Configure the Micro Menu"] = true
 -- L["Configure the Pet Bar"] = true
 -- L["Configure the Reputation Bar"] = true
+-- L["Configure the VehicleBar"] = true
 -- L["Configure the XP Bar"] = true
 -- L["Configure the alpha of the bar."] = true
 -- L["Configure the padding of the buttons."] = true
@@ -52,6 +53,7 @@ if not L then return end
 -- L["Enable the PetBar"] = true
 -- L["Enable the Reputation Bar"] = true
 -- L["Enable the StanceBar"] = true
+-- L["Enable the Vehicle Bar"] = true
 -- L["Enable the XP Bar"] = true
 -- L["Enable the use of a custom condition, disabling all of the above."] = true
 -- L["Enable/Disable the bar."] = true
@@ -129,6 +131,8 @@ if not L then return end
 -- L["Toggle the use of the modifier-based self-cast functionality."] = true
 -- L["Toggle the use of the right-click self-cast functionality."] = true
 -- L["Use Custom Condition"] = true
+-- L["Vehicle Bar"] = true
+-- L["VehicleBar"] = true
 -- L["Visibility"] = true
 -- L["XP Bar"] = true
 -- L["You can set the bar to be always hidden, if you only wish to access it using key-bindings."] = true

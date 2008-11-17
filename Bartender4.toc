@@ -52,6 +52,7 @@ PetBar.lua
 StanceBar.lua
 MicroMenu.lua
 RepXPBar.lua
+VehicleBar.lua
 
 ## Options ##
 Options\Options.xml
