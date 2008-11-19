@@ -90,6 +90,8 @@ function Bartender4.Button:Create(id, parent)
 				self:SetAttribute("showgrid", self:GetAttribute("showgrid") + 1)
 				self:SetAttribute("isSpecial", true)
 			end
+		elseif action > 120 and action <= 126 then
+			self:SetAttribute("type", "click")
 		else
 			self:SetAttribute("type", "action")
 			if self:GetAttribute("isSpecial") then
@@ -99,26 +101,29 @@ function Bartender4.Button:Create(id, parent)
 		end
 		self:SetAttribute("action", action)
 		
+		local unit = nil
 		-- fix unit on state change
-		if self:GetAttribute("assisttype-"..message) == 1 then
-			self:SetAttribute("unit", G_assist_help)
-		elseif self:GetAttribute("assisttype-"..message) == 2 then
-			self:SetAttribute("unit", G_assist_harm)
-		else
-			self:SetAttribute("unit", nil)
+		if action <= 120 then
+			if self:GetAttribute("assisttype-"..message) == 1 then
+				unit = G_assist_help
+			elseif self:GetAttribute("assisttype-"..message) == 2 then
+				unit = G_assist_harm
+			end
 		end
+		self:SetAttribute("unit", unit)
 		G_state = message
+		G_action = action
 	]])
 	
 	button:SetAttribute('_childupdate-assist-help', [[
-		if self:GetAttribute("assisttype-"..G_state) == 1 then
+		if self:GetAttribute("assisttype-"..G_state) == 1 and G_action <= 120 then
 			self:SetAttribute("unit", message)
 		end
 		G_assist_help = message
 	]])
 	
 	button:SetAttribute('_childupdate-assist-harm', [[
-		if self:GetAttribute("assisttype-"..G_state) == 2 then
+		if self:GetAttribute("assisttype-"..G_state) == 2 and G_action <= 120 then
 			self:SetAttribute("unit", message)
 		end
 		G_assist_harm = message
@@ -263,6 +268,10 @@ function Button:RefreshStateAction(state)
 	local state = tonumber(state or self:GetAttribute("state") or 0)
 	local action = self.stateactions[state]
 	self:SetAttribute("action-"..state, action)
+	
+	if action > 120 and action <= 126 then
+		self:SetAttribute("clickbutton", _G["VehicleMenuBarActionButton"..tostring(action-120)])
+	end
 	
 	self:SetAttribute("assisttype-"..state, nil)
 	self:SetAttribute("unit", nil)
