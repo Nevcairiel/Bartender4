@@ -95,5 +95,10 @@ function VehicleBar:UpdateButtonVisibility()
 		_G["VehicleMenuBarPitchUpButton"]:Hide()
 		_G["VehicleMenuBarPitchDownButton"]:Hide()
 	end
-	_G["VehicleMenuBarLeaveButton"]:Show()
+	
+	if CanExitVehicle() then
+		_G["VehicleMenuBarLeaveButton"]:Show()
+	else
+		_G["VehicleMenuBarLeaveButton"]:Hide()
+	end
 end
