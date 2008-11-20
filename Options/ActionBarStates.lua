@@ -52,17 +52,17 @@ end
 local hasStances
 
 local validStanceTable = { 
-	[0] = "Don't Page", 
-	("Page %2d"):format(1),
-	("Page %2d"):format(2), 
-	("Page %2d"):format(3), 
-	("Page %2d"):format(4), 
-	("Page %2d"):format(5), 
-	("Page %2d"):format(6), 
-	("Page %2d"):format(7), 
-	("Page %2d"):format(8),
-	("Page %2d"):format(9), 
-	("Page %2d"):format(10) 
+	[0] = L["Don't Page"], 
+	(L["Page %2d"]):format(1),
+	(L["Page %2d"]):format(2), 
+	(L["Page %2d"]):format(3), 
+	(L["Page %2d"]):format(4), 
+	(L["Page %2d"]):format(5), 
+	(L["Page %2d"]):format(6), 
+	(L["Page %2d"]):format(7), 
+	(L["Page %2d"]):format(8),
+	(L["Page %2d"]):format(9), 
+	(L["Page %2d"]):format(10) 
 }
 
 

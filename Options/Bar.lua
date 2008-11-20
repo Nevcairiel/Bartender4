@@ -150,7 +150,8 @@ function Bar:GetOptionObject()
 				fadeoutalpha = {
 					order = 6,
 					name = L["Fade Out Alpha"],
-					desc = L["Enable the FadeOut mode"],
+--					desc = L["Enable the FadeOut mode"],
+					desc = L["Configure the Fade Out Alpha"],
 					type = "range",
 					min = 0, max = 1, step = 0.05,
 					get = optGetter,
@@ -159,7 +160,8 @@ function Bar:GetOptionObject()
 				fadeoutdelay = {
 					order = 7,
 					name = L["Fade Out Delay"],
-					desc = L["Enable the FadeOut mode"],
+--					desc = L["Enable the FadeOut mode"],
+					desc = L["Configure the Fade Out Delay"],
 					type = "range",
 					min = 0, max = 1, step = 0.01,
 					get = optGetter,

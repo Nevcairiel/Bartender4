@@ -30,6 +30,8 @@ if not L then return end
 -- L["Configure how the Out of Range Indicator should display on the buttons."] = true
 -- L["Configure the Bag Bar"] = true
 -- L["Configure the Button Tooltip."] = true
+-- L["Configure the Fade Out Alpha"] = true
+-- L["Configure the Fade Out Delay"] = true
 -- L["Configure the Micro Menu"] = true
 -- L["Configure the Pet Bar"] = true
 -- L["Configure the Reputation Bar"] = true
@@ -44,6 +46,7 @@ if not L then return end
 -- L["Default Bar State"] = true
 -- L["Disabled"] = true
 -- L["Disabled in Combat"] = true
+-- L["Don't Page"] = true
 -- L["Enable Auto-Assist for this bar.\n Auto-Assist will automatically try to cast on your target's target if your target is no valid target for the selected spell."] = true
 -- L["Enable Bar Switching based on the actionbar controls provided by the game. \nSee Blizzard Key Bindings for assignments - Usually Shift-Mouse Wheel and Shift+1 - Shift+6."] = true
 -- L["Enable State-based Button Swaping"] = true
@@ -100,6 +103,7 @@ if not L then return end
 -- L["Out of Mana Indicator"] = true
 -- L["Out of Range Indicator"] = true
 -- L["Padding"] = true
+-- L["Page %2d"] = true
 -- L["Pet Bar"] = true
 -- L["Possess Bar"] = true
 -- L["Reputation Bar"] = true
