@@ -7,7 +7,7 @@
 ]]
 
 local specialButtons = {
-	[132] = { script = "/script VehicleExit();", icon = "Interface\\Icons\\Spell_Shadow_SacrificialShield", tooltip = LEAVE_VEHICLE}, -- Vehicle Leave Button
+	[132] = { icon = "Interface\\Icons\\Spell_Shadow_SacrificialShield", tooltip = LEAVE_VEHICLE}, -- Vehicle Leave Button
 }
 
 local Button = CreateFrame("CheckButton")
@@ -82,18 +82,18 @@ function Bartender4.Button:Create(id, parent)
 	button:SetAttribute('_childupdate-state', [[
 		self:SetAttribute("state", message)
 		local action = self:GetAttribute("action-" .. message)
-		local special = self:GetAttribute("special-" .. tostring(action))
-		if special then
-			self:SetAttribute("type", "macro")
-			self:SetAttribute("macrotext", special)
+		if action == 132 then
+			self:SetAttribute("type", "click")
 			if not self:GetAttribute("isSpecial") then
 				self:SetAttribute("showgrid", self:GetAttribute("showgrid") + 1)
 				self:SetAttribute("isSpecial", true)
 			end
-		elseif action > 120 and action <= 126 then
-			self:SetAttribute("type", "click")
 		else
-			self:SetAttribute("type", "action")
+			if action > 120 and action <= 126 then
+				self:SetAttribute("type", "click")
+			else
+				self:SetAttribute("type", "action")
+			end
 			if self:GetAttribute("isSpecial") then
 				self:SetAttribute("isSpecial", nil)
 				self:SetAttribute("showgrid", max(0, self:GetAttribute("showgrid") - 1))
@@ -128,10 +128,6 @@ function Bartender4.Button:Create(id, parent)
 		end
 		G_assist_harm = message
 	]])
-	
-	for k,v in pairs(specialButtons) do
-		button:SetAttribute("special-" .. tostring(k), v.script)
-	end
 	
 	if LBF and parent.LBFGroup then
 		local group = parent.LBFGroup
@@ -271,6 +267,8 @@ function Button:RefreshStateAction(state)
 	
 	if action > 120 and action <= 126 then
 		self:SetAttribute("clickbutton", _G["VehicleMenuBarActionButton"..tostring(action-120)])
+	elseif action == 132 then
+		self:SetAttribute("clickbutton", PossessButton2)
 	end
 	
 	self:SetAttribute("assisttype-"..state, nil)
