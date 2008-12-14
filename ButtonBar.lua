@@ -120,6 +120,7 @@ function ButtonBar:GetHideHotkey()
 end
 
 local math_floor = math.floor
+local math_ceil = math.floor
 -- align the buttons and correct the size of the bar overlay frame
 ButtonBar.button_width = 36
 ButtonBar.button_height = 36
@@ -134,8 +135,8 @@ function ButtonBar:UpdateButtonLayout()
 	if numbuttons == 0 then return end
 	
 	local Rows = self:GetRows()
-	local ButtonPerRow = math_floor(numbuttons / Rows + 0.5) -- just a precaution
-	Rows = math_floor(numbuttons / ButtonPerRow + 0.5)
+	local ButtonPerRow = math_ceil(numbuttons / Rows) -- just a precaution
+	Rows = math_ceil(numbuttons / ButtonPerRow)
 	if Rows > numbuttons then
 		Rows = numbuttons
 		ButtonPerRow = 1
