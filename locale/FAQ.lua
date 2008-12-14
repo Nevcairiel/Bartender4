@@ -1,5 +1,4 @@
---[[ $Id$ ]]
-local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4_FAQ", "enUS", true)
+﻿local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4_FAQ", "enUS", true)
 if not L then return end
 
 L["FAQ_TEXT"] = [[
@@ -67,20 +66,20 @@ local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4_FAQ", "zhCN")
 if L then
 	L["FAQ_TEXT"] = [[
 |cffffd200
-我刚刚安装了Bartender4，发现我的按键绑定似乎不太正确。
+我刚刚安装了Bartender4,发现我的按键绑定似乎不太正确.
 |r
-Bartender4仅仅将主动作条1与Bartender4的动作条1关联起来，游戏其他动作条的设置不会转移到Bartender4上，不过您之前设置的快捷键仍然是有效的，它们仅仅是被隐藏了起来而已。
+Bartender4仅仅将主动作条1与Bartender4的动作条1关联起来,游戏其他动作条的设置不会转移到Bartender4上,不过您之前设置的快捷键仍然是有效的,它们仅仅是被隐藏了起来而已.
 
 |cffffd200
 我如何才能为Bartender4的按钮设置快捷键?
 |r
-在聊天窗口输入命令 /kb ，会弹出一个窗口，此时移动鼠标到您需要设置快捷键的按钮上，按下您需要设置的快捷键，屏幕上会显示出您将要绑定的按键，确认无误后关闭弹出的窗口即可。
+在聊天窗口输入命令 /kb ,会弹出一个窗口,此时移动鼠标到您需要设置快捷键的按钮上,按下您需要设置的快捷键,屏幕上会显示出您将要绑定的按键,确认无误后关闭弹出的窗口即可.
 
 |cffffd200
 谁写的这个插件?
 |r
 Bartender4是欧洲服务器Antonidas的玩家 Nevcairiel 的作品, 该玩家同时也是Bartender3的作者!
-简体中文版本是由7区加里索斯服务器联盟玩家 提珞德夜行 提供的。
+简体中文版本是由7区加里索斯服务器联盟玩家 提珞德夜行 提供的.
 ]]
 end
 
@@ -144,5 +143,31 @@ Bartender4 преобразовывает только сочетания кла
 Кто написал этот клёвый аддон?
 |r
 Bartender4 написал Nevcairiel с EU-Antonidas, автор Bartender3!
+]]
+end
+
+-- zhTW
+local L = LibStub("AceLocale-3.0"):NewLocale("Bartender4_FAQ", "zhTW")
+if L then
+	L["FAQ_TEXT"] = [[
+|cffffd200
+我剛剛安裝了Bartender4,發現我的按鍵綁定似乎不太正確.
+|r
+Bartender4只是把動作條1與Bartender4的動作條1關聯起來,遊戲其他動作條的設置不會轉移到Bartender4上,不過您之前設置的快捷鍵仍然是有效的,它們只是被隱藏了起來而已.
+
+|cffffd200
+我如何才能為Bartender4的按鈕設置快捷鍵?
+|r
+在聊天窗口輸入命令 /kb ,會彈出一個窗口,此時移動鼠標到您需要設置快捷鍵的按鈕上,按下您需要設置的快捷鍵,屏幕上會顯示出您將要綁定的按鍵,確認無誤後關閉彈出的窗口即可.
+
+|cffffd200
+誰人製作這超酷的插件?
+|r
+Bartender4是歐服Antonidas的玩家 Nevcairiel 的作品, 也是Bartender3的原作者!
+
+|cffffd200
+誰人那麼無聊做這些艱難的中文翻譯?
+|r
+|cffffff78天明|r 眾星之子
 ]]
 end
