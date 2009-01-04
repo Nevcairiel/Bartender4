@@ -340,6 +340,8 @@ function Bar:InitVisibilityDriver(returnOnly)
 					table_insert(self.hidedriver, "hide")
 				elseif key == "possess" then
 					table_insert(self.hidedriver, "[bonusbar:5]hide")
+				elseif key == "vehicle" then
+					table_insert(self.hidedriver, "[target=vehicle, exists]hide")
 				elseif directVisCond[key] then
 					table_insert(self.hidedriver, ("[%s]hide"):format(key))
 				elseif key == "stance" then

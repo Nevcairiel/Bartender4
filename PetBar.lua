@@ -15,6 +15,7 @@ local defaults = { profile = Bartender4:Merge({
 	hidehotkey = true,
 	visibility = {
 		nopet = true,
+		vehicle = true,
 	},
 }, Bartender4.ButtonBar.defaults) }
 

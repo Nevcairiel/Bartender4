@@ -185,7 +185,13 @@ function Bar:GetOptionObject()
 					type = "toggle",
 					name = L["Hide when Possessing"],
 					desc = L["Hide this bar when you are possessing a NPC."],
-					width = "full",
+					disabled = customEnabled,
+				},
+				vehicle = {
+					order = 16,
+					type = "toggle",
+					name = L["Hide on Vehicle"],
+					desc = L["Hide this bar when you are riding on a vehicle."],
 					disabled = customEnabled,
 				},
 				combat = {
