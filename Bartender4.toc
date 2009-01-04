@@ -7,7 +7,7 @@
 ## SavedVariables: Bartender4DB
 ## OptionalDeps: Ace3, ButtonFacade, LibKeyBound-1.0, LibDBIcon-1.0
 ## X-Category: Action Bars
-## Version: 4.2.1
+## Version: 4.2.2
 
 #@no-lib-strip@
 libs\LibStub\LibStub.lua
