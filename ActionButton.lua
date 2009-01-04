@@ -21,6 +21,7 @@ local format = string.format
 local IsUsableAction = IsUsableAction
 local IsActionInRange = IsActionInRange
 
+local Bartender4 = Bartender4
 local LBF = LibStub("LibButtonFacade", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
 
@@ -172,8 +173,6 @@ function onEnter(self)
 	KeyBound:Set(self)
 end
 
-local oor, oorcolor, oomcolor
-
 function onUpdate(self, elapsed)
 	if self.flashing == 1 then
 		self.flashtime = self.flashtime - elapsed
@@ -214,11 +213,13 @@ end
 local function updateIcon(self)
 	if self.BT4init and self.action then
 		if specialButtons[self.action] then
-			self.normalTexture:SetTexCoord(0, 0, 0, 0)
+			if not LBF then
+				self.normalTexture:SetTexCoord(0, 0, 0, 0)
+			end
 			self.icon:SetTexture(specialButtons[self.action].icon)
 			self.icon:Show()
 			self:UpdateUsable()
-		else
+		elseif not LBF then
 			if GetActionTexture(self.action) then
 				self.normalTexture:SetTexCoord(0, 0, 0, 0)
 			else
@@ -407,13 +408,11 @@ hooksecurefunc("ActionButton_UpdateUsable", function(self)
 	end
 end)
 
-function Button:UpdateUsable(force)
+function Button:UpdateUsable()
 	local isUsable, notEnoughMana = IsUsableAction(self.action)
 	local icon, hotkey = self.icon, self.hotkey
-	if force or not oor then
-		oor = Bartender4.db.profile.outofrange
-		oorcolor, oomcolor = Bartender4.db.profile.colors.range, Bartender4.db.profile.colors.mana
-	end
+	local oor = Bartender4.db.profile.outofrange
+	local oorcolor, oomcolor = Bartender4.db.profile.colors.range, Bartender4.db.profile.colors.mana
 	
 	if oor == "button" and self.outOfRange then
 		icon:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
