@@ -120,7 +120,7 @@ function ButtonBar:GetHideHotkey()
 end
 
 local math_floor = math.floor
-local math_ceil = math.floor
+local math_ceil = math.ceil
 -- align the buttons and correct the size of the bar overlay frame
 ButtonBar.button_width = 36
 ButtonBar.button_height = 36
