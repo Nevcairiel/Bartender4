@@ -197,7 +197,7 @@ function onUpdate(self, elapsed)
 		if self.rangeTimer <= 0 then
 			local valid = IsActionInRange(self.action)
 			local hotkey = self.hotkey
-			local hkshown = (hotkey:GetText() == RANGE_INDICATOR and oor == "hotkey")
+			local hkshown = (hotkey:GetText() == RANGE_INDICATOR and Bartender4.db.profile.outofrange == "hotkey")
 			if valid and hkshown then
 				hotkey:Show()
 			elseif hkshown then
