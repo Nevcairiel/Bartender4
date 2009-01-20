@@ -11,7 +11,6 @@ local PetBar = setmetatable({}, {__index = ButtonBar})
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
-	scale = 1.0,
 	hidehotkey = true,
 	visibility = {
 		nopet = true,

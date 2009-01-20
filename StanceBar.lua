@@ -17,7 +17,9 @@ local KeyBound = LibStub("LibKeyBound-1.0")
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
-	scale = 1.5,
+	position = {
+		scale = 1.5,
+	},
 	hidehotkey = true,
 }, Bartender4.ButtonBar.defaults) }
 

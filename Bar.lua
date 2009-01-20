@@ -11,7 +11,6 @@ local table_concat, table_insert = table.concat, table.insert
 ===================================================================================]]--
 
 local defaults = {
-	scale = 1,
 	alpha = 1,
 	fadeout = false,
 	fadeoutalpha = 0.1,
@@ -20,10 +19,14 @@ local defaults = {
 		possess = true,
 		stance = {},
 	},
+	position = {
+		scale = 1,
+	},
 	clickthrough = false,
 }
 
 local Sticky = LibStub("LibSimpleSticky-1.0")
+local LibWin = LibStub("LibWindow-1.1")
 local snapBars = { WorldFrame, UIParent }
 
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUpdateFunc, barOnAttributeChanged
@@ -170,7 +173,11 @@ function Bar:ApplyConfig(config)
 	if config then
 		self.config = config
 	end
+	LibWin.RegisterConfig(self, self.config.position)
+
+	self:UpgradeConfig()
 	if self.disabled then return end
+
 	if Bartender4.Locked then
 		self:Lock()
 	else
@@ -181,6 +188,29 @@ function Bar:ApplyConfig(config)
 	self:SetConfigAlpha()
 	self:SetClickThrough()
 	self:InitVisibilityDriver()
+end
+
+function Bar:UpgradeConfig()
+	local version = self.config.version or 1
+	if version < 2 then
+		-- LibWindow migration, move scale into position
+		if self.config.scale then
+			self.config.position.scale = self.config.scale
+			self.config.scale = nil
+		end
+		-- LibWindow migration, update position data
+		do
+			local pos = self.config.position
+			self:SetScale(pos.scale)
+			local x, y, s = pos.x, pos.y, self:GetEffectiveScale()
+			local point, relPoint = pos.point, pos.relPoint
+			x, y = x/s, y/s
+			self:ClearSetPoint(point, UIParent, relPoint, x, y)
+			LibWin.SavePosition(self)
+			pos.relPoint = nil
+		end
+	end
+	self.config.version = Bartender4.CONFIG_VERSION
 end
 
 function Bar:Unlock()
@@ -206,22 +236,11 @@ function Bar:StopDragging()
 end
 
 function Bar:LoadPosition()
-	if not self.config.position then return end
-	local pos = self.config.position
-	local x, y, s = pos.x, pos.y, self:GetEffectiveScale()
-	local point, relPoint = pos.point, pos.relPoint
-	x, y = x/s, y/s
-	self:ClearSetPoint(point, UIParent, relPoint, x, y)
+	LibWin.RestorePosition(self)
 end
 
 function Bar:SavePosition()
-	if not self.config.position then self.config.position = {} end
-	local pos = self.config.position
-	local point, parent, relPoint, x, y = self:GetPoint()
-	local s = self:GetEffectiveScale()
-	x, y = x*s, y*s
-	pos.x, pos.y = x, y
-	pos.point, pos.relPoint = point, relPoint
+	LibWin.SavePosition(self)
 end
 
 function Bar:SetSize(width, height)
@@ -243,15 +262,13 @@ function Bar:SetConfigAlpha(alpha)
 end
 
 function Bar:GetConfigScale()
-	return self.config.scale
+	return self.config.position.scale
 end
 
 function Bar:SetConfigScale(scale)
 	if scale then
-		self.config.scale = scale
+		LibWin.SetScale(self, scale)
 	end
-	self:SetScale(self.config.scale)
-	self:LoadPosition()
 end
 
 function Bar:GetClickThrough()
