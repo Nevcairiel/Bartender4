@@ -20,6 +20,7 @@ local defaults = {
 		possess = true,
 		stance = {},
 	},
+	clickthrough = false,
 }
 
 local Sticky = LibStub("LibSimpleSticky-1.0")
