@@ -119,6 +119,14 @@ function ButtonBar:GetHideHotkey()
 	return self.config.hidehotkey
 end
 
+ButtonBar.ClickThroughSupport = true
+function ButtonBar:SetClickThrough(click)
+	if click ~= nil then
+		self.config.clickthrough = click
+	end
+	self:ForAll("EnableMouse", not self.config.clickthrough)
+end
+
 local math_floor = math.floor
 local math_ceil = math.ceil
 -- align the buttons and correct the size of the bar overlay frame
