@@ -23,6 +23,7 @@ if not L then return end
 -- L["Button Tooltip"] = true
 -- L["Buttons"] = true
 -- L["CTRL"] = true
+-- L["Click-Through"] = true
 -- L["Colors"] = true
 -- L["Configure  the Stance Bar"] = true
 -- L["Configure Bar %s"] = true
@@ -44,6 +45,7 @@ if not L then return end
 -- L["Create a copy of the auto-generated conditionals in the custom configuration as a base template."] = true
 -- L["Custom Conditionals"] = true
 -- L["Default Bar State"] = true
+-- L["Disable any reaction to mouse events on this bar, making the bar click-through."] = true
 -- L["Disabled"] = true
 -- L["Disabled in Combat"] = true
 -- L["Don't Page"] = true

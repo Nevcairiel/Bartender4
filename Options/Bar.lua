@@ -8,7 +8,7 @@ local Bar = Bartender4.Bar.prototype
 local barregistry = Bartender4.Bar.barregistry
 
 -- option utilty functions
-local optGetter, optSetter, visibilityGetter, visibilitySetter, customEnabled, customDisabled, customCopy
+local optGetter, optSetter, visibilityGetter, visibilitySetter, customEnabled, customDisabled, customCopy, clickThroughVis
 do
 	local getBar, optionMap, callFunc
 	-- maps option keys to function names
@@ -18,6 +18,7 @@ do
 		fadeout = "FadeOut",
 		fadeoutalpha = "FadeOutAlpha",
 		fadeoutdelay = "FadeOutDelay",
+		clickthrough = "ClickThrough",
 	}
 	
 	-- retrieves a valid bar object from the barregistry table
@@ -74,6 +75,11 @@ do
 		local bar = getBar(info[2])
 		bar:CopyCustomConditionals()
 	end
+	
+	function clickThroughVis(info)
+		local bar = getBar(info[2])
+		return (not bar.ClickThroughSupport)
+	end
 end
 
 local _, class = UnitClass("player")
@@ -123,6 +129,16 @@ function Bar:GetOptionObject()
 					min = .1, max = 2, step = 0.05,
 					get = optGetter,
 					set = optSetter,
+				},
+				clickthrough = {
+					order = 200,
+					name = L["Click-Through"],
+					desc = L["Disable any reaction to mouse events on this bar, making the bar click-through."],
+					type = "toggle",
+					get = optGetter,
+					set = optSetter,
+					hidden = clickThroughVis,
+					width = "full",
 				},
 			},
 		},

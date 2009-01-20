@@ -58,6 +58,12 @@ function RepBar:PerformLayout()
 	bar:SetPoint("TOPLEFT", self, "TOPLEFT", 5, -3)
 end
 
+RepBar.ClickThroughSupport = true
+function RepBar:ControlClickThrough()
+	self.content:EnableMouse(not self.config.clickthrough)
+end
+
+
 -- register module
 local XPBarMod = Bartender4:NewModule("XPBar")
 
@@ -72,7 +78,7 @@ end
 function XPBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("XP", self.db.profile, L["XP Bar"]), {__index = XPBar})
-		self.bar.content= MainMenuExpBar
+		self.bar.content = MainMenuExpBar
 		
 		self.bar.content:SetParent(self.bar)
 		self.bar.content:Show()
@@ -86,3 +92,6 @@ end
 XPBarMod.ApplyConfig = RepBarMod.ApplyConfig
 XPBar.ApplyConfig = RepBar.ApplyConfig
 XPBar.PerformLayout = RepBar.PerformLayout
+
+XPBar.ClickThroughSupport = true
+XPBar.ControlClickThrough = RepBar.ControlClickThrough

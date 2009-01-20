@@ -178,6 +178,7 @@ function Bar:ApplyConfig(config)
 	self:LoadPosition()
 	self:SetConfigScale()
 	self:SetConfigAlpha()
+	self:SetClickThrough()
 	self:InitVisibilityDriver()
 end
 
@@ -250,6 +251,19 @@ function Bar:SetConfigScale(scale)
 	end
 	self:SetScale(self.config.scale)
 	self:LoadPosition()
+end
+
+function Bar:GetClickThrough()
+	return self.config.clickthrough
+end
+
+function Bar:SetClickThrough(click)
+	if click ~= nil then
+		self.config.clickthrough = click
+	end
+	if self.ControlClickThrough then
+		self:ControlClickThrough()
+	end
 end
 
 function Bar:GetFadeOut()
