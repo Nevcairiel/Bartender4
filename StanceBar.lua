@@ -249,6 +249,9 @@ function StanceBar:UpdateStanceButtons()
 		StanceBarMod:ReassignBindings()
 	end
 	self.disabled = (GetNumShapeshiftForms() == 0) and true or nil
+	
+	-- need to re-set clickthrough after creating new buttons
+	self:SetClickThrough()
 end
 
 function StanceBar:OnEvent(event, ...)

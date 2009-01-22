@@ -65,6 +65,9 @@ function ActionBar:UpdateButtons(numbuttons)
 	if updateBindings and self.id == "1" then
 		self.module:ReassignBindings()
 	end
+	
+	-- need to re-set clickthrough after creating new buttons
+	self:SetClickThrough()
 end
 
 function ActionBar:SkinChanged(...)
