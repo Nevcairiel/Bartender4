@@ -9,5 +9,4 @@
 	<Script file="zhCN.lua"/>
 	<Script file="koKR.lua"/>
 	<Script file="ruRU.lua"/>
-	<Script file="FAQ.lua"/>
 </Ui>
