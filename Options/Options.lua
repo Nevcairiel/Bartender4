@@ -66,124 +66,132 @@ local function getOptions()
 					type = "group",
 					name = L["Bars"],
 					args = {
-						selfcastmodifier = {
-							order = 1,
-							type = "toggle",
-							name = L["Self-Cast by modifier"],
-							desc = L["Toggle the use of the modifier-based self-cast functionality."],
-							get = getFunc,
-							set = function(info, value)
-								Bartender4.db.profile.selfcastmodifier = value
-								Bartender4.Bar:ForAll("UpdateSelfCast")
-							end,
-						},
-						setselfcastmod = {
-							order = 2,
-							type = "select",
-							name = L["Self-Cast Modifier"],
-							desc = L["Select the Self-Cast Modifier"],
-							get = function(info) return GetModifiedClick("SELFCAST") end,
-							set = function(info, value) SetModifiedClick("SELFCAST", value); SaveBindings(GetCurrentBindingSet() or 1) end,
-							values = { NONE = L["None"], ALT = L["ALT"], SHIFT = L["SHIFT"], CTRL = L["CTRL"] },
-						},
-						selfcast_nl = {
-							order = 3,
-							type = "description",
-							name = "",
-						},
-						focuscastmodifier = {
-							order = 5,
-							type = "toggle",
-							name = L["Focus-Cast by modifier"],
-							desc = L["Toggle the use of the modifier-based focus-cast functionality."],
-							get = getFunc,
-							set = function(info, value)
-								Bartender4.db.profile.focuscastmodifier = value
-								Bartender4.Bar:ForAll("UpdateSelfCast")
-							end,
-						},
-						setfocuscastmod = {
-							order = 6,
-							type = "select",
-							name = L["Focus-Cast Modifier"],
-							desc = L["Select the Focus-Cast Modifier"],
-							get = function(info) return GetModifiedClick("FOCUSCAST") end,
-							set = function(info, value) SetModifiedClick("FOCUSCAST", value); SaveBindings(GetCurrentBindingSet() or 1) end,
-							values = { NONE = L["None"], ALT = L["ALT"], SHIFT = L["SHIFT"], CTRL = L["CTRL"] },
-						},
-						focuscast_nl = {
-							order = 7,
-							type = "description",
-							name = "",
-						},
-						selfcastrightclick = {
-							order = 8,
-							type = "toggle",
-							name = L["Right-click Self-Cast"],
-							desc = L["Toggle the use of the right-click self-cast functionality."],
-							get = getFunc,
-							set = function(info, value)
-								Bartender4.db.profile.selfcastrightclick = value
-								Bartender4.Bar:ForAll("ForAll", "UpdateRightClickSelfCast")
-							end,
-						},
-						rightclickselfcast_nl = {
-							order = 9,
-							type = "description",
-							name = "",
-						},
-						range = {
-							order = 10,
-							name = L["Out of Range Indicator"],
-							desc = L["Configure how the Out of Range Indicator should display on the buttons."],
-							type = "select",
-							style = "dropdown",
-							get = function()
-								return Bartender4.db.profile.outofrange
-							end,
-							set = function(info, value) 
-								Bartender4.db.profile.outofrange = value
-								Bartender4.Bar:ForAll("ApplyConfig")
-							end,
-							values = { none = L["No Display"], button = L["Full Button Mode"], hotkey = L["Hotkey Mode"] },
-						},
-						colors = {
-							order = 13,
+						options = {
 							type = "group",
+							order = 0,
+							name = function(info) if info.uiType == "dialog" then return "" else return L["Bar Options"] end end,
 							guiInline = true,
-							name = L["Colors"],
-							get = function(info)
-								local color = Bartender4.db.profile.colors[info[#info]]
-								return color.r, color.g, color.b
-							end,
-							set = function(info, r, g, b)
-								local color = Bartender4.db.profile.colors[info[#info]]
-								color.r, color.g, color.b = r, g, b
-								Bartender4.Bar:ForAll("ApplyConfig")
-							end,
 							args = {
-								range = {
+								selfcastmodifier = {
 									order = 1,
-									type = "color",
-									name = L["Out of Range Indicator"],
-									desc = L["Specify the Color of the Out of Range Indicator"],
+									type = "toggle",
+									name = L["Self-Cast by modifier"],
+									desc = L["Toggle the use of the modifier-based self-cast functionality."],
+									get = getFunc,
+									set = function(info, value)
+										Bartender4.db.profile.selfcastmodifier = value
+										Bartender4.Bar:ForAll("UpdateSelfCast")
+									end,
 								},
-								mana = {
+								setselfcastmod = {
 									order = 2,
-									type = "color",
-									name = L["Out of Mana Indicator"],
-									desc = L["Specify the Color of the Out of Mana Indicator"],
+									type = "select",
+									name = L["Self-Cast Modifier"],
+									desc = L["Select the Self-Cast Modifier"],
+									get = function(info) return GetModifiedClick("SELFCAST") end,
+									set = function(info, value) SetModifiedClick("SELFCAST", value); SaveBindings(GetCurrentBindingSet() or 1) end,
+									values = { NONE = L["None"], ALT = L["ALT"], SHIFT = L["SHIFT"], CTRL = L["CTRL"] },
+								},
+								selfcast_nl = {
+									order = 3,
+									type = "description",
+									name = "",
+								},
+								focuscastmodifier = {
+									order = 5,
+									type = "toggle",
+									name = L["Focus-Cast by modifier"],
+									desc = L["Toggle the use of the modifier-based focus-cast functionality."],
+									get = getFunc,
+									set = function(info, value)
+										Bartender4.db.profile.focuscastmodifier = value
+										Bartender4.Bar:ForAll("UpdateSelfCast")
+									end,
+								},
+								setfocuscastmod = {
+									order = 6,
+									type = "select",
+									name = L["Focus-Cast Modifier"],
+									desc = L["Select the Focus-Cast Modifier"],
+									get = function(info) return GetModifiedClick("FOCUSCAST") end,
+									set = function(info, value) SetModifiedClick("FOCUSCAST", value); SaveBindings(GetCurrentBindingSet() or 1) end,
+									values = { NONE = L["None"], ALT = L["ALT"], SHIFT = L["SHIFT"], CTRL = L["CTRL"] },
+								},
+								focuscast_nl = {
+									order = 7,
+									type = "description",
+									name = "",
+								},
+								selfcastrightclick = {
+									order = 8,
+									type = "toggle",
+									name = L["Right-click Self-Cast"],
+									desc = L["Toggle the use of the right-click self-cast functionality."],
+									get = getFunc,
+									set = function(info, value)
+										Bartender4.db.profile.selfcastrightclick = value
+										Bartender4.Bar:ForAll("ForAll", "UpdateRightClickSelfCast")
+									end,
+								},
+								rightclickselfcast_nl = {
+									order = 9,
+									type = "description",
+									name = "",
+								},
+								range = {
+									order = 10,
+									name = L["Out of Range Indicator"],
+									desc = L["Configure how the Out of Range Indicator should display on the buttons."],
+									type = "select",
+									style = "dropdown",
+									get = function()
+										return Bartender4.db.profile.outofrange
+									end,
+									set = function(info, value) 
+										Bartender4.db.profile.outofrange = value
+										Bartender4.Bar:ForAll("ApplyConfig")
+									end,
+									values = { none = L["No Display"], button = L["Full Button Mode"], hotkey = L["Hotkey Mode"] },
+								},
+								colors = {
+									order = 13,
+									type = "group",
+									guiInline = true,
+									name = L["Colors"],
+									get = function(info)
+										local color = Bartender4.db.profile.colors[info[#info]]
+										return color.r, color.g, color.b
+									end,
+									set = function(info, r, g, b)
+										local color = Bartender4.db.profile.colors[info[#info]]
+										color.r, color.g, color.b = r, g, b
+										Bartender4.Bar:ForAll("ApplyConfig")
+									end,
+									args = {
+										range = {
+											order = 1,
+											type = "color",
+											name = L["Out of Range Indicator"],
+											desc = L["Specify the Color of the Out of Range Indicator"],
+										},
+										mana = {
+											order = 2,
+											type = "color",
+											name = L["Out of Mana Indicator"],
+											desc = L["Specify the Color of the Out of Mana Indicator"],
+										},
+									},
+								},
+								tooltip = {
+									order = 20,
+									name = L["Button Tooltip"],
+									type = "select",
+									desc = L["Configure the Button Tooltip."],
+									values = { ["disabled"] = L["Disabled"], ["nocombat"] = L["Disabled in Combat"], ["enabled"] = L["Enabled"] },
+									get = function() return Bartender4.db.profile.tooltip end,
+									set = function(info, value) Bartender4.db.profile.tooltip = value end,
 								},
 							},
-						},
-						tooltip = {
-							order = 20,
-							name = L["Button Tooltip"],
-							type = "select",
-							desc = L["Configure the Button Tooltip."],
-							values = { ["disabled"] = L["Disabled"], ["nocombat"] = L["Disabled in Combat"], ["enabled"] = L["Enabled"] },
-							get = function() return Bartender4.db.profile.tooltip end,
-							set = function(info, value) Bartender4.db.profile.tooltip = value end,
 						},
 					},
 				},
@@ -211,8 +219,20 @@ local function getOptions()
 	return Bartender4.options
 end
 
+function Bartender4:ChatCommand(input)
+	if InCombatLockdown() then 
+		self:Print(L["Cannot access options during combat."])
+		return
+	end
+	if not input or input:trim() == "" then
+		LibStub("AceConfigDialog-3.0"):Open("Bartender4") 
+	else
+		LibStub("AceConfigCmd-3.0").HandleCommand(Bartender4, "bt", "Bartender4", input)
+	end
+end
+
 function Bartender4:SetupOptions()
-	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", getOptions, "bttest")
+	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", getOptions)
 	AceConfigDialog:SetDefaultSize("Bartender4", 680,525)
 	local optFunc = function() 
 		if InCombatLockdown() then return end
@@ -224,11 +244,11 @@ function Bartender4:SetupOptions()
 		status.groups.groups["actionbars"] = true 
 	]]
 	end
-	LibStub("AceConsole-3.0"):RegisterChatCommand( "bar", optFunc)
-	LibStub("AceConsole-3.0"):RegisterChatCommand( "bt", optFunc)
-	LibStub("AceConsole-3.0"):RegisterChatCommand( "bt4", optFunc)
-	LibStub("AceConsole-3.0"):RegisterChatCommand( "bartender", optFunc)
-	LibStub("AceConsole-3.0"):RegisterChatCommand( "bartender4", optFunc)
+	self:RegisterChatCommand( "bar", "ChatCommand")
+	self:RegisterChatCommand( "bt", "ChatCommand")
+	self:RegisterChatCommand( "bt4", "ChatCommand")
+	self:RegisterChatCommand( "bartender", "ChatCommand")
+	self:RegisterChatCommand( "bartender4", "ChatCommand")
 end
 
 function Bartender4:RegisterModuleOptions(key, table)

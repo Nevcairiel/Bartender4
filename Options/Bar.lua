@@ -288,7 +288,6 @@ function Bar:GetOptionObject()
 		},
 		align = {
 			type = "group",
-			cmdInline = true,
 			name = L["Alignment"],
 			order = 20,
 			args = {

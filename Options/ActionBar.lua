@@ -91,7 +91,6 @@ function module:GetOptionsObject()
 		local states = {
 			type = "group",
 			name = L["State Configuration"],
-			cmdInline = true,
 			order = 5,
 			args = self:GetStateOptionsTable(),
 		}
