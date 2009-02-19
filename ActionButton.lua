@@ -262,7 +262,7 @@ function Button:RefreshAllStateActions()
 end
 
 function Button:RefreshStateAction(state)
-	local state = tonumber(state or self:GetAttribute("state") or 0)
+	local state = tonumber(state or self:GetAttribute("state")) or 0
 	local action = self.stateactions[state]
 	self:SetAttribute("action-"..state, action)
 	
