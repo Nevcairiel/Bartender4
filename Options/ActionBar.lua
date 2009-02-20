@@ -18,28 +18,28 @@ do
 		enabled = "Enabled",
 		grid = "Grid",
 	}
-	
+
 	-- retrieves a valid bar object from the modules actionbars table
 	function getBar(id)
 		local bar = module.actionbars[tonumber(id)]
 		assert(bar, ("Invalid bar id in options table. (%s)"):format(id))
 		return bar
 	end
-	
+
 	-- calls a function on the bar
 	function callFunc(bar, type, option, ...)
 		local func = type .. (optionMap[option] or option)
 		assert(bar[func], ("Invalid get/set function %s in bar %s."):format(func, bar.id))
 		return bar[func](bar, ...)
 	end
-	
+
 	-- universal function to get a option
 	function optGetter(info)
 		local bar = getBar(info[2])
 		local option = info[#info]
 		return callFunc(bar, "Get", option)
 	end
-	
+
 	-- universal function to set a option
 	function optSetter(info, ...)
 		local bar = getBar(info[2])
@@ -58,7 +58,7 @@ end
 function module:GetOptionsObject()
 	if not self.baroptions then
 		local obj = ButtonBar.GetOptionObject(self)
-		
+
 		local cat_general = {
 			enabled ={
 				order = 4,
@@ -87,7 +87,7 @@ function module:GetOptionsObject()
 			},
 		}
 		obj:AddElementGroup("general", cat_general)
-		
+
 		local states = {
 			type = "group",
 			name = L["State Configuration"],
@@ -95,20 +95,20 @@ function module:GetOptionsObject()
 			args = self:GetStateOptionsTable(),
 		}
 		obj:NewCategory("state", states)
-		
+
 		self.baroptions = obj
 	end
-	
+
 	return self.baroptions
 end
 
 function module:CreateBarOption(id, options)
 	if not self.options then return end
-	
-	if not options then 
-		options = self:GetOptionsTable() 
+
+	if not options then
+		options = self:GetOptionsTable()
 	end
-	
+
 	id = tostring(id)
 	if not self.options[id] then
 		self.options[id] = {
@@ -120,7 +120,7 @@ function module:CreateBarOption(id, options)
 		}
 	end
 	self.options[id].args = options
-	
+
 	-- register options in the BT GUI
 	Bartender4:RegisterBarOptions(id, self.options[id])
 end

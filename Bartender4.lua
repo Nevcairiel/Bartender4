@@ -25,18 +25,18 @@ function Bartender4:OnInitialize()
 	self.db.RegisterCallback(self, "OnProfileChanged", "UpdateModuleConfigs")
 	self.db.RegisterCallback(self, "OnProfileCopied", "UpdateModuleConfigs")
 	self.db.RegisterCallback(self, "OnProfileReset", "UpdateModuleConfigs")
-	
+
 	self:SetupOptions()
-	
+
 	self.Locked = true
 	self:RegisterEvent("PLAYER_REGEN_DISABLED", "CombatLockdown")
-	
+
 	self:HideBlizzard()
-	
+
 	if LDB then
 		createLDBLauncher()
 	end
-	
+
 	BINDING_HEADER_Bartender4 = "Bartender4"
 	BINDING_CATEGORY_Bartender4 = "Action Bars"
 	for i=1,10 do
@@ -61,21 +61,21 @@ end
 function Bartender4:HideBlizzard()
 	--MultiActionBar_Update = function() end
 	MultiActionBar_UpdateGrid = function() end
-	
+
 	-- Hide MultiBar Buttons, but keep the bars alive
 	for i=1,12 do
 		_G["ActionButton" .. i]:Hide()
 		_G["ActionButton" .. i]:UnregisterAllEvents()
-		
+
 		_G["MultiBarBottomLeftButton" .. i]:Hide()
 		_G["MultiBarBottomLeftButton" .. i]:UnregisterAllEvents()
-		
+
 		_G["MultiBarBottomRightButton" .. i]:Hide()
 		_G["MultiBarBottomRightButton" .. i]:UnregisterAllEvents()
-		
+
 		_G["MultiBarRightButton" .. i]:Hide()
 		_G["MultiBarRightButton" .. i]:UnregisterAllEvents()
-		
+
 		_G["MultiBarLeftButton" .. i]:Hide()
 		_G["MultiBarLeftButton" .. i]:UnregisterAllEvents()
 	end
@@ -90,7 +90,7 @@ function Bartender4:HideBlizzard()
 
 	MainMenuBar:UnregisterAllEvents()
 	MainMenuBar:Hide()
-	
+
 	MainMenuBarArtFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	--MainMenuBarArtFrame:UnregisterEvent("BAG_UPDATE")
 	MainMenuBarArtFrame:UnregisterEvent("ACTIONBAR_PAGE_CHANGED")
@@ -102,7 +102,7 @@ function Bartender4:HideBlizzard()
 	MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITING_VEHICLE")
 	MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITED_VEHICLE")
 	MainMenuBarArtFrame:Hide()
-	
+
 	--MainMenuExpBar:UnregisterAllEvents()
 	--MainMenuExpBar:Hide()
 
@@ -123,7 +123,7 @@ end
 
 function Bartender4:RegisterDefaultsKey(key, subdefaults)
 	defaults.profile[key] = subdefaults
-	
+
 	self.db:RegisterDefaults(defaults)
 end
 
@@ -133,7 +133,7 @@ function Bartender4:UpdateModuleConfigs()
 		self:Lock()
 		unlock = true
 	end
-	
+
 	for k,v in AceAddon:IterateModulesOfAddon(self) do
 		v:ToggleModule()
 		if v:IsEnabled() and type(v.ApplyConfig) == "function" then
@@ -143,7 +143,7 @@ function Bartender4:UpdateModuleConfigs()
 	if LDB and LDBIcon then
 		LDBIcon:Refresh("Bartender4", Bartender4.db.profile.minimapIcon)
 	end
-	
+
 	if unlock then
 		self:Unlock()
 	end
@@ -167,7 +167,7 @@ do
 	function getSnap()
 		return Bartender4.db.profile.snapping
 	end
-	
+
 	function setSnap(value)
 		Bartender4.Bar:ForAll("StopDragging")
 		Bartender4.db.profile.snapping = value
@@ -179,7 +179,7 @@ function Bartender4:ShowUnlockDialog()
 	if not self.unlock_dialog then
 		local f = CreateFrame('Frame', 'Bartender4Dialog', UIParent)
 		f:SetFrameStrata('DIALOG')
-		f:SetToplevel(true) 
+		f:SetToplevel(true)
 		f:EnableMouse(true)
 		f:SetClampedToScreen(true)
 		f:SetWidth(360)
@@ -199,12 +199,12 @@ function Bartender4:ShowUnlockDialog()
 
 		local tr = f:CreateTitleRegion()
 		tr:SetAllPoints(f)
-		
+
 		local header = f:CreateTexture(nil, 'ARTWORK')
 		header:SetTexture('Interface\\DialogFrame\\UI-DialogBox-Header')
 		header:SetWidth(256); header:SetHeight(64)
 		header:SetPoint('TOP', 0, 12)
-		
+
 		local title = f:CreateFontString('ARTWORK')
 		title:SetFontObject('GameFontNormal')
 		title:SetPoint('TOP', header, 'TOP', 0, -14)
@@ -340,7 +340,7 @@ function createLDBLauncher()
 			tooltip:AddLine(L_BT_RIGHT)
 		end,
 	})
-	
+
 	if LDBIcon then
 		LDBIcon:Register("Bartender4", LDBObj, Bartender4.db.profile.minimapIcon)
 	end

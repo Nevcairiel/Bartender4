@@ -61,7 +61,7 @@ local defaults = {
 
 function BT4ActionBars:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("ActionBars", defaults)
-	
+
 	-- fetch the prototype information
 	ActionBar = Bartender4.ActionBar
 	ActionBar_MT = {__index = ActionBar}
@@ -76,7 +76,7 @@ function BT4ActionBars:OnEnable()
 	if first then
 		self.playerclass = select(2, UnitClass("player"))
 		self.actionbars = {}
-		
+
 		for i=1,10 do
 			local config = self.db.profile.actionbars[i]
 			if config.enabled then
@@ -85,10 +85,10 @@ function BT4ActionBars:OnEnable()
 				self:CreateBarOption(i, self.disabledoptions)
 			end
 		end
-		
+
 		first = nil
 	end
-	
+
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
 	self:ReassignBindings()
 end
@@ -97,7 +97,7 @@ function BT4ActionBars:SetupOptions()
 	if not self.options then
 		-- empty table to hold the bar options
 		self.options = {}
-		
+
 		-- template for disabled bars
 		self.disabledoptions = {
 			general = {
@@ -116,7 +116,7 @@ function BT4ActionBars:SetupOptions()
 				}
 			}
 		}
-		
+
 		-- iterate over bars and create their option tables
 		for i=1,10 do
 			local config = self.db.profile.actionbars[i]
@@ -170,7 +170,7 @@ function BT4ActionBars:ReassignBindings()
 			SetOverrideBindingClick(frame, false, key, real_button)
 		end
 	end
-	
+
 	for i = 1, 120 do
 		-- rename old bindings from <buttonname>Secure to only <buttonname>
 		local button, real_button = ("CLICK BT4Button%dSecure:LeftButton"):format(i), ("BT4Button%d"):format(i)
@@ -190,11 +190,11 @@ function BT4ActionBars:Create(id, config)
 	local id = tostring(id)
 	local bar = setmetatable(Bartender4.ButtonBar:Create(id, config, (L["Bar %s"]):format(id)), ActionBar_MT)
 	bar.module = self
-	
+
 	self:CreateBarOption(id)
-	
+
 	bar:ApplyConfig()
-	
+
 	return bar
 end
 
@@ -202,7 +202,7 @@ function BT4ActionBars:DisableBar(id)
 	id = tonumber(id)
 	local bar = self.actionbars[id]
 	if not bar then return end
-	
+
 	bar.config.enabled = false
 	bar:Disable()
 	self:CreateBarOption(id, self.disabledoptions)

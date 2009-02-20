@@ -28,7 +28,7 @@ function VehicleBarMod:OnEnable()
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("Vehicle", self.db.profile, L["Vehicle Bar"], true), {__index = VehicleBar})
 		local buttons = {VehicleMenuBarLeaveButton, VehicleMenuBarPitchUpButton, VehicleMenuBarPitchDownButton}
 		self.bar.buttons = buttons
-		
+
 		VehicleBarMod.button_count = 3
 
 		for i,v in pairs(buttons) do
@@ -36,21 +36,21 @@ function VehicleBarMod:OnEnable()
 			v:Show()
 			v.ClearSetPoint = self.bar.ClearSetPoint
 		end
-		
+
 		self.bar:SetScript("OnEvent", self.bar.OnEvent)
 		self.bar:RegisterEvent("UNIT_ENTERED_VEHICLE")
-		
+
 		-- setup button skins
 		VehicleMenuBarPitchUpButton:GetNormalTexture():SetTexture([[Interface\Vehicles\UI-Vehicles-Button-Pitch-Up]])
 		VehicleMenuBarPitchUpButton:GetNormalTexture():SetTexCoord(0.21875, 0.765625, 0.234375, 0.78125)
 		VehicleMenuBarPitchUpButton:GetPushedTexture():SetTexture([[Interface\Vehicles\UI-Vehicles-Button-Pitch-Down]])
 		VehicleMenuBarPitchUpButton:GetPushedTexture():SetTexCoord(0.21875, 0.765625, 0.234375, 0.78125)
-		
+
 		VehicleMenuBarPitchDownButton:GetNormalTexture():SetTexture([[Interface\Vehicles\UI-Vehicles-Button-PitchDown-Up]])
 		VehicleMenuBarPitchDownButton:GetNormalTexture():SetTexCoord(0.21875, 0.765625, 0.234375, 0.78125)
 		VehicleMenuBarPitchDownButton:GetPushedTexture():SetTexture([[Interface\Vehicles\UI-Vehicles-Button-PitchDown-Down]])
 		VehicleMenuBarPitchDownButton:GetPushedTexture():SetTexCoord(0.21875, 0.765625, 0.234375, 0.78125)
-		
+
 		VehicleMenuBarLeaveButton:GetNormalTexture():SetTexture([[Interface\Vehicles\UI-Vehicles-Button-Exit-Up]])
 		VehicleMenuBarLeaveButton:GetNormalTexture():SetTexCoord(0.140625, 0.859375, 0.140625, 0.859375)
 		VehicleMenuBarLeaveButton:GetPushedTexture():SetTexture([[Interface\Vehicles\UI-Vehicles-Button-Exit-Down]])
@@ -70,12 +70,12 @@ VehicleBar.button_height = 30
 VehicleBar.LBFOverride = true
 function VehicleBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
-	
+
 	if not self.config.position then
 		self:ClearSetPoint("CENTER", -105, 27)
 		self:SavePosition()
 	end
-	
+
 	self:UpdateButtonLayout()
 end
 
@@ -95,7 +95,7 @@ function VehicleBar:UpdateButtonVisibility()
 		_G["VehicleMenuBarPitchUpButton"]:Hide()
 		_G["VehicleMenuBarPitchDownButton"]:Hide()
 	end
-	
+
 	if CanExitVehicle() then
 		_G["VehicleMenuBarLeaveButton"]:Show()
 	else

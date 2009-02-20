@@ -8,9 +8,9 @@ local ButtonBar = Bartender4.ButtonBar.prototype
 function PetBarMod:SetupOptions()
 	if not self.options then
 		self.optionobject = ButtonBar:GetOptionObject()
-		
+
 		self.optionobject.table.general.args.rows.max = 10
-		
+
 		local enabled = {
 			type = "toggle",
 			order = 1,
@@ -21,7 +21,7 @@ function PetBarMod:SetupOptions()
 			handler = self,
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
-		
+
 		self.disabledoptions = {
 			general = {
 				type = "group",
@@ -33,7 +33,7 @@ function PetBarMod:SetupOptions()
 				}
 			}
 		}
-		
+
 		self.options = {
 			order = 30,
 			type = "group",

@@ -26,17 +26,17 @@ local LBF = LibStub("LibButtonFacade", true)
 
 function Bartender4.ButtonBar:Create(id, config, name)
 	local bar = setmetatable(Bartender4.Bar:Create(id, config, name), ButtonBar_MT)
-	
+
 	if LBF then
 		bar.LBFGroup = LBF:Group("Bartender4", tostring(id))
 		bar.LBFGroup.SkinID = config.skin.ID or "Blizzard"
 		bar.LBFGroup.Backdrop = config.skin.Backdrop
 		bar.LBFGroup.Gloss = config.skin.Gloss
 		bar.LBFGroup.Colors = config.skin.Colors
-		
+
 		LBF:RegisterSkinCallback("Bartender4", self.SkinChanged, self)
 	end
-	
+
 	return bar
 end
 
@@ -44,7 +44,7 @@ local barregistry = Bartender4.Bar.barregistry
 function Bartender4.ButtonBar:SkinChanged(SkinID, Gloss, Backdrop, Group, Button, Colors)
 	local bar = barregistry[tostring(Group)]
 	if not bar then return end
-	
+
 	bar:SkinChanged(SkinID, Gloss, Backdrop, Colors, Button)
 end
 
@@ -135,13 +135,13 @@ ButtonBar.button_height = 36
 function ButtonBar:UpdateButtonLayout()
 	local buttons = self.buttons
 	local pad = self:GetPadding()
-	
+
 	local numbuttons = self.numbuttons or #buttons
-	
+
 	-- bail out if the bar has no buttons, for whatever reason
 	-- (eg. stanceless class, or no stances learned yet, etc.)
 	if numbuttons == 0 then return end
-	
+
 	local Rows = self:GetRows()
 	local ButtonPerRow = math_ceil(numbuttons / Rows) -- just a precaution
 	Rows = math_ceil(numbuttons / ButtonPerRow)
@@ -149,12 +149,12 @@ function ButtonBar:UpdateButtonLayout()
 		Rows = numbuttons
 		ButtonPerRow = 1
 	end
-	
+
 	local hpad = pad + (self.hpad_offset or 0)
 	local vpad = pad + (self.vpad_offset or 0)
-	
+
 	self:SetSize((self.button_width + hpad) * ButtonPerRow - pad + 8, (self.button_height + vpad) * Rows - pad + 8)
-	
+
 	-- anchor button 1 to the topleft corner of the bar
 	buttons[1]:ClearSetPoint("TOPLEFT", self, "TOPLEFT", 5 - (self.hpad_offset or 0), -3 - (self.vpad_offset or 0))
 	-- and anchor all other buttons relative to our button 1
@@ -167,7 +167,7 @@ function ButtonBar:UpdateButtonLayout()
 			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", hpad, 0)
 		end
 	end
-	
+
 	if not LBF then
 		for i = 1, #buttons do
 			local button = buttons[i]

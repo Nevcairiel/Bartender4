@@ -42,12 +42,12 @@ end
 
 function BagBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
-	
+
 	if not self.config.position then
 		self:ClearSetPoint("CENTER", 142, -18)
 		self:SavePosition()
 	end
-	
+
 	self:FeedButtons()
 	self:UpdateButtonLayout()
 end
@@ -76,12 +76,12 @@ function BagBar:FeedButtons()
 	else
 		self.buttons = {}
 	end
-	
+
 	if self.config.keyring then
 		table_insert(self.buttons, KeyRingButton)
 		count = count + 1
 	end
-	
+
 	if not self.config.onebag then
 		table_insert(self.buttons, CharacterBag3Slot)
 		table_insert(self.buttons, CharacterBag2Slot)
@@ -89,15 +89,15 @@ function BagBar:FeedButtons()
 		table_insert(self.buttons, CharacterBag0Slot)
 		count = count + 4
 	end
-	
+
 	table_insert(self.buttons, MainMenuBarBackpackButton)
-	
+
 	for i,v in pairs(self.buttons) do
 		v:SetParent(self)
 		v:Show()
 		if v ~= KeyRingButton then
 			v:SetNormalTexture("")
-			
+
 			if LBF then
 				local group = self.LBFGroup
 				if not v.LBFButtonData then
@@ -109,10 +109,10 @@ function BagBar:FeedButtons()
 				group:AddButton(v, v.LBFButtonData)
 			end
 		end
-		
+
 		v.ClearSetPoint = clearSetPoint
 	end
-	
+
 	BagBarMod.button_count = count
 	if BagBarMod.optionobject then
 		BagBarMod.optionobject.table.general.args.rows.max = count

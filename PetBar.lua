@@ -27,17 +27,17 @@ end
 function PetBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("PetBar", self.db.profile, L["Pet Bar"]), {__index = PetBar})
-		
+
 		local buttons = {}
 		for i=1,10 do
 			buttons[i] = Bartender4.PetButton:Create(i, self.bar)
 		end
 		self.bar.buttons = buttons
-		
+
 		self.bar:SetScript("OnEvent", PetBar.OnEvent)
 	end
 	self.bar:Enable()
-	
+
 	self.bar:RegisterEvent("PLAYER_CONTROL_LOST")
 	self.bar:RegisterEvent("PLAYER_CONTROL_GAINED")
 	self.bar:RegisterEvent("PLAYER_FARSIGHT_FOCUS_CHANGED")
@@ -48,10 +48,10 @@ function PetBarMod:OnEnable()
 	self.bar:RegisterEvent("PET_BAR_UPDATE_COOLDOWN")
 	self.bar:RegisterEvent("PET_BAR_SHOWGRID")
 	self.bar:RegisterEvent("PET_BAR_HIDEGRID")
-	
+
 	self:ApplyConfig()
 	self:ToggleOptions()
-	
+
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
 	self:ReassignBindings()
 end
@@ -95,12 +95,12 @@ end
 
 function PetBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
-	
+
 	if not self.config.position then
 		self:ClearSetPoint("CENTER", 0, 70)
 		self:SavePosition()
 	end
-	
+
 	self:UpdateButtonLayout()
 	self:ForAll("Update")
 	self:ForAll("ApplyStyle", self.config.style)

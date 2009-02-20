@@ -20,28 +20,28 @@ do
 		macrotext = "HideMacroText",
 		hotkey = "HideHotkey",
 	}
-	
+
 	-- retrieves a valid bar object from the barregistry table
 	function getBar(id)
 		local bar = barregistry[tostring(id)]
 		assert(bar, ("Invalid bar id in options table. (%s)"):format(id))
 		return bar
 	end
-	
+
 	-- calls a function on the bar
 	function callFunc(bar, type, option, ...)
 		local func = type .. (optionMap[option] or option)
 		assert(bar[func], ("Invalid get/set function %s in bar %s."):format(func, bar.id))
 		return bar[func](bar, ...)
 	end
-	
+
 	-- universal function to get a option
 	function optGetter(info)
 		local bar = getBar(info[2])
 		local option = info[#info]
 		return callFunc(bar, "Get", option)
 	end
-	
+
 	-- universal function to set a option
 	function optSetter(info, ...)
 		local bar = getBar(info[2])

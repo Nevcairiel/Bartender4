@@ -139,5 +139,4 @@
 	<Binding name="CLICK BT4StanceButton8:LeftButton" />
 	<Binding name="CLICK BT4StanceButton9:LeftButton" />
 	<Binding name="CLICK BT4StanceButton10:LeftButton" />
-	
 </Bindings>

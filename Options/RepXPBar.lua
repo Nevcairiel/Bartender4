@@ -17,7 +17,7 @@ function RepBarMod:SetupOptions()
 			handler = self,
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
-		
+
 		self.disabledoptions = {
 			general = {
 				type = "group",
@@ -56,7 +56,7 @@ function XPBarMod:SetupOptions()
 			handler = self,
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
-		
+
 		self.disabledoptions = {
 			general = {
 				type = "group",

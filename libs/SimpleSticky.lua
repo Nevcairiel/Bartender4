@@ -1,19 +1,19 @@
 --[[---------------------------------------------------------------------------------
   General Library providing an alternate StartMoving() that allows you to
   specify a number of frames to snap-to when moving the frame around
-  
+
   Example Usage:
-  
+
 	<OnLoad>
 		this:RegisterForDrag("LeftButton")
 	</OnLoad>
-	<OnDragStart>										
+	<OnDragStart>
 		StickyFrames:StartMoving(this, {WatchDogFrame_player, WatchDogFrame_target, WatchDogFrame_party1, WatchDogFrame_party2, WatchDogFrame_party3, WatchDogFrame_party4},3,3,3,3)
 	</OnDragStart>
 	<OnDragStop>
 		StickyFrames:StopMoving(this)
 		StickyFrames:AnchorFrame(this)
-	</OnDragStop>			
+	</OnDragStop>
 
 ------------------------------------------------------------------------------------
 This is a modified version by Nevcairiel for Bartender4
@@ -25,7 +25,7 @@ local StickyFrames, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 if not StickyFrames then return end
 
 --[[---------------------------------------------------------------------------------
-  Class declaration, along with a temporary table to hold any existing OnUpdate 
+  Class declaration, along with a temporary table to hold any existing OnUpdate
   scripts.
 ------------------------------------------------------------------------------------]]
 
@@ -37,22 +37,22 @@ StickyFrames.sticky = StickyFrames.sticky or {}
 --[[---------------------------------------------------------------------------------
   StickyFrames:StartMoving() - Sets a custom OnUpdate for the frame so it follows
   the mouse and snaps to the frames you specify
-  
+
 	frame:	 	The frame we want to move.  Is typically "this"
 
 	frameList: 	A integer indexed list of frames that the given frame should try to
 				stick to.  These don't have to have anything special done to them,
-				and they don't really even need to exist.  You can inclue the 
-				moving frame in this list, it will be ignored.  This helps you 
+				and they don't really even need to exist.  You can inclue the
+				moving frame in this list, it will be ignored.  This helps you
 				if you have a number of frames, just make ONE list to pass.
-				
+
 				{WatchDogFrame_player, WatchDogFrame_party1, .. WatchDogFrame_party4}
 
-	left:		If your frame has a tranparent border around the entire frame 
+	left:		If your frame has a tranparent border around the entire frame
 				(think backdrops with borders).  This can be used to fine tune the
-				edges when you're stickying groups.  Refers to any offset on the 
+				edges when you're stickying groups.  Refers to any offset on the
 				LEFT edge of the frame being moved.
-	
+
 	top:		same
 	right:		same
 	bottom:		same
@@ -62,7 +62,7 @@ function StickyFrames:StartMoving(frame, frameList, left, top, right, bottom)
 	local x,y = GetCursorPosition()
 	local aX,aY = frame:GetCenter()
 	local aS = frame:GetEffectiveScale()
-	
+
 	aX,aY = aX*aS,aY*aS
 	local xoffset,yoffset = (aX - x),(aY - y)
 	self.scripts[frame] = frame:GetScript("OnUpdate")
@@ -71,25 +71,25 @@ end
 
 --[[---------------------------------------------------------------------------------
   This stops the OnUpdate, leaving the frame at its last position.  This will
-  leave it anchored to UIParent.  You can call StickyFrames:AnchorFrame() to 
+  leave it anchored to UIParent.  You can call StickyFrames:AnchorFrame() to
   anchor it back "TOPLEFT" , "TOPLEFT" to the parent.
 ------------------------------------------------------------------------------------]]
 
 function StickyFrames:StopMoving(frame)
 	frame:SetScript("OnUpdate", self.scripts[frame])
 	self.scripts[frame] = nil
-	
+
 	if StickyFrames.sticky[frame] then
 		local sticky = StickyFrames.sticky[frame]
 		StickyFrames.sticky[frame] = nil
 		return true, sticky
 	else
 		return false, nil
-	end	
+	end
 end
 
 --[[---------------------------------------------------------------------------------
-  This can be called in conjunction with StickyFrames:StopMoving() to anchor the 
+  This can be called in conjunction with StickyFrames:StopMoving() to anchor the
   frame right back to the parent, so you can manipulate its children as a group
   (This is useful in WatchDog)
 ------------------------------------------------------------------------------------]]
@@ -99,14 +99,14 @@ function StickyFrames:AnchorFrame(frame)
 	local parent = frame:GetParent() or UIParent
 	local xP,yP = parent:GetCenter()
 	local sA,sP = frame:GetEffectiveScale(), parent:GetEffectiveScale()
-	
+
 	xP,yP = (xP*sP) / sA, (yP*sP) / sA
 
 	local xo,yo = (xP - xA)*-1, (yP - yA)*-1
-	
+
 	frame:ClearAllPoints()
 	frame:SetPoint("CENTER", parent, "CENTER", xo, yo)
-end	
+end
 
 
 --[[---------------------------------------------------------------------------------
@@ -127,12 +127,12 @@ function StickyFrames:GetUpdateFunc(frame, frameList, xoffset, yoffset, left, to
 		local x,y = GetCursorPosition()
 		local s = frame:GetEffectiveScale()
 		local sticky = nil
-		
+
 		x,y = x/s,y/s
 
 		frame:ClearAllPoints()
 		frame:SetPoint("CENTER", UIParent, "BOTTOMLEFT", x+xoffset, y+yoffset)
-		
+
 		StickyFrames.sticky[frame] = nil
 		for i = 1, #frameList do
 			local v = frameList[i]
@@ -167,7 +167,7 @@ function StickyFrames:SnapFrame(frameA, frameB, left, top, right, bottom)
 	local xB, yB = frameB:GetCenter()
 	local hA, hB = frameA:GetHeight() / 2, ((frameB:GetHeight() * sB) / sA) / 2
 	local wA, wB = frameA:GetWidth() / 2, ((frameB:GetWidth() * sB) / sA) / 2
-	
+
 	local newX, newY = xA, yA
 
 	if not left then left = 0 end
@@ -182,81 +182,81 @@ function StickyFrames:SnapFrame(frameA, frameB, left, top, right, bottom)
 	local stickyBx, stickyBy = wB * 0.75, hB * 0.75
 
 	-- Grab the edges of each frame, for easier comparison
-	
+
 	local lA, tA, rA, bA = frameA:GetLeft(), frameA:GetTop(), frameA:GetRight(), frameA:GetBottom()
 	local lB, tB, rB, bB = frameB:GetLeft(), frameB:GetTop(), frameB:GetRight(), frameB:GetBottom()
 	local snap = nil
-	
+
 	-- Translate into A's scale
 	lB, tB, rB, bB = (lB * sB) / sA, (tB * sB) / sA, (rB * sB) / sA, (bB * sB) / sA
 
 	if (bA <= tB and bB <= tA) then
-		
+
 		-- Horizontal Centers
 		if xA <= (xB + StickyFrames.rangeX) and xA >= (xB - StickyFrames.rangeX) then
-			newX = xB 
+			newX = xB
 			snap = true
 		end
-		
+
 		-- Interior Left
 		if lA <= (lB + StickyFrames.rangeX) and lA >= (lB - StickyFrames.rangeX) then
 			newX = lB + wA
 			if frameB == UIParent or frameB == WorldFrame then newX = newX - left/2 end
 			snap = true
 		end
-		
+
 		-- Interior Right
 		if rA <= (rB + StickyFrames.rangeX) and rA >= (rB - StickyFrames.rangeX) then
 			newX = rB - wA
 			if frameB == UIParent or frameB == WorldFrame then newX = newX + right/2 end
 			snap = true
 		end
-		
+
 		-- Exterior Left to Right
 		if lA <= (rB + StickyFrames.rangeX) and lA >= (rB - StickyFrames.rangeX) then
 			newX = rB + (wA - left)
 			if frameB == UIParent or frameB == WorldFrame then newX = newX + left/2 end
 			snap = true
 		end
-		
+
 		-- Exterior Right to Left
 		if rA <= (lB + StickyFrames.rangeX) and rA >= (lB - StickyFrames.rangeX) then
 			newX = lB - (wA - right)
 			if frameB == UIParent or frameB == WorldFrame then newX = newX - right/2 end
 			snap = true
 		end
-		
+
 	end
-	
+
 	if (lA <= rB and lB <= rA) then
-		
+
 		-- Vertical Centers
 		if yA <= (yB + StickyFrames.rangeY) and yA >= (yB - StickyFrames.rangeY) then
 			newY = yB
 			snap = true
 		end
-		
+
 		-- Interior Top
 		if tA <= (tB + StickyFrames.rangeY) and tA >= (tB - StickyFrames.rangeY) then
 			newY = tB - hA
 			if frameB == UIParent or frameB == WorldFrame then newY = newY + top/2 end
 			snap = true
 		end
-		
+
 		-- Interior Bottom
 		if bA <= (bB + StickyFrames.rangeY) and bA >= (bB - StickyFrames.rangeY) then
 			newY = bB + hA
 			if frameB == UIParent or frameB == WorldFrame then newY = newY - bottom/2 end
 			snap = true
 		end
-		
+
 		-- Exterior Top to Bottom
 		if tA <= (bB + StickyFrames.rangeY + bottom) and tA >= (bB - StickyFrames.rangeY + bottom) then
 			newY = bB - (hA - top)
 			if frameB == UIParent or frameB == WorldFrame then newY = newY - top/2 end
 			snap = true
 		end
-		
+
 		-- Exterior Bottom to Top
 		if bA <= (tB + StickyFrames.rangeY - top) and bA >= (tB - StickyFrames.rangeY - top) then
 			newY = tB + (hA - bottom)
@@ -265,7 +265,7 @@ function StickyFrames:SnapFrame(frameA, frameB, left, top, right, bottom)
 		end
 
 	end
-	
+
 	if snap then
 		frameA:ClearAllPoints()
 		frameA:SetPoint("CENTER", UIParent, "BOTTOMLEFT", newX, newY)

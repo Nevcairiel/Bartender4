@@ -20,7 +20,7 @@ function StanceBarMod:SetupOptions()
 			handler = self,
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
-		
+
 		self.disabledoptions = {
 			general = {
 				type = "group",
@@ -32,7 +32,7 @@ function StanceBarMod:SetupOptions()
 				}
 			}
 		}
-		
+
 		self.options = {
 			order = 30,
 			type = "group",

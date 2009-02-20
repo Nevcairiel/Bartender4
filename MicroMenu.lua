@@ -42,12 +42,12 @@ function MicroMenuMod:OnEnable()
 		table_insert(buttons, MainMenuMicroButton)
 		table_insert(buttons, HelpMicroButton)
 		self.bar.buttons = buttons
-		
+
 		MicroMenuMod.button_count = #buttons
-		
+
 		self:RawHook("UpdateTalentButton", noopFunc, true)
 		self:RawHook("AchievementMicroButton_Update",  noopFunc, true)
-		
+
 		for i,v in pairs(buttons) do
 			v:SetParent(self.bar)
 			v:Show()
@@ -69,11 +69,11 @@ MicroMenuBar.button_height = 58
 MicroMenuBar.vpad_offset = -21
 function MicroMenuBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
-	
+
 	if not self.config.position then
 		self:ClearSetPoint("CENTER", -105, 27)
 		self:SavePosition()
 	end
-	
+
 	self:UpdateButtonLayout()
 end

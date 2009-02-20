@@ -18,9 +18,9 @@ end
 -- Apply the specified config to the bar and refresh all settings
 function ActionBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
-	
+
 	if not self.config.position then initialPosition(self) end
-	
+
 	self:UpdateButtons()
 	self:UpdateSelfCast(true)
 	self:UpdateStates()
@@ -33,15 +33,15 @@ function ActionBar:UpdateButtons(numbuttons)
 	else
 		numbuttons = min(self.config.buttons, 12)
 	end
-	
+
 	local buttons = self.buttons or {}
-	
+
 	local updateBindings = (numbuttons > #buttons)
 	-- create more buttons if needed
 	for i = (#buttons+1), numbuttons do
 		buttons[i] = Bartender4.Button:Create(i, self)
 	end
-	
+
 	-- show active buttons
 	for i = 1, numbuttons do
 		buttons[i]:SetParent(self)
@@ -49,23 +49,23 @@ function ActionBar:UpdateButtons(numbuttons)
 		buttons[i]:SetAttribute("statehidden", nil)
 		buttons[i]:UpdateAction(true)
 	end
-	
+
 	-- hide inactive buttons
 	for i = (numbuttons + 1), #buttons do
 		buttons[i]:Hide()
 		buttons[i]:SetParent(UIParent)
 		buttons[i]:SetAttribute("statehidden", true)
 	end
-	
+
 	self.numbuttons = numbuttons
 	self.buttons = buttons
-	
+
 	self:UpdateButtonLayout()
 	self:SetGrid()
 	if updateBindings and self.id == "1" then
 		self.module:ReassignBindings()
 	end
-	
+
 	-- need to re-set clickthrough after creating new buttons
 	self:SetClickThrough()
 end

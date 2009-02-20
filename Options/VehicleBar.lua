@@ -19,7 +19,7 @@ function VehicleBarMod:SetupOptions()
 			handler = self,
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
-		
+
 		self.disabledoptions = {
 			general = {
 				type = "group",

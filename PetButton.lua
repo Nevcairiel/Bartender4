@@ -43,40 +43,40 @@ function Bartender4.PetButton:Create(id, parent)
 	button.showgrid = 0
 	button.id = id
 	button.parent = parent
-	
+
 	button:SetFrameStrata("MEDIUM")
 	button:SetID(id)
-	
+
 	button:UnregisterAllEvents()
 	button:SetScript("OnEvent", nil)
-	
+
 	button.OnEnter = button:GetScript("OnEnter")
 	button:SetScript("OnEnter", onEnter)
-	
+
 	button:SetScript("OnDragStart", onDragStart)
 	button:SetScript("OnReceiveDrag", onReceiveDrag)
-	
+
 	button.flash = _G[name .. "Flash"]
 	button.cooldown = _G[name .. "Cooldown"]
 	button.icon = _G[name .. "Icon"]
 	button.autocastable = _G[name .. "AutoCastable"]
 	button.autocast = _G[name .. "Shine"]
 	button.hotkey = _G[name .. "HotKey"]
-	
+
 	button:SetNormalTexture("")
 	local oldNT = button:GetNormalTexture()
 	oldNT:Hide()
-	
+
 	button.normalTexture = button:CreateTexture(("%sBTNT"):format(name))
 	button.normalTexture:SetAllPoints(oldNT)
-	
+
 	button.pushedTexture = button:GetPushedTexture()
 	button.highlightTexture = button:GetHighlightTexture()
-	
+
 	button.textureCache = {}
 	button.textureCache.pushed = button.pushedTexture:GetTexture()
 	button.textureCache.highlight = button.highlightTexture:GetTexture()
-	
+
 	if LBF then
 		local group = parent.LBFGroup
 		button.LBFButtonData = {
@@ -90,7 +90,7 @@ end
 
 function PetButtonPrototype:Update()
 	local name, subtext, texture, isToken, isActive, autoCastAllowed, autoCastEnabled = GetPetActionInfo(self.id)
-	
+
 	if not isToken then
 		self.icon:SetTexture(texture)
 		self.tooltipName = name;
@@ -98,7 +98,7 @@ function PetButtonPrototype:Update()
 		self.icon:SetTexture(_G[texture])
 		self.tooltipName = _G[name]
 	end
-	
+
 	self.isToken = isToken
 	self.tooltipSubtext = subtext
 	self:SetChecked(isActive and 1 or 0)
@@ -112,7 +112,7 @@ function PetButtonPrototype:Update()
 		self.autocastable:Hide()
 		AutoCastShine_AutoCastStop(self.autocast)
 	end
-	
+
 	if texture then
 		if GetPetActionsUsable() then
 			SetDesaturation(self.icon, nil)
@@ -146,7 +146,7 @@ end
 function PetButtonPrototype:UpdateHotkeys()
 	local key = self:GetHotkey() or ""
 	local hotkey = self.hotkey
-	
+
 	if key == "" or self.parent.config.hidehotkey then
 		hotkey:Hide()
 	else
@@ -172,7 +172,7 @@ end
 function PetButtonPrototype:HideButton()
 	self.textureCache.pushed = self.pushedTexture:GetTexture()
 	self.textureCache.highlight = self.highlightTexture:GetTexture()
-	
+
 	self.pushedTexture:SetTexture("")
 	self.highlightTexture:SetTexture("")
 	if LBF then
@@ -210,7 +210,7 @@ end
 
 function PetButtonPrototype:GetBindings()
 	local keys, binding = ""
-	
+
 	binding = format("BONUSACTIONBUTTON%d", self.id)
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
@@ -219,7 +219,7 @@ function PetButtonPrototype:GetBindings()
 		end
 		keys = keys .. GetBindingText(hotKey,'KEY_')
 	end
-	
+
 	binding = "CLICK "..self:GetName()..":LeftButton"
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
@@ -241,7 +241,7 @@ function PetButtonPrototype:ClearBindings()
 	while GetBindingKey(binding) do
 		SetBinding(GetBindingKey(binding), nil)
 	end
-	
+
 	binding = "CLICK "..self:GetName()..":LeftButton"
 	while GetBindingKey(binding) do
 		SetBinding(GetBindingKey(binding), nil)

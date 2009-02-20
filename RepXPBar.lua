@@ -24,9 +24,9 @@ function RepBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("Rep", self.db.profile, L["Reputation Bar"]), {__index = RepBar})
 		self.bar.content = ReputationWatchBar
-		
+
 		hooksecurefunc("ReputationWatchBar_Update",  function() self.bar:PerformLayout() end)
-		
+
 		self.bar.content:SetParent(self.bar)
 		self.bar.content:Show()
 		self.bar.content:SetFrameLevel(self.bar:GetFrameLevel() + 1)
@@ -42,12 +42,12 @@ end
 
 function RepBar:ApplyConfig(config)
 	Bar.ApplyConfig(self, config)
-	
+
 	if not self.config.position then
 		self:ClearSetPoint("CENTER")
 		self:SavePosition()
 	end
-	
+
 	self:PerformLayout()
 end
 
@@ -79,7 +79,7 @@ function XPBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("XP", self.db.profile, L["XP Bar"]), {__index = XPBar})
 		self.bar.content = MainMenuExpBar
-		
+
 		self.bar.content:SetParent(self.bar)
 		self.bar.content:Show()
 		self.bar.content:SetFrameLevel(self.bar:GetFrameLevel() + 1)

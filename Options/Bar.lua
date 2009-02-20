@@ -20,62 +20,62 @@ do
 		fadeoutdelay = "FadeOutDelay",
 		clickthrough = "ClickThrough",
 	}
-	
+
 	-- retrieves a valid bar object from the barregistry table
 	function getBar(id)
 		local bar = barregistry[tostring(id)]
 		assert(bar, ("Invalid bar id in options table. (%s)"):format(id))
 		return bar
 	end
-	
+
 	-- calls a function on the bar
 	function callFunc(bar, type, option, ...)
 		local func = type .. (optionMap[option] or option)
 		assert(bar[func], ("Invalid get/set function %s in bar %s."):format(func, bar.id))
 		return bar[func](bar, ...)
 	end
-	
+
 	-- universal function to get a option
 	function optGetter(info)
 		local bar = getBar(info[2])
 		local option = info[#info]
 		return callFunc(bar, "Get", option)
 	end
-	
+
 	-- universal function to set a option
 	function optSetter(info, ...)
 		local bar = getBar(info[2])
 		local option = info[#info]
 		return callFunc(bar, "Set", option, ...)
 	end
-	
+
 	function visibilityGetter(info, ...)
 		local bar = getBar(info[2])
 		local option = info[#info]
 		return bar:GetVisibilityOption(option, ...)
 	end
-	
+
 	function visibilitySetter(info, ...)
 		local bar = getBar(info[2])
 		local option = info[#info]
 		bar:SetVisibilityOption(option, ...)
 	end
-	
+
 	function customEnabled(info)
 		local bar = getBar(info[2])
 		return bar:GetVisibilityOption("custom")
 	end
-	
+
 	function customDisabled(info)
 		local bar = getBar(info[2])
 		return not bar:GetVisibilityOption("custom")
 	end
-	
+
 	function customCopy(info)
 		local bar = getBar(info[2])
 		bar:CopyCustomConditionals()
 	end
-	
+
 	function clickThroughVis(info)
 		local bar = getBar(info[2])
 		return (not bar.ClickThroughSupport)
@@ -86,7 +86,7 @@ local _, class = UnitClass("player")
 
 local function getStanceTable()
 	local num = GetNumShapeshiftForms()
-	
+
 	local tbl = {}
 	for i = 1, num do
 		tbl[i] = select(2, GetShapeshiftFormInfo(i))

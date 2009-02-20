@@ -47,7 +47,7 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 		}
 	end
 	rawset(t, k, newT)
-	
+
 	return newT
 end})
 Bartender4.StanceMap = DefaultStanceMap
@@ -61,24 +61,24 @@ function ActionBar:UpdateStates(returnOnly)
 	if not stancemap and DefaultStanceMap[playerclass] then
 		stancemap = DefaultStanceMap[playerclass]
 	end
-	
+
 	self:ForAll("ClearStateAction")
 	for i=0,11 do
 		self:AddButtonStates(i)
 	end
-	
+
 	local statedriver
-	
+
 	if returnOnly or not self:GetStateOption("customEnabled") then
 		statedriver = {}
 		local stateconfig = self.config.states
 		if self:GetStateOption("enabled") then
 			-- arguments will be parsed from left to right, so we have a priority here
-			
+
 			if self:GetStateOption("possess") then
 				table_insert(statedriver, "[bonusbar:5]11")
 			end
-			
+
 			-- highest priority have our temporary quick-swap keys
 			for _,v in pairs(modifiers) do
 				local page = self:GetStateOption(v)
@@ -86,14 +86,14 @@ function ActionBar:UpdateStates(returnOnly)
 					table_insert(statedriver, fmt("[mod:%s]%s", v, page))
 				end
 			end
-			
+
 			-- second priority the manual changes using the actionbar options
 			if self:GetStateOption("actionbar") then
 				for i=2,6 do
 					table_insert(statedriver, fmt("[bar:%s]%s", i, i))
 				end
 			end
-			
+
 			-- third priority the stances
 			if stancemap then
 				if not stateconfig.stance[playerclass] then stateconfig.stance[playerclass] = {} end
@@ -111,7 +111,7 @@ function ActionBar:UpdateStates(returnOnly)
 				end
 			end
 		end
-		
+
 		table_insert(statedriver, tostring(self:GetDefaultState() or 0))
 		statedriver = table_concat(statedriver, ";")
 		if returnOnly then
@@ -120,38 +120,38 @@ function ActionBar:UpdateStates(returnOnly)
 	else
 		statedriver = self:GetStateOption("custom")
 	end
-	
+
 	self:SetAttribute("_onstate-page", [[
 		self:SetAttribute("state", newstate)
 		control:ChildUpdate("state", newstate)
 	]])
-	
+
 	UnregisterStateDriver(self, "page")
 	RegisterStateDriver(self, "page", statedriver or "")
-	
+
 	self:SetAttribute("_onstate-assist-help", [[
 		local state = (newstate ~= "nil") and newstate or nil
 		control:ChildUpdate("assist-help", state)
 	]])
-	
+
 	self:SetAttribute("_onstate-assist-harm", [[
 		local state = (newstate ~= "nil") and newstate or nil
 		control:ChildUpdate("assist-harm", state)
 	]])
-	
+
 	local preSelf = ""
 	if Bartender4.db.profile.selfcastmodifier then
 		preSelf = "[mod:SELFCAST]player;"
 	end
-	
+
 	local preFocus = ""
 	if Bartender4.db.profile.focuscastmodifier then
 		preFocus = "[mod:FOCUSCAST,target=focus,exists,nodead]focus;"
 	end
-	
+
 	UnregisterStateDriver(self, "assist-help")
 	UnregisterStateDriver(self, "assist-harm")
-	
+
 	if self.config.autoassist then
 		RegisterStateDriver(self, "assist-help", ("%s%s[help]nil; [target=targettarget, help]targettarget; nil"):format(preSelf, preFocus))
 		RegisterStateDriver(self, "assist-harm", ("%s[harm]nil; [target=targettarget, harm]targettarget; nil"):format(preFocus))

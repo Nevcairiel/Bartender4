@@ -1,6 +1,6 @@
 --[[
 	Action Button Template
-	
+
 	Note:
 	Some IDs produce a special behaviour!
 		- Button ID 132 (Last Button in Possess Bar) Creates a Leave Vehicle Button
@@ -34,20 +34,20 @@ function Bartender4.Button:Create(id, parent)
 	local button = setmetatable(CreateFrame("CheckButton", name, parent, "ActionBarButtonTemplate"), Button_MT)
 	-- work around for "blocked" message when using /click macros
 	GetClickFrame(name)
-	
+
 	-- Backwards Compat to pre-4.2.0 button names/layout
 	_G[name .. "Secure"] = button
 	button.Secure = button
-	
+
 	button.rid = id
 	button.id = absid
 	button.parent = parent
 	button.stateactions = {}
-	
+
 	button:SetRealNormalTexture("")
 	local oldNT = _G[("%sNormalTexture"):format(name)]
 	oldNT:Hide()
-	
+
 	button.normalTexture = button:CreateTexture(("%sBTNT"):format(name))
 	button.normalTexture:SetWidth(66)
 	button.normalTexture:SetHeight(66)
@@ -55,15 +55,15 @@ function Bartender4.Button:Create(id, parent)
 	button.normalTexture:SetPoint("CENTER", 0, -1)
 	button.normalTexture:Show()
 
-	
+
 	--button:SetFrameStrata("MEDIUM")
-	
+
 	-- overwrite some scripts with out customized versions
 	button:SetScript("OnEnter", onEnter)
 	button:SetScript("OnUpdate", onUpdate)
 	button:SetScript("OnDragStart", onDragStart)
 	button:SetScript("OnReceiveDrag", onReceiveDrag)
-	
+
 	button.icon = _G[("%sIcon"):format(name)]
 	button.border = _G[("%sBorder"):format(name)]
 	button.cooldown = _G[("%sCooldown"):format(name)]
@@ -72,14 +72,14 @@ function Bartender4.Button:Create(id, parent)
 	button.count = _G[("%sCount"):format(name)]
 	button.flash = _G[("%sFlash"):format(name)]
 	button.flash:Hide()
-	
+
 	button:SetAttribute("type", "action")
 	button:SetAttribute("action", absid)
 	button:SetAttribute("useparent-unit", nil);
 	button:SetAttribute("useparent-actionpage", nil);
-	
+
 	button:UpdateSelfCast()
-	
+
 	button:SetAttribute('_childupdate-state', [[
 		self:SetAttribute("state", message)
 		local action = self:GetAttribute("action-" .. message)
@@ -101,7 +101,7 @@ function Bartender4.Button:Create(id, parent)
 			end
 		end
 		self:SetAttribute("action", action)
-		
+
 		local unit = nil
 		-- fix unit on state change
 		if action <= 120 then
@@ -115,36 +115,36 @@ function Bartender4.Button:Create(id, parent)
 		G_state = message
 		G_action = action
 	]])
-	
+
 	button:SetAttribute('_childupdate-assist-help', [[
 		if self:GetAttribute("assisttype-"..G_state) == 1 and G_action <= 120 then
 			self:SetAttribute("unit", message)
 		end
 		G_assist_help = message
 	]])
-	
+
 	button:SetAttribute('_childupdate-assist-harm', [[
 		if self:GetAttribute("assisttype-"..G_state) == 2 and G_action <= 120 then
 			self:SetAttribute("unit", message)
 		end
 		G_assist_harm = message
 	]])
-	
+
 	if LBF and parent.LBFGroup then
 		local group = parent.LBFGroup
 		group:AddButton(button)
 	end
-	
+
 	if button.parent.config.showgrid then
 		button:ShowGrid()
 	end
-	
+
 	--self:UpdateAction(true)
 	button:UpdateHotkeys()
 	button:UpdateUsable()
 	button:UpdateGrid()
 	button:ToggleButtonElements()
-	
+
 	return button
 end
 
@@ -182,7 +182,7 @@ function onUpdate(self, elapsed)
 				overtime = 0
 			end
 			self.flashtime = ATTACK_BUTTON_FLASH_TIME - overtime
-			
+
 			local flashTexture = self.flash
 			if flashTexture:IsShown() then
 				flashTexture:Hide()
@@ -191,7 +191,7 @@ function onUpdate(self, elapsed)
 			end
 		end
 	end
-	
+
 	if self.rangeTimer then
 		self.rangeTimer = self.rangeTimer - elapsed
 		if self.rangeTimer <= 0 then
@@ -265,13 +265,13 @@ function Button:RefreshStateAction(state)
 	local state = tonumber(state or self:GetAttribute("state")) or 0
 	local action = self.stateactions[state]
 	self:SetAttribute("action-"..state, action)
-	
+
 	if action > 120 and action <= 126 then
 		self:SetAttribute("clickbutton", _G["VehicleMenuBarActionButton"..tostring(action-120)])
 	elseif action == 132 then
 		self:SetAttribute("clickbutton", PossessButton2)
 	end
-	
+
 	self:SetAttribute("assisttype-"..state, nil)
 	self:SetAttribute("unit", nil)
 	if self.parent.config.autoassist then
@@ -333,7 +333,7 @@ end
 function Button:UpdateHotkeys()
 	local key = self:GetHotkey() or ""
 	local hotkey = self.hotkey
-	
+
 	if key == "" or self.parent.config.hidehotkey then
 		hotkey:SetText(RANGE_INDICATOR)
 		hotkey:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -2)
@@ -352,7 +352,7 @@ end
 
 function Button:GetBindings()
 	local keys, binding = ""
-	
+
 	if self.id <= 12 then
 		binding = format("ACTIONBUTTON%d", self.id)
 		for i = 1, select('#', GetBindingKey(binding)) do
@@ -363,7 +363,7 @@ function Button:GetBindings()
 			keys = keys .. GetBindingText(hotKey,'KEY_')
 		end
 	end
-	
+
 	binding = "CLICK "..self:GetName()..":LeftButton"
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
@@ -413,7 +413,7 @@ function Button:UpdateUsable()
 	local icon, hotkey = self.icon, self.hotkey
 	local oor = Bartender4.db.profile.outofrange
 	local oorcolor, oomcolor = Bartender4.db.profile.colors.range, Bartender4.db.profile.colors.mana
-	
+
 	if oor == "button" and self.outOfRange then
 		icon:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
 		hotkey:SetVertexColor(1.0, 1.0, 1.0)
@@ -423,7 +423,7 @@ function Button:UpdateUsable()
 		else
 			hotkey:SetVertexColor(1.0, 1.0, 1.0)
 		end
-		
+
 		if isUsable or specialButtons[self.action] then
 			icon:SetVertexColor(1.0, 1.0, 1.0)
 		elseif notEnoughMana then
@@ -440,7 +440,7 @@ function Button:SetTooltip()
 	else
 		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
 	end
-	
+
 	if specialButtons[self.action] then
 		GameTooltip:SetText(specialButtons[self.action].tooltip)
 		self.UpdateTooltip = self.SetTooltip

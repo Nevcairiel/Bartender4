@@ -7,7 +7,7 @@ do
 	function getFunc(info)
 		return (info.arg and Bartender4.db.profile[info.arg] or Bartender4.db.profile[info[#info]])
 	end
-	
+
 	function setFunc(info, value)
 		local key = info.arg or info[#info]
 		Bartender4.db.profile[key] = value
@@ -147,7 +147,7 @@ local function getOptions()
 									get = function()
 										return Bartender4.db.profile.outofrange
 									end,
-									set = function(info, value) 
+									set = function(info, value)
 										Bartender4.db.profile.outofrange = value
 										Bartender4.Bar:ForAll("ApplyConfig")
 									end,
@@ -220,12 +220,12 @@ local function getOptions()
 end
 
 function Bartender4:ChatCommand(input)
-	if InCombatLockdown() then 
+	if InCombatLockdown() then
 		self:Print(L["Cannot access options during combat."])
 		return
 	end
 	if not input or input:trim() == "" then
-		LibStub("AceConfigDialog-3.0"):Open("Bartender4") 
+		LibStub("AceConfigDialog-3.0"):Open("Bartender4")
 	else
 		LibStub("AceConfigCmd-3.0").HandleCommand(Bartender4, "bt", "Bartender4", input)
 	end
@@ -234,14 +234,14 @@ end
 function Bartender4:SetupOptions()
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", getOptions)
 	AceConfigDialog:SetDefaultSize("Bartender4", 680,525)
-	local optFunc = function() 
+	local optFunc = function()
 		if InCombatLockdown() then return end
-		AceConfigDialog:Open("Bartender4") 
-	--[[ 
+		AceConfigDialog:Open("Bartender4")
+	--[[
 		local status = AceConfigDialog:GetStatusTable("Bartender4")
-		if not status.groups then status.groups = {} end 
-		if not status.groups.groups then status.groups.groups = {} end 
-		status.groups.groups["actionbars"] = true 
+		if not status.groups then status.groups = {} end
+		if not status.groups.groups then status.groups.groups = {} end
+		status.groups.groups["actionbars"] = true
 	]]
 	end
 	self:RegisterChatCommand( "bar", "ChatCommand")
@@ -280,7 +280,7 @@ function optionParent:AddElement(category, element, data, ...)
 		end
 		lvl = lvl.args[key]
 	end
-	
+
 	lvl.args[element] = data
 end
 
@@ -298,6 +298,6 @@ function Bartender4:NewOptionObject(otbl)
 	for k, v in pairs(optionParent) do
 		tbl[k] = v
 	end
-	
+
 	return tbl
 end

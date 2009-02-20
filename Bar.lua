@@ -63,12 +63,12 @@ do
 			parent.isMoving = nil
 		end
 	end
-	
+
 	function barOnClick(self)
 		-- TODO: Hide/Show bar on Click
 		-- TODO: Once dropdown config is stable, show dropdown on rightclick
 	end
-	
+
 	function barOnUpdateFunc(self, elapsed)
 		self.elapsed = self.elapsed + elapsed
 		if self.elapsed > self.config.fadeoutdelay then
@@ -76,7 +76,7 @@ do
 			self.elapsed = 0
 		end
 	end
-	
+
 	function barOnAttributeChanged(self, attribute, value)
 		if attribute == "fade" then
 			if value then
@@ -99,16 +99,16 @@ Bartender4.Bar.barregistry = barregistry
 function Bartender4.Bar:Create(id, config, name)
 	id = tostring(id)
 	assert(not barregistry[id], "duplicated entry in barregistry.")
-	
+
 	local bar = setmetatable(CreateFrame("Frame", ("BT4Bar%s"):format(id), UIParent, "SecureHandlerStateTemplate"), Bar_MT)
 	barregistry[id] = bar
 	table_insert(snapBars, bar)
-	
+
 	bar.id = id
 	bar.name = name or id
 	bar:SetMovable(true)
 	bar:HookScript("OnAttributeChanged", barOnAttributeChanged)
-	
+
 	local overlay = CreateFrame("Button", bar:GetName() .. "Overlay", bar)
 	bar.overlay = overlay
 	overlay:EnableMouse(true)
@@ -130,22 +130,22 @@ function Bartender4.Bar:Create(id, config, name)
 	overlay.Text:Show()
 	overlay.Text:ClearAllPoints()
 	overlay.Text:SetPoint("CENTER", overlay, "CENTER")
-	
+
 	overlay:SetScript("OnEnter", barOnEnter)
 	overlay:SetScript("OnLeave", barOnLeave)
 	overlay:SetScript("OnDragStart", barOnDragStart)
 	overlay:SetScript("OnDragStop", barOnDragStop)
 	overlay:SetScript("OnClick", barOnClick)
-	
+
 	overlay:SetFrameLevel(bar:GetFrameLevel() + 10)
 	overlay:ClearAllPoints()
 	overlay:SetAllPoints(bar)
 	overlay:Hide()
-	
+
 	bar.config = config
 	bar.elapsed = 0
 	bar.hidedriver = {}
-	
+
 	return bar
 end
 
@@ -195,9 +195,9 @@ function Bar:Lock()
 	if self.disabled or not self.unlocked then return end
 	self.unlocked = nil
 	self:StopDragging()
-	
+
 	self:ApplyVisibilityDriver()
-	
+
 	self.overlay:Hide()
 end
 
@@ -332,7 +332,7 @@ function Bar:InitVisibilityDriver(returnOnly)
 		UnregisterStateDriver(self, 'vis')
 	end
 	self.hidedriver = {}
-		
+
 	self:SetAttribute("_onstate-vis", [[
 		if not newstate then return end
 		if newstate == "show" then
@@ -345,7 +345,7 @@ function Bar:InitVisibilityDriver(returnOnly)
 			self:Hide()
 		end
 	]])
-	
+
 	if self.config.visibility.custom and not returnOnly then
 		table_insert(self.hidedriver, self.config.visibility.customdata or "")
 	else
@@ -374,7 +374,7 @@ function Bar:InitVisibilityDriver(returnOnly)
 		end
 	end
 	table_insert(self.hidedriver, self.config.fadeout and "fade" or "show")
-	
+
 	if not returnOnly then
 		self:ApplyVisibilityDriver()
 	else

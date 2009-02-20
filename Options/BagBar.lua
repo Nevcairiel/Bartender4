@@ -19,7 +19,7 @@ function BagBarMod:SetupOptions()
 			handler = self,
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
-		
+
 		local onebag = {
 			type = "toggle",
 			order = 80,
@@ -29,7 +29,7 @@ function BagBarMod:SetupOptions()
 			set = function(info, state) self.db.profile.onebag = state; self.bar:FeedButtons(); self.bar:UpdateButtonLayout() end,
 		}
 		self.optionobject:AddElement("general", "onebag", onebag)
-		
+
 		local keyring = {
 			type = "toggle",
 			order = 80,
@@ -39,7 +39,7 @@ function BagBarMod:SetupOptions()
 			set = function(info, state) self.db.profile.keyring = state; self.bar:FeedButtons(); self.bar:UpdateButtonLayout() end,
 		}
 		self.optionobject:AddElement("general", "keyring", keyring)
-		
+
 		self.disabledoptions = {
 			general = {
 				type = "group",

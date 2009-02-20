@@ -32,7 +32,7 @@ function StanceBarMod:OnEnable()
 		self.bar:SetScript("OnEvent", StanceBar.OnEvent)
 	end
 	self.bar:Enable()
-	
+
 	self:ToggleOptions()
 	self.bar:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_FORMS")
@@ -51,7 +51,7 @@ StanceBarMod.button_count = 10
 function StanceBarMod:ApplyConfig()
 	if not self:IsEnabled() then return end
 	self.bar:ApplyConfig(self.db.profile)
-	
+
 	if GetNumShapeshiftForms() == 0 then
 		self:Disable()
 	end
@@ -74,9 +74,9 @@ function StanceButtonPrototype:Update()
 	if not self:IsShown() then return end
 	local id = self:GetID()
 	local texture, name, isActive, isCastable = GetShapeshiftFormInfo(id)
-	
+
 	self.icon:SetTexture(texture)
-	
+
 	-- manage cooldowns
 	if texture then
 		self.cooldown:Show()
@@ -85,26 +85,26 @@ function StanceButtonPrototype:Update()
 	end
 	local start, duration, enable = GetShapeshiftFormCooldown(id)
 	CooldownFrame_SetTimer(self.cooldown, start, duration, enable)
-	
+
 	if isActive then
 		self:SetChecked(1)
 	else
 		self:SetChecked(0)
 	end
-	
+
 	if isCastable then
 		self.icon:SetVertexColor(1.0, 1.0, 1.0)
 	else
 		self.icon:SetVertexColor(0.4, 0.4, 0.4)
 	end
-	
+
 	self:UpdateHotkeys()
 end
 
 function StanceButtonPrototype:UpdateHotkeys()
 	local key = self:GetHotkey() or ""
 	local hotkey = self.hotkey
-	
+
 	if key == "" or self.parent.config.hidehotkey then
 		hotkey:Hide()
 	else
@@ -120,7 +120,7 @@ end
 
 function StanceButtonPrototype:GetBindings()
 	local keys, binding = ""
-	
+
 	binding = format("SHAPESHIFTBUTTON%d", self:GetID())
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
@@ -129,7 +129,7 @@ function StanceButtonPrototype:GetBindings()
 		end
 		keys = keys .. GetBindingText(hotKey,'KEY_')
 	end
-	
+
 	binding = "CLICK "..self:GetName()..":LeftButton"
 	for i = 1, select('#', GetBindingKey(binding)) do
 		local hotKey = select(i, GetBindingKey(binding))
@@ -151,7 +151,7 @@ function StanceButtonPrototype:ClearBindings()
 	while GetBindingKey(binding) do
 		SetBinding(GetBindingKey(binding), nil)
 	end
-	
+
 	binding = "CLICK "..self:GetName()..":LeftButton"
 	while GetBindingKey(binding) do
 		SetBinding(GetBindingKey(binding), nil)
@@ -188,10 +188,10 @@ function StanceBarMod:CreateStanceButton(id)
 	button.normalTexture:SetTexture("")
 --	button.checkedTexture = button:GetCheckedTexture()
 --	button.checkedTexture:SetTexture("")
-	
+
 	button.OnEnter = button:GetScript("OnEnter")
 	button:SetScript("OnEnter", onEnter)
-	
+
 	if LBF then
 		local group = self.bar.LBFGroup
 		button.LBFButtonData = {
@@ -199,18 +199,18 @@ function StanceBarMod:CreateStanceButton(id)
 		}
 		group:AddButton(button, button.LBFButtonData)
 	end
-	
+
 	return button
 end
 
 function StanceBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
-	
+
 	if not self.config.position then
 		self:ClearSetPoint("CENTER", -55, -10)
 		self:SavePosition()
 	end
-	
+
 	self:UpdateStanceButtons()
 	self:ForAll("ApplyStyle", self.config.style)
 end
@@ -219,37 +219,37 @@ StanceBar.button_width = 30
 StanceBar.button_height = 30
 function StanceBar:UpdateStanceButtons()
 	local buttons = self.buttons or {}
-	
+
 	local num_stances = GetNumShapeshiftForms()
-	
+
 	local updateBindings = (num_stances > #buttons)
-	
+
 	for i = (#buttons+1), num_stances do
 		buttons[i] = StanceBarMod:CreateStanceButton(i)
 	end
-	
+
 	for i = 1, num_stances do
 		buttons[i]:Show()
 		buttons[i]:Update()
 	end
-	
+
 	for i = num_stances+1, #buttons do
 		buttons[i]:Hide()
 	end
-	
+
 	StanceBarMod.button_count = num_stances
 	if StanceBarMod.optionobject then
 		StanceBarMod.optionobject.table.general.args.rows.max = num_stances
 	end
-	
+
 	self.buttons = buttons
-	
+
 	self:UpdateButtonLayout()
 	if updateBindings then
 		StanceBarMod:ReassignBindings()
 	end
 	self.disabled = (GetNumShapeshiftForms() == 0) and true or nil
-	
+
 	-- need to re-set clickthrough after creating new buttons
 	self:SetClickThrough()
 end

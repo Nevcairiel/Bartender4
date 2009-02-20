@@ -6,7 +6,7 @@ local module = Bartender4:GetModule("ActionBars")
 local optGetter, optSetter
 do
 	local getBar, optionMap, callFunc
-	
+
 	optionMap = {
 		stance = "StanceStateOption",
 		enabled = "StateOption",
@@ -25,21 +25,21 @@ do
 		assert(bar, "Invalid bar id in options table.")
 		return bar
 	end
-	
+
 	-- calls a function on the bar
 	function callFunc(bar, type, option, ...)
 		local func = type .. (optionMap[option] or option)
 		assert(bar[func], "Invalid get/set function."..func)
 		return bar[func](bar, ...)
 	end
-	
+
 	-- universal function to get a option
 	function optGetter(info)
 		local bar = getBar(info[2])
 		local option = info.arg or info[#info]
 		return callFunc(bar, "Get", option, info[#info])
 	end
-	
+
 	-- universal function to set a option
 	function optSetter(info, ...)
 		local bar = getBar(info[2])
@@ -51,18 +51,18 @@ end
 
 local hasStances
 
-local validStanceTable = { 
-	[0] = L["Don't Page"], 
+local validStanceTable = {
+	[0] = L["Don't Page"],
 	(L["Page %2d"]):format(1),
-	(L["Page %2d"]):format(2), 
-	(L["Page %2d"]):format(3), 
-	(L["Page %2d"]):format(4), 
-	(L["Page %2d"]):format(5), 
-	(L["Page %2d"]):format(6), 
-	(L["Page %2d"]):format(7), 
+	(L["Page %2d"]):format(2),
+	(L["Page %2d"]):format(3),
+	(L["Page %2d"]):format(4),
+	(L["Page %2d"]):format(5),
+	(L["Page %2d"]):format(6),
+	(L["Page %2d"]):format(7),
 	(L["Page %2d"]):format(8),
-	(L["Page %2d"]):format(9), 
-	(L["Page %2d"]):format(10) 
+	(L["Page %2d"]):format(9),
+	(L["Page %2d"]):format(10)
 }
 
 
@@ -255,7 +255,7 @@ function module:GetStateOptionsTable()
 			multiline = true,
 		},
 	}
-	
+
 	do
 		local defstancemap = Bartender4.StanceMap[playerclass]
 		if defstancemap then
@@ -266,6 +266,6 @@ function module:GetStateOptionsTable()
 			end
 		end
 	end
-	
+
 	return options
 end
