@@ -43,10 +43,30 @@ do
 		self:SetBackdropBorderColor(0, 0, 0, 0)
 	end
 
+	local function barReAnchorForSnap(self)
+		local x,y,anchor = nil, nil, self:GetAnchor()
+		x = (self.config.position.growHorizontal == "RIGHT") and self:GetLeft() or self:GetRight()
+		y = (self.config.position.growVertical == "DOWN") and self:GetTop() or self:GetBottom()
+		self:ClearSetPoint(anchor, UIParent, "BOTTOMLEFT", x, y)
+		self:SetWidth(self.overlay:GetWidth())
+		self:SetHeight(self.overlay:GetHeight())
+	end
+
+	local function barReAnchorNormal(self)
+		local x,y,anchor = nil, nil, self:GetAnchor()
+		x = (self.config.position.growHorizontal == "RIGHT") and self:GetLeft() or self:GetRight()
+		y = (self.config.position.growVertical == "DOWN") and self:GetTop() or self:GetBottom()
+		self:ClearSetPoint(anchor, UIParent, "BOTTOMLEFT", x, y)
+		self:SetWidth(1)
+		self:SetHeight(1)
+	end
+
 	function barOnDragStart(self)
 		local parent = self:GetParent()
 		if Bartender4.db.profile.snapping then
 			local offset = 8 - (parent.config.padding or 0)
+			-- we need to re-anchor the bar and set its proper width for snaping to work properly
+			barReAnchorForSnap(parent)
 			Sticky:StartMoving(parent, snapBars, offset, offset, offset, offset)
 		else
 			parent:StartMoving()
@@ -60,6 +80,7 @@ do
 		if parent.isMoving then
 			if Bartender4.db.profile.snapping then
 				local sticky, stickTo = Sticky:StopMoving(parent)
+				barReAnchorNormal(parent)
 				--Bartender4:Print(sticky, stickTo and stickTo:GetName() or nil)
 			else
 				parent:StopMovingOrSizing()
@@ -107,7 +128,6 @@ function Bartender4.Bar:Create(id, config, name)
 
 	local bar = setmetatable(CreateFrame("Frame", ("BT4Bar%s"):format(id), UIParent, "SecureHandlerStateTemplate"), Bar_MT)
 	barregistry[id] = bar
-	table_insert(snapBars, bar)
 
 	bar.id = id
 	bar.name = name or id
@@ -120,6 +140,8 @@ function Bartender4.Bar:Create(id, config, name)
 
 	local overlay = CreateFrame("Button", bar:GetName() .. "Overlay", bar)
 	bar.overlay = overlay
+	overlay.bar = bar
+	table_insert(snapBars, overlay)
 	overlay:EnableMouse(true)
 	overlay:RegisterForDrag("LeftButton")
 	overlay:RegisterForClicks("LeftButtonUp")
