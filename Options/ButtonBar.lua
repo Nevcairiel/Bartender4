@@ -19,6 +19,8 @@ do
 		zoom = "Zoom",
 		macrotext = "HideMacroText",
 		hotkey = "HideHotkey",
+		vgrowth = "VGrowth",
+		hgrowth = "HGrowth",
 	}
 
 	-- retrieves a valid bar object from the barregistry table
@@ -77,6 +79,24 @@ function ButtonBar:GetOptionObject()
 			desc = L["Number of rows."],
 			type = "range",
 			min = 1, max = 12, step = 1,
+			set = optSetter,
+			get = optGetter,
+		},
+		vgrowth = {
+			order = 75,
+			name = L["Vertical Growth"],
+			desc = L["Vertical growth direction for this bar."],
+			type = "select",
+			values = {UP = L["Up"], DOWN = L["Down"]},
+			set = optSetter,
+			get = optGetter,
+		},
+		hgrowth = {
+			order = 76,
+			name = L["Horizontal Growth"],
+			desc = L["Horizontal growth direction for this bar."],
+			type = "select",
+			values = {LEFT = L["Left"], RIGHT = L["Right"]},
 			set = optSetter,
 			get = optGetter,
 		},

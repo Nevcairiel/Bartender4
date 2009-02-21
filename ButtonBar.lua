@@ -119,6 +119,27 @@ function ButtonBar:GetHideHotkey()
 	return self.config.hidehotkey
 end
 
+function ButtonBar:SetHGrowth(value)
+	self.config.position.growHorizontal = value
+	self:AnchorOverlay()
+	self:UpdateButtonLayout()
+end
+
+function ButtonBar:GetHGrowth()
+	return self.config.position.growHorizontal
+end
+
+function ButtonBar:SetVGrowth(value)
+	self.config.position.growVertical = value
+	self:AnchorOverlay()
+	self:UpdateButtonLayout()
+end
+
+function ButtonBar:GetVGrowth()
+	return self.config.position.growVertical
+end
+
+
 ButtonBar.ClickThroughSupport = true
 function ButtonBar:SetClickThrough(click)
 	if click ~= nil then

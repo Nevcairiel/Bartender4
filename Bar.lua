@@ -147,9 +147,7 @@ function Bartender4.Bar:Create(id, config, name)
 	overlay:SetScript("OnClick", barOnClick)
 
 	overlay:SetFrameLevel(bar:GetFrameLevel() + 10)
-	overlay:ClearAllPoints()
-	local anchor = bar:GetAnchor()
-	overlay:SetPoint(anchor, bar, anchor)
+	bar:AnchorOverlay()
 	overlay:Hide()
 
 	bar.elapsed = 0
@@ -198,6 +196,12 @@ end
 
 function Bar:GetAnchor()
 	return ((self.config.position.growVertical == "DOWN") and "TOP" or "BOTTOM") .. ((self.config.position.growHorizontal == "RIGHT") and "LEFT" or "RIGHT")
+end
+
+function Bar:AnchorOverlay()
+	self.overlay:ClearAllPoints()
+	local anchor = self:GetAnchor()
+	self.overlay:SetPoint(anchor, self, anchor)
 end
 
 function Bar:UpgradeConfig()
