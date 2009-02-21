@@ -216,7 +216,7 @@ function Bar:UpgradeConfig()
 			local point, relPoint = pos.point, pos.relPoint
 			x, y = x/s, y/s
 			self:ClearSetPoint(point, UIParent, relPoint, x, y)
-			LibWin.SavePosition(self)
+			self:SavePosition()
 			pos.relPoint = nil
 		end
 	end
