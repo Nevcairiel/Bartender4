@@ -21,6 +21,8 @@ local defaults = {
 	},
 	position = {
 		scale = 1,
+		growVertical = "DOWN",
+		growHorizontal = "RIGHT",
 	},
 	clickthrough = false,
 }
@@ -109,8 +111,12 @@ function Bartender4.Bar:Create(id, config, name)
 
 	bar.id = id
 	bar.name = name or id
+	bar.config = config
 	bar:SetMovable(true)
 	bar:HookScript("OnAttributeChanged", barOnAttributeChanged)
+
+	bar:SetWidth(1)
+	bar:SetHeight(1)
 
 	local overlay = CreateFrame("Button", bar:GetName() .. "Overlay", bar)
 	bar.overlay = overlay
@@ -142,10 +148,10 @@ function Bartender4.Bar:Create(id, config, name)
 
 	overlay:SetFrameLevel(bar:GetFrameLevel() + 10)
 	overlay:ClearAllPoints()
-	overlay:SetAllPoints(bar)
+	local anchor = bar:GetAnchor()
+	overlay:SetPoint(anchor, bar, anchor)
 	overlay:Hide()
 
-	bar.config = config
 	bar.elapsed = 0
 	bar.hidedriver = {}
 
@@ -188,6 +194,10 @@ function Bar:ApplyConfig(config)
 	self:SetConfigAlpha()
 	self:SetClickThrough()
 	self:InitVisibilityDriver()
+end
+
+function Bar:GetAnchor()
+	return ((self.config.position.growVertical == "DOWN") and "TOP" or "BOTTOM") .. ((self.config.position.growHorizontal == "RIGHT") and "LEFT" or "RIGHT")
 end
 
 function Bar:UpgradeConfig()
@@ -244,8 +254,8 @@ function Bar:SavePosition()
 end
 
 function Bar:SetSize(width, height)
-	self:SetWidth(width)
-	self:SetHeight(height or width)
+	self.overlay:SetWidth(width)
+	self.overlay:SetHeight(height or width)
 end
 
 function Bar:GetConfigAlpha()

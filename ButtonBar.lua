@@ -155,16 +155,22 @@ function ButtonBar:UpdateButtonLayout()
 
 	self:SetSize((self.button_width + hpad) * ButtonPerRow - pad + 8, (self.button_height + vpad) * Rows - pad + 8)
 
-	-- anchor button 1 to the topleft corner of the bar
-	buttons[1]:ClearSetPoint("TOPLEFT", self, "TOPLEFT", 5 - (self.hpad_offset or 0), -3 - (self.vpad_offset or 0))
+	local anchor = self:GetAnchor()
+	-- anchor button 1
+	buttons[1]:ClearSetPoint(anchor, self, anchor, 5 - (self.hpad_offset or 0), -3 - (self.vpad_offset or 0))
+
+	local h1 = (self.config.position.growHorizontal == "RIGHT") and "LEFT" or "RIGHT"
+	local h2 = (self.config.position.growHorizontal == "RIGHT") and "RIGHT" or "LEFT"
+	local v1 = (self.config.position.growVertical == "DOWN") and "TOP" or "BOTTOM"
+	local v2 = (self.config.position.growVertical == "DOWN") and "BOTTOM" or "TOP"
 	-- and anchor all other buttons relative to our button 1
 	for i = 2, numbuttons do
 		-- jump into a new row
 		if ((i-1) % ButtonPerRow) == 0 then
-			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-ButtonPerRow], "BOTTOMLEFT", 0, -vpad)
+			buttons[i]:ClearSetPoint(v1 .. h1, buttons[i-ButtonPerRow], v2 .. h1, 0, -vpad)
 		-- align to the previous button
 		else
-			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", hpad, 0)
+			buttons[i]:ClearSetPoint("TOP" .. h1, buttons[i-1], "TOP" .. h2, hpad, 0)
 		end
 	end
 
