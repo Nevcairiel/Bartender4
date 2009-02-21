@@ -83,6 +83,7 @@ function Bartender4.Button:Create(id, parent)
 	button:SetAttribute('_childupdate-state', [[
 		self:SetAttribute("state", message)
 		local action = self:GetAttribute("action-" .. message)
+		if not action then return end
 		if action == 132 then
 			self:SetAttribute("type", "click")
 			if not self:GetAttribute("isSpecial") then
