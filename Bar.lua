@@ -240,10 +240,12 @@ function Bar:UpgradeConfig()
 			self:SetScale(pos.scale)
 			local x, y, s = pos.x, pos.y, self:GetEffectiveScale()
 			local point, relPoint = pos.point, pos.relPoint
-			x, y = x/s, y/s
-			self:ClearSetPoint(point, UIParent, relPoint, x, y)
-			self:SavePosition()
-			pos.relPoint = nil
+			if x and y and point and relPoint then
+				x, y = x/s, y/s
+				self:ClearSetPoint(point, UIParent, relPoint, x, y)
+				self:SavePosition()
+				pos.relPoint = nil
+			end
 		end
 	end
 	if version < 3 then

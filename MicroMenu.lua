@@ -72,8 +72,8 @@ MicroMenuBar.vpad_offset = -21
 function MicroMenuBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 
-	if not self.config.position then
-		self:ClearSetPoint("CENTER", -105, 27)
+	if not self.config.position.x then
+		self:ClearSetPoint("CENTER", -105, 30)
 		self:SavePosition()
 	end
 
