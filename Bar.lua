@@ -220,6 +220,10 @@ function Bar:UpgradeConfig()
 			pos.relPoint = nil
 		end
 	end
+	if version < 3 then
+		-- Size adjustment is done in first SetSize
+		self.needSizeFix = true
+	end
 	self.config.version = Bartender4.CONFIG_VERSION
 end
 
@@ -256,6 +260,16 @@ end
 function Bar:SetSize(width, height)
 	self.overlay:SetWidth(width)
 	self.overlay:SetHeight(height or width)
+	if self.needSizeFix then
+		self:SetWidth(width)
+		self:SetHeight(height or width)
+		local x, y = self:GetLeft(), self:GetTop()
+		self:ClearSetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y)
+		self:SetWidth(1)
+		self:SetHeight(1)
+		self:SavePosition()
+		self.needSizeFix = nil
+	end
 end
 
 function Bar:GetConfigAlpha()

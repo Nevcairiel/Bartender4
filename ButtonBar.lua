@@ -155,8 +155,8 @@ function ButtonBar:UpdateButtonLayout()
 
 	self:SetSize((self.button_width + hpad) * ButtonPerRow - pad + 8, (self.button_height + vpad) * Rows - pad + 8)
 
-	local anchor = self:GetAnchor()
 	-- anchor button 1
+	local anchor = self:GetAnchor()
 	buttons[1]:ClearSetPoint(anchor, self, anchor, 5 - (self.hpad_offset or 0), -3 - (self.vpad_offset or 0))
 
 	local h1 = (self.config.position.growHorizontal == "RIGHT") and "LEFT" or "RIGHT"
