@@ -17,7 +17,9 @@ local defaults = { profile = Bartender4:Merge({
 		possess = false,
 	},
 	padding = -3,
-	scale = 0.8,
+	position = {
+		scale = 0.8,
+	},
 }, Bartender4.ButtonBar.defaults) }
 
 function MicroMenuMod:OnInitialize()
@@ -70,8 +72,8 @@ MicroMenuBar.vpad_offset = -21
 function MicroMenuBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 
-	if not self.config.position then
-		self:ClearSetPoint("CENTER", -105, 27)
+	if not self.config.position.x then
+		self:ClearSetPoint("CENTER", -105, 30)
 		self:SavePosition()
 	end
 

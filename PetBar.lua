@@ -11,7 +11,6 @@ local PetBar = setmetatable({}, {__index = ButtonBar})
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
-	scale = 1.0,
 	hidehotkey = true,
 	visibility = {
 		nopet = true,
@@ -96,7 +95,7 @@ end
 function PetBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 
-	if not self.config.position then
+	if not self.config.position.x then
 		self:ClearSetPoint("CENTER", 0, 70)
 		self:SavePosition()
 	end

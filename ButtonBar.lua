@@ -119,6 +119,27 @@ function ButtonBar:GetHideHotkey()
 	return self.config.hidehotkey
 end
 
+function ButtonBar:SetHGrowth(value)
+	self.config.position.growHorizontal = value
+	self:AnchorOverlay()
+	self:UpdateButtonLayout()
+end
+
+function ButtonBar:GetHGrowth()
+	return self.config.position.growHorizontal
+end
+
+function ButtonBar:SetVGrowth(value)
+	self.config.position.growVertical = value
+	self:AnchorOverlay()
+	self:UpdateButtonLayout()
+end
+
+function ButtonBar:GetVGrowth()
+	return self.config.position.growVertical
+end
+
+
 ButtonBar.ClickThroughSupport = true
 function ButtonBar:SetClickThrough(click)
 	if click ~= nil then
@@ -153,18 +174,42 @@ function ButtonBar:UpdateButtonLayout()
 	local hpad = pad + (self.hpad_offset or 0)
 	local vpad = pad + (self.vpad_offset or 0)
 
-	self:SetSize((self.button_width + hpad) * ButtonPerRow - pad + 8, (self.button_height + vpad) * Rows - pad + 8)
+	self:SetSize((self.button_width + hpad) * ButtonPerRow - pad + 10, (self.button_height + vpad) * Rows - pad + 10)
 
-	-- anchor button 1 to the topleft corner of the bar
-	buttons[1]:ClearSetPoint("TOPLEFT", self, "TOPLEFT", 5 - (self.hpad_offset or 0), -3 - (self.vpad_offset or 0))
+	local h1, h2, v1, v2
+	local xOff, yOff
+	if self.config.position.growHorizontal == "RIGHT" then
+		h1, h2 = "LEFT", "RIGHT"
+		xOff = 5
+	else
+		h1, h2 = "RIGHT", "LEFT"
+		xOff = -3
+
+		hpad = -hpad
+	end
+
+	if self.config.position.growVertical == "DOWN" then
+		v1, v2 = "TOP", "BOTTOM"
+		yOff = -3
+	else
+		v1, v2 = "BOTTOM", "TOP"
+		yOff = 5
+
+		vpad = -vpad
+	end
+
+	-- anchor button 1
+	local anchor = self:GetAnchor()
+	buttons[1]:ClearSetPoint(anchor, self, anchor, xOff - (self.hpad_offset or 0), yOff - (self.vpad_offset or 0))
+
 	-- and anchor all other buttons relative to our button 1
 	for i = 2, numbuttons do
 		-- jump into a new row
 		if ((i-1) % ButtonPerRow) == 0 then
-			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-ButtonPerRow], "BOTTOMLEFT", 0, -vpad)
+			buttons[i]:ClearSetPoint(v1 .. h1, buttons[i-ButtonPerRow], v2 .. h1, 0, -vpad)
 		-- align to the previous button
 		else
-			buttons[i]:ClearSetPoint("TOPLEFT", buttons[i-1], "TOPRIGHT", hpad, 0)
+			buttons[i]:ClearSetPoint("TOP" .. h1, buttons[i-1], "TOP" .. h2, hpad, 0)
 		end
 	end
 

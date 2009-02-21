@@ -17,7 +17,9 @@ local KeyBound = LibStub("LibKeyBound-1.0")
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
-	scale = 1.5,
+	position = {
+		scale = 1.5,
+	},
 	hidehotkey = true,
 }, Bartender4.ButtonBar.defaults) }
 
@@ -206,7 +208,7 @@ end
 function StanceBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 
-	if not self.config.position then
+	if not self.config.position.x then
 		self:ClearSetPoint("CENTER", -55, -10)
 		self:SavePosition()
 	end

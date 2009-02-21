@@ -19,7 +19,7 @@
 This is a modified version by Nevcairiel for Bartender4
 ------------------------------------------------------------------------------------]]
 
-local MAJOR, MINOR = "LibSimpleSticky-1.0", 1
+local MAJOR, MINOR = "LibSimpleSticky-1.0", 2
 local StickyFrames, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not StickyFrames then return end
@@ -136,7 +136,7 @@ function StickyFrames:GetUpdateFunc(frame, frameList, xoffset, yoffset, left, to
 		StickyFrames.sticky[frame] = nil
 		for i = 1, #frameList do
 			local v = frameList[i]
-			if frame ~= v and not IsShiftKeyDown() and v:IsVisible() then
+			if frame ~= v and frame ~= v:GetParent() and not IsShiftKeyDown() and v:IsVisible() then
 				if self:SnapFrame(frame, v, left, top, right, bottom) then
 					StickyFrames.sticky[frame] = v
 					break

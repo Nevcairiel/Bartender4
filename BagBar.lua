@@ -43,7 +43,7 @@ end
 function BagBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 
-	if not self.config.position then
+	if not self.config.position.x then
 		self:ClearSetPoint("CENTER", 142, -18)
 		self:SavePosition()
 	end

@@ -19,7 +19,7 @@ end
 function ActionBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 
-	if not self.config.position then initialPosition(self) end
+	if not self.config.position.x then initialPosition(self) end
 
 	self:UpdateButtons()
 	self:UpdateSelfCast(true)

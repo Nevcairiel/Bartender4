@@ -11,7 +11,6 @@ local table_concat, table_insert = table.concat, table.insert
 ===================================================================================]]--
 
 local defaults = {
-	scale = 1,
 	alpha = 1,
 	fadeout = false,
 	fadeoutalpha = 0.1,
@@ -20,10 +19,16 @@ local defaults = {
 		possess = true,
 		stance = {},
 	},
+	position = {
+		scale = 1,
+		growVertical = "DOWN",
+		growHorizontal = "RIGHT",
+	},
 	clickthrough = false,
 }
 
 local Sticky = LibStub("LibSimpleSticky-1.0")
+local LibWin = LibStub("LibWindow-1.1")
 local snapBars = { WorldFrame, UIParent }
 
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUpdateFunc, barOnAttributeChanged
@@ -38,10 +43,30 @@ do
 		self:SetBackdropBorderColor(0, 0, 0, 0)
 	end
 
+	local function barReAnchorForSnap(self)
+		local x,y,anchor = nil, nil, self:GetAnchor()
+		x = (self.config.position.growHorizontal == "RIGHT") and self:GetLeft() or self:GetRight()
+		y = (self.config.position.growVertical == "DOWN") and self:GetTop() or self:GetBottom()
+		self:ClearSetPoint(anchor, UIParent, "BOTTOMLEFT", x, y)
+		self:SetWidth(self.overlay:GetWidth())
+		self:SetHeight(self.overlay:GetHeight())
+	end
+
+	local function barReAnchorNormal(self)
+		local x,y,anchor = nil, nil, self:GetAnchor()
+		x = (self.config.position.growHorizontal == "RIGHT") and self:GetLeft() or self:GetRight()
+		y = (self.config.position.growVertical == "DOWN") and self:GetTop() or self:GetBottom()
+		self:ClearSetPoint(anchor, UIParent, "BOTTOMLEFT", x, y)
+		self:SetWidth(1)
+		self:SetHeight(1)
+	end
+
 	function barOnDragStart(self)
 		local parent = self:GetParent()
 		if Bartender4.db.profile.snapping then
 			local offset = 8 - (parent.config.padding or 0)
+			-- we need to re-anchor the bar and set its proper width for snaping to work properly
+			barReAnchorForSnap(parent)
 			Sticky:StartMoving(parent, snapBars, offset, offset, offset, offset)
 		else
 			parent:StartMoving()
@@ -55,6 +80,7 @@ do
 		if parent.isMoving then
 			if Bartender4.db.profile.snapping then
 				local sticky, stickTo = Sticky:StopMoving(parent)
+				barReAnchorNormal(parent)
 				--Bartender4:Print(sticky, stickTo and stickTo:GetName() or nil)
 			else
 				parent:StopMovingOrSizing()
@@ -102,15 +128,20 @@ function Bartender4.Bar:Create(id, config, name)
 
 	local bar = setmetatable(CreateFrame("Frame", ("BT4Bar%s"):format(id), UIParent, "SecureHandlerStateTemplate"), Bar_MT)
 	barregistry[id] = bar
-	table_insert(snapBars, bar)
 
 	bar.id = id
 	bar.name = name or id
+	bar.config = config
 	bar:SetMovable(true)
 	bar:HookScript("OnAttributeChanged", barOnAttributeChanged)
 
+	bar:SetWidth(1)
+	bar:SetHeight(1)
+
 	local overlay = CreateFrame("Button", bar:GetName() .. "Overlay", bar)
 	bar.overlay = overlay
+	overlay.bar = bar
+	table_insert(snapBars, overlay)
 	overlay:EnableMouse(true)
 	overlay:RegisterForDrag("LeftButton")
 	overlay:RegisterForClicks("LeftButtonUp")
@@ -138,11 +169,9 @@ function Bartender4.Bar:Create(id, config, name)
 	overlay:SetScript("OnClick", barOnClick)
 
 	overlay:SetFrameLevel(bar:GetFrameLevel() + 10)
-	overlay:ClearAllPoints()
-	overlay:SetAllPoints(bar)
+	bar:AnchorOverlay()
 	overlay:Hide()
 
-	bar.config = config
 	bar.elapsed = 0
 	bar.hidedriver = {}
 
@@ -170,7 +199,11 @@ function Bar:ApplyConfig(config)
 	if config then
 		self.config = config
 	end
+	LibWin.RegisterConfig(self, self.config.position)
+
+	self:UpgradeConfig()
 	if self.disabled then return end
+
 	if Bartender4.Locked then
 		self:Lock()
 	else
@@ -181,6 +214,45 @@ function Bar:ApplyConfig(config)
 	self:SetConfigAlpha()
 	self:SetClickThrough()
 	self:InitVisibilityDriver()
+end
+
+function Bar:GetAnchor()
+	return ((self.config.position.growVertical == "DOWN") and "TOP" or "BOTTOM") .. ((self.config.position.growHorizontal == "RIGHT") and "LEFT" or "RIGHT")
+end
+
+function Bar:AnchorOverlay()
+	self.overlay:ClearAllPoints()
+	local anchor = self:GetAnchor()
+	self.overlay:SetPoint(anchor, self, anchor)
+end
+
+function Bar:UpgradeConfig()
+	local version = self.config.version or 1
+	if version < 2 then
+		-- LibWindow migration, move scale into position
+		if self.config.scale then
+			self.config.position.scale = self.config.scale
+			self.config.scale = nil
+		end
+		-- LibWindow migration, update position data
+		do
+			local pos = self.config.position
+			self:SetScale(pos.scale)
+			local x, y, s = pos.x, pos.y, self:GetEffectiveScale()
+			local point, relPoint = pos.point, pos.relPoint
+			if x and y and point and relPoint then
+				x, y = x/s, y/s
+				self:ClearSetPoint(point, UIParent, relPoint, x, y)
+				self:SavePosition()
+				pos.relPoint = nil
+			end
+		end
+	end
+	if version < 3 then
+		-- Size adjustment is done in first SetSize
+		self.needSizeFix = true
+	end
+	self.config.version = Bartender4.CONFIG_VERSION
 end
 
 function Bar:Unlock()
@@ -206,27 +278,26 @@ function Bar:StopDragging()
 end
 
 function Bar:LoadPosition()
-	if not self.config.position then return end
-	local pos = self.config.position
-	local x, y, s = pos.x, pos.y, self:GetEffectiveScale()
-	local point, relPoint = pos.point, pos.relPoint
-	x, y = x/s, y/s
-	self:ClearSetPoint(point, UIParent, relPoint, x, y)
+	LibWin.RestorePosition(self)
 end
 
 function Bar:SavePosition()
-	if not self.config.position then self.config.position = {} end
-	local pos = self.config.position
-	local point, parent, relPoint, x, y = self:GetPoint()
-	local s = self:GetEffectiveScale()
-	x, y = x*s, y*s
-	pos.x, pos.y = x, y
-	pos.point, pos.relPoint = point, relPoint
+	LibWin.SavePosition(self)
 end
 
 function Bar:SetSize(width, height)
-	self:SetWidth(width)
-	self:SetHeight(height or width)
+	self.overlay:SetWidth(width)
+	self.overlay:SetHeight(height or width)
+	if self.needSizeFix then
+		self:SetWidth(width)
+		self:SetHeight(height or width)
+		local x, y = self:GetLeft(), self:GetTop()
+		self:ClearSetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", x, y)
+		self:SetWidth(1)
+		self:SetHeight(1)
+		self:SavePosition()
+		self.needSizeFix = nil
+	end
 end
 
 function Bar:GetConfigAlpha()
@@ -243,15 +314,13 @@ function Bar:SetConfigAlpha(alpha)
 end
 
 function Bar:GetConfigScale()
-	return self.config.scale
+	return self.config.position.scale
 end
 
 function Bar:SetConfigScale(scale)
 	if scale then
-		self.config.scale = scale
+		LibWin.SetScale(self, scale)
 	end
-	self:SetScale(self.config.scale)
-	self:LoadPosition()
 end
 
 function Bar:GetClickThrough()

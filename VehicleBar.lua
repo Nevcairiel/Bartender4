@@ -65,14 +65,14 @@ function VehicleBarMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
-VehicleBar.button_width = 30
-VehicleBar.button_height = 30
+VehicleBar.button_width = 40
+VehicleBar.button_height = 40
 VehicleBar.LBFOverride = true
 function VehicleBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 
-	if not self.config.position then
-		self:ClearSetPoint("CENTER", -105, 27)
+	if not self.config.position.x then
+		self:ClearSetPoint("CENTER", 120, 27)
 		self:SavePosition()
 	end
 
