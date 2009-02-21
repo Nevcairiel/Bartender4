@@ -174,16 +174,34 @@ function ButtonBar:UpdateButtonLayout()
 	local hpad = pad + (self.hpad_offset or 0)
 	local vpad = pad + (self.vpad_offset or 0)
 
-	self:SetSize((self.button_width + hpad) * ButtonPerRow - pad + 8, (self.button_height + vpad) * Rows - pad + 8)
+	self:SetSize((self.button_width + hpad) * ButtonPerRow - pad + 10, (self.button_height + vpad) * Rows - pad + 10)
+
+	local h1, h2, v1, v2
+	local xOff, yOff
+	if self.config.position.growHorizontal == "RIGHT" then
+		h1, h2 = "LEFT", "RIGHT"
+		xOff = 5
+	else
+		h1, h2 = "RIGHT", "LEFT"
+		xOff = -3
+
+		hpad = -hpad
+	end
+
+	if self.config.position.growVertical == "DOWN" then
+		v1, v2 = "TOP", "BOTTOM"
+		yOff = -3
+	else
+		v1, v2 = "BOTTOM", "TOP"
+		yOff = 5
+
+		vpad = -vpad
+	end
 
 	-- anchor button 1
 	local anchor = self:GetAnchor()
-	buttons[1]:ClearSetPoint(anchor, self, anchor, 5 - (self.hpad_offset or 0), -3 - (self.vpad_offset or 0))
+	buttons[1]:ClearSetPoint(anchor, self, anchor, xOff - (self.hpad_offset or 0), yOff - (self.vpad_offset or 0))
 
-	local h1 = (self.config.position.growHorizontal == "RIGHT") and "LEFT" or "RIGHT"
-	local h2 = (self.config.position.growHorizontal == "RIGHT") and "RIGHT" or "LEFT"
-	local v1 = (self.config.position.growVertical == "DOWN") and "TOP" or "BOTTOM"
-	local v2 = (self.config.position.growVertical == "DOWN") and "BOTTOM" or "TOP"
 	-- and anchor all other buttons relative to our button 1
 	for i = 2, numbuttons do
 		-- jump into a new row
