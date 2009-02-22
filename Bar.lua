@@ -371,10 +371,10 @@ function Bar:SetFadeOutDelay(delay)
 end
 
 function Bar:ControlFadeOut()
-	if self.faded and MouseIsOver(self) then
+	if self.faded and MouseIsOver(self.overlay) then
 		self:SetAlpha(self.config.alpha)
 		self.faded = nil
-	elseif not self.faded and not MouseIsOver(self) then
+	elseif not self.faded and not MouseIsOver(self.overlay) then
 		local fade = self:GetAttribute("fade")
 		if tonumber(fade) then
 			fade = min(max(fade, 0), 100) / 100
