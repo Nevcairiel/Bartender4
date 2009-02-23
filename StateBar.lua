@@ -1,4 +1,28 @@
-local ActionBar = Bartender4.ActionBar
+--[[ Generic Template for a ButtonBar with state control ]]
+
+local ButtonBar = Bartender4.ButtonBar.prototype
+local StateBar = setmetatable({}, {__index = ButtonBar})
+local StateBar_MT = {__index = StateBar}
+
+local defaults = Bartender4:Merge({
+}, Bartender4.ButtonBar.defaults)
+
+Bartender4.StateBar = {}
+Bartender4.StateBar.prototype = StateBar
+Bartender4.StateBar.defaults = defaults
+
+function Bartender4.StateBar:Create(id, config, name)
+	local bar = setmetatable(Bartender4.ButtonBar:Create(id, config, name), StateBar_MT)
+
+	return bar
+end
+
+function StateBar:ApplyConfig(config)
+	ButtonBar.ApplyConfig(self, config)
+end
+
+--------------------------------------------------------------
+-- Stance Management
 
 local table_insert = table.insert
 local table_concat = table.concat
@@ -55,7 +79,7 @@ Bartender4.StanceMap = DefaultStanceMap
 local searchFunc = function(h, n) return (h.match == n or h.match2 == n or h.id == n) end
 
 local stancemap
-function ActionBar:UpdateStates(returnOnly)
+function StateBar:UpdateStates(returnOnly)
 	if not self.buttons then return end
 	self.statebutton = {}
 	if not stancemap and DefaultStanceMap[playerclass] then
@@ -87,8 +111,8 @@ function ActionBar:UpdateStates(returnOnly)
 				end
 			end
 
-			-- second priority the manual changes using the actionbar options
-			if self:GetStateOption("actionbar") then
+			-- second priority the manual changes using the StateBar options
+			if self:GetStateOption("StateBar") then
 				for i=2,6 do
 					table_insert(statedriver, fmt("[bar:%s]%s", i, i))
 				end
@@ -158,7 +182,7 @@ function ActionBar:UpdateStates(returnOnly)
 	end
 end
 
-function ActionBar:GetStanceState(stance)
+function StateBar:GetStanceState(stance)
 	local stanceconfig = self.config.states.stance[playerclass]
 	if type(stance) == "table" then
 		state = stanceconfig[stance.id]
@@ -168,18 +192,18 @@ function ActionBar:GetStanceState(stance)
 	return state or 0
 end
 
-function ActionBar:GetStanceStateOption(stance)
+function StateBar:GetStanceStateOption(stance)
 	local state = self:GetStanceState(stance)
 	return state
 end
 
-function ActionBar:SetStanceStateOption(stance, state)
+function StateBar:SetStanceStateOption(stance, state)
 	local stanceconfig = self.config.states.stance[playerclass]
 	stanceconfig[stance] = state
 	self:UpdateStates()
 end
 
-function ActionBar:AddButtonStates(state, page)
+function StateBar:AddButtonStates(state, page)
 	if not page then page = state end
 	for _, button in self:GetAll() do
 		local action = (page == 0) and button.id or (button.rid + (page - 1) * 12)
@@ -187,29 +211,29 @@ function ActionBar:AddButtonStates(state, page)
 	end
 end
 
-function ActionBar:GetStateOption(key)
+function StateBar:GetStateOption(key)
 	return self.config.states[key]
 end
 
-function ActionBar:SetStateOption(key, value)
+function StateBar:SetStateOption(key, value)
 	self.config.states[key] = value
 	self:UpdateStates()
 end
 
-function ActionBar:GetDefaultState()
+function StateBar:GetDefaultState()
 	return self.config.states.default
 end
 
-function ActionBar:SetDefaultState(_, value)
+function StateBar:SetDefaultState(_, value)
 	self.config.states.default = value
 	self:UpdateStates()
 end
 
-function ActionBar:GetConfigAutoAssist()
+function StateBar:GetConfigAutoAssist()
 	return self.config.autoassist
 end
 
-function ActionBar:SetConfigAutoAssist(_, value)
+function StateBar:SetConfigAutoAssist(_, value)
 	if value ~= nil then
 		self.config.autoassist = value
 	end
@@ -217,7 +241,7 @@ function ActionBar:SetConfigAutoAssist(_, value)
 	self:ForAll("RefreshAllStateActions")
 end
 
-function ActionBar:SetCopyCustomConditionals()
+function StateBar:SetCopyCustomConditionals()
 	self.config.states.custom = self:UpdateStates(true)
 	self:UpdateStates()
 end

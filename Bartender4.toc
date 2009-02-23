@@ -42,8 +42,8 @@ Bartender4.lua
 ## Prototypes ##
 Bar.lua
 ButtonBar.lua
+StateBar.lua
 ActionBar.lua
-ActionBarStates.lua
 
 ## Buttons ##
 ActionButton.lua

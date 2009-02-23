@@ -1,5 +1,5 @@
-local ButtonBar = Bartender4.ButtonBar.prototype
-local ActionBar = setmetatable({}, {__index = ButtonBar})
+local StateBar = Bartender4.StateBar.prototype
+local ActionBar = setmetatable({}, {__index = StateBar})
 Bartender4.ActionBar = ActionBar
 
 --[[===================================================================================
@@ -17,7 +17,7 @@ end
 
 -- Apply the specified config to the bar and refresh all settings
 function ActionBar:ApplyConfig(config)
-	ButtonBar.ApplyConfig(self, config)
+	StateBar.ApplyConfig(self, config)
 
 	if not self.config.position.x then initialPosition(self) end
 
@@ -74,7 +74,7 @@ function ActionBar:UpdateButtons(numbuttons)
 end
 
 function ActionBar:SkinChanged(...)
-	ButtonBar.SkinChanged(self, ...)
+	StateBar.SkinChanged(self, ...)
 	self:ForAll("Update")
 end
 

@@ -1,5 +1,5 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
-local ButtonBar = Bartender4.ButtonBar.prototype
+local StateBar = Bartender4.StateBar.prototype
 local ActionBar = Bartender4.ActionBar
 
 --[[===================================================================================
@@ -57,7 +57,7 @@ end
 
 function module:GetOptionsObject()
 	if not self.baroptions then
-		local obj = ButtonBar.GetOptionObject(self)
+		local obj = StateBar.GetOptionObject(self)
 
 		local cat_general = {
 			enabled ={
