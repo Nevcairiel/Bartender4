@@ -137,7 +137,7 @@ function StateBar:UpdateStates(returnOnly)
 				if state and state ~= 0 and v.index then
 					if playerclass == "DRUID" and v.id == "cat" then
 						local prowl = self:GetStanceState("prowl")
-						if prowl then
+						if prowl and prowl ~= 0 then
 							table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
 						end
 					end
