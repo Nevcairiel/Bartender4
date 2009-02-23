@@ -103,45 +103,45 @@ function StateBar:UpdateStates(returnOnly)
 	self:ForAll("UpdateStates")
 
 	local statedriver
-	if returnOnly or not self:GetStateOption("customEnabled") then
+	if not self:GetStateOption("enabled") then
+		statedriver = "0"
+	elseif returnOnly or not self:GetStateOption("customEnabled") then
 		statedriver = {}
 		local stateconfig = self.config.states
-		if self:GetStateOption("enabled") then
-			-- arguments will be parsed from left to right, so we have a priority here
+		-- arguments will be parsed from left to right, so we have a priority here
 
-			if self:GetStateOption("possess") then
-				table_insert(statedriver, "[bonusbar:5]11")
+		if self:GetStateOption("possess") then
+			table_insert(statedriver, "[bonusbar:5]11")
+		end
+
+		-- highest priority have our temporary quick-swap keys
+		for _,v in pairs(modifiers) do
+			local page = self:GetStateOption(v)
+			if page and page ~= 0 then
+				table_insert(statedriver, fmt("[mod:%s]%s", v, page))
 			end
+		end
 
-			-- highest priority have our temporary quick-swap keys
-			for _,v in pairs(modifiers) do
-				local page = self:GetStateOption(v)
-				if page and page ~= 0 then
-					table_insert(statedriver, fmt("[mod:%s]%s", v, page))
-				end
+		-- second priority the manual changes using the StateBar options
+		if self:GetStateOption("StateBar") then
+			for i=2,6 do
+				table_insert(statedriver, fmt("[bar:%s]%s", i, i))
 			end
+		end
 
-			-- second priority the manual changes using the StateBar options
-			if self:GetStateOption("StateBar") then
-				for i=2,6 do
-					table_insert(statedriver, fmt("[bar:%s]%s", i, i))
-				end
-			end
-
-			-- third priority the stances
-			if stancemap then
-				if not stateconfig.stance[playerclass] then stateconfig.stance[playerclass] = {} end
-				for i,v in pairs(stancemap) do
-					local state = self:GetStanceState(v)
-					if state and state ~= 0 and v.index then
-						if playerclass == "DRUID" and v.id == "cat" then
-							local prowl = self:GetStanceState("prowl")
-							if prowl then
-								table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
-							end
+		-- third priority the stances
+		if stancemap then
+			if not stateconfig.stance[playerclass] then stateconfig.stance[playerclass] = {} end
+			for i,v in pairs(stancemap) do
+				local state = self:GetStanceState(v)
+				if state and state ~= 0 and v.index then
+					if playerclass == "DRUID" and v.id == "cat" then
+						local prowl = self:GetStanceState("prowl")
+						if prowl then
+							table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
 						end
-						table_insert(statedriver, fmt("[%s:%s]%s", v.type or "bonusbar", v.index, state))
 					end
+					table_insert(statedriver, fmt("[%s:%s]%s", v.type or "bonusbar", v.index, state))
 				end
 			end
 		end
