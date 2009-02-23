@@ -5,6 +5,20 @@ local StateBar = setmetatable({}, {__index = ButtonBar})
 local StateBar_MT = {__index = StateBar}
 
 local defaults = Bartender4:Merge({
+	autoassist = false,
+	states = {
+		enabled = false,
+		possess = false,
+		actionbar = false,
+		default = 0,
+		ctrl = 0,
+		alt = 0,
+		shift = 0,
+		stance = {
+			['*'] = {
+			},
+		},
+	},
 }, Bartender4.ButtonBar.defaults)
 
 Bartender4.StateBar = {}
@@ -86,13 +100,9 @@ function StateBar:UpdateStates(returnOnly)
 		stancemap = DefaultStanceMap[playerclass]
 	end
 
-	self:ForAll("ClearStateAction")
-	for i=0,11 do
-		self:AddButtonStates(i)
-	end
+	self:ForAll("UpdateStates")
 
 	local statedriver
-
 	if returnOnly or not self:GetStateOption("customEnabled") then
 		statedriver = {}
 		local stateconfig = self.config.states
@@ -203,14 +213,6 @@ function StateBar:SetStanceStateOption(stance, state)
 	self:UpdateStates()
 end
 
-function StateBar:AddButtonStates(state, page)
-	if not page then page = state end
-	for _, button in self:GetAll() do
-		local action = (page == 0) and button.id or (button.rid + (page - 1) * 12)
-		button:SetStateAction(state, action)
-	end
-end
-
 function StateBar:GetStateOption(key)
 	return self.config.states[key]
 end
@@ -238,7 +240,6 @@ function StateBar:SetConfigAutoAssist(_, value)
 		self.config.autoassist = value
 	end
 	self:UpdateStates()
-	self:ForAll("RefreshAllStateActions")
 end
 
 function StateBar:SetCopyCustomConditionals()

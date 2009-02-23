@@ -9,20 +9,6 @@ local abdefaults = {
 		buttons = 12,
 		hidemacrotext = false,
 		showgrid = false,
-		autoassist = false,
-		states = {
-			enabled = false,
-			possess = false,
-			actionbar = false,
-			default = 0,
-			ctrl = 0,
-			alt = 0,
-			shift = 0,
-			stance = {
-				['*'] = {
-				},
-			},
-		},
 	}, Bartender4.StateBar.defaults),
 	[1] = {
 		states = {

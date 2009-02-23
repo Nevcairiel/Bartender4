@@ -146,6 +146,12 @@ function Bartender4.Button:Create(id, parent)
 	button:UpdateGrid()
 	button:ToggleButtonElements()
 
+	button:ClearStateAction()
+	for page = 0,11,1 do
+		local action = (page == 0) and button.id or (button.rid + (page - 1) * 12)
+		button:SetStateAction(page, action)
+	end
+
 	return button
 end
 
@@ -241,6 +247,10 @@ function Button:GetNormalTexture()
 	return self.normalTexture
 end
 
+function Button:UpdateStates()
+	self:RefreshAllStateActions()
+end
+
 function Button:ClearStateAction()
 	for state in pairs(self.stateactions) do
 		self.stateactions = {}
@@ -256,7 +266,6 @@ function Button:SetStateAction(state, action)
 end
 
 function Button:RefreshAllStateActions()
-	self.stateconfig = {}
 	for state in pairs(self.stateactions) do
 		self:RefreshStateAction(state)
 	end
