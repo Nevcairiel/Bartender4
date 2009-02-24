@@ -33,6 +33,7 @@ end
 
 function StateBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
+	-- We cannot call UpdateStates or UpdateSelfCast now, because the buttons are not yet created *sad*
 end
 
 --------------------------------------------------------------
@@ -43,13 +44,6 @@ local table_concat = table.concat
 local fmt = string.format
 
 local modifiers = { "ctrl", "alt", "shift" }
-
-local function tfind(haystack, needle, searchfunc)
-	for i,v in pairs(haystack) do
-		if (searchfunc and searchfunc(v, needle) or (v == needle)) then return i end
-	end
-	return nil
-end
 
 local _, playerclass = UnitClass("player")
 
@@ -90,8 +84,6 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 end})
 Bartender4.StanceMap = DefaultStanceMap
 
-local searchFunc = function(h, n) return (h.match == n or h.match2 == n or h.id == n) end
-
 local stancemap
 function StateBar:UpdateStates(returnOnly)
 	if not self.buttons then return end
@@ -110,6 +102,7 @@ function StateBar:UpdateStates(returnOnly)
 		local stateconfig = self.config.states
 		-- arguments will be parsed from left to right, so we have a priority here
 
+		-- possessing will always be the most important change, if enabled
 		if self:GetStateOption("possess") then
 			table_insert(statedriver, "[bonusbar:5]11")
 		end
@@ -122,8 +115,8 @@ function StateBar:UpdateStates(returnOnly)
 			end
 		end
 
-		-- second priority the manual changes using the StateBar options
-		if self:GetStateOption("StateBar") then
+		-- second priority the manual changes using the ActionBar options
+		if self:GetStateOption("actionbar") then
 			for i=2,6 do
 				table_insert(statedriver, fmt("[bar:%s]%s", i, i))
 			end
@@ -135,6 +128,7 @@ function StateBar:UpdateStates(returnOnly)
 			for i,v in pairs(stancemap) do
 				local state = self:GetStanceState(v)
 				if state and state ~= 0 and v.index then
+					-- hack for druid prowl, since its no real "stance", but we want to handle it anyway
 					if playerclass == "DRUID" and v.id == "cat" then
 						local prowl = self:GetStanceState("prowl")
 						if prowl and prowl ~= 0 then
@@ -244,5 +238,10 @@ end
 
 function StateBar:SetCopyCustomConditionals()
 	self.config.states.custom = self:UpdateStates(true)
+	self:UpdateStates()
+end
+
+function StateBar:UpdateSelfCast()
+	self:ForAll("UpdateSelfCast")
 	self:UpdateStates()
 end
