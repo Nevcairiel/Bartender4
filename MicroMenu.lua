@@ -66,6 +66,15 @@ function MicroMenuMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
+function MicroMenuMod:RestoreButtons()
+	if not self:IsEnabled() then return end
+	for k,v in pairs(self.bar.buttons) do
+		v:SetParent(self.bar)
+		v:Show()
+	end
+	self.bar:UpdateButtonLayout()
+end
+
 MicroMenuBar.button_width = 28
 MicroMenuBar.button_height = 58
 MicroMenuBar.vpad_offset = -21

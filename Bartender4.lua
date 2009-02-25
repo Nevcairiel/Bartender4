@@ -16,6 +16,7 @@ local defaults = {
 		focuscastmodifier = true,
 		selfcastrightclick = false,
 		snapping = true,
+		blizzardVehicle = false,
 		minimapIcon = {},
 	}
 }
@@ -34,6 +35,7 @@ function Bartender4:OnInitialize()
 	self:RegisterEvent("PLAYER_REGEN_DISABLED", "CombatLockdown")
 
 	self:HideBlizzard()
+	self:UpdateBlizzardVehicle()
 
 	if LDB then
 		createLDBLauncher()
@@ -99,10 +101,10 @@ function Bartender4:HideBlizzard()
 	--MainMenuBarArtFrame:UnregisterEvent("KNOWN_CURRENCY_TYPES_UPDATE")
 	--MainMenuBarArtFrame:UnregisterEvent("CURRENCY_DISPLAY_UPDATE")
 	MainMenuBarArtFrame:UnregisterEvent("ADDON_LOADED")
-	MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERING_VEHICLE")
-	MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERED_VEHICLE")
-	MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITING_VEHICLE")
-	MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITED_VEHICLE")
+	--MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERING_VEHICLE")
+	--MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERED_VEHICLE")
+	--MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITING_VEHICLE")
+	--MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITED_VEHICLE")
 	MainMenuBarArtFrame:Hide()
 
 	--MainMenuExpBar:UnregisterAllEvents()
@@ -146,8 +148,44 @@ function Bartender4:UpdateModuleConfigs()
 		LDBIcon:Refresh("Bartender4", Bartender4.db.profile.minimapIcon)
 	end
 
+	self:UpdateBlizzardVehicle()
+
 	if unlock then
 		self:Unlock()
+	end
+end
+
+function Bartender4:UpdateBlizzardVehicle()
+	if self.db.profile.blizzardVehicle then
+		MainMenuBarArtFrame:RegisterEvent("UNIT_ENTERING_VEHICLE")
+		MainMenuBarArtFrame:RegisterEvent("UNIT_ENTERED_VEHICLE")
+		MainMenuBarArtFrame:RegisterEvent("UNIT_EXITING_VEHICLE")
+		MainMenuBarArtFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
+		local vehicleModule = Bartender4:GetModule("Vehicle", true)
+		vehicleModule:Disable()
+		vehicleModule.blizzardVehicle = true
+
+		if not self.hookedVehicle then
+			self.hookedVehicle = true
+			hooksecurefunc("MainMenuBar_ToPlayerArt", function()
+				MainMenuBar:Hide()
+				ShapeshiftBarFrame:Hide()
+				PossessBarFrame:Hide()
+				local module = Bartender4:GetModule("MicroMenu")
+				module:RestoreButtons()
+			end)
+		end
+	else
+		MainMenuBarArtFrame:RegisterEvent("UNIT_ENTERING_VEHICLE")
+		MainMenuBarArtFrame:RegisterEvent("UNIT_ENTERED_VEHICLE")
+		MainMenuBarArtFrame:RegisterEvent("UNIT_EXITING_VEHICLE")
+		MainMenuBarArtFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
+
+		local vehicleModule = Bartender4:GetModule("Vehicle")
+		vehicleModule.blizzardVehicle = nil
+		if vehicleModule.db.profile.enabled then
+			vehicleModule:Enable()
+		end
 	end
 end
 

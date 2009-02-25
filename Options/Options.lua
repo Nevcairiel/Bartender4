@@ -72,8 +72,20 @@ local function getOptions()
 							name = function(info) if info.uiType == "dialog" then return "" else return L["Bar Options"] end end,
 							guiInline = true,
 							args = {
-								selfcastmodifier = {
+								blizzardVehicle = {
 									order = 1,
+									type = "toggle",
+									name = L["Use Blizzard Vehicle UI"],
+									desc = L["Enable the use of the Blizzard Vehicle UI, hiding any Bartender4 bars in the meantime."],
+									width = "full",
+									get = getFunc,
+									set = function(info, value)
+										Bartender4.db.profile.blizzardVehicle = value
+										Bartender4:UpdateBlizzardVehicle()
+									end,
+								},
+								selfcastmodifier = {
+									order = 10,
 									type = "toggle",
 									name = L["Self-Cast by modifier"],
 									desc = L["Toggle the use of the modifier-based self-cast functionality."],
@@ -84,7 +96,7 @@ local function getOptions()
 									end,
 								},
 								setselfcastmod = {
-									order = 2,
+									order = 20,
 									type = "select",
 									name = L["Self-Cast Modifier"],
 									desc = L["Select the Self-Cast Modifier"],
@@ -93,12 +105,12 @@ local function getOptions()
 									values = { NONE = L["None"], ALT = L["ALT"], SHIFT = L["SHIFT"], CTRL = L["CTRL"] },
 								},
 								selfcast_nl = {
-									order = 3,
+									order = 30,
 									type = "description",
 									name = "",
 								},
 								focuscastmodifier = {
-									order = 5,
+									order = 50,
 									type = "toggle",
 									name = L["Focus-Cast by modifier"],
 									desc = L["Toggle the use of the modifier-based focus-cast functionality."],
@@ -109,7 +121,7 @@ local function getOptions()
 									end,
 								},
 								setfocuscastmod = {
-									order = 6,
+									order = 60,
 									type = "select",
 									name = L["Focus-Cast Modifier"],
 									desc = L["Select the Focus-Cast Modifier"],
@@ -118,12 +130,12 @@ local function getOptions()
 									values = { NONE = L["None"], ALT = L["ALT"], SHIFT = L["SHIFT"], CTRL = L["CTRL"] },
 								},
 								focuscast_nl = {
-									order = 7,
+									order = 70,
 									type = "description",
 									name = "",
 								},
 								selfcastrightclick = {
-									order = 8,
+									order = 80,
 									type = "toggle",
 									name = L["Right-click Self-Cast"],
 									desc = L["Toggle the use of the right-click self-cast functionality."],
@@ -134,12 +146,12 @@ local function getOptions()
 									end,
 								},
 								rightclickselfcast_nl = {
-									order = 9,
+									order = 90,
 									type = "description",
 									name = "",
 								},
 								range = {
-									order = 10,
+									order = 100,
 									name = L["Out of Range Indicator"],
 									desc = L["Configure how the Out of Range Indicator should display on the buttons."],
 									type = "select",
@@ -154,7 +166,7 @@ local function getOptions()
 									values = { none = L["No Display"], button = L["Full Button Mode"], hotkey = L["Hotkey Mode"] },
 								},
 								colors = {
-									order = 13,
+									order = 130,
 									type = "group",
 									guiInline = true,
 									name = L["Colors"],
@@ -183,7 +195,7 @@ local function getOptions()
 									},
 								},
 								tooltip = {
-									order = 20,
+									order = 200,
 									name = L["Button Tooltip"],
 									type = "select",
 									desc = L["Configure the Button Tooltip."],
