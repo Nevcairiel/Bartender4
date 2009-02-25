@@ -28,7 +28,10 @@ function VehicleBarMod:OnInitialize()
 end
 
 function VehicleBarMod:OnEnable()
-	if self.blizzardVehicle then return end
+	if self.blizzardVehicle then
+		self:Disable()
+		return
+	end
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("Vehicle", self.db.profile, L["Vehicle Bar"], true), {__index = VehicleBar})
 		local buttons = {VehicleMenuBarLeaveButton, VehicleMenuBarPitchUpButton, VehicleMenuBarPitchDownButton}
