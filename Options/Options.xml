@@ -4,9 +4,9 @@
 	
 	<Script file="Bar.lua"/>
 	<Script file="ButtonBar.lua"/>
+	<Script file="StateBar.lua"/>
 	
 	<Script file="ActionBar.lua"/>
-	<Script file="ActionBarStates.lua"/>
 	<Script file="BagBar.lua"/>
 	<Script file="MicroMenu.lua"/>
 	<Script file="PetBar.lua"/>

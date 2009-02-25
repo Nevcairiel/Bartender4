@@ -87,15 +87,6 @@ function module:GetOptionsObject()
 			},
 		}
 		obj:AddElementGroup("general", cat_general)
-
-		local states = {
-			type = "group",
-			name = L["State Configuration"],
-			order = 5,
-			args = self:GetStateOptionsTable(),
-		}
-		obj:NewCategory("state", states)
-
 		self.baroptions = obj
 	end
 

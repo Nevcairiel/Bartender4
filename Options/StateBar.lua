@@ -1,11 +1,13 @@
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
-local ActionBar = Bartender4.ActionBar
 
-local module = Bartender4:GetModule("ActionBars")
+local Bar = Bartender4.Bar.prototype
+local ButtonBar = Bartender4.ButtonBar.prototype
+local StateBar = Bartender4.StateBar.prototype
 
-local optGetter, optSetter
+local optGetter, optSetter, getBar
 do
-	local getBar, optionMap, callFunc
+	local optionMap, callFunc
+	local barregistry = Bartender4.Bar.barregistry
 
 	optionMap = {
 		stance = "StanceStateOption",
@@ -19,17 +21,17 @@ do
 		custom = "StateOption",
 		customCopy = "CopyCustomConditionals",
 	}
-	-- retrieves a valid bar object from the modules actionbars table
+	-- retrieves a valid bar object from the barregistry table
 	function getBar(id)
-		local bar = module.actionbars[tonumber(id)]
-		assert(bar, "Invalid bar id in options table.")
+		local bar = barregistry[tostring(id)]
+		assert(bar, ("Invalid bar id in options table. (%s)"):format(id))
 		return bar
 	end
 
 	-- calls a function on the bar
 	function callFunc(bar, type, option, ...)
 		local func = type .. (optionMap[option] or option)
-		assert(bar[func], "Invalid get/set function."..func)
+		assert(bar[func], ("Invalid get/set function %s in bar %s."):format(func, bar.id))
 		return bar[func](bar, ...)
 	end
 
@@ -80,21 +82,22 @@ local function createOptionGroup(k, id)
 end
 
 local disabledFunc = function(info)
-	local bar = module.actionbars[tonumber(info[2])]
+	local bar = getBar(info[2])
 	return not bar:GetStateOption("enabled")
 end
 
 local stateOffOrCustomOn = function(info)
-	local bar = module.actionbars[tonumber(info[2])]
+	local bar = getBar(info[2])
 	return (not bar:GetStateOption("enabled")) or (bar:GetStateOption("customEnabled"))
 end
 
 local stateOffOrCustomOff = function(info)
-	local bar = module.actionbars[tonumber(info[2])]
+	local bar = getBar(info[2])
 	return (not bar:GetStateOption("enabled")) or (not bar:GetStateOption("customEnabled"))
 end
 
-function module:GetStateOptionsTable()
+function StateBar:GetOptionObject()
+	local obj = ButtonBar.GetOptionObject()
 	local options = {
 		enabled = {
 			order = 1,
@@ -267,5 +270,13 @@ function module:GetStateOptionsTable()
 		end
 	end
 
-	return options
+	local states = {
+		type = "group",
+		name = L["State Configuration"],
+		order = 5,
+		args = options,
+	}
+	obj:NewCategory("state", states)
+
+	return obj
 end
