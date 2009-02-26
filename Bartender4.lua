@@ -168,12 +168,12 @@ function Bartender4:UpdateBlizzardVehicle()
 		if not self.hookedVehicle then
 			self.hookedVehicle = true
 			hooksecurefunc("MainMenuBar_ToPlayerArt", function()
-				MainMenuBar:Hide()
-				ShapeshiftBarFrame:Hide()
-				PossessBarFrame:Hide()
 				Bartender4:GetModule("MicroMenu"):RestoreButtons()
 			end)
 		end
+		RegisterStateDriver(MainMenuBar, "visibility", "hide")
+		RegisterStateDriver(ShapeshiftBarFrame, "visibility", "hide")
+		RegisterStateDriver(PossessBarFrame, "visibility", "hide")
 	else
 		MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERING_VEHICLE")
 		MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERED_VEHICLE")
@@ -185,6 +185,9 @@ function Bartender4:UpdateBlizzardVehicle()
 		if vehicleModule.db and vehicleModule.db.profile.enabled then
 			vehicleModule:Enable()
 		end
+		UnregisterStateDriver(MainMenuBar, "visibility")
+		UnregisterStateDriver(ShapeshiftBarFrame, "visibility")
+		UnregisterStateDriver(PossessBarFrame, "visibility")
 	end
 end
 
