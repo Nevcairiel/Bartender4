@@ -171,8 +171,7 @@ function Bartender4:UpdateBlizzardVehicle()
 				MainMenuBar:Hide()
 				ShapeshiftBarFrame:Hide()
 				PossessBarFrame:Hide()
-				local module = Bartender4:GetModule("MicroMenu")
-				module:RestoreButtons()
+				Bartender4:GetModule("MicroMenu"):RestoreButtons()
 			end)
 		end
 	else
