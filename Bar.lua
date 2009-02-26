@@ -380,7 +380,7 @@ function Bar:ControlFadeOut()
 			fade = min(max(fade, 0), 100) / 100
 			self:SetAlpha(fade)
 		else
-			self:SetAlpha(self.config.fadeoutalpha)
+			self:SetAlpha(self.config.fadeoutalpha or 0)
 		end
 		self.faded = true
 	end

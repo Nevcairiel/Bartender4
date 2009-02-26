@@ -265,6 +265,7 @@ end
 function Button:RefreshStateAction(state)
 	local state = tonumber(state or self:GetAttribute("state")) or 0
 	local action = self.stateactions[state]
+	assert(action, ("No valid action for state %d on button %d of Bar %d"):format(state, self.rid, self.parent.id))
 	self:SetAttribute("action-"..state, action)
 
 	if action > 120 and action <= 126 then
