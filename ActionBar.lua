@@ -68,6 +68,9 @@ function ActionBar:UpdateButtons(numbuttons)
 
 	-- need to re-set clickthrough after creating new buttons
 	self:SetClickThrough()
+
+	-- Also need to re-apply state fun to the new buttons, just to be sure.
+	self:UpdateStates()
 end
 
 function ActionBar:SkinChanged(...)
