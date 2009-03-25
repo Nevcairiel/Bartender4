@@ -95,7 +95,7 @@ function Bartender4:HideBlizzard()
 	MainMenuBar:UnregisterAllEvents()
 	MainMenuBar:Hide()
 
-	MainMenuBarArtFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
+	--MainMenuBarArtFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	--MainMenuBarArtFrame:UnregisterEvent("BAG_UPDATE")
 	MainMenuBarArtFrame:UnregisterEvent("ACTIONBAR_PAGE_CHANGED")
 	--MainMenuBarArtFrame:UnregisterEvent("KNOWN_CURRENCY_TYPES_UPDATE")
