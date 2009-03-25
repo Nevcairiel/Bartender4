@@ -174,6 +174,24 @@ function Bartender4:UpdateBlizzardVehicle()
 		RegisterStateDriver(MainMenuBar, "visibility", "hide")
 		RegisterStateDriver(ShapeshiftBarFrame, "visibility", "hide")
 		RegisterStateDriver(PossessBarFrame, "visibility", "hide")
+
+		if not self.vehicleController then
+			self.vehicleController = CreateFrame("Frame", nil, UIParent, "SecureHandlerStateTemplate")
+			self.vehicleController:SetAttribute("_onstate-vehicle", [[
+				if newstate == "vehicle" then
+					for i=1,6 do
+						local button, vbutton = ("ACTIONBUTTON%d"):format(i), ("VehicleMenuBarActionButton%d"):format(i)
+						for k=1,select('#', GetBindingKey(button)) do
+							local key = select(k, GetBindingKey(button))
+							self:SetBindingClick(true, key, vbutton)
+						end
+					end
+				else
+					self:ClearBindings()
+				end
+			]])
+		end
+		RegisterStateDriver(self.vehicleController, "vehicle", "[target=vehicle,exists,bonusbar:5]vehicle;novehicle")
 	else
 		MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERING_VEHICLE")
 		MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERED_VEHICLE")
@@ -188,6 +206,9 @@ function Bartender4:UpdateBlizzardVehicle()
 		UnregisterStateDriver(MainMenuBar, "visibility")
 		UnregisterStateDriver(ShapeshiftBarFrame, "visibility")
 		UnregisterStateDriver(PossessBarFrame, "visibility")
+		if self.vehicleController then
+			UnregisterStateDriver(self.vehicleController, "vehicle")
+		end
 	end
 end
 
