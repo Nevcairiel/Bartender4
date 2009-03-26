@@ -80,6 +80,10 @@ local function getOptions()
 									width = "full",
 									get = getFunc,
 									set = function(info, value)
+										if UnitHasVehicleUI("player") then
+											Bartender4:Print(L["You have to exit the vehicle in order to be able to change the Vehicle UI settings."])
+											return
+										end
 										Bartender4.db.profile.blizzardVehicle = value
 										Bartender4:UpdateBlizzardVehicle()
 									end,
