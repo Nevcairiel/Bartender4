@@ -1,3 +1,7 @@
+--[[
+	Copyright (c) 2009, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
+	All rights reserved.
+]]
 --[[ Generic Template for a ButtonBar with state control ]]
 
 local ButtonBar = Bartender4.ButtonBar.prototype

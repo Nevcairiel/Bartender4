@@ -1,4 +1,8 @@
 --[[
+	Copyright (c) 2009, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
+	All rights reserved.
+]]
+--[[
 	Action Button Template
 
 	Note:

@@ -1,3 +1,7 @@
+--[[
+	Copyright (c) 2009, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
+	All rights reserved.
+]]
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")

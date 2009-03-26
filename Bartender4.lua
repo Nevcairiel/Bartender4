@@ -1,3 +1,7 @@
+--[[
+	Copyright (c) 2009, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
+	All rights reserved.
+]]
 local AceAddon = LibStub("AceAddon-3.0")
 Bartender4 = AceAddon:NewAddon("Bartender4", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0")
 

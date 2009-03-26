@@ -1,3 +1,7 @@
+--[[
+	Copyright (c) 2009, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
+	All rights reserved.
+]]
 local StateBar = Bartender4.StateBar.prototype
 local ActionBar = setmetatable({}, {__index = StateBar})
 Bartender4.ActionBar = ActionBar

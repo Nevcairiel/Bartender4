@@ -1,13 +1,20 @@
 ﻿## Interface: 30100
-## Notes-ruRU: Простой и усовершенствованный - Аддон паненей команд Бармен4
-## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
+
 ## Title: Bartender4
+## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
+## Notes-ruRU: Простой и усовершенствованный - Аддон паненей команд Бармен4
+
+## Version: @project-version@
+
 ## Author: Nevcairiel
-## X-Email: h.leppkes AT gmail DOT com
+## X-Email: h.leppkes at gmail dot com
+
+## X-Category: Action Bars
+## X-Website: http://www.wowace.com/projects/bartender4/
+## X-License: All rights reserved.
+
 ## SavedVariables: Bartender4DB
 ## OptionalDeps: Ace3, ButtonFacade, LibKeyBound-1.0, LibDBIcon-1.0, LibWindow-1.1
-## X-Category: Action Bars
-## Version: 4.3.0-beta1
 
 #@no-lib-strip@
 libs\LibStub\LibStub.lua

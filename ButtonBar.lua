@@ -1,3 +1,7 @@
+--[[
+	Copyright (c) 2009, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
+	All rights reserved.
+]]
 --[[ Generic Template for a Bar which contains Buttons ]]
 
 local Bar = Bartender4.Bar.prototype
