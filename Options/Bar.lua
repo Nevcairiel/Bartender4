@@ -112,11 +112,18 @@ do
 end
 
 local _, class = UnitClass("player")
+local stanceClasses = {
+	DRUID = true,
+	WARRIOR = true,
+	WARLOCK = true,
+	PRIEST = true,
+	ROGUE = true,
+}
 
 local function getStanceTable()
-	local num = GetNumShapeshiftForms()
-
 	local tbl = {}
+
+	local num = GetNumShapeshiftForms()
 	for i = 1, num do
 		tbl[i] = select(2, GetShapeshiftFormInfo(i))
 	end
@@ -207,7 +214,6 @@ function Bar:GetOptionObject()
 				fadeoutalpha = {
 					order = 6,
 					name = L["Fade Out Alpha"],
---					desc = L["Enable the FadeOut mode"],
 					desc = L["Configure the Fade Out Alpha"],
 					type = "range",
 					min = 0, max = 1, step = 0.05,
@@ -217,7 +223,6 @@ function Bar:GetOptionObject()
 				fadeoutdelay = {
 					order = 7,
 					name = L["Fade Out Delay"],
---					desc = L["Enable the FadeOut mode"],
 					desc = L["Configure the Fade Out Delay"],
 					type = "range",
 					min = 0, max = 1, step = 0.01,
@@ -285,7 +290,7 @@ function Bar:GetOptionObject()
 					name = L["Hide in Stance/Form"],
 					desc = L["Hide this bar in a specific Stance or Form."],
 					values = getStanceTable,
-					hidden = function() return (GetNumShapeshiftForms() < 1) end,
+					hidden = function() return (not stanceClasses[class]) end,
 					disabled = customEnabled,
 				},
 				customNl = {
