@@ -161,6 +161,7 @@ function Bartender4:UpdateBlizzardVehicle()
 		MainMenuBarArtFrame:RegisterEvent("UNIT_ENTERED_VEHICLE")
 		MainMenuBarArtFrame:RegisterEvent("UNIT_EXITING_VEHICLE")
 		MainMenuBarArtFrame:RegisterEvent("UNIT_EXITED_VEHICLE")
+		MainMenuBarArtFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 		local vehicleModule = Bartender4:GetModule("Vehicle", true)
 		vehicleModule:Disable()
 		vehicleModule.blizzardVehicle = true
@@ -197,6 +198,7 @@ function Bartender4:UpdateBlizzardVehicle()
 		MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERED_VEHICLE")
 		MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITING_VEHICLE")
 		MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITED_VEHICLE")
+		MainMenuBarArtFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
 
 		local vehicleModule = Bartender4:GetModule("Vehicle")
 		vehicleModule.blizzardVehicle = nil
