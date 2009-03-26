@@ -327,7 +327,7 @@ function Bar:GetOptionObject()
 				},
 			},
 		},
-		align = {
+		position = {
 			type = "group",
 			name = L["Positioning"],
 			order = 20,
