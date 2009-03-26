@@ -17,7 +17,7 @@ local function round(num, idp)
 end
 
 -- option utilty functions
-local optGetter, optSetter, visibilityGetter, visibilitySetter, customEnabled, customDisabled, customCopy, clickThroughVis, posGet, posSet
+local optGetter, optSetter, visibilityGetter, visibilitySetter, customEnabled, customDisabled, customCopy, clickThroughVis, posGet, posSet, centerHorz, centerVert, resetPos
 do
 	local getBar, optionMap, callFunc
 	-- maps option keys to function names
@@ -107,6 +107,43 @@ do
 			value = tonumber(value)
 		end
 		bar.config.position[opt] = value
+		bar:LoadPosition()
+	end
+
+	function centerHorz(info)
+		local bar = getBar(info[2])
+		local pos = bar.config.position
+		local x_mod = (pos.growHorizontal == "RIGHT") and -1 or 1
+		pos.x = (bar.overlay:GetWidth() / 2) * pos.scale * x_mod
+		if pos.point == "CENTER" or pos.point == "LEFT" or pos.point == "RIGHT" then -- no special handling
+			pos.point = "CENTER"
+		else
+			pos.point = pos.point:gsub("LEFT", ""):gsub("RIGHT", "")
+		end
+		bar:LoadPosition()
+	end
+
+	function centerVert(info)
+		local bar = getBar(info[2])
+		local pos = bar.config.position
+		local y_mod = (pos.growVertical == "DOWN") and 1 or -1
+		pos.y = (bar.overlay:GetHeight() / 2) * pos.scale * y_mod
+		if pos.point == "CENTER" or pos.point == "TOP" or pos.point == "BOTTOM" then -- no special handling
+			pos.point = "CENTER"
+		else
+			pos.point = pos.point:gsub("TOP", ""):gsub("BOTTOM", "")
+		end
+		bar:LoadPosition()
+	end
+
+	function resetPos(info)
+		local bar = getBar(info[2])
+		local pos = bar.config.position
+		local x_mod = (pos.growHorizontal == "RIGHT") and -1 or 1
+		local y_mod = (pos.growVertical == "DOWN") and 1 or -1
+		pos.x = (bar.overlay:GetWidth() / 2) * pos.scale * x_mod
+		pos.y = (bar.overlay:GetHeight() / 2) * pos.scale * y_mod
+		pos.point = "CENTER"
 		bar:LoadPosition()
 	end
 end
@@ -380,6 +417,37 @@ function Bar:GetOptionObject()
 					desc = L["Offset in Y direction (vertical) from the given anchor point."],
 					get = posGet,
 					set = posSet,
+				},
+				nl2 = {
+					order = 25,
+					type = "description",
+					name = "",
+				},
+				centerhorz = {
+					order = 31,
+					type = "execute",
+					name = L["Center Horizontally"],
+					desc = L["Centers the bar horizontally on screen."],
+					func = centerHorz,
+				},
+				centervert = {
+					order = 31,
+					type = "execute",
+					name = L["Center Vertically"],
+					desc = L["Centers the bar vertically on screen."],
+					func = centerVert,
+				},
+				nl2 = {
+					order = 35,
+					type = "description",
+					name = " ",
+				},
+				reset = {
+					order = 40,
+					type = "execute",
+					name = L["Reset Position"],
+					desc = L["Reset the position of this bar completly if it ended up off-screen and you cannot reach it anymore."],
+					func = resetPos,
 				},
 			},
 		}
