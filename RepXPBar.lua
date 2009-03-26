@@ -47,11 +47,6 @@ end
 function RepBar:ApplyConfig(config)
 	Bar.ApplyConfig(self, config)
 
-	if not self.config.position then
-		self:ClearSetPoint("CENTER")
-		self:SavePosition()
-	end
-
 	self:PerformLayout()
 end
 
