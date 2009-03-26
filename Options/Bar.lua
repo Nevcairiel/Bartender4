@@ -11,8 +11,13 @@ local Bar = Bartender4.Bar.prototype
 
 local barregistry = Bartender4.Bar.barregistry
 
+local function round(num, idp)
+  local mult = 10^(idp or 0)
+  return math.floor(num * mult + 0.5) / mult
+end
+
 -- option utilty functions
-local optGetter, optSetter, visibilityGetter, visibilitySetter, customEnabled, customDisabled, customCopy, clickThroughVis
+local optGetter, optSetter, visibilityGetter, visibilitySetter, customEnabled, customDisabled, customCopy, clickThroughVis, posGet, posSet
 do
 	local getBar, optionMap, callFunc
 	-- maps option keys to function names
@@ -84,6 +89,26 @@ do
 		local bar = getBar(info[2])
 		return (not bar.ClickThroughSupport)
 	end
+
+	function posGet(info)
+		local bar = getBar(info[2])
+		local opt = info.arg or info[#info]
+		if opt == "x" or opt == "y" then
+			local v = bar.config.position[opt]
+			return tostring(round(v, 5))
+		end
+		return bar.config.position[opt]
+	end
+
+	function posSet(info, value)
+		local bar = getBar(info[2])
+		local opt = info.arg or info[#info]
+		if opt == "x" or opt == "y" then
+			value = tonumber(value)
+		end
+		bar.config.position[opt] = value
+		bar:LoadPosition()
+	end
 end
 
 local _, class = UnitClass("player")
@@ -101,6 +126,18 @@ local function getStanceTable()
 	end
 	return tbl
 end
+
+local validAnchors = {
+	CENTER = "CENTER",
+	LEFT = "LEFT",
+	RIGHT = "RIGHT",
+	TOP = "TOP",
+	TOPLEFT = "TOPLEFT",
+	TOPRIGHT = "TOPRIGHT",
+	BOTTOM = "BOTTOM",
+	BOTTOMLEFT = "BOTTOMLEFT",
+	BOTTOMRIGHT = "BOTTOMRIGHT",
+}
 
 local options
 function Bar:GetOptionObject()
@@ -292,13 +329,52 @@ function Bar:GetOptionObject()
 		},
 		align = {
 			type = "group",
-			name = L["Alignment"],
+			name = L["Positioning"],
 			order = 20,
 			args = {
 				info = {
 					order = 1,
 					type = "description",
-					name = L["The Alignment menu is still on the TODO.\n\nAs a quick preview of whats planned:\n\n\t- Absolute and relative Bar Positioning\n\t- Bars \"snapping\" together and building clusters"],
+					name = L["The Positioning options here will allow you to position the bar to your liking and with an absolute precision."],
+				},
+				point = {
+					order = 10,
+					type = "select",
+					name = L["Anchor"],
+					desc = L["Change the current anchor point of the bar."],
+					values = validAnchors,
+					get = posGet,
+					set = posSet,
+				},
+				scale = {
+					order = 11,
+					name = L["Scale"],
+					desc = L["Configure the scale of the bar."],
+					type = "range",
+					min = .1, max = 2, step = 0.05,
+					get = optGetter,
+					set = optSetter,
+				},
+				nl1 = {
+					order = 12,
+					type = "description",
+					name = "",
+				},
+				x = {
+					order = 20,
+					type = "input",
+					name = L["X Offset"],
+					desc = L["Offset in X direction (horizontal) from the given anchor point."],
+					get = posGet,
+					set = posSet,
+				},
+				y = {
+					order = 21,
+					type = "input",
+					name = L["Y Offset"],
+					desc = L["Offset in Y direction (vertical) from the given anchor point."],
+					get = posGet,
+					set = posSet,
 				},
 			},
 		}
