@@ -3,11 +3,6 @@
 -- CONFIG --
 
 --[[
-	The name of the AceLocale-3.0 Category, as being used in :NewLocale and :GetLocale
-]]
-local localeName = "Bartender4"
-
---[[
 	Prefix to all files if this script is run from a subdir, for example
 ]]
 local filePrefix = "../"
@@ -18,7 +13,6 @@ local filePrefix = "../"
 local files = {
 	"ActionBar.lua",
 	"ActionBars.lua",
-	"ActionBarStates.lua",
 	"ActionButton.lua",
 	"BagBar.lua",
 	"Bar.lua",
@@ -29,18 +23,19 @@ local files = {
 	"PetButton.lua",
 	"RepXPBar.lua",
 	"StanceBar.lua",
+	"StateBar.lua",
 	"VehicleBar.lua",
 	--
 	"Options/ActionBar.lua",
-	"Options/ActionBarStates.lua",
 	"Options/BagBar.lua",
 	"Options/Bar.lua",
 	"Options/ButtonBar.lua",
 	"Options/MicroMenu.lua",
+	"Options/Options.lua",
 	"Options/PetBar.lua",
 	"Options/RepXPBar.lua",
 	"Options/StanceBar.lua",
-	"Options/Options.lua",
+	"Options/StateBar.lua",
 	"Options/VehicleBar.lua",
 }
 
