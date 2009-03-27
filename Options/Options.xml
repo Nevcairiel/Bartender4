@@ -1,11 +1,13 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
 ..\FrameXML\UI.xsd">
+	<Script file="AceGUIWidget-NumberEditBox.lua"/>
+
 	<Script file="Options.lua"/>
-	
+
 	<Script file="Bar.lua"/>
 	<Script file="ButtonBar.lua"/>
 	<Script file="StateBar.lua"/>
-	
+
 	<Script file="ActionBar.lua"/>
 	<Script file="BagBar.lua"/>
 	<Script file="MicroMenu.lua"/>

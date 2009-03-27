@@ -411,6 +411,7 @@ function Bar:GetOptionObject()
 					desc = L["Offset in X direction (horizontal) from the given anchor point."],
 					get = posGet,
 					set = posSet,
+					dialogControl = "NumberEditBox",
 				},
 				y = {
 					order = 21,
@@ -419,6 +420,7 @@ function Bar:GetOptionObject()
 					desc = L["Offset in Y direction (vertical) from the given anchor point."],
 					get = posGet,
 					set = posSet,
+					dialogControl = "NumberEditBox",
 				},
 				nl2 = {
 					order = 25,
