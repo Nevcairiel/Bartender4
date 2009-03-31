@@ -96,8 +96,6 @@ function StateBar:UpdateStates(returnOnly)
 		stancemap = DefaultStanceMap[playerclass]
 	end
 
-	self:ForAll("UpdateStates")
-
 	local statedriver
 	if not self:GetStateOption("enabled") then
 		statedriver = "0"
@@ -188,6 +186,11 @@ function StateBar:UpdateStates(returnOnly)
 		RegisterStateDriver(self, "assist-help", ("%s%s[help]nil; [target=targettarget, help]targettarget; nil"):format(preSelf, preFocus))
 		RegisterStateDriver(self, "assist-harm", ("%s[harm]nil; [target=targettarget, harm]targettarget; nil"):format(preFocus))
 	end
+
+	self:ForAll("UpdateStates")
+	self:Execute([[
+		control:ChildUpdate("init")
+	]])
 end
 
 function StateBar:GetStanceState(stance)

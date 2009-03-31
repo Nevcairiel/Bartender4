@@ -43,8 +43,11 @@ local function getOptions()
 					type = "toggle",
 					name = L["Button Lock"],
 					desc = L["Lock the buttons."],
-					get = getFunc,
-					set = setFunc,
+					get = function() return Bartender4.db.profile.buttonlock end,
+					set = function(info, value)
+						Bartender4.db.profile.buttonlock = value
+						Bartender4.Bar:ForAll("ForAll", "SetAttribute", "buttonlock", value)
+					end,
 				},
 				minimapIcon = {
 					order = 3,

@@ -17,7 +17,7 @@ local specialButtons = {
 local Button = CreateFrame("CheckButton")
 local Button_MT = {__index = Button}
 
-local onEnter, onLeave, onUpdate, onDragStart, onReceiveDrag
+local onEnter, onLeave, onUpdate, onDragUpdate
 
 -- upvalues
 local _G = _G
@@ -65,8 +65,8 @@ function Bartender4.Button:Create(id, parent)
 	-- overwrite some scripts with out customized versions
 	button:SetScript("OnEnter", onEnter)
 	button:SetScript("OnUpdate", onUpdate)
-	button:SetScript("OnDragStart", onDragStart)
-	button:SetScript("OnReceiveDrag", onReceiveDrag)
+	button:SetScript("OnDragStart", onDragUpdate)
+	--button:SetScript("OnReceiveDrag", nil)
 
 	button.icon = _G[("%sIcon"):format(name)]
 	button.border = _G[("%sBorder"):format(name)]
@@ -81,8 +81,45 @@ function Bartender4.Button:Create(id, parent)
 	button:SetAttribute("action", absid)
 	button:SetAttribute("useparent-unit", nil);
 	button:SetAttribute("useparent-actionpage", nil);
+	button:SetAttribute("buttonlock", Bartender4.db.profile.buttonlock)
 
 	button:UpdateSelfCast()
+
+	parent:WrapScript(button, "OnDragStart", [[
+		local action = self:GetAttribute("action")
+		if action and (not self:GetAttribute("buttonlock") or IsModifiedClick("PICKUPACTION")) then
+			return "action", action
+		end
+		return false
+	]], [[
+		control:RunFor(self, self:GetAttribute("UpdateAutoAssist"))
+	]])
+
+	parent:WrapScript(button, "OnReceiveDrag", [[]], [[
+		control:RunFor(self, self:GetAttribute("UpdateAutoAssist"))
+	]])
+
+	button:SetAttribute("UpdateAutoAssist", [[
+		self:SetAttribute("assisttype", nil)
+		self:SetAttribute("unit", nil)
+		if self:GetAttribute("autoassist") then
+			local action = self:GetAttribute("action")
+			local type, id, subtype = GetActionInfo(action)
+			if type == "spell" and id > 0 then
+				if IsHelpfulSpell(id, subtype) then
+					self:SetAttribute("assisttype", 1)
+					self:SetAttribute("unit", G_assist_help)
+				elseif IsHarmfulSpell(id, subtype) then
+					self:SetAttribute("assisttype", 2)
+					self:SetAttribute("unit", G_assist_harm)
+				end
+			end
+		end
+	]])
+
+	button:SetAttribute('_childupdate-init', [[
+		control:RunFor(self, self:GetAttribute("UpdateAutoAssist"))
+	]])
 
 	button:SetAttribute('_childupdate-state', [[
 		self:SetAttribute("state", message)
@@ -107,32 +144,27 @@ function Bartender4.Button:Create(id, parent)
 		end
 		self:SetAttribute("action", action)
 
-		local unit = nil
 		-- fix unit on state change
-		if action <= 120 then
-			if self:GetAttribute("assisttype-"..message) == 1 then
-				unit = G_assist_help
-			elseif self:GetAttribute("assisttype-"..message) == 2 then
-				unit = G_assist_harm
-			end
+		if action <= 120 and self:GetAttribute("autoassist") then
+			control:RunFor(self, self:GetAttribute("UpdateAutoAssist"))
+		else
+			self:SetAttribute("unit", nil)
 		end
-		self:SetAttribute("unit", unit)
 		G_state = message
-		G_action = action
 	]])
 
 	button:SetAttribute('_childupdate-assist-help', [[
-		if self:GetAttribute("assisttype-"..G_state) == 1 and G_action <= 120 then
+		G_assist_help = message
+		if self:GetAttribute("assisttype") == 1 then
 			self:SetAttribute("unit", message)
 		end
-		G_assist_help = message
 	]])
 
 	button:SetAttribute('_childupdate-assist-harm', [[
-		if self:GetAttribute("assisttype-"..G_state) == 2 and G_action <= 120 then
+		G_assist_harm = message
+		if self:GetAttribute("assisttype") == 2 then
 			self:SetAttribute("unit", message)
 		end
-		G_assist_harm = message
 	]])
 
 	if LBF and parent.LBFGroup then
@@ -150,7 +182,6 @@ function Bartender4.Button:Create(id, parent)
 	button:UpdateGrid()
 	button:ToggleButtonElements()
 
-	button:ClearStateAction()
 	for page = 0,11,1 do
 		local action = (page == 0) and button.id or (button.rid + (page - 1) * 12)
 		button:SetStateAction(page, action)
@@ -159,22 +190,9 @@ function Bartender4.Button:Create(id, parent)
 	return button
 end
 
-function onDragStart(self)
-	if InCombatLockdown() then return end
-	if not Bartender4.db.profile.buttonlock or IsModifiedClick("PICKUPACTION") then
-		PickupAction(self.action)
-		ActionButton_UpdateState(self)
-		ActionButton_UpdateFlash(self)
-		self:RefreshStateAction()
-	end
-end
-
-function onReceiveDrag(self)
-	if InCombatLockdown() then return end
-	PlaceAction(self.action)
+function onDragUpdate(self)
 	ActionButton_UpdateState(self)
 	ActionButton_UpdateFlash(self)
-	self:RefreshStateAction()
 end
 
 function onEnter(self)
@@ -252,27 +270,12 @@ function Button:GetNormalTexture()
 end
 
 function Button:UpdateStates()
-	self:RefreshAllStateActions()
-end
-
-function Button:ClearStateAction()
-	for state in pairs(self.stateactions) do
-		self.stateactions = {}
-		for i=0,10 do
-			self:SetAttribute("action-" .. i, nil)
-		end
-	end
+	self:SetAttribute("autoassist", self.parent.config.autoassist)
 end
 
 function Button:SetStateAction(state, action)
 	self.stateactions[state] = action
 	self:RefreshStateAction(state)
-end
-
-function Button:RefreshAllStateActions()
-	for state in pairs(self.stateactions) do
-		self:RefreshStateAction(state)
-	end
 end
 
 function Button:RefreshStateAction(state)
@@ -286,19 +289,7 @@ function Button:RefreshStateAction(state)
 	elseif action == 132 then
 		self:SetAttribute("clickbutton", PossessButton2)
 	end
-
-	self:SetAttribute("assisttype-"..state, nil)
 	self:SetAttribute("unit", nil)
-	if self.parent.config.autoassist then
-		local type, id, subtype = GetActionInfo(action)
-		if type == "spell" and id > 0 then
-			if IsHelpfulSpell(id, subtype) then
-				self:SetAttribute("assisttype-"..state, 1)
-			elseif IsHarmfulSpell(id, subtype) then
-				self:SetAttribute("assisttype-"..state, 2)
-			end
-		end
-	end
 end
 
 function Button:UpdateSelfCast()
