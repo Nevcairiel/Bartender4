@@ -289,7 +289,6 @@ function Button:RefreshStateAction(state)
 	elseif action == 132 then
 		self:SetAttribute("clickbutton", PossessButton2)
 	end
-	self:SetAttribute("unit", nil)
 end
 
 function Button:UpdateSelfCast()
