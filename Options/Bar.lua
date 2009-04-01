@@ -160,6 +160,10 @@ local stanceClasses = {
 local function getStanceTable()
 	local tbl = {}
 
+	if class ~= "WARRIOR" then
+		tbl[0] = L["No Stance/Form"]
+	end
+
 	local num = GetNumShapeshiftForms()
 	for i = 1, num do
 		tbl[i] = select(2, GetShapeshiftFormInfo(i))
