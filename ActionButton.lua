@@ -257,7 +257,20 @@ local function updateIcon(self)
 		end
 	end
 end
-hooksecurefunc("ActionButton_Update", updateIcon)
+
+local function updateFunc(self)
+	updateIcon(self)
+	if self.BT4init and not InCombatLockdown() then
+		local parent = self:GetParent()
+		parent:SetFrameRef("upd", self)
+		parent:Execute([[
+			local frame = self:GetFrameRef("upd")
+			control:RunFor(frame, frame:GetAttribute("UpdateAutoAssist"))
+		]])
+	end
+end
+
+hooksecurefunc("ActionButton_Update", updateFunc)
 
 Button.SetRealNormalTexture = Button.SetNormalTexture
 function Button:SetNormalTexture(...)
