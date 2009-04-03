@@ -90,7 +90,6 @@ function Bartender4.Button:Create(id, parent)
 		if action and (not self:GetAttribute("buttonlock") or IsModifiedClick("PICKUPACTION")) then
 			return "action", action
 		end
-		return false
 	]], [[
 		control:RunFor(self, self:GetAttribute("UpdateAutoAssist"))
 	]])
@@ -166,6 +165,8 @@ function Bartender4.Button:Create(id, parent)
 			self:SetAttribute("unit", message)
 		end
 	]])
+
+	button.SecureInit = true
 
 	if LBF and parent.LBFGroup then
 		local group = parent.LBFGroup
@@ -260,7 +261,7 @@ end
 
 local function updateFunc(self)
 	updateIcon(self)
-	if self.BT4init and not InCombatLockdown() then
+	if self.SecureInit and not InCombatLockdown() then
 		local parent = self:GetParent()
 		parent:SetFrameRef("upd", self)
 		parent:Execute([[
