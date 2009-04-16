@@ -53,6 +53,7 @@ function MicroMenuMod:OnEnable()
 
 		self:RawHook("UpdateTalentButton", noopFunc, true)
 		self:RawHook("AchievementMicroButton_Update",  noopFunc, true)
+		AchievementMicroButton:SetScript("OnEvent", nil)
 
 		for i,v in pairs(buttons) do
 			v:SetParent(self.bar)
