@@ -241,7 +241,7 @@ function onUpdate(self, elapsed)
 end
 
 local function updateIcon(self)
-	if self.BT4init and self.action then
+	if self.action then
 		if specialButtons[self.action] then
 			if not LBF then
 				self.normalTexture:SetTexCoord(0, 0, 0, 0)
@@ -260,7 +260,10 @@ local function updateIcon(self)
 end
 
 local function updateFunc(self)
+	local parent = self:GetParent()
+	if not self.BT4init or not parent.BT4BarType then return end
 	updateIcon(self)
+
 	if self.SecureInit and not InCombatLockdown() then
 		local parent = self:GetParent()
 		parent:SetFrameRef("upd", self)

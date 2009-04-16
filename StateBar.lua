@@ -35,6 +35,8 @@ function Bartender4.StateBar:Create(id, config, name)
 	return bar
 end
 
+StateBar.BT4BarType = "StateBar"
+
 function StateBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 	-- We cannot call UpdateStates or UpdateSelfCast now, because the buttons are not yet created *sad*
@@ -158,7 +160,9 @@ function StateBar:UpdateStates(returnOnly)
 	]])
 
 	UnregisterStateDriver(self, "page")
-	RegisterStateDriver(self, "page", statedriver or "")
+	self:SetAttribute("state-page", "0")
+
+	RegisterStateDriver(self, "page", statedriver or "0")
 
 	self:SetAttribute("_onstate-assist-help", [[
 		local state = (newstate ~= "nil") and newstate or nil
@@ -181,7 +185,9 @@ function StateBar:UpdateStates(returnOnly)
 	end
 
 	UnregisterStateDriver(self, "assist-help")
+	self:SetAttribute("state-assist-help", "nil")
 	UnregisterStateDriver(self, "assist-harm")
+	self:SetAttribute("state-assist-harm", "nil")
 
 	if self.config.autoassist then
 		RegisterStateDriver(self, "assist-help", ("%s%s[help]nil; [target=targettarget, help]targettarget; nil"):format(preSelf, preFocus))

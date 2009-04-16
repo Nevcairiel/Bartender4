@@ -26,7 +26,6 @@ function ActionBar:ApplyConfig(config)
 	if not self.config.position.x then initialPosition(self) end
 
 	self:UpdateButtons()
-	self:UpdateSelfCast() -- also calls UpdateStates
 end
 
 -- Update the number of buttons in our bar, creating new ones if necessary
@@ -71,6 +70,7 @@ function ActionBar:UpdateButtons(numbuttons)
 
 	-- need to re-set clickthrough after creating new buttons
 	self:SetClickThrough()
+	self:UpdateSelfCast() -- update selfcast and states
 end
 
 function ActionBar:SkinChanged(...)

@@ -199,6 +199,8 @@ end
 	Universal Bar Prototype
 ===================================================================================]]--
 
+Bar.BT4BarType = "Bar"
+
 function Bar:ApplyConfig(config)
 	if config then
 		self.config = config

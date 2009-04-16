@@ -52,6 +52,8 @@ function Bartender4.ButtonBar:SkinChanged(SkinID, Gloss, Backdrop, Group, Button
 	bar:SkinChanged(SkinID, Gloss, Backdrop, Colors, Button)
 end
 
+ButtonBar.BT4BarType = "ButtonBar"
+
 function ButtonBar:UpdateSkin()
 	if not self.LBFGroup then return end
 	local config = self.config
