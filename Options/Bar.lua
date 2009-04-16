@@ -172,6 +172,10 @@ local function getStanceTable()
 	if class == "WARLOCK" and tbl[1] == GetSpellInfo(59672) then
 		tbl[2], tbl[1] = tbl[1], nil
 	end
+
+	if class == "ROGUE" and tbl[1] == GetSpellInfo(51713) then -- shadow dance hack
+		tbl[3], tbl[1] = tbl[1], nil
+	end
 	return tbl
 end
 
