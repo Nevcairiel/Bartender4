@@ -239,6 +239,7 @@ function onUpdate(self, elapsed)
 		end
 	end
 end
+Bartender4.Button.onUpdate = onUpdate
 
 local function updateIcon(self)
 	if self.action then
