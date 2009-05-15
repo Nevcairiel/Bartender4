@@ -51,7 +51,7 @@ function MicroMenuMod:OnEnable()
 
 		MicroMenuMod.button_count = #buttons
 
-		self:RawHook("UpdateTalentButton", noopFunc, true)
+		self:SecureHook("UpdateTalentButton")
 		self:RawHook("AchievementMicroButton_Update",  noopFunc, true)
 		AchievementMicroButton:SetScript("OnEvent", nil)
 
@@ -78,6 +78,10 @@ function MicroMenuMod:RestoreButtons()
 		v:Show()
 	end
 	self.bar:UpdateButtonLayout()
+end
+
+function MicroMenuMod:UpdateTalentButton()
+	self:RestoreButtons()
 end
 
 MicroMenuBar.button_width = 28
