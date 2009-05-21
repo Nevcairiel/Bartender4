@@ -280,6 +280,10 @@ end
 local function updateFunc(self)
 	local parent = self:GetParent()
 	if not self.BT4init or not parent.BT4BarType then return end
+	if not ActionHasRange(self.action) then
+		self.rangeTimer = nil
+		self.outOfRange = nil
+	end
 	updateIcon(self)
 
 	if self.SecureInit and not InCombatLockdown() then
@@ -289,11 +293,6 @@ local function updateFunc(self)
 			local frame = self:GetFrameRef("upd")
 			control:RunFor(frame, frame:GetAttribute("UpdateAutoAssist"))
 		]])
-	end
-
-	if not ActionHasRange(self.action) then
-		self.rangeTimer = nil
-		self.outOfRange = nil
 	end
 end
 
