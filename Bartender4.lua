@@ -53,7 +53,7 @@ function Bartender4:OnInitialize()
 			_G[('BINDING_HEADER_BT4BLANK%d'):format(i)] = "Bartender4 " .. L["Bar %s"]:format(i)
 		end
 		for k=1,12 do
-			_G[("BINDING_NAME_CLICK BT4Button%dSecure:LeftButton"):format(((i-1)*12)+k)] = ("Bartender4 %s %s"):format(L["Bar %s"]:format(i), L["Button %s"]:format(k))
+			_G[("BINDING_NAME_CLICK BT4Button%d:LeftButton"):format(((i-1)*12)+k)] = ("Bartender4 %s %s"):format(L["Bar %s"]:format(i), L["Button %s"]:format(k))
 		end
 	end
 	BINDING_HEADER_BT4PET = "Bartender4 " .. L["Pet Bar"]
