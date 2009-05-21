@@ -280,7 +280,7 @@ end
 local function updateFunc(self)
 	local parent = self:GetParent()
 	if not self.BT4init or not parent.BT4BarType then return end
-	if not ActionHasRange(self.action) then
+	if oorsetting == "none" or not ActionHasRange(self.action) then
 		self.rangeTimer = nil
 		self.outOfRange = nil
 	end
@@ -467,6 +467,10 @@ function Button:UpdateUsable()
 end
 
 function Button:UpdateRange()
+	if oorsetting == "none" or not ActionHasRange(self.action) then
+		self.rangeTimer = nil
+		self.outOfRange = nil
+	end
 	self.hotkey:SetVertexColor(1.0, 1.0, 1.0)
 	self:UpdateUsable()
 	onUpdate(self, 10)
