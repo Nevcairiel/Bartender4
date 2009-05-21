@@ -25,6 +25,7 @@ function ActionBar:ApplyConfig(config)
 
 	if not self.config.position.x then initialPosition(self) end
 
+	Bartender4.Button:UpdateRangeValues()
 	self:UpdateButtons()
 end
 
@@ -49,7 +50,7 @@ function ActionBar:UpdateButtons(numbuttons)
 		buttons[i]:SetParent(self)
 		buttons[i]:Show()
 		buttons[i]:SetAttribute("statehidden", nil)
-		buttons[i]:UpdateAction(true)
+		buttons[i]:Update()
 	end
 
 	-- hide inactive buttons

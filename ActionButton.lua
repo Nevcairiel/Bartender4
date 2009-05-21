@@ -29,6 +29,8 @@ local Bartender4 = Bartender4
 local LBF = LibStub("LibButtonFacade", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
 
+local oorsetting, oorcolor, oomcolor
+
 Bartender4.Button = {}
 Bartender4.Button.prototype = Button
 Button.BT4init = true
@@ -191,6 +193,11 @@ function Bartender4.Button:Create(id, parent)
 	return button
 end
 
+function Bartender4.Button:UpdateRangeValues()
+	oorsetting = Bartender4.db.profile.outofrange
+	oorcolor, oomcolor = Bartender4.db.profile.colors.range, Bartender4.db.profile.colors.mana
+end
+
 function onDragUpdate(self)
 	ActionButton_UpdateState(self)
 	ActionButton_UpdateFlash(self)
@@ -226,15 +233,25 @@ function onUpdate(self, elapsed)
 		self.rangeTimer = self.rangeTimer - elapsed
 		if self.rangeTimer <= 0 then
 			local valid = IsActionInRange(self.action)
-			local hotkey = self.hotkey
-			local hkshown = (hotkey:GetText() == RANGE_INDICATOR and Bartender4.db.profile.outofrange == "hotkey")
-			if valid and hkshown then
-				hotkey:Show()
-			elseif hkshown then
-				hotkey:Hide()
-			end
 			self.outOfRange = (valid == 0)
-			self:UpdateUsable()
+
+			if oorsetting == "hotkey" then
+				local hotkey = self.hotkey
+				local hkshown = hotkey:GetText() == RANGE_INDICATOR
+				if valid and hkshown then
+					hotkey:Show()
+				elseif hkshown then
+					hotkey:Hide()
+				end
+
+				if self.outOfRange then
+					hotkey:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
+				else
+					hotkey:SetVertexColor(1.0, 1.0, 1.0)
+				end
+			elseif oorsetting == "button" then
+				self:UpdateUsable()
+			end
 			self.rangeTimer = TOOLTIP_UPDATE_TIME
 		end
 	end
@@ -328,6 +345,7 @@ function Button:Update()
 	self:UpdateAction(true)
 	self:UpdateHotkeys()
 	self:ToggleButtonElements()
+	self:UpdateRange()
 end
 
 function Button:UpdateAction(force)
@@ -434,20 +452,11 @@ end)
 
 function Button:UpdateUsable()
 	local isUsable, notEnoughMana = IsUsableAction(self.action)
-	local icon, hotkey = self.icon, self.hotkey
-	local oor = Bartender4.db.profile.outofrange
-	local oorcolor, oomcolor = Bartender4.db.profile.colors.range, Bartender4.db.profile.colors.mana
+	local icon = self.icon
 
-	if oor == "button" and self.outOfRange then
+	if oorsetting == "button" and self.outOfRange then
 		icon:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
-		hotkey:SetVertexColor(1.0, 1.0, 1.0)
 	else
-		if oor == "hotkey" and self.outOfRange then
-			hotkey:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
-		else
-			hotkey:SetVertexColor(1.0, 1.0, 1.0)
-		end
-
 		if isUsable or specialButtons[self.action] then
 			icon:SetVertexColor(1.0, 1.0, 1.0)
 		elseif notEnoughMana then
@@ -456,6 +465,12 @@ function Button:UpdateUsable()
 			icon:SetVertexColor(0.4, 0.4, 0.4)
 		end
 	end
+end
+
+function Button:UpdateRange()
+	self.hotkey:SetVertexColor(1.0, 1.0, 1.0)
+	self:UpdateUsable()
+	onUpdate(self, 10)
 end
 
 function Button:SetTooltip()
