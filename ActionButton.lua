@@ -273,6 +273,11 @@ local function updateFunc(self)
 			control:RunFor(frame, frame:GetAttribute("UpdateAutoAssist"))
 		]])
 	end
+
+	if not ActionHasRange(self.action) then
+		self.rangeTimer = nil
+		self.outOfRange = nil
+	end
 end
 
 hooksecurefunc("ActionButton_Update", updateFunc)
