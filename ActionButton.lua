@@ -280,10 +280,7 @@ end
 local function updateFunc(self)
 	local parent = self:GetParent()
 	if not self.BT4init or not parent.BT4BarType then return end
-	if oorsetting == "none" or not ActionHasRange(self.action) then
-		self.rangeTimer = nil
-		self.outOfRange = nil
-	end
+	self:UpdateRange()
 	updateIcon(self)
 
 	if self.SecureInit and not InCombatLockdown() then
