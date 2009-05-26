@@ -25,7 +25,6 @@ function ActionBar:ApplyConfig(config)
 
 	if not self.config.position.x then initialPosition(self) end
 
-	Bartender4.Button:UpdateRangeValues()
 	self:UpdateButtons()
 end
 
