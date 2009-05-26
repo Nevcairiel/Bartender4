@@ -22,14 +22,12 @@ local onEnter, onLeave, onUpdate, onDragUpdate
 -- upvalues
 local _G = _G
 local format = string.format
-local IsUsableAction = IsUsableAction
-local IsActionInRange = IsActionInRange
+local IsUsableAction, IsActionInRange, GetActionTexture, ActionHasRange = IsUsableAction, IsActionInRange, GetActionTexture, ActionHasRange
+local ATTACK_BUTTON_FLASH_TIME, RANGE_INDICATOR, TOOLTIP_UPDATE_TIME = ATTACK_BUTTON_FLASH_TIME, RANGE_INDICATOR, TOOLTIP_UPDATE_TIME
 
 local Bartender4 = Bartender4
 local LBF = LibStub("LibButtonFacade", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
-
-local oorsetting, oorcolor, oomcolor
 
 Bartender4.Button = {}
 Bartender4.Button.prototype = Button
@@ -193,11 +191,6 @@ function Bartender4.Button:Create(id, parent)
 	return button
 end
 
-function Bartender4.Button:UpdateRangeValues()
-	oorsetting = Bartender4.db.profile.outofrange
-	oorcolor, oomcolor = Bartender4.db.profile.colors.range, Bartender4.db.profile.colors.mana
-end
-
 function onDragUpdate(self)
 	ActionButton_UpdateState(self)
 	ActionButton_UpdateFlash(self)
@@ -235,7 +228,8 @@ function onUpdate(self, elapsed)
 			local valid = IsActionInRange(self.action)
 			self.outOfRange = (valid == 0)
 
-			if oorsetting == "hotkey" then
+			local oor = Bartender4.db.profile.outofrange
+			if oor == "hotkey" then
 				local hotkey = self.hotkey
 				local hkshown = hotkey:GetText() == RANGE_INDICATOR
 				if valid and hkshown then
@@ -245,11 +239,12 @@ function onUpdate(self, elapsed)
 				end
 
 				if self.outOfRange then
-					hotkey:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
+					local oorc = Bartender4.db.profile.colors.range
+					hotkey:SetVertexColor(oorc.r, oorc.g, oorc.b)
 				else
 					hotkey:SetVertexColor(1.0, 1.0, 1.0)
 				end
-			elseif oorsetting == "button" then
+			elseif oor == "button" then
 				self:UpdateUsable()
 			end
 			self.rangeTimer = TOOLTIP_UPDATE_TIME
@@ -450,13 +445,15 @@ function Button:UpdateUsable()
 	local isUsable, notEnoughMana = IsUsableAction(self.action)
 	local icon = self.icon
 
-	if oorsetting == "button" and self.outOfRange then
-		icon:SetVertexColor(oorcolor.r, oorcolor.g, oorcolor.b)
+	if Bartender4.db.profile.outofrange == "button" and self.outOfRange then
+		local oorc = Bartender4.db.profile.colors.range
+		icon:SetVertexColor(oorc.r, oorc.g, oorc.b)
 	else
 		if isUsable or specialButtons[self.action] then
 			icon:SetVertexColor(1.0, 1.0, 1.0)
 		elseif notEnoughMana then
-			icon:SetVertexColor(oomcolor.r, oomcolor.g, oomcolor.b)
+			local oomc = Bartender4.db.profile.colors.mana
+			icon:SetVertexColor(oomc.r, oomc.g, oomc.b)
 		else
 			icon:SetVertexColor(0.4, 0.4, 0.4)
 		end
@@ -464,7 +461,7 @@ function Button:UpdateUsable()
 end
 
 function Button:UpdateRange()
-	if oorsetting == "none" or not ActionHasRange(self.action) then
+	if Bartender4.db.profile.outofrange == "none" or not ActionHasRange(self.action) then
 		self.rangeTimer = nil
 		self.outOfRange = nil
 	end
