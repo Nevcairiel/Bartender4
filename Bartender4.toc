@@ -64,6 +64,7 @@ StanceBar.lua
 MicroMenu.lua
 RepXPBar.lua
 VehicleBar.lua
+MultiCastBar.lua
 
 ## Options ##
 Options\Options.xml

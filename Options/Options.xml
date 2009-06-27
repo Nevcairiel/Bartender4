@@ -15,4 +15,5 @@
 	<Script file="StanceBar.lua"/>
 	<Script file="RepXPBar.lua"/>
 	<Script file="VehicleBar.lua"/>
+	<Script file="MultiCastBar.lua"/>
 </Ui>
