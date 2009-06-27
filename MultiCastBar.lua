@@ -30,6 +30,8 @@ function MultiCastMod:OnEnable()
 		self.bar.content = MultiCastActionBarFrame
 		self.bar.content:SetScript("OnShow", nil)
 		self.bar.content:SetScript("OnHide", nil)
+		self.bar.content:SetScript("OnUpdate", nil)
+		self.bar.content.ignoreFramePositionManager = true
 
 		self.bar.content:SetParent(self.bar)
 		self.bar.content:Show()
@@ -54,5 +56,5 @@ function MultiCastBar:PerformLayout()
 	self:SetSize(240, 43)
 	local bar = self.content
 	bar:ClearAllPoints()
-	bar:SetPoint("TOPLEFT", self, "TOPLEFT", 0, 0)
+	bar:SetPoint("TOPLEFT", self, "TOPLEFT", -26, 5)
 end
