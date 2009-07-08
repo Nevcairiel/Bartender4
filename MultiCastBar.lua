@@ -2,12 +2,12 @@
 	Copyright (c) 2009, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
-local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
+
+if select(2, UnitClass("player")) ~= "SHAMAN" then return end
 
 -- fetch upvalues
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
-
-local table_insert = table.insert
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
@@ -21,11 +21,7 @@ local MultiCastBar = setmetatable({}, {__index = Bar})
 
 function MultiCastMod:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("MultiCast", defaults)
-	if select(2, UnitClass("player")) ~= "SHAMAN" then
-		self:SetEnabledState(false)
-	else
-		self:SetEnabledState(self.db.profile.enabled)
-	end
+	self:SetEnabledState(self.db.profile.enabled)
 end
 
 function MultiCastMod:OnEnable()

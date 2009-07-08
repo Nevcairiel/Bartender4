@@ -2,6 +2,9 @@
 	Copyright (c) 2009, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+
+if select(2, UnitClass("player")) ~= "SHAMAN" then return end
+
 -- fetch upvalues
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
@@ -39,7 +42,6 @@ function MultiCastMod:SetupOptions()
 			name = L["Totem Bar"],
 			desc = L["Configure the Totem Bar"],
 			childGroups = "tab",
-			disabled = function(info) return select(2, UnitClass("player")) ~= "SHAMAN" end,
 		}
 		Bartender4:RegisterBarOptions("MultiCast", self.options)
 	end
