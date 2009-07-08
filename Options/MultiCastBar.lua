@@ -39,6 +39,7 @@ function MultiCastMod:SetupOptions()
 			name = L["Totem Bar"],
 			desc = L["Configure the Totem Bar"],
 			childGroups = "tab",
+			disabled = function(info) return select(2, UnitClass("player")) ~= "SHAMAN" end,
 		}
 		Bartender4:RegisterBarOptions("MultiCast", self.options)
 	end

@@ -21,7 +21,11 @@ local MultiCastBar = setmetatable({}, {__index = Bar})
 
 function MultiCastMod:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("MultiCast", defaults)
-	self:SetEnabledState(self.db.profile.enabled)
+	if select(2, UnitClass("player")) ~= "SHAMAN" then
+		self:SetEnabledState(false)
+	else
+		self:SetEnabledState(self.db.profile.enabled)
+	end
 end
 
 function MultiCastMod:OnEnable()
@@ -43,6 +47,7 @@ function MultiCastMod:OnEnable()
 end
 
 function MultiCastMod:ApplyConfig()
+	if not self:IsEnabled() then return end
 	self.bar:ApplyConfig(self.db.profile)
 end
 
