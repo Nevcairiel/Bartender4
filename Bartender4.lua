@@ -122,6 +122,12 @@ function Bartender4:HideBlizzard()
 
 	PossessBarFrame:UnregisterAllEvents()
 	PossessBarFrame:Hide()
+
+	if PlayerTalentFrame then
+		PlayerTalentFrame:UnregisterEvent('ACTIVE_TALENT_GROUP_CHANGED')
+	else
+		hooksecurefunc('TalentFrame_LoadUI', function() PlayerTalentFrame:UnregisterEvent('ACTIVE_TALENT_GROUP_CHANGED') end)
+	end
 end
 
 --[[ function Bartender4:OnEnable()
