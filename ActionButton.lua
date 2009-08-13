@@ -351,17 +351,12 @@ function Button:ToggleButtonElements()
 	end
 end
 
-orig_ActionButton_UpdateHotkeys = ActionButton_UpdateHotkeys
-ActionButton_UpdateHotkeys = function(self, ...)
-	local name = self:GetName()
-	if name and name:find("^BT4Button") then
-		if self.BT4init then
-			self:UpdateHotkeys()
-		end
-	else
-		orig_ActionButton_UpdateHotkeys(self, ...)
-	end
-end
+hooksecurefunc("ActionButton_UpdateHotkeys", function(self, ...)
+	local parent = self:GetParent()
+	if not self.BT4init or not parent.BT4BarType then return end
+
+	self:UpdateHotkeys()
+end)
 
 function Button:UpdateHotkeys()
 	local key = self:GetHotkey() or ""
