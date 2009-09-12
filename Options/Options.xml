@@ -16,4 +16,5 @@
 	<Script file="RepXPBar.lua"/>
 	<Script file="VehicleBar.lua"/>
 	<Script file="MultiCastBar.lua"/>
+    <Script file="BlizzardArt.lua"/>
 </Ui>

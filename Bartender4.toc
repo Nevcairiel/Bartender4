@@ -65,6 +65,7 @@ MicroMenu.lua
 RepXPBar.lua
 VehicleBar.lua
 MultiCastBar.lua
+BlizzardArt.lua
 
 ## Options ##
 Options\Options.xml
