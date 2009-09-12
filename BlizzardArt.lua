@@ -9,16 +9,15 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- fetch upvalues
 local Bar = Bartender4.Bar.prototype
 
-local defaults = { profile = Bartender4:Merge({
-	enabled = false,
-    visibility = {
-        possess = "false"
-    },
-    leftCap = "DWARF",
-    rightCap = "DWARF",
-    artLayout = "CLASSIC",
-    artSkin = "DWARF",
-}, Bartender4.Bar.defaults) }
+local defaults = { profile =
+        Bartender4:Merge({
+            enabled = false,
+            leftCap = "DWARF",
+            rightCap = "DWARF",
+            artLayout = "CLASSIC",
+            artSkin = "DWARF",
+        }, Bartender4.Bar.defaults)
+    }
 
 
 -- register module
@@ -28,6 +27,7 @@ local BlizzardArtMod = Bartender4:NewModule("BlizzardArt")
 local BlizzardArt = setmetatable({}, {__index = Bar})
 
 function BlizzardArtMod:OnInitialize()
+    defaults.profile.visibility.possess = false -- Overwrite one of the bar defaults
 	self.db = Bartender4.db:RegisterNamespace("BlizzardArt", defaults)
 	self:SetEnabledState(self.db.profile.enabled)
 end
