@@ -1,8 +1,7 @@
-﻿## Interface: 30200
+﻿## Interface: 30300
 
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
-## Notes-ruRU: Простой и усовершенствованный - Аддон паненей команд Бармен4
 
 ## Version: @project-version@
 
