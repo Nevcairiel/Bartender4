@@ -31,8 +31,6 @@ function MicroMenuMod:OnInitialize()
 	self:SetEnabledState(self.db.profile.enabled)
 end
 
-local noopFunc = function() end
-
 function MicroMenuMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("MicroMenu", self.db.profile, L["Micro Menu"]), {__index = MicroMenuBar})
@@ -51,9 +49,7 @@ function MicroMenuMod:OnEnable()
 
 		MicroMenuMod.button_count = #buttons
 
-		self:SecureHook("UpdateTalentButton")
-		self:RawHook("AchievementMicroButton_Update",  noopFunc, true)
-		AchievementMicroButton:SetScript("OnEvent", nil)
+		self:SecureHook("UpdateMicroButtons")
 
 		for i,v in pairs(buttons) do
 			v:SetParent(self.bar)
@@ -80,7 +76,7 @@ function MicroMenuMod:RestoreButtons()
 	self.bar:UpdateButtonLayout()
 end
 
-function MicroMenuMod:UpdateTalentButton()
+function MicroMenuMod:UpdateMicroButtons()
 	self:RestoreButtons()
 end
 
