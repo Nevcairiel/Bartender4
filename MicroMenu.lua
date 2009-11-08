@@ -77,7 +77,9 @@ function MicroMenuMod:RestoreButtons()
 end
 
 function MicroMenuMod:UpdateMicroButtons()
-	self:RestoreButtons()
+	if MainMenuBar.state == "player" then
+		self:RestoreButtons()
+	end
 end
 
 MicroMenuBar.button_width = 28
