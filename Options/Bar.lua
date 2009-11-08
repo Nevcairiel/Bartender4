@@ -286,7 +286,6 @@ function Bar:GetOptionObject()
 					type = "toggle",
 					name = L["Always Hide"],
 					desc = L["You can set the bar to be always hidden, if you only wish to access it using key-bindings."],
-					width = "full",
 					disabled = customEnabled,
 				},
 				possess = {
@@ -301,6 +300,13 @@ function Bar:GetOptionObject()
 					type = "toggle",
 					name = L["Hide on Vehicle"],
 					desc = L["Hide this bar when you are riding on a vehicle."],
+					disabled = customEnabled,
+				},
+				vehicleui = {
+					order = 17,
+					type = "toggle",
+					name = L["Hide with Vehicle UI"],
+					desc = L["Hide this bar when the game wants to show a vehicle UI."],
 					disabled = customEnabled,
 				},
 				combat = {

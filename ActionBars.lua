@@ -26,7 +26,7 @@ local abdefaults = {
 			},
 		},
 		visibility = {
-			possess = false,
+			vehicleui = false,
 		},
 	},
 	[7] = {
