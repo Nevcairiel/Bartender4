@@ -42,7 +42,7 @@ function MicroMenuMod:OnEnable()
 		table_insert(buttons, QuestLogMicroButton)
 		table_insert(buttons, SocialsMicroButton)
 		table_insert(buttons, PVPMicroButton)
-		table_insert(buttons, LFGMicroButton)
+		table_insert(buttons, LFDMicroButton)
 		table_insert(buttons, MainMenuMicroButton)
 		table_insert(buttons, HelpMicroButton)
 		self.bar.buttons = buttons
