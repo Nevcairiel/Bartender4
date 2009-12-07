@@ -54,8 +54,8 @@ function MultiCastBar:ApplyConfig(config)
 end
 
 function MultiCastBar:PerformLayout()
-	self:SetSize(240, 43)
+	self:SetSize(230, 40)
 	local bar = self.content
 	bar:ClearAllPoints()
-	bar:SetPoint("TOPLEFT", self, "TOPLEFT", -26, 5)
+	bar:SetPoint("TOPLEFT", self, "TOPLEFT", 3, 1)
 end
