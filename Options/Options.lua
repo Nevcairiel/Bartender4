@@ -257,16 +257,6 @@ end
 function Bartender4:SetupOptions()
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", getOptions)
 	AceConfigDialog:SetDefaultSize("Bartender4", 680,525)
-	local optFunc = function()
-		if InCombatLockdown() then return end
-		AceConfigDialog:Open("Bartender4")
-	--[[
-		local status = AceConfigDialog:GetStatusTable("Bartender4")
-		if not status.groups then status.groups = {} end
-		if not status.groups.groups then status.groups.groups = {} end
-		status.groups.groups["actionbars"] = true
-	]]
-	end
 	self:RegisterChatCommand( "bar", "ChatCommand")
 	self:RegisterChatCommand( "bt", "ChatCommand")
 	self:RegisterChatCommand( "bt4", "ChatCommand")
