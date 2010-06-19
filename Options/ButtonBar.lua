@@ -64,7 +64,7 @@ function ButtonBar:GetOptionObject()
 			type = "range",
 			name = L["Padding"],
 			desc = L["Configure the padding of the buttons."],
-			min = -10, max = 20, step = 1,
+			softMin = -10, softMax = 20, bigStep = 1,
 			set = optSetter,
 			get = optGetter,
 		},
