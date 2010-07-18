@@ -1,5 +1,13 @@
 <Bindings>
-	<Binding name="CLICK BT4Button1:LeftButton" header="Bartender4" />
+	<Binding name="BTTOGGLEACTIONBARLOCK" header="Bartender4" >
+		if InCombatLockdown() then
+			print("Cannot change the button lock during combat.")
+			return
+		end
+		Bartender4.db.profile.buttonlock = not Bartender4.db.profile.buttonlock
+		Bartender4.Bar:ForAll("ForAll", "SetAttribute", "buttonlock", Bartender4.db.profile.buttonlock)
+	</Binding>
+	<Binding name="CLICK BT4Button1:LeftButton" />
 	<Binding name="CLICK BT4Button2:LeftButton" />
 	<Binding name="CLICK BT4Button3:LeftButton" />
 	<Binding name="CLICK BT4Button4:LeftButton" />

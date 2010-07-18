@@ -47,6 +47,7 @@ function Bartender4:OnInitialize()
 
 	BINDING_HEADER_Bartender4 = "Bartender4"
 	BINDING_CATEGORY_Bartender4 = "Action Bars"
+	BINDING_NAME_BTTOGGLEACTIONBARLOCK = BINDING_NAME_TOGGLEACTIONBARLOCK
 	for i=1,10 do
 		if i > 1 then
 			_G[('BINDING_CATEGORY_BT4BLANK%d'):format(i)] = "Action Bars" -- myBindings2 compat
