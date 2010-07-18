@@ -1,7 +1,7 @@
 --[[
 	Copyright (c) 2009, CMTitan
-    Based on Nevcairiel's RepXPBar.lua
-    All rights to be transferred to Nevcairiel upon inclusion into Bartender4.
+	Based on Nevcairiel's RepXPBar.lua
+	All rights to be transferred to Nevcairiel upon inclusion into Bartender4.
 	All rights reserved, otherwise.
 ]]
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
