@@ -364,11 +364,15 @@ function Button:UpdateHotkeys()
 
 	if key == "" or self.parent.config.hidehotkey then
 		hotkey:SetText(RANGE_INDICATOR)
-		hotkey:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -2)
+		if not LBF then
+			hotkey:SetPoint("TOPLEFT", self, "TOPLEFT", 1, -2)
+		end
 		hotkey:Hide()
 	else
 		hotkey:SetText(key)
-		hotkey:SetPoint("TOPLEFT", self, "TOPLEFT", -2, -2)
+		if not LBF then
+			hotkey:SetPoint("TOPLEFT", self, "TOPLEFT", -2, -2)
+		end
 		hotkey:Show()
 	end
 end
