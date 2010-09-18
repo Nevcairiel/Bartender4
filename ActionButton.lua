@@ -90,7 +90,7 @@ function Bartender4.Button:Create(id, parent)
 		if action and (not self:GetAttribute("buttonlock") or IsModifiedClick("PICKUPACTION")) then
 			return "action", action
 		end
-	]], [[
+	]], [[]]) --[=[, [[
 		control:RunFor(self, self:GetAttribute("UpdateAutoAssist"))
 	]])
 
@@ -118,7 +118,7 @@ function Bartender4.Button:Create(id, parent)
 
 	button:SetAttribute('_childupdate-init', [[
 		control:RunFor(self, self:GetAttribute("UpdateAutoAssist"))
-	]])
+	]]) ]=]
 
 	button:SetAttribute('_childupdate-state', [[
 		self:SetAttribute("state", message)
@@ -142,8 +142,8 @@ function Bartender4.Button:Create(id, parent)
 			end
 		end
 		self:SetAttribute("action", action)
-
-		-- fix unit on state change
+	]])
+--[=[-- fix unit on state change
 		if action <= 120 and self:GetAttribute("autoassist") then
 			control:RunFor(self, self:GetAttribute("UpdateAutoAssist"))
 		else
@@ -151,7 +151,8 @@ function Bartender4.Button:Create(id, parent)
 		end
 		G_state = message
 	]])
-
+	
+--[=[
 	button:SetAttribute('_childupdate-assist-help', [[
 		G_assist_help = message
 		if self:GetAttribute("assisttype") == 1 then
@@ -164,7 +165,7 @@ function Bartender4.Button:Create(id, parent)
 		if self:GetAttribute("assisttype") == 2 then
 			self:SetAttribute("unit", message)
 		end
-	]])
+	]]) ]=]
 
 	button.SecureInit = true
 
@@ -278,7 +279,7 @@ local function updateFunc(self)
 	self:UpdateRange()
 	updateIcon(self)
 
-	if self.SecureInit and not InCombatLockdown() then
+	--[=[if self.SecureInit and not InCombatLockdown() then
 		local parent = self:GetParent()
 		parent:SetFrameRef("upd", self)
 		parent:Execute([[
@@ -286,6 +287,7 @@ local function updateFunc(self)
 			control:RunFor(frame, frame:GetAttribute("UpdateAutoAssist"))
 		]])
 	end
+	]=]
 end
 
 hooksecurefunc("ActionButton_Update", updateFunc)
