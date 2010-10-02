@@ -7,9 +7,9 @@ All rights reserved, otherwise.
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
 
-local DefaultsMod = Bartender4:NewModule("Defaults")
+local PresetsMod = Bartender4:NewModule("Presets")
 
-function DefaultsMod:ToggleModule(info, val)
+function PresetsMod:ToggleModule(info, val)
 	-- We are always enabled. Period.
 	if not self:IsEnabled() then
 		self:Enabled()
@@ -25,10 +25,10 @@ end
 local function BuildSingleProfile()
 	local dy, config
 	dy = 0
-	if not DefaultsMod.showRepBar then
+	if not PresetsMod.showRepBar then
 		dy = dy - 5
 	end
-	if not DefaultsMod.showXPBar then
+	if not PresetsMod.showXPBar then
 		dy = dy - 6
 	end
 	-- -8
@@ -60,7 +60,7 @@ local function BuildSingleProfile()
 	config.enabled = false
 	Bartender4:GetModule("StanceBar"):Disable()
 
-	if DefaultsMod.showRepBar then
+	if PresetsMod.showRepBar then
 		config = Bartender4.db:GetNamespace("RepBar").profile
 		config.enabled = true
 		config.position.scale = 0.44 -- Note: actually not possible via interface!
@@ -68,7 +68,7 @@ local function BuildSingleProfile()
 		SetBarLocation( config, "BOTTOM", -227, 57 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
 	end
 
-	if DefaultsMod.showXPBar then
+	if PresetsMod.showXPBar then
 		config = Bartender4.db:GetNamespace("XPBar").profile
 		config.enabled = true
 		config.position.scale = 0.49 -- Note: actually not possible via interface!
@@ -89,10 +89,10 @@ local function BuildSingleProfile()
 	local function BuildDoubleProfile()
 	local dy, config
 	dy = 0
-	if not DefaultsMod.showRepBar then
+	if not PresetsMod.showRepBar then
 		dy = dy - 8
 	end
-	if not DefaultsMod.showXPBar then
+	if not PresetsMod.showXPBar then
 		dy = dy - 11
 	end
 
@@ -124,14 +124,14 @@ local function BuildSingleProfile()
 	config.enabled = false
 	Bartender4:GetModule("MicroMenu"):Disable()
 
-	if DefaultsMod.showRepBar then
+	if PresetsMod.showRepBar then
 		config = Bartender4.db:GetNamespace("RepBar").profile
 		config.enabled = true
 		Bartender4:GetModule("RepBar"):Enable()
 		SetBarLocation( config, "BOTTOM", -516, 65 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
 	end
 
-	if DefaultsMod.showXPBar then
+	if PresetsMod.showXPBar then
 		config = Bartender4.db:GetNamespace("XPBar").profile
 		config.enabled = true
 		Bartender4:GetModule("XPBar"):Enable()
@@ -158,10 +158,10 @@ end
 local function BuildBlizzardProfile()
 	local dy, config
 	dy = 0
-	if not DefaultsMod.showRepBar then
+	if not PresetsMod.showRepBar then
 		dy = dy - 8
 	end
-	if not DefaultsMod.showXPBar then
+	if not PresetsMod.showXPBar then
 		dy = dy - 11
 	end
 
@@ -192,14 +192,14 @@ local function BuildBlizzardProfile()
 	config.position.scale = 1.0
 	SetBarLocation( config, "BOTTOM", 37.5, 41.75 )
 
-	if DefaultsMod.showRepBar then
+	if PresetsMod.showRepBar then
 		config = Bartender4.db:GetNamespace("RepBar").profile
 		config.enabled = true
 		Bartender4:GetModule("RepBar"):Enable()
 		SetBarLocation( config, "BOTTOM", -516, 65 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
 	end
 
-	if DefaultsMod.showXPBar then
+	if PresetsMod.showXPBar then
 		config = Bartender4.db:GetNamespace("XPBar").profile
 		config.enabled = true
 		Bartender4:GetModule("XPBar"):Enable()
@@ -224,19 +224,19 @@ end
 
 local function ResetProfile()
 	Bartender4.db:ResetProfile()
-	if DefaultsMod.defaultType == "BLIZZARD" then
+	if PresetsMod.defaultType == "BLIZZARD" then
 		BuildBlizzardProfile()
-	elseif DefaultsMod.defaultType == "DOUBLE" then
+	elseif PresetsMod.defaultType == "DOUBLE" then
 		BuildDoubleProfile()
-	elseif DefaultsMod.defaultType == "SINGLE" then
+	elseif PresetsMod.defaultType == "SINGLE" then
 		BuildSingleProfile()
 	end
 	Bartender4:UpdateModuleConfigs()
 end
 
-function DefaultsMod:SetupOptions()
+function PresetsMod:SetupOptions()
 	if not self.options then
-		DefaultsMod.defaultType = "BLIZZARD"
+		PresetsMod.defaultType = "BLIZZARD"
 		self.showXPBar = true
 		self.showRepBar = true
 		local otbl = {
@@ -253,10 +253,10 @@ function DefaultsMod:SetupOptions()
 			preset = {
 				order = 10,
 				type = "select",
-				name = L["Defaults"],
+				name = L["Presets"],
 				values = { BLIZZARD = L["Blizzard interface"], DOUBLE = L["Two bars wide"], SINGLE = L["Three bars stacked"], ZRESET = L["Full reset"] },
-				get = function() return DefaultsMod.defaultType end,
-				set = function(info, val) DefaultsMod.defaultType = val end
+				get = function() return PresetsMod.defaultType end,
+				set = function(info, val) PresetsMod.defaultType = val end
 			},
 			nl1 = {
 				order = 11,
@@ -267,9 +267,9 @@ function DefaultsMod:SetupOptions()
 				order = 20,
 				type = "toggle",
 				name = L["Show XP Bar"],
-				get = function() return DefaultsMod.showXPBar end,
-				set = function(info, val) DefaultsMod.showXPBar = val end,
-				disabled = function() return DefaultsMod.defaultType == "RESET" end
+				get = function() return PresetsMod.showXPBar end,
+				set = function(info, val) PresetsMod.showXPBar = val end,
+				disabled = function() return PresetsMod.defaultType == "RESET" end
 			},
 			nl2  = {
 					order = 21,
@@ -280,9 +280,9 @@ function DefaultsMod:SetupOptions()
 				order = 30,
 				type = "toggle",
 				name = L["Show Reputation Bar"],
-				get = function() return DefaultsMod.showRepBar end,
-				set = function(info, val) DefaultsMod.showRepBar = val end,
-				disabled = function() return DefaultsMod.defaultType == "RESET" end
+				get = function() return PresetsMod.showRepBar end,
+				set = function(info, val) PresetsMod.showRepBar = val end,
+				disabled = function() return PresetsMod.defaultType == "RESET" end
 			},
 			nl3 = {
 				order = 31,
@@ -298,13 +298,13 @@ function DefaultsMod:SetupOptions()
 		}
 		self.optionobject = Bartender4:NewOptionObject( otbl )
 		self.options = {
-			order = 200,
+			order = 99,
 			type = "group",
-			name = L["Defaults"],
+			name = L["Presets"],
 			desc = L["Configure all of Bartender to preset defaults"],
 			childGroups = "tab",
 		}
-		Bartender4:RegisterModuleOptions("Defaults", self.options)
+		Bartender4:RegisterModuleOptions("Presets", self.options)
 	end
 	self.options.args = self.optionobject.table
 end
