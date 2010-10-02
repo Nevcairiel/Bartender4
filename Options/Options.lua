@@ -222,7 +222,7 @@ local function getOptions()
 					name = L["FAQ"],
 					desc = L["Frequently Asked Questions"],
 					type = "group",
-					order = 200,
+					order = 1000,
 					args = {
 						faq = {
 							type = "description",
