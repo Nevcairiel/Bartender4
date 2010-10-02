@@ -116,7 +116,7 @@ function StateBar:GetOptionObject()
 			type = "description",
 			name = "",
 		},
-		--[[autoassist = {
+		autoassist = {
 			order = 3,
 			type = "toggle",
 			name = L["Auto-Assist"],
@@ -124,7 +124,7 @@ function StateBar:GetOptionObject()
 			get = optGetter,
 			set = optSetter,
 			width = "full",
-		}, ]]
+		},
 		possess = {
 			order = 5,
 			type = "toggle",
