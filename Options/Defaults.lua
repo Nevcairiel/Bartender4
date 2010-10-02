@@ -22,6 +22,139 @@ local function SetBarLocation(config, point, x, y)
 	config.position.y = y
 end
 
+local function BuildSingleProfile()
+	local dy, config
+	dy = 0
+	if not DefaultsMod.showRepBar then
+		dy = dy - 5
+	end
+	if not DefaultsMod.showXPBar then
+		dy = dy - 6
+	end
+	-- -8
+
+	Bartender4.db.profile.blizzardVehicle = false
+	Bartender4.db.profile.outofrange = "hotkey"
+	Bartender4.db.profile.focuscastmodifier = false
+
+	config = Bartender4.db:GetNamespace("ActionBars").profile
+	config.actionbars[1].padding = 6
+	SetBarLocation( config.actionbars[1], "BOTTOM", -256, 41.75 )
+	config.actionbars[2].enabled = false
+	config.actionbars[3].padding = 5
+	config.actionbars[3].rows = 12
+	SetBarLocation( config.actionbars[3], "BOTTOMRIGHT", -82, 610 )
+	config.actionbars[4].padding = 5
+	config.actionbars[4].rows = 12
+	SetBarLocation( config.actionbars[4], "BOTTOMRIGHT", -42, 610 )
+	SetBarLocation( config.actionbars[5], "BOTTOM", -232, 94 + dy )
+	SetBarLocation( config.actionbars[6], "BOTTOM", -232, 132 + dy )
+
+	config = Bartender4.db:GetNamespace("BagBar").profile
+	config.enabled = false
+	Bartender4:GetModule("BagBar"):Disable()
+	config = Bartender4.db:GetNamespace("MicroMenu").profile
+	config.enabled = false
+	Bartender4:GetModule("MicroMenu"):Disable()
+	config = Bartender4.db:GetNamespace("StanceBar").profile
+	config.enabled = false
+	Bartender4:GetModule("StanceBar"):Disable()
+
+	if DefaultsMod.showRepBar then
+		config = Bartender4.db:GetNamespace("RepBar").profile
+		config.enabled = true
+		config.position.scale = 0.44 -- Note: actually not possible via interface!
+		Bartender4:GetModule("RepBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -227, 57 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
+	end
+
+	if DefaultsMod.showXPBar then
+		config = Bartender4.db:GetNamespace("XPBar").profile
+		config.enabled = true
+		config.position.scale = 0.49 -- Note: actually not possible via interface!
+		Bartender4:GetModule("XPBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -252.85, 52 )
+	end
+
+	config = Bartender4.db:GetNamespace("BlizzardArt").profile
+	config.enabled = true
+	config.artLayout = "ONEBAR"
+	Bartender4:GetModule("BlizzardArt"):Enable()
+	SetBarLocation( config, "BOTTOM", -256, 47 )
+
+	config = Bartender4.db:GetNamespace("PetBar").profile
+	SetBarLocation( config, "BOTTOM", -164, 164 + dy )
+	end
+
+	local function BuildDoubleProfile()
+	local dy, config
+	dy = 0
+	if not DefaultsMod.showRepBar then
+		dy = dy - 8
+	end
+	if not DefaultsMod.showXPBar then
+		dy = dy - 11
+	end
+
+	Bartender4.db.profile.blizzardVehicle = true
+	Bartender4.db.profile.outofrange = "hotkey"
+	Bartender4.db.profile.focuscastmodifier = false
+
+	config = Bartender4.db:GetNamespace("ActionBars").profile
+	config.actionbars[1].padding = 6
+	SetBarLocation( config.actionbars[1], "BOTTOM", -510, 41.75 )
+	config.actionbars[2].padding = 6
+	SetBarLocation( config.actionbars[2], "BOTTOM", 3, 41.75 )
+	config.actionbars[3].padding = 5
+	config.actionbars[3].rows = 12
+	SetBarLocation( config.actionbars[3], "BOTTOMRIGHT", -82, 610 )
+	config.actionbars[4].padding = 5
+	config.actionbars[4].rows = 12
+	SetBarLocation( config.actionbars[4], "BOTTOMRIGHT", -42, 610 )
+	config.actionbars[5].padding = 6
+	SetBarLocation( config.actionbars[5], "BOTTOM", 3, 102 + dy )
+	config.actionbars[6].padding = 6
+	SetBarLocation( config.actionbars[6], "BOTTOM", -510, 102 + dy )
+
+	config = Bartender4.db:GetNamespace("BagBar").profile
+	config.enabled = false
+	Bartender4:GetModule("BagBar"):Disable()
+
+	config = Bartender4.db:GetNamespace("MicroMenu").profile
+	config.enabled = false
+	Bartender4:GetModule("MicroMenu"):Disable()
+
+	if DefaultsMod.showRepBar then
+		config = Bartender4.db:GetNamespace("RepBar").profile
+		config.enabled = true
+		Bartender4:GetModule("RepBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -516, 65 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
+	end
+
+	if DefaultsMod.showXPBar then
+		config = Bartender4.db:GetNamespace("XPBar").profile
+		config.enabled = true
+		Bartender4:GetModule("XPBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -516, 57 )
+	end
+
+	config = Bartender4.db:GetNamespace("BlizzardArt").profile
+	config.enabled = true
+	config.artLayout = "TWOBAR"
+	Bartender4:GetModule("BlizzardArt"):Enable()
+	SetBarLocation( config, "BOTTOM", -512, 47 )
+
+	config = Bartender4.db:GetNamespace("PetBar").profile
+	if GetNumShapeshiftForms() > 0 then
+		SetBarLocation( config, "BOTTOM", -120, 135 + dy )
+		config = Bartender4.db:GetNamespace("StanceBar").profile
+		config.position.scale = 1.0
+		SetBarLocation( config, "BOTTOM", -460, 135 + dy )
+	else
+		SetBarLocation( config, "BOTTOM", -460, 135 + dy )
+	end
+end
+
 local function BuildBlizzardProfile()
 	local dy, config
 	dy = 0
@@ -90,11 +223,13 @@ local function BuildBlizzardProfile()
 end
 
 local function ResetProfile()
+	Bartender4.db:ResetProfile()
 	if DefaultsMod.defaultType == "BLIZZARD" then
-		Bartender4.db:ResetProfile()
 		BuildBlizzardProfile()
-	else
-		Bartender4.db:ResetProfile()
+	elseif DefaultsMod.defaultType == "DOUBLE" then
+		BuildDoubleProfile()
+	elseif DefaultsMod.defaultType == "SINGLE" then
+		BuildSingleProfile()
 	end
 	Bartender4:UpdateModuleConfigs()
 end
@@ -108,18 +243,18 @@ function DefaultsMod:SetupOptions()
 			message1 = {
 				order = 1,
 				type = "description",
-				name = L["You can use the preset defaults as a starting point for setting up your interface. Just choose your preferences here and click the button below to reset your profile to the preset default."]
+				name = L["You can use the preset defaults as a starting point for setting up your interface. Just choose your preferences here and click the button below to reset your profile to the preset default. Note that not all defaults show all bars."]
 			},
 			message2 = {
 				order = 2,
 				type = "description",
-				name = L["WARNING: Pressing the button will reset your complete profile! If you're not sure about this create a new profile and use that to experiment."],
+				name = L["|cffff0000WARNING|cffffffff: Pressing the button will reset your complete profile! If you're not sure about this, create a new profile and use that to experiment."],
 			},
 			preset = {
 				order = 10,
 				type = "select",
 				name = L["Defaults"],
-				values = { BLIZZARD = L["Blizzard interface"], RESET = L["Full reset"] },
+				values = { BLIZZARD = L["Blizzard interface"], DOUBLE = L["Two bars wide"], SINGLE = L["Three bars stacked"], ZRESET = L["Full reset"] },
 				get = function() return DefaultsMod.defaultType end,
 				set = function(info, val) DefaultsMod.defaultType = val end
 			},
