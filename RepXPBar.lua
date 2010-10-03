@@ -82,6 +82,12 @@ function XPBarMod:OnEnable()
 		self.bar.content:SetParent(self.bar)
 		self.bar.content:Show()
 		self.bar.content:SetFrameLevel(self.bar:GetFrameLevel() + 1)
+
+		hooksecurefunc("VehicleMenuBar_MoveMicroButtons", function()
+			self.bar.content:SetParent(self.bar)
+			self.bar.content:Show()
+			self:ApplyConfig()
+		end)
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
