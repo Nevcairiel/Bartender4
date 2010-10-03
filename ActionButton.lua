@@ -106,12 +106,14 @@ function Bartender4.Button:Create(id, parent)
 			local type, id, subtype = GetActionInfo(action)
 			if type == "spell" and id > 0 then
 				id, subtype = FindSpellBookSlotBySpellID(id), "spell"
-				if IsHelpfulSpell(id, subtype) then
-					self:SetAttribute("assisttype", 1)
-					self:SetAttribute("unit", G_assist_help)
-				elseif IsHarmfulSpell(id, subtype) then
-					self:SetAttribute("assisttype", 2)
-					self:SetAttribute("unit", G_assist_harm)
+				if id and id > 0 then
+					if IsHelpfulSpell(id, subtype) then
+						self:SetAttribute("assisttype", 1)
+						self:SetAttribute("unit", G_assist_help)
+					elseif IsHarmfulSpell(id, subtype) then
+						self:SetAttribute("assisttype", 2)
+						self:SetAttribute("unit", G_assist_harm)
+					end
 				end
 			end
 		end
