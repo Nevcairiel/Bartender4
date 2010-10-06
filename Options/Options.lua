@@ -172,7 +172,7 @@ local function getOptions()
 									end,
 									set = function(info, value)
 										Bartender4.db.profile.outofrange = value
-										Bartender4.Bar:ForAll("ApplyConfig")
+										Bartender4.Bar:ForAll("UpdateButtonConfig")
 									end,
 									values = { none = L["No Display"], button = L["Full Button Mode"], hotkey = L["Hotkey Mode"] },
 								},
@@ -188,7 +188,7 @@ local function getOptions()
 									set = function(info, r, g, b)
 										local color = Bartender4.db.profile.colors[info[#info]]
 										color.r, color.g, color.b = r, g, b
-										Bartender4.Bar:ForAll("ApplyConfig")
+										Bartender4.Bar:ForAll("UpdateButtonConfig")
 									end,
 									args = {
 										range = {
