@@ -28,6 +28,15 @@ function ActionBar:ApplyConfig(config)
 	if not self.config.position.x then initialPosition(self) end
 
 	self:UpdateButtons()
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:UpdateButtonConfig()
+	if not self.buttonConfig then self.buttonConfig = { colors = { range = {}, mana = {} } } end
+	self.buttonConfig.outOfRangeColoring = Bartender4.db.profile.outofrange
+	self.buttonConfig.colors.range[1], self.buttonConfig.colors.range[2], self.buttonConfig.colors.range[3] = Bartender4.db.profile.colors.range.r, Bartender4.db.profile.colors.range.g, Bartender4.db.profile.colors.range.b
+	self.buttonConfig.colors.mana[1], self.buttonConfig.colors.mana[2], self.buttonConfig.colors.mana[3] = Bartender4.db.profile.colors.mana.r, Bartender4.db.profile.colors.mana.g, Bartender4.db.profile.colors.mana.b
+	self:ForAll("UpdateConfig", self.buttonConfig)
 end
 
 -- Update the number of buttons in our bar, creating new ones if necessary
