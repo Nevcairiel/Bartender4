@@ -212,7 +212,10 @@ local function getOptions()
 									desc = L["Configure the Button Tooltip."],
 									values = { ["disabled"] = L["Disabled"], ["nocombat"] = L["Disabled in Combat"], ["enabled"] = L["Enabled"] },
 									get = function() return Bartender4.db.profile.tooltip end,
-									set = function(info, value) Bartender4.db.profile.tooltip = value end,
+									set = function(info, value)
+										Bartender4.db.profile.tooltip = value
+										Bartender4.Bar:ForAll("UpdateButtonConfig")
+									end,
 								},
 							},
 						},
