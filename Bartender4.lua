@@ -198,22 +198,6 @@ function Bartender4:UpdateBlizzardVehicle()
 			]])
 		end
 		RegisterStateDriver(self.vehicleController, "vehicle", "[vehicleui]vehicle;novehicle")
-		local btn = "VehicleMenuBarActionButton%d"
-		for i=1,6 do
-			local name = btn:format(i)
-			local button = _G[name]
-			button.UpdateUsable = Bartender4.Button.prototype.UpdateUsable
-			button:SetScript("OnUpdate", Bartender4.Button.onUpdate)
-			button.icon = _G[("%sIcon"):format(name)]
-			button.border = _G[("%sBorder"):format(name)]
-			button.cooldown = _G[("%sCooldown"):format(name)]
-			button.macroName = _G[("%sName"):format(name)]
-			button.hotkey = _G[("%sHotKey"):format(name)]
-			button.count = _G[("%sCount"):format(name)]
-			button.flash = _G[("%sFlash"):format(name)]
-			button.BT4init = true
-			button:SetParent(VehicleMenuBarActionButtonFrame)
-		end
 	else
 		MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERING_VEHICLE")
 		MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERED_VEHICLE")
@@ -231,13 +215,6 @@ function Bartender4:UpdateBlizzardVehicle()
 		UnregisterStateDriver(PossessBarFrame, "visibility")
 		if self.vehicleController then
 			UnregisterStateDriver(self.vehicleController, "vehicle")
-		end
-		local btn = "VehicleMenuBarActionButton%d"
-		for i=1,6 do
-			local name = btn:format(i)
-			local button = _G[name]
-			button.BT4init = nil
-			button:SetScript("OnUpdate", ActionButton_OnUpdate)
 		end
 	end
 end
