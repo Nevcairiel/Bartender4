@@ -6,6 +6,8 @@ local StateBar = Bartender4.StateBar.prototype
 local ActionBar = setmetatable({}, {__index = StateBar})
 Bartender4.ActionBar = ActionBar
 
+local LAB10 = LibStub("LibActionButton-1.0")
+
 --[[===================================================================================
 	ActionBar Prototype
 ===================================================================================]]--
@@ -41,7 +43,14 @@ function ActionBar:UpdateButtons(numbuttons)
 	local updateBindings = (numbuttons > #buttons)
 	-- create more buttons if needed
 	for i = (#buttons+1), numbuttons do
-		buttons[i] = Bartender4.Button:Create(i, self)
+		local absid = (self.id - 1) * 12 + i
+		buttons[i] = LAB10:CreateButton(absid, format("BT4Button%d", absid), self, nil)
+		for k = 1,11 do
+			buttons[i]:SetState(k, "action", (k - 1) * 12 + i)
+		end
+		buttons[i]:SetState(0, "action", absid)
+
+		buttons[i]:AddToButtonFacade(self.LBFGroup)
 	end
 
 	-- show active buttons
@@ -49,7 +58,7 @@ function ActionBar:UpdateButtons(numbuttons)
 		buttons[i]:SetParent(self)
 		buttons[i]:Show()
 		buttons[i]:SetAttribute("statehidden", nil)
-		buttons[i]:Update()
+		buttons[i]:UpdateAction()
 	end
 
 	-- hide inactive buttons
@@ -75,7 +84,7 @@ end
 
 function ActionBar:SkinChanged(...)
 	StateBar.SkinChanged(self, ...)
-	self:ForAll("Update")
+	self:ForAll("UpdateAction")
 end
 
 
