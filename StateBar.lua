@@ -194,10 +194,7 @@ function StateBar:UpdateStates(returnOnly)
 		RegisterStateDriver(self, "assist-harm", ("%s[harm]nil; [target=targettarget, harm]targettarget; nil"):format(preFocus))
 	end
 
-	self:ForAll("UpdateStates")
-	self:Execute([[
-		control:ChildUpdate("init")
-	]])
+	self:ForAll("UpdateState")
 end
 
 function StateBar:GetStanceState(stance)

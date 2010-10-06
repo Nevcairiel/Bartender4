@@ -38,7 +38,33 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.colors.range[1], self.buttonConfig.colors.range[2], self.buttonConfig.colors.range[3] = Bartender4.db.profile.colors.range.r, Bartender4.db.profile.colors.range.g, Bartender4.db.profile.colors.range.b
 	self.buttonConfig.colors.mana[1], self.buttonConfig.colors.mana[2], self.buttonConfig.colors.mana[3] = Bartender4.db.profile.colors.mana.r, Bartender4.db.profile.colors.mana.g, Bartender4.db.profile.colors.mana.b
 	self:ForAll("UpdateConfig", self.buttonConfig)
+
+	self:ForAll("SetAttribute", "autoassist", self.config.autoassist)
+	self:ForAll("UpdateState")
 end
+
+local UpdateAutoAssist = [[
+	local state, type, action = ...
+	self:SetAttribute("assisttype", nil)
+	self:SetAttribute("unit", nil)
+	if self:GetAttribute("autoassist") then
+		if type == "action" then
+			type, action = GetActionInfo(action)
+		end
+		if type == "spell" and action > 0 then
+			local id, subtype = FindSpellBookSlotBySpellID(action), "spell"
+			if id and id > 0 then
+				if IsHelpfulSpell(id, subtype) then
+					self:SetAttribute("assisttype", 1)
+					self:SetAttribute("unit", G_assist_help)
+				elseif IsHarmfulSpell(id, subtype) then
+					self:SetAttribute("assisttype", 2)
+					self:SetAttribute("unit", G_assist_harm)
+				end
+			end
+		end
+	end
+]]
 
 -- Update the number of buttons in our bar, creating new ones if necessary
 function ActionBar:UpdateButtons(numbuttons)
@@ -61,6 +87,22 @@ function ActionBar:UpdateButtons(numbuttons)
 		buttons[i]:SetState(0, "action", absid)
 
 		buttons[i]:AddToButtonFacade(self.LBFGroup)
+
+		buttons[i]:SetAttribute("OnStateChanged", UpdateAutoAssist)
+
+		buttons[i]:SetAttribute("_childupdate-assist-help", [[
+			G_assist_help = message
+			if self:GetAttribute("assisttype") == 1 then
+				self:SetAttribute("unit", message)
+			end
+		]])
+
+		buttons[i]:SetAttribute("_childupdate-assist-harm", [[
+			G_assist_harm = message
+			if self:GetAttribute("assisttype") == 2 then
+				self:SetAttribute("unit", message)
+			end
+		]])
 	end
 
 	-- show active buttons
