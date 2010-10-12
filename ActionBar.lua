@@ -86,7 +86,9 @@ function ActionBar:UpdateButtons(numbuttons)
 		end
 		buttons[i]:SetState(0, "action", absid)
 
-		buttons[i]:AddToButtonFacade(self.LBFGroup)
+		if self.LBFGroup then
+			buttons[i]:AddToButtonFacade(self.LBFGroup)
+		end
 
 		buttons[i]:SetAttribute("OnStateChanged", UpdateAutoAssist)
 
