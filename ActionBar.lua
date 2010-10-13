@@ -42,6 +42,8 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.hideElements.macro = self.config.hidemacrotext and true or false
 	self.buttonConfig.hideElements.hotkey = self.config.hidehotkey and true or false
 
+	self.buttonConfig.showGrid = self.config.showgrid
+
 	self:ForAll("UpdateConfig", self.buttonConfig)
 
 	self:ForAll("SetAttribute", "autoassist", self.config.autoassist)
@@ -185,10 +187,5 @@ function ActionBar:SetGrid(state)
 	if state ~= nil then
 		self.config.showgrid = state
 	end
-	if self.config.showgrid then
-		self:ForAll("ShowGrid")
-	else
-		self:ForAll("HideGrid")
-	end
-	self:ForAll("UpdateGrid")
+	self:UpdateButtonConfig()
 end

@@ -79,7 +79,6 @@ function module:GetOptionsObject()
 				desc = L["Toggle the button grid."],
 				set = optSetter,
 				get = optGetter,
-				hidden = true,
 			},
 			buttons = {
 				order = 50,
