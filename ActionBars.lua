@@ -157,7 +157,9 @@ function BT4ActionBars:ReassignBindings()
 		local button, real_button = ("ACTIONBUTTON%d"):format(i), ("BT4Button%d"):format(i)
 		for k=1, select('#', GetBindingKey(button)) do
 			local key = select(k, GetBindingKey(button))
-			SetOverrideBindingClick(frame, false, key, real_button)
+			if key and key ~= "" then
+				SetBindingClick(key, real_button, "LeftButton")
+			end
 		end
 	end
 
@@ -172,7 +174,8 @@ function BT4ActionBars:ReassignBindings()
 			end
 		end
 	end
-	SaveBindings(GetCurrentBindingSet() or 1)
+	local set = GetCurrentBindingSet()
+	SaveBindings((set == 1 or set == 2) and set or 1)
 end
 
 -- Creates a new bar object based on the id and the specified config
