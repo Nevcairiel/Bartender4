@@ -32,11 +32,16 @@ function ActionBar:ApplyConfig(config)
 end
 
 function ActionBar:UpdateButtonConfig()
-	if not self.buttonConfig then self.buttonConfig = { colors = { range = {}, mana = {} } } end
+	StateBar.UpdateButtonConfig(self)
+	if not self.buttonConfig then self.buttonConfig = { colors = { range = {}, mana = {} }, hideElements = {} } end
 	self.buttonConfig.outOfRangeColoring = Bartender4.db.profile.outofrange
 	self.buttonConfig.tooltip = Bartender4.db.profile.tooltip
 	self.buttonConfig.colors.range[1], self.buttonConfig.colors.range[2], self.buttonConfig.colors.range[3] = Bartender4.db.profile.colors.range.r, Bartender4.db.profile.colors.range.g, Bartender4.db.profile.colors.range.b
 	self.buttonConfig.colors.mana[1], self.buttonConfig.colors.mana[2], self.buttonConfig.colors.mana[3] = Bartender4.db.profile.colors.mana.r, Bartender4.db.profile.colors.mana.g, Bartender4.db.profile.colors.mana.b
+
+	self.buttonConfig.hideElements.macro = self.config.hidemacrotext and true or false
+	self.buttonConfig.hideElements.hotkey = self.config.hidehotkey and true or false
+
 	self:ForAll("UpdateConfig", self.buttonConfig)
 
 	self:ForAll("SetAttribute", "autoassist", self.config.autoassist)

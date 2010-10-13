@@ -67,6 +67,10 @@ function ButtonBar:ApplyConfig(config)
 	--self:UpdateButtonLayout()
 end
 
+function ButtonBar:UpdateButtonConfig()
+
+end
+
 -- get the current padding
 function ButtonBar:GetPadding()
 	return self.config.padding
@@ -107,7 +111,7 @@ function ButtonBar:SetHideMacroText(state)
 	if state ~= nil then
 		self.config.hidemacrotext = state
 	end
-	self:ForAll("Update")
+	self:UpdateButtonConfig()
 end
 
 function ButtonBar:GetHideMacroText()
@@ -118,7 +122,7 @@ function ButtonBar:SetHideHotkey(state)
 	if state ~= nil then
 		self.config.hidehotkey = state
 	end
-	self:ForAll("Update")
+	self:UpdateButtonConfig()
 end
 
 function ButtonBar:GetHideHotkey()
