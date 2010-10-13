@@ -44,6 +44,8 @@ function ActionBar:UpdateButtonConfig()
 	self:ForAll("SetAttribute", "checkselfcast", Bartender4.db.profile.selfcastmodifier and true or nil)
 	self:ForAll("SetAttribute", "checkfocuscast", Bartender4.db.profile.focuscastmodifier and true or nil)
 	self:ForAll("SetAttribute", "unit2", Bartender4.db.profile.selfcastrightclick and "player" or nil)
+	-- button lock
+	self:ForAll("SetAttribute", "buttonlock", Bartender4.db.profile.buttonlock)
 	-- update state
 	self:ForAll("UpdateState")
 end
