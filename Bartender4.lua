@@ -186,7 +186,7 @@ function Bartender4:UpdateBlizzardVehicle()
 			self.vehicleController:SetAttribute("_onstate-vehicle", [[
 				if newstate == "vehicle" then
 					for i=1,6 do
-						local button, vbutton = ("ACTIONBUTTON%d"):format(i), ("VehicleMenuBarActionButton%d"):format(i)
+						local button, vbutton = ("BT4Button%d"):format(i), ("VehicleMenuBarActionButton%d"):format(i)
 						for k=1,select('#', GetBindingKey(button)) do
 							local key = select(k, GetBindingKey(button))
 							self:SetBindingClick(true, key, vbutton)
