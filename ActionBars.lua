@@ -78,9 +78,6 @@ function BT4ActionBars:OnEnable()
 
 		first = nil
 	end
-
-	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
-	self:ReassignBindings()
 end
 
 function BT4ActionBars:SetupOptions()
@@ -146,36 +143,6 @@ function BT4ActionBars:UpdateButtons(force)
 			button:UpdateAction(force)
 		end
 	end
-end
-
-function BT4ActionBars:ReassignBindings()
-	if InCombatLockdown() then return end
-	if not self.actionbars or not self.actionbars[1] then return end
-	local frame = self.actionbars[1]
-	ClearOverrideBindings(frame)
-	for i = 1,min(#frame.buttons, 12) do
-		local button, real_button = ("ACTIONBUTTON%d"):format(i), ("BT4Button%d"):format(i)
-		for k=1, select('#', GetBindingKey(button)) do
-			local key = select(k, GetBindingKey(button))
-			if key and key ~= "" then
-				SetBindingClick(key, real_button, "LeftButton")
-			end
-		end
-	end
-
-	for i = 1, 120 do
-		-- rename old bindings from <buttonname>Secure to only <buttonname>
-		local button, real_button = ("CLICK BT4Button%dSecure:LeftButton"):format(i), ("BT4Button%d"):format(i)
-
-		for k=1, select('#', GetBindingKey(button)) do
-			local key = select(k, GetBindingKey(button))
-			if key and key ~= "" then
-				SetBindingClick(key, real_button, "LeftButton")
-			end
-		end
-	end
-	local set = GetCurrentBindingSet()
-	SaveBindings((set == 1 or set == 2) and set or 1)
 end
 
 -- Creates a new bar object based on the id and the specified config
