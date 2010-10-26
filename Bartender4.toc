@@ -69,3 +69,6 @@ BlizzardArt.lua
 
 ## Options ##
 Options\Options.xml
+
+## Presets -- needs to be the last ##
+Options\Presets.lua

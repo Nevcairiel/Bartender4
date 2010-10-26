@@ -222,16 +222,25 @@ local function BuildBlizzardProfile()
 	end
 end
 
-local function ResetProfile()
+function PresetsMod:ResetProfile(type)
+	if not type then type = PresetsMod.defaultType end
 	Bartender4.db:ResetProfile()
-	if PresetsMod.defaultType == "BLIZZARD" then
+	if type == "BLIZZARD" then
 		BuildBlizzardProfile()
-	elseif PresetsMod.defaultType == "DOUBLE" then
+	elseif type == "DOUBLE" then
 		BuildDoubleProfile()
-	elseif PresetsMod.defaultType == "SINGLE" then
+	elseif type == "SINGLE" then
 		BuildSingleProfile()
 	end
 	Bartender4:UpdateModuleConfigs()
+end
+
+function PresetsMod:OnEnable()
+	Bartender4.finishedLoading = true
+	if self.applyBlizzardOnEnable then
+		self:ResetProfile("BLIZZARD")
+		self.applyBlizzardOnEnable = nil
+	end
 end
 
 function PresetsMod:SetupOptions()
@@ -293,7 +302,7 @@ function PresetsMod:SetupOptions()
 				order = 40,
 				type = "execute",
 				name = L["Reset profile"],
-				func = ResetProfile
+				func = function() PresetsMod.ResetProfile() end,
 			}
 		}
 		self.optionobject = Bartender4:NewOptionObject( otbl )

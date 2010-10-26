@@ -29,6 +29,7 @@ Bartender4.CONFIG_VERSION = 3
 
 function Bartender4:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("Bartender4DB", defaults)
+	self.db.RegisterCallback(self, "OnNewProfile", "InitializeProfile")
 	self.db.RegisterCallback(self, "OnProfileChanged", "UpdateModuleConfigs")
 	self.db.RegisterCallback(self, "OnProfileCopied", "UpdateModuleConfigs")
 	self.db.RegisterCallback(self, "OnProfileReset", "UpdateModuleConfigs")
@@ -131,10 +132,14 @@ function Bartender4:HideBlizzard()
 	end
 end
 
---[[ function Bartender4:OnEnable()
-	--
+function Bartender4:InitializeProfile()
+	local PresetMod = self:GetModule("Presets")
+	if not self.finishedLoading then
+		PresetMod.applyBlizzardOnEnable = true
+	else
+		PresetMod:ResetProfile("BLIZZARD")
+	end
 end
---]]
 
 function Bartender4:RegisterDefaultsKey(key, subdefaults)
 	defaults.profile[key] = subdefaults

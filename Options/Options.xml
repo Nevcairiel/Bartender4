@@ -17,5 +17,4 @@
 	<Script file="VehicleBar.lua"/>
 	<Script file="MultiCastBar.lua"/>
 	<Script file="BlizzardArt.lua"/>
-	<Script file="Presets.lua"/>
 </Ui>
