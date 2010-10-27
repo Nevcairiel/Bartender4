@@ -51,8 +51,8 @@ function Bartender4:OnInitialize()
 	BINDING_NAME_BTTOGGLEACTIONBARLOCK = BINDING_NAME_TOGGLEACTIONBARLOCK
 	for i=1,10 do
 		if i > 1 then
-			_G[('BINDING_CATEGORY_BT4BLANK%d'):format(i)] = "Action Bars" -- myBindings2 compat
-			_G[('BINDING_HEADER_BT4BLANK%d'):format(i)] = "Bartender4 " .. L["Bar %s"]:format(i)
+			_G[("BINDING_CATEGORY_BT4BLANK%d"):format(i)] = "Action Bars" -- myBindings2 compat
+			_G[("BINDING_HEADER_BT4BLANK%d"):format(i)] = "Bartender4 " .. L["Bar %s"]:format(i)
 		end
 		for k=1,12 do
 			_G[("BINDING_NAME_CLICK BT4Button%d:LeftButton"):format(((i-1)*12)+k)] = ("Bartender4 %s %s"):format(L["Bar %s"]:format(i), L["Button %s"]:format(k))
@@ -89,14 +89,14 @@ function Bartender4:HideBlizzard()
 		_G["MultiBarLeftButton" .. i]:Hide()
 		_G["MultiBarLeftButton" .. i]:UnregisterAllEvents()
 	end
-	--UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarRight'] = nil
-	--UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarLeft'] = nil
-	--UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarBottomLeft'] = nil
-	--UIPARENT_MANAGED_FRAME_POSITIONS['MultiBarBottomRight'] = nil
-	UIPARENT_MANAGED_FRAME_POSITIONS['MainMenuBar'] = nil
-	UIPARENT_MANAGED_FRAME_POSITIONS['ShapeshiftBarFrame'] = nil
-	UIPARENT_MANAGED_FRAME_POSITIONS['PossessBarFrame'] = nil
-	UIPARENT_MANAGED_FRAME_POSITIONS['PETACTIONBAR_YPOS'] = nil
+	--UIPARENT_MANAGED_FRAME_POSITIONS["MultiBarRight"] = nil
+	--UIPARENT_MANAGED_FRAME_POSITIONS["MultiBarLeft"] = nil
+	--UIPARENT_MANAGED_FRAME_POSITIONS["MultiBarBottomLeft"] = nil
+	--UIPARENT_MANAGED_FRAME_POSITIONS["MultiBarBottomRight"] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS["MainMenuBar"] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS["ShapeshiftBarFrame"] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS["PossessBarFrame"] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS["PETACTIONBAR_YPOS"] = nil
 
 	MainMenuBar:UnregisterAllEvents()
 	MainMenuBar:Hide()
@@ -126,9 +126,9 @@ function Bartender4:HideBlizzard()
 	PossessBarFrame:Hide()
 
 	if PlayerTalentFrame then
-		PlayerTalentFrame:UnregisterEvent('ACTIVE_TALENT_GROUP_CHANGED')
+		PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 	else
-		hooksecurefunc('TalentFrame_LoadUI', function() PlayerTalentFrame:UnregisterEvent('ACTIVE_TALENT_GROUP_CHANGED') end)
+		hooksecurefunc("TalentFrame_LoadUI", function() PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED") end)
 	end
 end
 
@@ -192,7 +192,7 @@ function Bartender4:UpdateBlizzardVehicle()
 				if newstate == "vehicle" then
 					for i=1,6 do
 						local button, vbutton = ("CLICK BT4Button%d:LeftButton"):format(i), ("VehicleMenuBarActionButton%d"):format(i)
-						for k=1,select('#', GetBindingKey(button)) do
+						for k=1,select("#", GetBindingKey(button)) do
 							local key = select(k, GetBindingKey(button))
 							self:SetBindingClick(true, key, vbutton)
 						end
@@ -252,69 +252,69 @@ end
 
 function Bartender4:ShowUnlockDialog()
 	if not self.unlock_dialog then
-		local f = CreateFrame('Frame', 'Bartender4Dialog', UIParent)
-		f:SetFrameStrata('DIALOG')
+		local f = CreateFrame("Frame", "Bartender4Dialog", UIParent)
+		f:SetFrameStrata("DIALOG")
 		f:SetToplevel(true)
 		f:EnableMouse(true)
 		f:SetClampedToScreen(true)
 		f:SetWidth(360)
 		f:SetHeight(110)
 		f:SetBackdrop{
-			bgFile='Interface\\DialogFrame\\UI-DialogBox-Background' ,
-			edgeFile='Interface\\DialogFrame\\UI-DialogBox-Border',
+			bgFile="Interface\\DialogFrame\\UI-DialogBox-Background" ,
+			edgeFile="Interface\\DialogFrame\\UI-DialogBox-Border",
 			tile = true,
 			insets = {left = 11, right = 12, top = 12, bottom = 11},
 			tileSize = 32,
 			edgeSize = 32,
 		}
-		f:SetPoint('TOP', 0, -50)
+		f:SetPoint("TOP", 0, -50)
 		f:Hide()
-		f:SetScript('OnShow', function() PlaySound('igMainMenuOption') end)
-		f:SetScript('OnHide', function() PlaySound('gsTitleOptionExit') end)
+		f:SetScript("OnShow", function() PlaySound("igMainMenuOption") end)
+		f:SetScript("OnHide", function() PlaySound("gsTitleOptionExit") end)
 
 		local tr = f:CreateTitleRegion()
 		tr:SetAllPoints(f)
 
-		local header = f:CreateTexture(nil, 'ARTWORK')
-		header:SetTexture('Interface\\DialogFrame\\UI-DialogBox-Header')
+		local header = f:CreateTexture(nil, "ARTWORK")
+		header:SetTexture("Interface\\DialogFrame\\UI-DialogBox-Header")
 		header:SetWidth(256); header:SetHeight(64)
-		header:SetPoint('TOP', 0, 12)
+		header:SetPoint("TOP", 0, 12)
 
-		local title = f:CreateFontString('ARTWORK')
-		title:SetFontObject('GameFontNormal')
-		title:SetPoint('TOP', header, 'TOP', 0, -14)
+		local title = f:CreateFontString("ARTWORK")
+		title:SetFontObject("GameFontNormal")
+		title:SetPoint("TOP", header, "TOP", 0, -14)
 		title:SetText(L["Bartender4"])
 
-		local desc = f:CreateFontString('ARTWORK')
-		desc:SetFontObject('GameFontHighlight')
-		desc:SetJustifyV('TOP')
-		desc:SetJustifyH('LEFT')
-		desc:SetPoint('TOPLEFT', 18, -32)
-		desc:SetPoint('BOTTOMRIGHT', -18, 48)
+		local desc = f:CreateFontString("ARTWORK")
+		desc:SetFontObject("GameFontHighlight")
+		desc:SetJustifyV("TOP")
+		desc:SetJustifyH("LEFT")
+		desc:SetPoint("TOPLEFT", 18, -32)
+		desc:SetPoint("BOTTOMRIGHT", -18, 48)
 		desc:SetText(L["Bars unlocked. Move them now and click Lock when you are done."])
 
-		local snapping = CreateFrame('CheckButton', 'Bartender4Snapping', f, 'OptionsCheckButtonTemplate')
-		_G[snapping:GetName() .. 'Text']:SetText(L["Bar Snapping"])
+		local snapping = CreateFrame("CheckButton", "Bartender4Snapping", f, "OptionsCheckButtonTemplate")
+		_G[snapping:GetName() .. "Text"]:SetText(L["Bar Snapping"])
 
-		snapping:SetScript('OnShow', function(self)
+		snapping:SetScript("OnShow", function(self)
 			self:SetChecked(getSnap())
 		end)
 
-		snapping:SetScript('OnClick', function(self)
+		snapping:SetScript("OnClick", function(self)
 			setSnap(snapping:GetChecked())
 		end)
 
-		local lockBars = CreateFrame('CheckButton', 'Bartender4DialogLock', f, 'OptionsButtonTemplate')
-		getglobal(lockBars:GetName() .. 'Text'):SetText(L["Lock"])
+		local lockBars = CreateFrame("CheckButton", "Bartender4DialogLock", f, "OptionsButtonTemplate")
+		getglobal(lockBars:GetName() .. "Text"):SetText(L["Lock"])
 
-		lockBars:SetScript('OnClick', function(self)
+		lockBars:SetScript("OnClick", function(self)
 			Bartender4:Lock()
 			LibStub("AceConfigRegistry-3.0"):NotifyChange("Bartender4")
 		end)
 
 		--position buttons
-		snapping:SetPoint('BOTTOMLEFT', 14, 10)
-		lockBars:SetPoint('BOTTOMRIGHT', -14, 14)
+		snapping:SetPoint("BOTTOMLEFT", 14, 10)
+		lockBars:SetPoint("BOTTOMRIGHT", -14, 14)
 
 		self.unlock_dialog = f
 	end
