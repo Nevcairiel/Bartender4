@@ -90,6 +90,7 @@ function ActionBar:UpdateButtons(numbuttons)
 
 	local buttons = self.buttons or {}
 
+	local updateBindings = (numbuttons > #buttons)
 	-- create more buttons if needed
 	for i = (#buttons+1), numbuttons do
 		local absid = (self.id - 1) * 12 + i
@@ -140,6 +141,9 @@ function ActionBar:UpdateButtons(numbuttons)
 
 	self:UpdateButtonLayout()
 	self:SetGrid()
+	if updateBindings and self.id == "1" then
+		self.module:ReassignBindings()
+	end
 
 	-- need to re-set clickthrough after creating new buttons
 	self:SetClickThrough()

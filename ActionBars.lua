@@ -78,6 +78,9 @@ function BT4ActionBars:OnEnable()
 
 		first = nil
 	end
+
+	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
+	self:ReassignBindings()
 end
 
 function BT4ActionBars:SetupOptions()
@@ -141,6 +144,22 @@ function BT4ActionBars:UpdateButtons(force)
 	for i,v in ipairs(self.actionbars) do
 		for j,button in ipairs(v.buttons) do
 			button:UpdateAction(force)
+		end
+	end
+end
+
+function BT4ActionBars:ReassignBindings()
+	if InCombatLockdown() then return end
+	if not self.actionbars or not self.actionbars[1] then return end
+	local frame = self.actionbars[1]
+	ClearOverrideBindings(frame)
+	for i = 1,min(#frame.buttons, 12) do
+		local button, real_button = ("ACTIONBUTTON%d"):format(i), ("BT4Button%d"):format(i)
+		for k=1, select('#', GetBindingKey(button)) do
+			local key = select(k, GetBindingKey(button))
+			if key and key ~= "" then
+				SetOverrideBindingClick(frame, false, key, real_button)
+			end
 		end
 	end
 end
