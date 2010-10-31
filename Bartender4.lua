@@ -196,6 +196,12 @@ function Bartender4:UpdateBlizzardVehicle()
 							local key = select(k, GetBindingKey(button))
 							self:SetBindingClick(true, key, vbutton)
 						end
+						-- do the same for the default UIs bindings
+						button = ("ACTIONBUTTON%d"):format(i)
+						for k=1,select("#", GetBindingKey(button)) do
+							local key = select(k, GetBindingKey(button))
+							self:SetBindingClick(true, key, vbutton)
+						end
 					end
 				else
 					self:ClearBindings()
