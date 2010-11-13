@@ -70,10 +70,10 @@ local UpdateAutoAssist = [[
 			if id and id > 0 then
 				if IsHelpfulSpell(id, subtype) then
 					self:SetAttribute("assisttype", 1)
-					self:SetAttribute("unit", G_assist_help)
+					self:SetAttribute("unit", self:GetAttribute("assist_help"))
 				elseif IsHarmfulSpell(id, subtype) then
 					self:SetAttribute("assisttype", 2)
-					self:SetAttribute("unit", G_assist_harm)
+					self:SetAttribute("unit", self:GetAttribute("assist_harm"))
 				end
 			end
 		end
@@ -107,14 +107,14 @@ function ActionBar:UpdateButtons(numbuttons)
 		buttons[i]:SetAttribute("OnStateChanged", UpdateAutoAssist)
 
 		buttons[i]:SetAttribute("_childupdate-assist-help", [[
-			G_assist_help = message
+			self:SetAttribute("assist_help", message)
 			if self:GetAttribute("assisttype") == 1 then
 				self:SetAttribute("unit", message)
 			end
 		]])
 
 		buttons[i]:SetAttribute("_childupdate-assist-harm", [[
-			G_assist_harm = message
+			self:SetAttribute("assist_harm", message)
 			if self:GetAttribute("assisttype") == 2 then
 				self:SetAttribute("unit", message)
 			end
