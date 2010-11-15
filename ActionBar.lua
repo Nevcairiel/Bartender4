@@ -45,7 +45,14 @@ function ActionBar:UpdateButtonConfig()
 
 	self.buttonConfig.showGrid = self.config.showgrid
 
-	self:ForAll("UpdateConfig", self.buttonConfig)
+	if tonumber(self.id) == 1 then
+		for i, button in self:GetAll() do
+			self.buttonConfig.keyBoundTarget = format("ACTIONBUTTON%d", i)
+			button:UpdateConfig(self.buttonConfig)
+		end
+	else
+		self:ForAll("UpdateConfig", self.buttonConfig)
+	end
 
 	self:ForAll("SetAttribute", "autoassist", self.config.autoassist)
 	-- self casting
