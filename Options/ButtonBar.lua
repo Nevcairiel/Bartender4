@@ -23,6 +23,7 @@ do
 		zoom = "Zoom",
 		macrotext = "HideMacroText",
 		hotkey = "HideHotkey",
+		equipped = "HideEquipped",
 		vgrowth = "VGrowth",
 		hgrowth = "HGrowth",
 	}
@@ -122,6 +123,14 @@ function ButtonBar:GetOptionObject()
 			type = "toggle",
 			name = L["Hide Hotkey"],
 			desc = L["Hide the Hotkey on the buttons of this bar."],
+			set = optSetter,
+			get = optGetter,
+		},
+		equipped = {
+			order = 82,
+			type = "toggle",
+			name = L["Hide Equipped Border"],
+			desc = L["Hide the inner border indicating the equipped status on the buttons of this bar."],
 			set = optSetter,
 			get = optGetter,
 		},

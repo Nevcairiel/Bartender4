@@ -13,6 +13,7 @@ local defaults = Bartender4:Merge({
 	rows = 1,
 	hidemacrotext = false,
 	hidehotkey = false,
+	hideequipped = false,
 	skin = {
 		ID = "DreamLayout",
 		Backdrop = true,
@@ -127,6 +128,17 @@ end
 
 function ButtonBar:GetHideHotkey()
 	return self.config.hidehotkey
+end
+
+function ButtonBar:SetHideEquipped(state)
+	if state ~= nil then
+		self.config.hideequipped = state
+	end
+	self:UpdateButtonConfig()
+end
+
+function ButtonBar:GetHideEquipped()
+	return self.config.hideequipped
 end
 
 function ButtonBar:SetHGrowth(value)
