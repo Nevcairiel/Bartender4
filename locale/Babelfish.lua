@@ -13,7 +13,6 @@ local filePrefix = "../"
 local files = {
 	"ActionBar.lua",
 	"ActionBars.lua",
-	"ActionButton.lua",
 	"BagBar.lua",
 	"Bar.lua",
 	"Bartender4.lua",
