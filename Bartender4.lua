@@ -69,6 +69,16 @@ function Bartender4:OnInitialize()
 end
 
 function Bartender4:HideBlizzard()
+	-- Hidden parent frame
+	local UIHider = CreateFrame("Frame")
+	UIHider:Hide()
+	self.UIHider = UIHider
+
+	MultiBarBottomLeft:SetParent(UIHider)
+	MultiBarBottomRight:SetParent(UIHider)
+	MultiBarLeft:SetParent(UIHider)
+	MultiBarRight:SetParent(UIHider)
+
 	-- Hide MultiBar Buttons, but keep the bars alive
 	for i=1,12 do
 		_G["ActionButton" .. i]:Hide()
@@ -102,6 +112,7 @@ function Bartender4:HideBlizzard()
 
 	MainMenuBar:UnregisterAllEvents()
 	MainMenuBar:Hide()
+	MainMenuBar:SetParent(UIHider)
 
 	--MainMenuBarArtFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	--MainMenuBarArtFrame:UnregisterEvent("BAG_UPDATE")
@@ -114,18 +125,26 @@ function Bartender4:HideBlizzard()
 	--MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITING_VEHICLE")
 	--MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITED_VEHICLE")
 	MainMenuBarArtFrame:Hide()
+	MainMenuBarArtFrame:SetParent(UIHider)
 
 	--MainMenuExpBar:UnregisterAllEvents()
 	--MainMenuExpBar:Hide()
 
 	ShapeshiftBarFrame:UnregisterAllEvents()
 	ShapeshiftBarFrame:Hide()
+	ShapeshiftBarFrame:SetParent(UIHider)
 
 	BonusActionBarFrame:UnregisterAllEvents()
 	BonusActionBarFrame:Hide()
+	BonusActionBarFrame:SetParent(UIHider)
 
 	PossessBarFrame:UnregisterAllEvents()
 	PossessBarFrame:Hide()
+	PossessBarFrame:SetParent(UIHider)
+
+	PetActionBarFrame:UnregisterAllEvents()
+	PetActionBarFrame:Hide()
+	PetActionBarFrame:SetParent(UIHider)
 
 	if PlayerTalentFrame then
 		PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
@@ -183,10 +202,6 @@ function Bartender4:UpdateBlizzardVehicle()
 		local vehicleModule = Bartender4:GetModule("Vehicle", true)
 		vehicleModule:Disable()
 		vehicleModule.blizzardVehicle = true
-		
-		RegisterStateDriver(MainMenuBar, "visibility", "hide")
-		RegisterStateDriver(ShapeshiftBarFrame, "visibility", "hide")
-		RegisterStateDriver(PossessBarFrame, "visibility", "hide")
 
 		if not self.vehicleController then
 			self.vehicleController = CreateFrame("Frame", nil, UIParent, "SecureHandlerStateTemplate")
@@ -223,9 +238,6 @@ function Bartender4:UpdateBlizzardVehicle()
 		if vehicleModule.db and vehicleModule.db.profile.enabled then
 			vehicleModule:Enable()
 		end
-		UnregisterStateDriver(MainMenuBar, "visibility")
-		UnregisterStateDriver(ShapeshiftBarFrame, "visibility")
-		UnregisterStateDriver(PossessBarFrame, "visibility")
 		if self.vehicleController then
 			UnregisterStateDriver(self.vehicleController, "vehicle")
 		end
