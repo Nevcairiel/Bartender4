@@ -69,25 +69,27 @@ function Bartender4:OnInitialize()
 end
 
 function Bartender4:HideBlizzard()
-	--MultiActionBar_Update = function() end
-	MultiActionBar_UpdateGrid = function() end
-
 	-- Hide MultiBar Buttons, but keep the bars alive
 	for i=1,12 do
 		_G["ActionButton" .. i]:Hide()
 		_G["ActionButton" .. i]:UnregisterAllEvents()
+		_G["ActionButton" .. i]:SetAttribute("statehidden", true)
 
 		_G["MultiBarBottomLeftButton" .. i]:Hide()
 		_G["MultiBarBottomLeftButton" .. i]:UnregisterAllEvents()
+		_G["MultiBarBottomLeftButton" .. i]:SetAttribute("statehidden", true)
 
 		_G["MultiBarBottomRightButton" .. i]:Hide()
 		_G["MultiBarBottomRightButton" .. i]:UnregisterAllEvents()
+		_G["MultiBarBottomRightButton" .. i]:SetAttribute("statehidden", true)
 
 		_G["MultiBarRightButton" .. i]:Hide()
 		_G["MultiBarRightButton" .. i]:UnregisterAllEvents()
+		_G["MultiBarRightButton" .. i]:SetAttribute("statehidden", true)
 
 		_G["MultiBarLeftButton" .. i]:Hide()
 		_G["MultiBarLeftButton" .. i]:UnregisterAllEvents()
+		_G["MultiBarLeftButton" .. i]:SetAttribute("statehidden", true)
 	end
 	--UIPARENT_MANAGED_FRAME_POSITIONS["MultiBarRight"] = nil
 	--UIPARENT_MANAGED_FRAME_POSITIONS["MultiBarLeft"] = nil
