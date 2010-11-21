@@ -301,7 +301,7 @@ function PresetsMod:SetupOptions()
 			button = {
 				order = 40,
 				type = "execute",
-				name = L["Reset profile"],
+				name = L["Apply Preset"],
 				func = function() PresetsMod.ResetProfile() end,
 			}
 		}
