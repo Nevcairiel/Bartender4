@@ -68,7 +68,22 @@ MultiCastBar.lua
 BlizzardArt.lua
 
 ## Options ##
-Options\Options.xml
+Options\AceGUIWidget-NumberEditBox.lua
+
+Options\Options.lua
+Options\Bar.lua
+Options\ButtonBar.lua
+Options\StateBar.lua
+
+Options\ActionBar.lua
+Options\BagBar.lua
+Options\MicroMenu.lua
+Options\PetBar.lua
+Options\StanceBar.lua
+Options\RepXPBar.lua
+Options\VehicleBar.lua
+Options\MultiCastBar.lua
+Options\BlizzardArt.lua
 
 ## Presets -- needs to be the last ##
 Options\Presets.lua

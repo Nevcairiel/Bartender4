@@ -239,9 +239,65 @@ local function generateOptions()
 				type = "group",
 				order = 1000,
 				args = {
-					faq = {
+					line1 = {
 						type = "description",
-						name = L["FAQ_TEXT"],
+						name = "|cffffd200" .. L["I just installed Bartender4, but my keybindings do not show up on the buttons/do not work."] .. "|r",
+						order = 1,
+					},
+					line2 = {
+						type = "description",
+						name = L["Bartender4 only converts the bindings of Bar1 to be directly usable, all other Bars will have to be re-bound to the Bartender4 keys. A direct indicator if your key-bindings are setup correctly is the hotkey display on the buttons. If the key-bindings shows correctly on your button, everything should work fine as well."],
+						order = 2,
+					},
+					line3 = {
+						type = "description",
+						name = "|cffffd200" .. L["How do I change the Bartender4 Keybindings then?"] .. "|r",
+						order = 3,
+					},
+					line4 = {
+						type = "description",
+						name = L["You can either click the KeyBound button in the options, or use the |cffffff78/kb|r chat command to open the keyBound control. Alternatively, you can also use the Blizzard Keybinding Interface."] .. "\n\n" .. L["Once open, simply hover the button you want to bind, and press the key you want to be bound to that button. The keyBound tooltip and on-screen status will inform you about already existing bindings to that button, and the success of your binding attempt."],
+						order = 4,
+					},
+					line5 = {
+						type = "description",
+						name = "\n|cffffd200" .. L["My BagBar does not have the Keyring on it, how do i get it back?"] .. "|r",
+						order = 5,
+					},
+					line6 = {
+						type = "description",
+						name = L["Its simple! Just check the Keyring option in the BagBars configuration menu, and it'll appear next to your bags."],
+						order = 6,
+					},
+					line7 = {
+						type = "description",
+						name = "\n|cffffd200" .. L["I've found a bug! Where do I report it?"] .. "|r",
+						order = 7,
+					},
+					line8 = {
+						type = "description",
+						name = L["You can report bugs or give suggestions at the discussion forums at |cffffff78http://forums.wowace.com/showthread.php?t=12513|r or check the project page at |cffffff78http://www.wowace.com/addons/bartender4/|r"],
+						order = 8,
+					},
+					line9 = {
+						type = "description",
+						name = "\n" .. L["Alternatively, you can also find us on |cffffff78irc://irc.freenode.org/wowace|r"] .. "\n",
+						order = 9,
+					},
+					line10 = {
+						type = "description",
+						name = L["When reporting a bug, make sure you include the |cffffff78steps on how to reproduce the bug|r, supply any |cffffff78error messages|r with stack traces if possible, give the |cffffff78revision number|r of Bartender4 the problem occured in and state whether you are using an |cffffff78English client or otherwise|r."],
+						order = 10,
+					},
+					line11 = {
+						type = "description",
+						name = "\n|cffffd200" .. L["Who wrote this cool addon?"] .. "|r",
+						order = 11,
+					},
+					line12= {
+						type = "description",
+						name = L["Bartender4 was written by Nevcairiel of EU-Antonidas. He will accept cookies as compensation for his hard work!"],
+						order = 12,
 					},
 				},
 			},

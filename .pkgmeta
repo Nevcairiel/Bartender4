@@ -15,3 +15,9 @@ externals:
   libs/LibKeyBound-1.0: svn://svn.wowace.com/wow/libkeybound-1-0/mainline/trunk/LibKeyBound-1.0
   libs/LibDBIcon-1.0: svn://svn.wowace.com/wow/libdbicon-1-0/mainline/trunk/LibDBIcon-1.0
   libs/LibWindow-1.1: svn://svn.wowace.com/wow/libwindow-1-1/mainline/trunk/LibWindow-1.1
+
+tools-used:
+  - localescrapper
+
+ignore:
+  - localcheck.lua
