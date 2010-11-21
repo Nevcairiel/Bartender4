@@ -88,6 +88,14 @@ local UpdateAutoAssist = [[
 	end
 ]]
 
+local customExitButton = {
+	func = function(button)
+		VehicleExit()
+	end,
+	texture = "Interface\\Icons\\Spell_Shadow_SacrificialShield",
+	tooltip = LEAVE_VEHICLE,
+}
+
 -- Update the number of buttons in our bar, creating new ones if necessary
 function ActionBar:UpdateButtons(numbuttons)
 	if numbuttons then
@@ -127,6 +135,10 @@ function ActionBar:UpdateButtons(numbuttons)
 				self:SetAttribute("unit", message)
 			end
 		]])
+
+		if i == 12 then
+			buttons[i]:SetState(11, "custom", customExitButton)
+		end
 	end
 
 	-- show active buttons
