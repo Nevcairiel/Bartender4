@@ -44,6 +44,7 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.hideElements.equipped = self.config.hideequipped and true or false
 
 	self.buttonConfig.showGrid = self.config.showgrid
+	self.buttonConfig.clickOnDown = Bartender4.db.profile.onkeydown
 
 	if tonumber(self.id) == 1 then
 		for i, button in self:GetAll() do

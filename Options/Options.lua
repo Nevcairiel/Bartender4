@@ -95,6 +95,18 @@ local function generateOptions()
 									Bartender4:UpdateBlizzardVehicle()
 								end,
 							},
+							onkeydown = {
+								order = 2,
+								type = "toggle",
+								name = L["Toggle actions on key press instead of release"],
+								desc = L["Toggles actions immediately when you press the key, and not only on release. Note that draging actions will cause them to be cast in this mode."],
+								get = getFunc,
+								set = function(info, value)
+									Bartender4.db.profile.onkeydown = value
+									Bartender4.Bar:ForAll("UpdateButtonConfig")
+								end,
+								width = "full",
+							},
 							selfcastmodifier = {
 								order = 10,
 								type = "toggle",
