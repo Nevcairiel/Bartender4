@@ -86,7 +86,7 @@ function XPBarMod:OnEnable()
 		hooksecurefunc("VehicleMenuBar_MoveMicroButtons", function()
 			self.bar.content:SetParent(self.bar)
 			self.bar.content:Show()
-			self:ApplyConfig()
+			self.bar:PerformLayout()
 		end)
 	end
 	self.bar:Enable()
