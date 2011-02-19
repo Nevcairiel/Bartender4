@@ -49,7 +49,7 @@ function MicroMenuMod:OnEnable()
 
 		MicroMenuMod.button_count = #buttons
 
-		self:SecureHook("UpdateMicroButtons")
+		self:SecureHook("VehicleMenuBar_MoveMicroButtons")
 
 		for i,v in pairs(buttons) do
 			v:SetParent(self.bar)
@@ -76,8 +76,8 @@ function MicroMenuMod:RestoreButtons()
 	self.bar:UpdateButtonLayout()
 end
 
-function MicroMenuMod:UpdateMicroButtons()
-	if MainMenuBar.state == "player" then
+function MicroMenuMod:VehicleMenuBar_MoveMicroButtons(skinName)
+	if not skinName then
 		self:RestoreButtons()
 	end
 end
