@@ -1,4 +1,4 @@
-## Interface: 40000
+## Interface: 40100
 
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
