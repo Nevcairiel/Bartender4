@@ -368,7 +368,7 @@ function Bartender4:Merge(target, source)
 	for k,v in pairs(source) do
 		if type(v) == "table" then
 			target[k] = self:Merge(target[k], v)
-		elseif not target[k] then
+		elseif target[k] == nil then
 			target[k] = v
 		end
 	end
