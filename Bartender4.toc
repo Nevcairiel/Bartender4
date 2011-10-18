@@ -66,6 +66,7 @@ RepXPBar.lua
 VehicleBar.lua
 MultiCastBar.lua
 BlizzardArt.lua
+ExtraActionBar.lua
 
 ## Options ##
 Options\AceGUIWidget-NumberEditBox.lua
@@ -84,6 +85,7 @@ Options\RepXPBar.lua
 Options\VehicleBar.lua
 Options\MultiCastBar.lua
 Options\BlizzardArt.lua
+Options\ExtraActionBar.lua
 
 ## Presets -- needs to be the last ##
 Options\Presets.lua
