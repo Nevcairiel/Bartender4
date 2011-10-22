@@ -17,6 +17,7 @@ local StanceButton_MT = {__index = StanceButtonPrototype}
 local format = string.format
 
 local LBF = LibStub("LibButtonFacade", true)
+local Masque = LibStub("Masque", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
 
 local defaults = { profile = Bartender4:Merge({
@@ -198,7 +199,13 @@ function StanceBarMod:CreateStanceButton(id)
 	button.OnEnter = button:GetScript("OnEnter")
 	button:SetScript("OnEnter", onEnter)
 
-	if LBF then
+	if Masque then
+		local group = self.bar.MasqueGroup
+		button.MasqueButtonData = {
+			Button = button
+		}
+		group:AddButton(button, button.MasqueButtonData)
+	elseif LBF then
 		local group = self.bar.LBFGroup
 		button.LBFButtonData = {
 			Button = button

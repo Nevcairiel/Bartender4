@@ -117,7 +117,9 @@ function ActionBar:UpdateButtons(numbuttons)
 		end
 		buttons[i]:SetState(0, "action", absid)
 
-		if self.LBFGroup then
+		if self.MasqueGroup then
+			buttons[i]:AddToMasque(self.MasqueGroup)
+		elseif self.LBFGroup then
 			buttons[i]:AddToButtonFacade(self.LBFGroup)
 		end
 

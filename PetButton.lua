@@ -10,6 +10,7 @@ local PetButtonPrototype = CreateFrame("CheckButton")
 local PetButton_MT = {__index = PetButtonPrototype}
 
 local LBF = LibStub("LibButtonFacade", true)
+local Masque = LibStub("Masque", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
 
 -- upvalues
@@ -81,7 +82,14 @@ function Bartender4.PetButton:Create(id, parent)
 	button.textureCache.pushed = button.pushedTexture:GetTexture()
 	button.textureCache.highlight = button.highlightTexture:GetTexture()
 
-	if LBF then
+	if Masque then
+		local group = parent.MasqueGroup
+		button.MasqueButtonData = {
+			Button = button,
+			Normal = button.normalTexture,
+		}
+		group:AddButton(button, button.MasqueButtonData)
+	elseif LBF then
 		local group = parent.LBFGroup
 		button.LBFButtonData = {
 			Button = button,

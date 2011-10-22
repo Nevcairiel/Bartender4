@@ -28,11 +28,14 @@ Bartender4.ButtonBar.prototype = ButtonBar
 Bartender4.ButtonBar.defaults = defaults
 
 local LBF = LibStub("LibButtonFacade", true)
+local Masque = LibStub("Masque", true)
 
 function Bartender4.ButtonBar:Create(id, config, name)
 	local bar = setmetatable(Bartender4.Bar:Create(id, config, name), ButtonBar_MT)
 
-	if LBF then
+	if Masque then
+		bar.MasqueGroup = Masque:Group("Bartender4", tostring(id))
+	elseif LBF then
 		bar.LBFGroup = LBF:Group("Bartender4", tostring(id))
 		bar.LBFGroup.SkinID = config.skin.ID or "Blizzard"
 		bar.LBFGroup.Backdrop = config.skin.Backdrop

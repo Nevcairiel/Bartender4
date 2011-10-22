@@ -9,6 +9,7 @@ local BagBarMod = Bartender4:NewModule("BagBar", "AceHook-3.0")
 -- fetch upvalues
 local ButtonBar = Bartender4.ButtonBar.prototype
 local LBF = LibStub("LibButtonFacade", true)
+local Masque = LibStub("Masque", true)
 
 -- create prototype information
 local BagBar = setmetatable({}, {__index = ButtonBar})
@@ -72,9 +73,15 @@ function BagBar:FeedButtons()
 			btn:Hide()
 			btn:SetParent(UIParent)
 			btn:ClearSetPoint("CENTER")
-			if btn ~= KeyRingButton and btn.LBFButtonData then
-				local group = self.LBFGroup
-				group:RemoveButton(btn)
+			if btn ~= KeyRingButton then
+				if btn.MasqueButtonData then
+					local group = self.MasqueGroup
+					group:RemoveButton(btn)
+				end
+				if btn.LBFButtonData then
+					local group = self.LBFGroup
+					group:RemoveButton(btn)
+				end
 			end
 		end
 	else
@@ -102,7 +109,16 @@ function BagBar:FeedButtons()
 		if v ~= KeyRingButton then
 			v:SetNormalTexture("")
 
-			if LBF then
+			if Masque then
+				local group = self.MasqueGroup
+				if not v.MasqueButtonData then
+					v.MasqueButtonData = {
+						Button = v,
+						Icon = _G[v:GetName() .. "IconTexture"],
+					}
+				end
+				group:AddButton(v, v.MasqueButtonData)
+			elseif LBF then
 				local group = self.LBFGroup
 				if not v.LBFButtonData then
 					v.LBFButtonData = {
