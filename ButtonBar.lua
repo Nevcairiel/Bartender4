@@ -238,7 +238,7 @@ function ButtonBar:UpdateButtonLayout()
 		end
 	end
 
-	if not LBF then
+	if not LBF and not Masque then
 		for i = 1, #buttons do
 			local button = buttons[i]
 			if button.icon and self.config.skin.Zoom then

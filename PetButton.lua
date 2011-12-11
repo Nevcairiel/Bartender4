@@ -170,14 +170,18 @@ end
 function PetButtonPrototype:ShowButton()
 	self.pushedTexture:SetTexture(self.textureCache.pushed)
 	self.highlightTexture:SetTexture(self.textureCache.highlight)
-	if LBF then
-		local backdrop, gloss = LBF:GetBackdropLayer(self), LBF:GetGlossLayer(self)
-		if backdrop then
-			backdrop:Show()
-		end
-		if gloss then
-			gloss:Show()
-		end
+	local backdrop, gloss
+	if Masque then
+		backdrop, gloss = Masque:GetBackdrop(self), Masque:GetGloss(self)
+	elseif LBF then
+		backdrop, gloss = LBF:GetBackdropLayer(self), LBF:GetGlossLayer(self)
+	end
+	-- Toggle backdrop/gloss
+	if backdrop then
+		backdrop:Show()
+	end
+	if gloss then
+		gloss:Show()
 	end
 end
 
@@ -187,14 +191,18 @@ function PetButtonPrototype:HideButton()
 
 	self.pushedTexture:SetTexture("")
 	self.highlightTexture:SetTexture("")
-	if LBF then
-		local backdrop, gloss = LBF:GetBackdropLayer(self), LBF:GetGlossLayer(self)
-		if backdrop then
-			backdrop:Hide()
-		end
-		if gloss then
-			gloss:Hide()
-		end
+	local backdrop, gloss
+	if Masque then
+		backdrop, gloss = Masque:GetBackdrop(self), Masque:GetGloss(self)
+	elseif LBF then
+		backdrop, gloss = LBF:GetBackdropLayer(self), LBF:GetGlossLayer(self)
+	end
+	-- Toggle backdrop/gloss
+	if backdrop then
+		backdrop:Hide()
+	end
+	if gloss then
+		gloss:Hide()
 	end
 end
 
