@@ -10,4 +10,5 @@
 	<Script file="koKR.lua"/>
 	<Script file="ruRU.lua"/>
 	<Script file="ptBR.lua"/>
+	<Script file="itIT.lua"/>
 </Ui>
