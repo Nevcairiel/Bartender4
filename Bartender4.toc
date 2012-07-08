@@ -63,7 +63,7 @@ PetBar.lua
 StanceBar.lua
 MicroMenu.lua
 RepXPBar.lua
-VehicleBar.lua
+## VehicleBar.lua
 MultiCastBar.lua
 BlizzardArt.lua
 ExtraActionBar.lua
@@ -82,7 +82,7 @@ Options\MicroMenu.lua
 Options\PetBar.lua
 Options\StanceBar.lua
 Options\RepXPBar.lua
-Options\VehicleBar.lua
+## Options\VehicleBar.lua
 Options\MultiCastBar.lua
 Options\BlizzardArt.lua
 Options\ExtraActionBar.lua

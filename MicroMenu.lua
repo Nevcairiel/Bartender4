@@ -4,7 +4,7 @@
 ]]
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
-local MicroMenuMod = Bartender4:NewModule("MicroMenu", "AceHook-3.0")
+local MicroMenuMod = Bartender4:NewModule("MicroMenu", "AceHook-3.0", "AceEvent-3.0")
 
 -- fetch upvalues
 local ButtonBar = Bartender4.ButtonBar.prototype
@@ -51,7 +51,8 @@ function MicroMenuMod:OnEnable()
 
 		MicroMenuMod.button_count = #buttons
 
-		self:SecureHook("VehicleMenuBar_MoveMicroButtons")
+		self:SecureHook("MoveMicroButtons")
+		self:RegisterEvent("UNIT_EXITED_VEHICLE", "MoveMicroButtons")
 
 		for i,v in pairs(buttons) do
 			v:SetParent(self.bar)
@@ -78,8 +79,10 @@ function MicroMenuMod:RestoreButtons()
 	self.bar:UpdateButtonLayout()
 end
 
-function MicroMenuMod:VehicleMenuBar_MoveMicroButtons(skinName)
-	if not skinName then
+function MicroMenuMod:MoveMicroButtons()
+	-- TODO: This doesn't properly restore the buttons after a vehicle yet
+	if not ((HasVehicleActionBar() and UnitVehicleSkin("player") and UnitVehicleSkin("player") ~= "")
+	or (HasOverrideActionBar() and GetOverrideBarSkin() and GetOverrideBarSkin() ~= "")) then
 		self:RestoreButtons()
 	end
 end
