@@ -80,7 +80,6 @@ function MicroMenuMod:RestoreButtons()
 end
 
 function MicroMenuMod:MoveMicroButtons()
-	-- TODO: This doesn't properly restore the buttons after a vehicle yet
 	if not ((HasVehicleActionBar() and UnitVehicleSkin("player") and UnitVehicleSkin("player") ~= "")
 	or (HasOverrideActionBar() and GetOverrideBarSkin() and GetOverrideBarSkin() ~= "")) then
 		self:RestoreButtons()

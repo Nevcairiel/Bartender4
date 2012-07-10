@@ -114,6 +114,12 @@ function Bartender4:HideBlizzard()
 	--MainMenuBar:Hide()
 	--MainMenuBar:SetParent(UIHider)
 
+	local animations = {MainMenuBar.slideOut:GetAnimations()}
+	animations[1]:SetOffset(0,0)
+
+	animations = {OverrideActionBar.slideOut:GetAnimations()}
+	animations[1]:SetOffset(0,0)
+
 	--MainMenuBarArtFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
 	--MainMenuBarArtFrame:UnregisterEvent("BAG_UPDATE")
 	--MainMenuBarArtFrame:UnregisterEvent("ACTIONBAR_PAGE_CHANGED")
