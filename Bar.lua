@@ -33,6 +33,7 @@ local defaults = {
 
 local Sticky = LibStub("LibSimpleSticky-1.0")
 local LibWin = LibStub("LibWindow-1.1")
+local AceHook = LibStub("AceHook-3.0")
 local snapBars = { WorldFrame, UIParent }
 
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUpdateFunc, barOnAttributeChanged
@@ -176,6 +177,9 @@ function Bartender4.Bar:Create(id, config, name)
 	bar:AnchorOverlay()
 	overlay:Hide()
 
+	AceHook.SecureHook(bar, "PetBattleFrame_Display")
+	AceHook.SecureHook(bar, "PetBattleFrame_Remove")
+
 	bar.elapsed = 0
 	bar.hidedriver = {}
 
@@ -200,6 +204,14 @@ end
 ===================================================================================]]--
 
 Bar.BT4BarType = "Bar"
+
+function Bar:PetBattleFrame_Display()
+	self:Hide()
+end
+
+function Bar:PetBattleFrame_Remove()
+	self:Show()
+end
 
 function Bar:ApplyConfig(config)
 	if config then
