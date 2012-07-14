@@ -82,7 +82,7 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 		}
 	elseif k == "WARLOCK" then
 		newT = {
-			{ id = "metamorphosis", name = GetSpellInfo(59672), index = 2, type = "form"},
+			{ id = "metamorphosis", name = GetSpellInfo(103958), index = 1, type = "form"},
 		}
 	elseif k == "MONK" then
 		newT = {
