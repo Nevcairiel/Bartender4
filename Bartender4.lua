@@ -162,6 +162,9 @@ function Bartender4:HideBlizzard()
 	else
 		hooksecurefunc("TalentFrame_LoadUI", function() PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED") end)
 	end
+
+	self:SecureHook("PetBattleFrame_Display")
+	self:SecureHook("PetBattleFrame_Remove")
 end
 
 function Bartender4:InitializeProfile()
@@ -201,6 +204,25 @@ function Bartender4:UpdateModuleConfigs()
 	if unlock then
 		self:Unlock()
 	end
+end
+
+function Bartender4:PetBattleFrame_Display()
+	for i=1,6 do
+		local button, vbutton = ("CLICK BT4Button%d:LeftButton"):format(i), ("ACTIONBUTTON%d"):format(i)
+		for k=1,select("#", GetBindingKey(button)) do
+			local key = select(k, GetBindingKey(button))
+			SetOverrideBinding(PetBattleFrame, true, key, vbutton)
+		end
+		-- do the same for the default UIs bindings
+		for k=1,select("#", GetBindingKey(vbutton)) do
+			local key = select(k, GetBindingKey(vbutton))
+			SetOverrideBinding(PetBattleFrame, true, key, vbutton)
+		end
+	end
+end
+
+function Bartender4:PetBattleFrame_Remove()
+	ClearOverrideBindings(PetBattleFrame)
 end
 
 function Bartender4:UpdateBlizzardVehicle()
