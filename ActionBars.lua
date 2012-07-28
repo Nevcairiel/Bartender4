@@ -21,7 +21,6 @@ local abdefaults = {
 			actionbar = false,
 			stance = {
 				DRUID = { bear = 9, cat = 7, prowl = 8 },
-				WARRIOR = { battle = 7, def = 8, berserker = 9 },
 				ROGUE = { stealth = 7 },
 				MONK = { tiger = 7, ox = 8, serpent = 9 },
 			},
