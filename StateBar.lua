@@ -114,7 +114,7 @@ function StateBar:UpdateStates(returnOnly)
 
 		-- possessing will always be the most important change, if enabled
 		if self:GetStateOption("possess") then
-			table_insert(statedriver, "[bonusbar:5]11")
+			table_insert(statedriver, "[possessbar]12")
 		end
 
 		-- highest priority have our temporary quick-swap keys
@@ -158,6 +158,8 @@ function StateBar:UpdateStates(returnOnly)
 	else
 		statedriver = self:GetStateOption("custom")
 	end
+
+	statedriver = statedriver:gsub("%[bonusbar:5%]11", "[possessbar]12")
 
 	self:SetAttribute("_onstate-page", [[
 		self:SetAttribute("state", newstate)

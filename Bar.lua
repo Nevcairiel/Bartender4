@@ -429,7 +429,7 @@ function Bar:InitVisibilityDriver(returnOnly)
 				if key == "always" then
 					table_insert(self.hidedriver, "hide")
 				elseif key == "possess" then
-					table_insert(self.hidedriver, "[bonusbar:5]hide")
+					table_insert(self.hidedriver, "[possessbar]hide")
 				elseif key == "vehicleui" then
 					table_insert(self.hidedriver, "[vehicleui]hide")
 				elseif key == "vehicle" then

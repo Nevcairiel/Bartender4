@@ -112,7 +112,7 @@ function ActionBar:UpdateButtons(numbuttons)
 	for i = (#buttons+1), numbuttons do
 		local absid = (self.id - 1) * 12 + i
 		buttons[i] = LAB10:CreateButton(absid, format("BT4Button%d", absid), self, nil)
-		for k = 1,11 do
+		for k = 1,14 do
 			buttons[i]:SetState(k, "action", (k - 1) * 12 + i)
 		end
 		buttons[i]:SetState(0, "action", absid)
@@ -141,6 +141,7 @@ function ActionBar:UpdateButtons(numbuttons)
 
 		if i == 12 then
 			buttons[i]:SetState(11, "custom", customExitButton)
+			buttons[i]:SetState(12, "custom", customExitButton)
 		end
 	end
 
