@@ -163,8 +163,7 @@ function Bartender4:HideBlizzard()
 		hooksecurefunc("TalentFrame_LoadUI", function() PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED") end)
 	end
 
-	self:SecureHook("PetBattleFrame_Display")
-	self:SecureHook("PetBattleFrame_Remove")
+	self:RegisterPetBattleDriver()
 end
 
 function Bartender4:InitializeProfile()
@@ -206,23 +205,29 @@ function Bartender4:UpdateModuleConfigs()
 	end
 end
 
-function Bartender4:PetBattleFrame_Display()
-	for i=1,6 do
-		local button, vbutton = ("CLICK BT4Button%d:LeftButton"):format(i), ("ACTIONBUTTON%d"):format(i)
-		for k=1,select("#", GetBindingKey(button)) do
-			local key = select(k, GetBindingKey(button))
-			SetOverrideBinding(PetBattleFrame, true, key, vbutton)
-		end
-		-- do the same for the default UIs bindings
-		for k=1,select("#", GetBindingKey(vbutton)) do
-			local key = select(k, GetBindingKey(vbutton))
-			SetOverrideBinding(PetBattleFrame, true, key, vbutton)
-		end
+function Bartender4:RegisterPetBattleDriver()
+	if not self.petBattleController then
+		self.petBattleController = CreateFrame("Frame", nil, UIParent, "SecureHandlerStateTemplate")
+		self.petBattleController:SetAttribute("_onstate-petbattle", [[
+			if newstate == "petbattle" then
+				for i=1,6 do
+					local button, vbutton = ("CLICK BT4Button%d:LeftButton"):format(i), ("ACTIONBUTTON%d"):format(i)
+					for k=1,select("#", GetBindingKey(button)) do
+						local key = select(k, GetBindingKey(button))
+						self:SetBinding(true, key, vbutton)
+					end
+					-- do the same for the default UIs bindings
+					for k=1,select("#", GetBindingKey(vbutton)) do
+						local key = select(k, GetBindingKey(vbutton))
+						self:SetBinding(true, key, vbutton)
+					end
+				end
+			else
+				self:ClearBindings()
+			end
+		]])
+		RegisterStateDriver(self.petBattleController, "petbattle", "[petbattle]petbattle;nopetbattle")
 	end
-end
-
-function Bartender4:PetBattleFrame_Remove()
-	ClearOverrideBindings(PetBattleFrame)
 end
 
 function Bartender4:UpdateBlizzardVehicle()

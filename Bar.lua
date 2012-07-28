@@ -33,7 +33,6 @@ local defaults = {
 
 local Sticky = LibStub("LibSimpleSticky-1.0")
 local LibWin = LibStub("LibWindow-1.1")
-local AceHook = LibStub("AceHook-3.0")
 local snapBars = { WorldFrame, UIParent }
 
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUpdateFunc, barOnAttributeChanged
@@ -177,9 +176,6 @@ function Bartender4.Bar:Create(id, config, name)
 	bar:AnchorOverlay()
 	overlay:Hide()
 
-	AceHook.SecureHook(bar, "PetBattleFrame_Display")
-	AceHook.SecureHook(bar, "PetBattleFrame_Remove")
-
 	bar.elapsed = 0
 	bar.hidedriver = {}
 
@@ -204,14 +200,6 @@ end
 ===================================================================================]]--
 
 Bar.BT4BarType = "Bar"
-
-function Bar:PetBattleFrame_Display()
-	self:Hide()
-end
-
-function Bar:PetBattleFrame_Remove()
-	self:Show()
-end
 
 function Bar:ApplyConfig(config)
 	if config then
@@ -462,6 +450,9 @@ function Bar:InitVisibilityDriver(returnOnly)
 			end
 		end
 	end
+	-- always hide in petbattles
+	table_insert(self.hidedriver, 1, "[petbattle]hide")
+	-- add fallback at the end
 	table_insert(self.hidedriver, self.config.fadeout and "fade" or "show")
 
 	if not returnOnly then
