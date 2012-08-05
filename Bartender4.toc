@@ -9,7 +9,7 @@
 ## X-Email: h.leppkes at gmail dot com
 
 ## X-Category: Action Bars
-## X-Website: http://www.wowace.com/projects/bartender4/
+## X-Website: http://www.wowace.com/addons/bartender4/
 ## X-License: All rights reserved.
 
 ## SavedVariables: Bartender4DB
