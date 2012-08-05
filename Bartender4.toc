@@ -33,8 +33,8 @@ libs\AceLocale-3.0\AceLocale-3.0.xml
 libs\AceGUI-3.0\AceGUI-3.0.xml
 libs\AceConfig-3.0\AceConfig-3.0.xml
 
-libs\LibActionButton-1.0\LibActionButton-1.0.lua
 libs\LibKeyBound-1.0\lib.xml
+libs\LibActionButton-1.0\LibActionButton-1.0.lua
 libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
 libs\LibWindow-1.1\LibWindow-1.1.lua
 #@end-no-lib-strip@
