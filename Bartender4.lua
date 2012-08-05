@@ -9,6 +9,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
 local LDB = LibStub("LibDataBroker-1.1", true)
 local LDBIcon = LibStub("LibDBIcon-1.0", true)
+local LibDualSpec = LibStub("LibDualSpec-1.0", true)
 
 local defaults = {
 	profile = {
@@ -33,6 +34,10 @@ function Bartender4:OnInitialize()
 	self.db.RegisterCallback(self, "OnProfileChanged", "UpdateModuleConfigs")
 	self.db.RegisterCallback(self, "OnProfileCopied", "UpdateModuleConfigs")
 	self.db.RegisterCallback(self, "OnProfileReset", "UpdateModuleConfigs")
+
+	if LibDualSpec then
+		LibDualSpec:EnhanceDatabase(Bartender4.db, "Bartender4")
+	end
 
 	self:SetupOptions()
 

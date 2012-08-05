@@ -13,7 +13,7 @@
 ## X-License: All rights reserved.
 
 ## SavedVariables: Bartender4DB
-## OptionalDeps: Ace3, ButtonFacade, Masque, LibActionButton-1.0, LibKeyBound-1.0, LibDBIcon-1.0, LibWindow-1.1
+## OptionalDeps: Ace3, ButtonFacade, Masque, LibActionButton-1.0, LibKeyBound-1.0, LibDBIcon-1.0, LibWindow-1.1, LibDualSpec-1.0
 
 #@no-lib-strip@
 libs\LibStub\LibStub.lua
@@ -37,6 +37,7 @@ libs\LibKeyBound-1.0\lib.xml
 libs\LibActionButton-1.0\LibActionButton-1.0.lua
 libs\LibDBIcon-1.0\LibDBIcon-1.0.lua
 libs\LibWindow-1.1\LibWindow-1.1.lua
+libs\LibDualSpec-1.0\LibDualSpec-1.0.lua
 #@end-no-lib-strip@
 
 libs\SimpleSticky.lua
