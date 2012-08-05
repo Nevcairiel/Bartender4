@@ -1,3 +1,7 @@
+--[[
+	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
+	All rights reserved.
+]]
 local AceGUI = LibStub("AceGUI-3.0")
 
 --------------------------

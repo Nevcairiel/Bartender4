@@ -1,7 +1,9 @@
 --[[
-Copyright (c) 2009, CMTitan
-All rights to be transferred to Nevcairiel upon inclusion into Bartender4.
-All rights reserved, otherwise.
+	Copyright (c) 2009, CMTitan
+	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
+	Based on Nevcairiel's RepXPBar.lua
+	All rights to be transferred to Nevcairiel upon inclusion into Bartender4.
+	All rights reserved, otherwise.
 ]]
 -- fetch upvalues
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
