@@ -118,6 +118,7 @@ function Bartender4:HideBlizzard()
 	--MainMenuBar:UnregisterAllEvents()
 	--MainMenuBar:Hide()
 	--MainMenuBar:SetParent(UIHider)
+	MainMenuBar:EnableMouse(false)
 
 	local animations = {MainMenuBar.slideOut:GetAnimations()}
 	animations[1]:SetOffset(0,0)
