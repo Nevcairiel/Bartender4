@@ -59,6 +59,9 @@ function VehicleBarMod:ApplyConfig()
 end
 
 function VehicleBarMod:MainMenuBarVehicleLeaveButton_Update()
+	if CanExitVehicle() then
+		MainMenuBarVehicleLeaveButton:Show()
+	end
 	self.bar:UpdateButtonLayout()
 end
 
