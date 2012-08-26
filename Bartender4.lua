@@ -238,9 +238,7 @@ end
 
 function Bartender4:UpdateBlizzardVehicle()
 	if self.db.profile.blizzardVehicle then
-		MainMenuBar:Show()
 		MainMenuBar:SetParent(UIParent)
-		OverrideActionBar:Show()
 		OverrideActionBar:SetParent(UIParent)
 		if not self.vehicleController then
 			self.vehicleController = CreateFrame("Frame", nil, UIParent, "SecureHandlerStateTemplate")
@@ -266,9 +264,7 @@ function Bartender4:UpdateBlizzardVehicle()
 		end
 		RegisterStateDriver(self.vehicleController, "vehicle", "[vehicleui]vehicle;novehicle")
 	else
-		MainMenuBar:Hide()
 		MainMenuBar:SetParent(self.UIHider)
-		OverrideActionBar:Hide()
 		OverrideActionBar:SetParent(self.UIHider)
 		if self.vehicleController then
 			UnregisterStateDriver(self.vehicleController, "vehicle")
