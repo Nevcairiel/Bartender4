@@ -93,7 +93,7 @@ function module:GetOptionsObject()
 			flyoutDirection = {
 				order = 79,
 				name = L["Flyout Direction"],
-				desc = L["Direction of the button flyouts (eg. summon demon/pet)"],
+				desc = L["Direction of the button flyouts on this bar (eg. summon demon/pet)"],
 				type = "select",
 				values = {LEFT = L["Left"], RIGHT = L["Right"], UP = L["Up"], DOWN = L["Down"]},
 				set = optSetter,
