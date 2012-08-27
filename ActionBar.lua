@@ -45,6 +45,7 @@ function ActionBar:UpdateButtonConfig()
 
 	self.buttonConfig.showGrid = self.config.showgrid
 	self.buttonConfig.clickOnDown = Bartender4.db.profile.onkeydown
+	self.buttonConfig.flyoutDirection = self.config.flyoutDirection
 
 	if tonumber(self.id) == 1 then
 		for i, button in self:GetAll() do
@@ -210,6 +211,17 @@ end
 function ActionBar:SetGrid(state)
 	if state ~= nil then
 		self.config.showgrid = state
+	end
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetFlyoutDirection()
+	return self.config.flyoutDirection
+end
+
+function ActionBar:SetFlyoutDirection(state)
+	if state ~= nil then
+		self.config.flyoutDirection = state
 	end
 	self:UpdateButtonConfig()
 end

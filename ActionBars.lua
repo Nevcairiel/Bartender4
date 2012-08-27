@@ -13,6 +13,7 @@ local abdefaults = {
 		buttons = 12,
 		hidemacrotext = false,
 		showgrid = false,
+		flyoutDirection = "UP",
 	}, Bartender4.StateBar.defaults),
 	[1] = {
 		states = {
