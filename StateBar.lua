@@ -114,7 +114,7 @@ function StateBar:UpdateStates(returnOnly)
 
 		-- possessing will always be the most important change, if enabled
 		if self:GetStateOption("possess") then
-			table_insert(statedriver, "[possessbar]12")
+			table_insert(statedriver, "[possessbar]possess")
 		end
 
 		-- highest priority have our temporary quick-swap keys
@@ -160,10 +160,25 @@ function StateBar:UpdateStates(returnOnly)
 	end
 
 	if statedriver then
-		statedriver = statedriver:gsub("%[bonusbar:5%]11", "[possessbar]12")
+		statedriver = statedriver:gsub("%[bonusbar:5%]11", "[possessbar]possess")
 	end
 
+	self:SetFrameRef("mainActionPageProvider", MainMenuBarArtFrame)
+	self:SetFrameRef("overrideActionPageProvider", OverrideActionBar)
+
 	self:SetAttribute("_onstate-page", [[
+		if newstate == "possess" or newstate == "11" then
+			local app = self:GetFrameRef("mainActionPageProvider")
+			newstate = app:GetAttribute("actionpage")
+			if newstate <= 10 then
+				app = self:GetFrameRef("overrideActionPageProvider")
+				newstate = app:GetAttribute("actionpage")
+			end
+			if newstate <= 10 then
+				print("Bartender4: Cannot determine possess/vehicle action bar page, please report this!")
+				newstate = 12
+			end
+		end
 		self:SetAttribute("state", newstate)
 		control:ChildUpdate("state", newstate)
 	]])
