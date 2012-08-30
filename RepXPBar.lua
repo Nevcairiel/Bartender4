@@ -38,6 +38,14 @@ function RepBarMod:OnEnable()
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
+
+	-- make the reputation bar functional again
+	ReputationWatchBar:GetScript("OnLoad")(ReputationWatchBar)
+	ReputationWatchBar_Update()
+end
+
+function RepBarMod:OnDisable()
+	ReputationWatchBar:UnregisterAllEvents()
 end
 
 function RepBarMod:ApplyConfig()
