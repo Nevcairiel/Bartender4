@@ -114,7 +114,7 @@ function StateBar:UpdateStates(returnOnly)
 
 		-- possessing will always be the most important change, if enabled
 		if self:GetStateOption("possess") then
-			table_insert(statedriver, "[possessbar]possess")
+			table_insert(statedriver, "[overridebar][possessbar]possess")
 		end
 
 		-- highest priority have our temporary quick-swap keys
@@ -160,7 +160,7 @@ function StateBar:UpdateStates(returnOnly)
 	end
 
 	if statedriver then
-		statedriver = statedriver:gsub("%[bonusbar:5%]11", "[possessbar]possess")
+		statedriver = statedriver:gsub("%[bonusbar:5%]11", "[overridebar][possessbar]possess")
 	end
 
 	self:SetFrameRef("mainActionPageProvider", MainMenuBarArtFrame)
