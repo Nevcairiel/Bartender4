@@ -143,6 +143,9 @@ function Bartender4:HideBlizzard()
 	MainMenuExpBar:Hide()
 	MainMenuExpBar:SetParent(UIHider)
 
+	MainMenuBarMaxLevelBar:Hide()
+	MainMenuBarMaxLevelBar:SetParent(UIHider)
+
 	ReputationWatchBar:UnregisterAllEvents()
 	ReputationWatchBar:Hide()
 	ReputationWatchBar:SetParent(UIHider)
