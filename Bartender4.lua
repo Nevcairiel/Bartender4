@@ -28,6 +28,8 @@ local defaults = {
 
 Bartender4.CONFIG_VERSION = 3
 
+local createLDBLauncher
+
 function Bartender4:OnInitialize()
 	self.db = LibStub("AceDB-3.0"):New("Bartender4DB", defaults)
 	self.db.RegisterCallback(self, "OnNewProfile", "InitializeProfile")

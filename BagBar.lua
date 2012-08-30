@@ -57,7 +57,7 @@ function BagBar:ApplyConfig(config)
 	self:UpdateButtonLayout()
 end
 
-function clearSetPoint(btn, ...)
+local function clearSetPoint(btn, ...)
 	btn:ClearAllPoints()
 	btn:SetPoint(...)
 end
