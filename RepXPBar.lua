@@ -58,11 +58,14 @@ function RepBar:ApplyConfig(config)
 	self:PerformLayout()
 end
 
+RepBar.width = 1033
+RepBar.height = 17
+RepBar.offsetX = 5
 function RepBar:PerformLayout()
-	self:SetSize(1032, 21)
+	self:SetSize(self.width, self.height)
 	local bar = self.content
 	bar:ClearAllPoints()
-	bar:SetPoint("TOPLEFT", self, "TOPLEFT", 5, -3)
+	bar:SetPoint("TOPLEFT", self, "TOPLEFT", self.offsetX, -3)
 end
 
 RepBar.ClickThroughSupport = true
@@ -110,3 +113,6 @@ XPBar.PerformLayout = RepBar.PerformLayout
 
 XPBar.ClickThroughSupport = true
 XPBar.ControlClickThrough = RepBar.ControlClickThrough
+XPBar.width = 1038
+XPBar.height = 21
+XPBar.offsetX = 8
