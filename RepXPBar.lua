@@ -94,6 +94,14 @@ function XPBarMod:OnEnable()
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
+
+	-- make the XP bar functional again
+	MainMenuExpBar:GetScript("OnLoad")(MainMenuExpBar)
+	ExpBar_Update()
+end
+
+function XPBarMod:OnDisable()
+	MainMenuExpBar:UnregisterAllEvents()
 end
 
 XPBarMod.ApplyConfig = RepBarMod.ApplyConfig
