@@ -34,7 +34,7 @@ local _, playerclass = UnitClass("player")
 function Bartender4.StateBar:Create(id, config, name)
 	local bar = setmetatable(Bartender4.ButtonBar:Create(id, config, name), StateBar_MT)
 
-	if playerclass == "DRUID" then
+	if playerclass == "DRUID" or playerclass == "ROGUE" then
 		bar:RegisterEvent("PLAYER_TALENT_UPDATE")
 		bar:RegisterEvent("PLAYER_LEAVE_COMBAT")
 		bar:RegisterEvent("GLYPH_UPDATED")
@@ -94,7 +94,8 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 		}
 	elseif k == "ROGUE" then
 		newT = {
-			{ id = "stealth", name = ("%s / %s"):format((GetSpellInfo(1784)), (GetSpellInfo(51713))), index = 1 },
+			{ id = "stealth", name = GetSpellInfo(1784), index = 1 },
+			{ id = "shadowdance", name = ("%s / %s"):format((GetSpellInfo(51713)), (GetSpellInfo(1856))), index = -1, type = "form" },
 		}
 	elseif k == "PRIEST" then
 		newT = {
@@ -167,6 +168,10 @@ function StateBar:UpdateStates(returnOnly)
 								table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
 							end
 						elseif v.id == "incarnation" then
+							v.index = GetNumShapeshiftForms() + 1
+						end
+					elseif playerclass == "ROGUE" then
+						if v.id == "shadowdance" then
 							v.index = GetNumShapeshiftForms() + 1
 						end
 					end
