@@ -29,9 +29,17 @@ Bartender4.StateBar = {}
 Bartender4.StateBar.prototype = StateBar
 Bartender4.StateBar.defaults = defaults
 
+local _, playerclass = UnitClass("player")
+
 function Bartender4.StateBar:Create(id, config, name)
 	local bar = setmetatable(Bartender4.ButtonBar:Create(id, config, name), StateBar_MT)
 
+	if playerclass == "DRUID" then
+		bar:RegisterEvent("PLAYER_TALENT_UPDATE")
+		bar:RegisterEvent("PLAYER_LEAVE_COMBAT")
+		bar:RegisterEvent("GLYPH_UPDATED")
+		bar:SetScript("OnEvent", StateBar.OnEvent)
+	end
 	return bar
 end
 
@@ -42,6 +50,21 @@ function StateBar:ApplyConfig(config)
 	-- We cannot call UpdateStates or UpdateSelfCast now, because the buttons are not yet created *sad*
 end
 
+function StateBar:OnEvent(event, ...)
+	if event == "PLAYER_TALENT_UPDATE" or event == "GLYPH_UPDATED" then
+		if InCombatLockdown() then
+			self.updateStateOnCombatLeave = true
+		else
+			self:UpdateStates()
+		end
+	elseif event == "PLAYER_LEAVE_COMBAT" then
+		if self.updateStateOnCombatLeave then
+			self.updateStateOnCombatLeave = nil
+			self:UpdateStates()
+		end
+	end
+end
+
 --------------------------------------------------------------
 -- Stance Management
 
@@ -50,8 +73,6 @@ local table_concat = table.concat
 local fmt = string.format
 
 local modifiers = { "ctrl", "alt", "shift" }
-
-local _, playerclass = UnitClass("player")
 
 -- specifiy the available stances for each class
 local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
@@ -69,7 +90,7 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 				-- prowl is virtual, no real stance
 			{ id = "prowl", name = ("%s (%s)"):format((GetSpellInfo(768)), (GetSpellInfo(5215))), index = false},
 			{ id = "moonkin", name = GetSpellInfo(24858), index = 4 },
-			{ id = "treeoflife", name = GetSpellInfo(33891), index = 2 },
+			{ id = "treeoflife", name = GetSpellInfo(33891), index = -1, type = "form" },
 		}
 	elseif k == "ROGUE" then
 		newT = {
@@ -139,10 +160,14 @@ function StateBar:UpdateStates(returnOnly)
 				local state = self:GetStanceState(v)
 				if state and state ~= 0 and v.index then
 					-- hack for druid prowl, since its no real "stance", but we want to handle it anyway
-					if playerclass == "DRUID" and v.id == "cat" then
-						local prowl = self:GetStanceState("prowl")
-						if prowl and prowl ~= 0 then
-							table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
+					if playerclass == "DRUID" then
+						if v.id == "cat" then
+							local prowl = self:GetStanceState("prowl")
+							if prowl and prowl ~= 0 then
+								table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
+							end
+						elseif v.id == "incarnation" then
+							v.index = GetNumShapeshiftForms() + 1
 						end
 					end
 					table_insert(statedriver, fmt("[%s:%s]%s", v.type or "bonusbar", v.index, state))
