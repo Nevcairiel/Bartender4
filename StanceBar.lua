@@ -275,7 +275,7 @@ function StanceBar:OnEvent(event, ...)
 	if event == "UPDATE_SHAPESHIFT_COOLDOWN" then
 		self:ForAll("Update")
 	elseif event == "PLAYER_LEAVE_COMBAT" then
-		if self.updateStateOnCombatLeave then
+		if self.updateStateOnCombatLeave and not InCombatLockdown() then
 			self.updateStateOnCombatLeave = nil
 			self:UpdateStanceButtons()
 		end
