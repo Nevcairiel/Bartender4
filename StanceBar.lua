@@ -42,12 +42,16 @@ function StanceBarMod:OnEnable()
 
 	self:ToggleOptions()
 	self.bar:RegisterEvent("PLAYER_ENTERING_WORLD")
-	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_FORMS")
-	self.bar:RegisterEvent("SPELL_UPDATE_COOLDOWN")
-	self.bar:RegisterEvent("SPELL_UPDATE_USABLE")
-	self.bar:RegisterEvent("PLAYER_AURAS_CHANGED")
-	self.bar:RegisterEvent("PLAYER_REGEN_ENABLED")
+	self.bar:RegisterEvent("UPDATE_BONUS_ACTIONBAR")
+	self.bar:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR")
+	self.bar:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
 	self.bar:RegisterEvent("ACTIONBAR_PAGE_CHANGED")
+	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
+	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_FORMS")
+	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_USABLE")
+	self.bar:RegisterEvent("UPDATE_POSSESS_BAR")
+	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_COOLDOWN")
+	self.bar:RegisterEvent("PLAYER_LEAVE_COMBAT")
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
 	self:ReassignBindings()
 	self:ApplyConfig()
@@ -268,9 +272,19 @@ function StanceBar:UpdateStanceButtons()
 end
 
 function StanceBar:OnEvent(event, ...)
-	if event == "PLAYER_ENTERING_WORLD" or event == "UPDATE_SHAPESHIFT_FORMS" and not InCombatLockdown() then
-		self:UpdateStanceButtons()
-	else
+	if event == "UPDATE_SHAPESHIFT_COOLDOWN" then
 		self:ForAll("Update")
+	elseif event == "PLAYER_LEAVE_COMBAT" then
+		if self.updateStateOnCombatLeave then
+			self.updateStateOnCombatLeave = nil
+			self:UpdateStanceButtons()
+		end
+	else
+		if InCombatLockdown() then
+			self.updateStateOnCombatLeave = true
+			self:ForAll("Update")
+		else
+			self:UpdateStanceButtons()
+		end
 	end
 end
