@@ -58,7 +58,7 @@ function StateBar:OnEvent(event, ...)
 			self:UpdateStates()
 		end
 	elseif event == "PLAYER_LEAVE_COMBAT" then
-		if self.updateStateOnCombatLeave then
+		if self.updateStateOnCombatLeave and not InCombatLockdown() then
 			self.updateStateOnCombatLeave = nil
 			self:UpdateStates()
 		end
