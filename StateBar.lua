@@ -36,7 +36,7 @@ function Bartender4.StateBar:Create(id, config, name)
 
 	if playerclass == "DRUID" or playerclass == "ROGUE" then
 		bar:RegisterEvent("PLAYER_TALENT_UPDATE")
-		bar:RegisterEvent("PLAYER_LEAVE_COMBAT")
+		bar:RegisterEvent("PLAYER_REGEN_ENABLED")
 		bar:RegisterEvent("GLYPH_UPDATED")
 		bar:SetScript("OnEvent", StateBar.OnEvent)
 	end
@@ -57,7 +57,7 @@ function StateBar:OnEvent(event, ...)
 		else
 			self:UpdateStates()
 		end
-	elseif event == "PLAYER_LEAVE_COMBAT" then
+	elseif event == "PLAYER_REGEN_ENABLED" then
 		if self.updateStateOnCombatLeave and not InCombatLockdown() then
 			self.updateStateOnCombatLeave = nil
 			self:UpdateStates()

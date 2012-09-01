@@ -51,7 +51,7 @@ function StanceBarMod:OnEnable()
 	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_USABLE")
 	self.bar:RegisterEvent("UPDATE_POSSESS_BAR")
 	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_COOLDOWN")
-	self.bar:RegisterEvent("PLAYER_LEAVE_COMBAT")
+	self.bar:RegisterEvent("PLAYER_REGEN_ENABLED")
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
 	self:ReassignBindings()
 	self:ApplyConfig()
@@ -274,7 +274,7 @@ end
 function StanceBar:OnEvent(event, ...)
 	if event == "UPDATE_SHAPESHIFT_COOLDOWN" then
 		self:ForAll("Update")
-	elseif event == "PLAYER_LEAVE_COMBAT" then
+	elseif event == "PLAYER_REGEN_ENABLED" then
 		if self.updateStateOnCombatLeave and not InCombatLockdown() then
 			self.updateStateOnCombatLeave = nil
 			self:UpdateStanceButtons()
