@@ -94,8 +94,9 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 		}
 	elseif k == "ROGUE" then
 		newT = {
-			{ id = "stealth", name = GetSpellInfo(1784), index = 1 },
+			-- shadowdance needs to be before stealth in the list, otherwise the condition is overwritten
 			{ id = "shadowdance", name = ("%s / %s"):format((GetSpellInfo(51713)), (GetSpellInfo(1856))), index = -1, type = "form" },
+			{ id = "stealth", name = GetSpellInfo(1784), index = 1 },
 		}
 	elseif k == "PRIEST" then
 		newT = {
