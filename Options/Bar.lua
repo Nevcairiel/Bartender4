@@ -309,6 +309,13 @@ function Bar:GetOptionObject()
 					desc = L["Hide this bar when the game wants to show a vehicle UI."],
 					disabled = customEnabled,
 				},
+				overridebar = {
+					order = 18,
+					type = "toggle",
+					name = L["Hide with Override Bar"],
+					desc = L["Hide this bar when a override bar is active."],
+					disabled = customEnabled,
+				},
 				combat = {
 					order = 20,
 					type = "toggle",
