@@ -15,16 +15,26 @@ function PetBarMod:SetupOptions()
 
 		self.optionobject.table.general.args.rows.max = 10
 
-		local enabled = {
-			type = "toggle",
-			order = 1,
-			name = L["Enabled"],
-			desc = L["Enable the PetBar"],
-			get = function() return self.db.profile.enabled end,
-			set = "ToggleModule",
-			handler = self,
+		local cat_general = {
+			enabled = {
+				type = "toggle",
+				order = 1,
+				name = L["Enabled"],
+				desc = L["Enable the PetBar"],
+				get = function() return self.db.profile.enabled end,
+				set = "ToggleModule",
+				handler = self,
+			},
+			grid = {
+				order = 83,
+				type = "toggle",
+				name = L["Button Grid"],
+				desc = L["Toggle the button grid."],
+				set = function(info, ...) PetBarMod:SetGrid(...) end,
+				get = function(info) return PetBarMod:GetGrid() end,
+			},
 		}
-		self.optionobject:AddElement("general", "enabled", enabled)
+		self.optionobject:AddElementGroup("general", cat_general)
 
 		self.disabledoptions = {
 			general = {

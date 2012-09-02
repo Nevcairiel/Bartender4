@@ -16,6 +16,7 @@ local PetBar = setmetatable({}, {__index = ButtonBar})
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
 	hidehotkey = true,
+	showgrid = false,
 	visibility = {
 		nopet = true,
 		vehicle = true,
@@ -70,6 +71,16 @@ function PetBarMod:ReassignBindings()
 			SetOverrideBindingClick(self.bar, false, key, real_button)
 		end
 	end
+end
+
+function PetBarMod:GetGrid()
+	return self.db.profile.showgrid
+end
+
+function PetBarMod:SetGrid(grid)
+	self.db.profile.showgrid = grid
+	self.bar:ForAll("ShowGrid")
+	self.bar:ForAll("HideGrid")
 end
 
 function PetBarMod:ApplyConfig()
