@@ -183,6 +183,7 @@ function PetButtonPrototype:ShowButton()
 	if gloss then
 		gloss:Show()
 	end
+	self:SetAlpha(1.0)
 end
 
 function PetButtonPrototype:HideButton()
@@ -204,17 +205,22 @@ function PetButtonPrototype:HideButton()
 	if gloss then
 		gloss:Hide()
 	end
+	if self.showgrid == 0 and not self.parent.config.showgrid then
+		self:SetAlpha(0.0)
+	end
 end
 
 function PetButtonPrototype:ShowGrid()
 	self.showgrid = self.showgrid + 1
 	self.normalTexture:Show()
+	self:SetAlpha(1.0)
 end
 
 function PetButtonPrototype:HideGrid()
 	if self.showgrid > 0 then self.showgrid = self.showgrid - 1 end
 	if self.showgrid == 0  and not (GetPetActionInfo(self.id)) and not self.parent.config.showgrid then
 		self.normalTexture:Hide()
+		self:SetAlpha(0.0)
 	end
 end
 
