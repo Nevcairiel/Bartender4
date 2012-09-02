@@ -247,7 +247,14 @@ function Bartender4:UpdateBlizzardVehicle()
 		OverrideActionBar:SetParent(UIParent)
 		if not self.vehicleController then
 			self.vehicleController = CreateFrame("Frame", nil, UIParent, "SecureHandlerStateTemplate")
+			self.vehicleController:SetFrameRef("overrideActionBar", OverrideActionBar)
 			self.vehicleController:SetAttribute("_onstate-vehicle", [[
+				if newstate == "override" then
+					local f = self:GetFrameRef("overrideActionBar")
+					if f:GetAttribute("actionpage") > 10 then
+						newstate = "vehicle"
+					end
+				end
 				if newstate == "vehicle" then
 					for i=1,6 do
 						local button, vbutton = ("CLICK BT4Button%d:LeftButton"):format(i), ("OverrideActionBarButton%d"):format(i)
@@ -267,7 +274,7 @@ function Bartender4:UpdateBlizzardVehicle()
 				end
 			]])
 		end
-		RegisterStateDriver(self.vehicleController, "vehicle", "[vehicleui]vehicle;novehicle")
+		RegisterStateDriver(self.vehicleController, "vehicle", "[overridebar]override;[vehicleui]vehicle;novehicle")
 	else
 		MainMenuBar:SetParent(self.UIHider)
 		OverrideActionBar:SetParent(self.UIHider)
