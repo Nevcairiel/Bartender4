@@ -14,7 +14,7 @@ local defaults = { profile = Bartender4:Merge({
 }, Bartender4.Bar.defaults) }
 
 -- register module
-local RepBarMod = Bartender4:NewModule("RepBar")
+local RepBarMod = Bartender4:NewModule("RepBar", "AceHook-3.0")
 
 -- create prototype information
 local RepBar = setmetatable({}, {__index = Bar})
@@ -29,11 +29,10 @@ function RepBarMod:OnEnable()
 		self.bar = setmetatable(Bartender4.Bar:Create("Rep", self.db.profile, L["Reputation Bar"]), {__index = RepBar})
 		self.bar.content = ReputationWatchBar
 
-		hooksecurefunc("ReputationWatchBar_Update",  function() self.bar:PerformLayout() end)
-
 		self.bar.content:SetParent(self.bar)
 		self.bar.content:SetFrameLevel(self.bar:GetFrameLevel() + 1)
 	end
+	self:SecureHook("ReputationWatchBar_Update")
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
@@ -41,6 +40,10 @@ end
 
 function RepBarMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
+end
+
+function RepBarMod:ReputationWatchBar_Update()
+	self.bar:PerformLayout()
 end
 
 function RepBar:ApplyConfig(config)

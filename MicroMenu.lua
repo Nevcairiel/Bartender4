@@ -51,9 +51,6 @@ function MicroMenuMod:OnEnable()
 
 		MicroMenuMod.button_count = #buttons
 
-		self:SecureHook("MoveMicroButtons")
-		self:RegisterEvent("UNIT_EXITED_VEHICLE", "MoveMicroButtons")
-
 		for i,v in pairs(buttons) do
 			v:SetParent(self.bar)
 			v:Show()
@@ -61,6 +58,11 @@ function MicroMenuMod:OnEnable()
 			v.ClearSetPoint = self.bar.ClearSetPoint
 		end
 	end
+
+	self:SecureHook("MoveMicroButtons")
+	self:RegisterEvent("UNIT_EXITED_VEHICLE", "MoveMicroButtons")
+	self:RestoreButtons()
+
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
