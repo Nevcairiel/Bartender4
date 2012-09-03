@@ -28,6 +28,7 @@ local abdefaults = {
 		},
 		visibility = {
 			vehicleui = false,
+			overridebar = false,
 		},
 	},
 	[7] = {

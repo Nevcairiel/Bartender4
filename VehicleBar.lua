@@ -18,6 +18,7 @@ local defaults = { profile = Bartender4:Merge({
 	enabled = true,
 	visibility = {
 		vehicleui = false,
+		overridebar = false,
 	},
 }, Bartender4.ButtonBar.defaults) }
 

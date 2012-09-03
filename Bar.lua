@@ -21,6 +21,7 @@ local defaults = {
 	fadeoutdelay = 0.2,
 	visibility = {
 		vehicleui = true,
+		overridebar = true,
 		stance = {},
 	},
 	position = {
