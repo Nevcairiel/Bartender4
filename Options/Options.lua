@@ -260,16 +260,6 @@ local function generateOptions()
 						name = L["You can either click the KeyBound button in the options, or use the |cffffff78/kb|r chat command to open the keyBound control. Alternatively, you can also use the Blizzard Keybinding Interface."] .. "\n\n" .. L["Once open, simply hover the button you want to bind, and press the key you want to be bound to that button. The keyBound tooltip and on-screen status will inform you about already existing bindings to that button, and the success of your binding attempt."],
 						order = 4,
 					},
-					line5 = {
-						type = "description",
-						name = "\n|cffffd200" .. L["My BagBar does not have the Keyring on it, how do i get it back?"] .. "|r",
-						order = 5,
-					},
-					line6 = {
-						type = "description",
-						name = L["Its simple! Just check the Keyring option in the BagBars configuration menu, and it'll appear next to your bags."],
-						order = 6,
-					},
 					line7 = {
 						type = "description",
 						name = "\n|cffffd200" .. L["I've found a bug! Where do I report it?"] .. "|r",

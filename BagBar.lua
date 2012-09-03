@@ -18,7 +18,6 @@ local table_insert = table.insert
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
-	keyring = false,
 	onebag = false,
 	visibility = {
 		possess = false,
@@ -73,24 +72,17 @@ function BagBar:FeedButtons()
 			btn:Hide()
 			btn:SetParent(UIParent)
 			btn:ClearSetPoint("CENTER")
-			if btn ~= KeyRingButton then
-				if btn.MasqueButtonData then
-					local group = self.MasqueGroup
-					group:RemoveButton(btn)
-				end
-				if btn.LBFButtonData then
-					local group = self.LBFGroup
-					group:RemoveButton(btn)
-				end
+			if btn.MasqueButtonData then
+				local group = self.MasqueGroup
+				group:RemoveButton(btn)
+			end
+			if btn.LBFButtonData then
+				local group = self.LBFGroup
+				group:RemoveButton(btn)
 			end
 		end
 	else
 		self.buttons = {}
-	end
-
-	if self.config.keyring then
-		table_insert(self.buttons, KeyRingButton)
-		count = count + 1
 	end
 
 	if not self.config.onebag then
@@ -106,28 +98,26 @@ function BagBar:FeedButtons()
 	for i,v in pairs(self.buttons) do
 		v:SetParent(self)
 		v:Show()
-		if v ~= KeyRingButton then
-			v:SetNormalTexture("")
+		v:SetNormalTexture("")
 
-			if Masque then
-				local group = self.MasqueGroup
-				if not v.MasqueButtonData then
-					v.MasqueButtonData = {
-						Button = v,
-						Icon = _G[v:GetName() .. "IconTexture"],
-					}
-				end
-				group:AddButton(v, v.MasqueButtonData)
-			elseif LBF then
-				local group = self.LBFGroup
-				if not v.LBFButtonData then
-					v.LBFButtonData = {
-						Button = v,
-						Icon = _G[v:GetName() .. "IconTexture"],
-					}
-				end
-				group:AddButton(v, v.LBFButtonData)
+		if Masque then
+			local group = self.MasqueGroup
+			if not v.MasqueButtonData then
+				v.MasqueButtonData = {
+					Button = v,
+					Icon = _G[v:GetName() .. "IconTexture"],
+				}
 			end
+			group:AddButton(v, v.MasqueButtonData)
+		elseif LBF then
+			local group = self.LBFGroup
+			if not v.LBFButtonData then
+				v.LBFButtonData = {
+					Button = v,
+					Icon = _G[v:GetName() .. "IconTexture"],
+				}
+			end
+			group:AddButton(v, v.LBFButtonData)
 		end
 
 		v.ClearSetPoint = clearSetPoint

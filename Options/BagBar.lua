@@ -34,16 +34,6 @@ function BagBarMod:SetupOptions()
 		}
 		self.optionobject:AddElement("general", "onebag", onebag)
 
-		local keyring = {
-			type = "toggle",
-			order = 80,
-			name = L["Keyring"],
-			desc = L["Show the keyring button."],
-			get = function() return self.db.profile.keyring end,
-			set = function(info, state) self.db.profile.keyring = state; self.bar:FeedButtons(); self.bar:UpdateButtonLayout() end,
-		}
-		self.optionobject:AddElement("general", "keyring", keyring)
-
 		self.disabledoptions = {
 			general = {
 				type = "group",
