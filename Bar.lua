@@ -377,11 +377,19 @@ function Bar:SetFadeOutDelay(delay)
 	end
 end
 
+local function MouseIsOverBar(bar)
+	if MouseIsOver(bar.overlay)
+	or (SpellFlyout:IsShown() and SpellFlyout:GetParent() and SpellFlyout:GetParent():GetParent() == bar and MouseIsOver(SpellFlyout)) then
+		return true
+	end
+	return false
+end
+
 function Bar:ControlFadeOut()
-	if self.faded and MouseIsOver(self.overlay) then
+	if self.faded and MouseIsOverBar(self) then
 		self:SetAlpha(self.config.alpha)
 		self.faded = nil
-	elseif not self.faded and not MouseIsOver(self.overlay) then
+	elseif not self.faded and not MouseIsOverBar(self) then
 		local fade = self:GetAttribute("fade")
 		if tonumber(fade) then
 			fade = min(max(fade, 0), 100) / 100
