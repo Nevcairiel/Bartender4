@@ -2,9 +2,12 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local StateBar = Bartender4.StateBar.prototype
 local ActionBar = Bartender4.ActionBar
+
+local tonumber, tostring, assert = tonumber, tostring, assert
 
 --[[===================================================================================
 	ActionBar Options

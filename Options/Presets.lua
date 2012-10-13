@@ -5,9 +5,12 @@
 	All rights to be transferred to Nevcairiel upon inclusion into Bartender4.
 	All rights reserved, otherwise.
 ]]
+local _, Bartender4 = ...
 -- fetch upvalues
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
+
+-- GLOBALS: GetNumShapeshiftForms
 
 local PresetsMod = Bartender4:NewModule("Presets")
 

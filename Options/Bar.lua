@@ -2,8 +2,13 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
+
+local tonumber, tostring, assert, select, floor = tonumber, tostring, assert, select, floor
+
+-- GLOBALS: GetNumShapeshiftForms, GetShapeshiftFormInfo, GetSpellInfo
 
 --[[===================================================================================
 	Bar Options
@@ -13,7 +18,7 @@ local barregistry = Bartender4.Bar.barregistry
 
 local function round(num, idp)
   local mult = 10^(idp or 0)
-  return math.floor(num * mult + 0.5) / mult
+  return floor(num * mult + 0.5) / mult
 end
 
 -- option utilty functions

@@ -2,14 +2,25 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
-local AceAddon = LibStub("AceAddon-3.0")
-Bartender4 = AceAddon:NewAddon("Bartender4", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0")
+local _, Bartender4 = ...
+Bartender4 = LibStub("AceAddon-3.0"):NewAddon(Bartender4, "Bartender4", "AceConsole-3.0", "AceEvent-3.0", "AceHook-3.0")
+_G.Bartender4 = Bartender4
 
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
 local LDB = LibStub("LibDataBroker-1.1", true)
 local LDBIcon = LibStub("LibDBIcon-1.0", true)
 local LibDualSpec = LibStub("LibDualSpec-1.0", true)
+
+local _G = _G
+local type, pairs, hooksecurefunc = type, pairs, hooksecurefunc
+
+-- GLOBALS: LibStub, UIParent, PlaySound, RegisterStateDriver, UnregisterStateDriver
+-- GLOBALS: BINDING_HEADER_Bartender4, BINDING_CATEGORY_Bartender4, BINDING_NAME_TOGGLEACTIONBARLOCK, BINDING_NAME_BTTOGGLEACTIONBARLOCK
+-- GLOBALS: BINDING_HEADER_BT4PET, BINDING_CATEGORY_BT4PET, BINDING_HEADER_BT4STANCE, BINDING_CATEGORY_BT4STANCE
+-- GLOBALS: CreateFrame, MultiBarBottomLeft, MultiBarBottomRight, MultiBarLeft, MultiBarRight, UIPARENT_MANAGED_FRAME_POSITIONS
+-- GLOBALS: MainMenuBar, OverrideActionBar, MainMenuBarArtFrame, MainMenuExpBar, MainMenuBarMaxLevelBar, ReputationWatchBar
+-- GLOBALS: StanceBarFrame, PossessBarFrame, PetActionBarFrame, PlayerTalentFrame
 
 local defaults = {
 	profile = {
@@ -199,7 +210,7 @@ function Bartender4:UpdateModuleConfigs()
 		unlock = true
 	end
 
-	for k,v in AceAddon:IterateModulesOfAddon(self) do
+	for k,v in LibStub("AceAddon-3.0"):IterateModulesOfAddon(self) do
 		v:ToggleModule()
 		if v:IsEnabled() and type(v.ApplyConfig) == "function" then
 			v:ApplyConfig()
@@ -365,7 +376,7 @@ function Bartender4:ShowUnlockDialog()
 		end)
 
 		local lockBars = CreateFrame("CheckButton", "Bartender4DialogLock", f, "OptionsButtonTemplate")
-		getglobal(lockBars:GetName() .. "Text"):SetText(L["Lock"])
+		_G[lockBars:GetName() .. "Text"]:SetText(L["Lock"])
 
 		lockBars:SetScript("OnClick", function(self)
 			Bartender4:Lock()

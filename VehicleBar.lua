@@ -2,6 +2,7 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
 local VehicleBarMod = Bartender4:NewModule("Vehicle", "AceHook-3.0")
@@ -9,10 +10,12 @@ local VehicleBarMod = Bartender4:NewModule("Vehicle", "AceHook-3.0")
 -- fetch upvalues
 local ButtonBar = Bartender4.ButtonBar.prototype
 
+local table_insert, setmetatable, pairs = table.insert, setmetatable, pairs
+
+-- GLOBALS: MainMenuBarVehicleLeaveButton, CanExitVehicle
+
 -- create prototype information
 local VehicleBar = setmetatable({}, {__index = ButtonBar})
-
-local table_insert = table.insert
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,

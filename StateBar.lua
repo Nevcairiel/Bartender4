@@ -3,8 +3,15 @@
 	All rights reserved.
 ]]
 --[[ Generic Template for a ButtonBar with state control ]]
-
+local _, Bartender4 = ...
 local ButtonBar = Bartender4.ButtonBar.prototype
+
+local setmetatable, rawset, pairs, type, tostring = setmetatable, rawset, pairs, type, tostring
+local table_insert, table_concat, fmt = table.insert, table.concat, string.format
+
+-- GLOBALS: GetSpellInfo, InCombatLockdown, GetNumShapeshiftForms
+-- GLOBALS: MainMenuBarArtFrame, OverrideActionBar, RegisterStateDriver, UnregisterStateDriver
+
 local StateBar = setmetatable({}, {__index = ButtonBar})
 local StateBar_MT = {__index = StateBar}
 
@@ -67,10 +74,6 @@ end
 
 --------------------------------------------------------------
 -- Stance Management
-
-local table_insert = table.insert
-local table_concat = table.concat
-local fmt = string.format
 
 local modifiers = { "ctrl", "alt", "shift" }
 

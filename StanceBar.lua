@@ -2,6 +2,7 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
 local StanceBarMod = Bartender4:NewModule("StanceBar", "AceEvent-3.0")
@@ -9,12 +10,16 @@ local StanceBarMod = Bartender4:NewModule("StanceBar", "AceEvent-3.0")
 -- fetch upvalues
 local ButtonBar = Bartender4.ButtonBar.prototype
 
+local _G = _G
+local format, setmetatable, min, select = string.format, setmetatable, min, select
+
+-- GLOBALS: CreateFrame, InCombatLockdown, ClearOverrideBindings, GetBindingKey, GetBindingText, SetOverrideBindingClick, SetBinding
+-- GLOBALS: GetNumShapeshiftForms, GetShapeshiftFormInfo, GetShapeshiftFormCooldown, CooldownFrame_SetTimer
+
 -- create prototype information
 local StanceBar = setmetatable({}, {__index = ButtonBar})
 local StanceButtonPrototype = CreateFrame("CheckButton")
 local StanceButton_MT = {__index = StanceButtonPrototype}
-
-local format = string.format
 
 local LBF = LibStub("LibButtonFacade", true)
 local Masque = LibStub("Masque", true)

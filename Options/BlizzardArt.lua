@@ -6,6 +6,7 @@
 	All rights reserved, otherwise.
 ]]
 -- fetch upvalues
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
 

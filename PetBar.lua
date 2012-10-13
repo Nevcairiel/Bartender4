@@ -2,6 +2,7 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
 local PetBarMod = Bartender4:NewModule("PetBar", "AceEvent-3.0")
@@ -9,6 +10,10 @@ local PetBarMod = Bartender4:NewModule("PetBar", "AceEvent-3.0")
 -- fetch upvalues
 local ActionBars = Bartender4:GetModule("ActionBars")
 local ButtonBar = Bartender4.ButtonBar.prototype
+
+local setmetatable, select = setmetatable, select
+
+-- GLOBALS: InCombatLockdown, ClearOverrideBindings, GetBindingKey, SetOverrideBindingClick
 
 -- create prototype information
 local PetBar = setmetatable({}, {__index = ButtonBar})

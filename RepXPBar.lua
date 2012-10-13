@@ -2,12 +2,15 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
 -- fetch upvalues
 local Bar = Bartender4.Bar.prototype
 
-local table_insert = table.insert
+local table_insert, setmetatable = table.insert, setmetatable
+
+-- GLOBALS: ReputationWatchBar, MainMenuExpBar
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = false,

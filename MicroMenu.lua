@@ -2,6 +2,7 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
 local MicroMenuMod = Bartender4:NewModule("MicroMenu", "AceHook-3.0", "AceEvent-3.0")
@@ -9,10 +10,14 @@ local MicroMenuMod = Bartender4:NewModule("MicroMenu", "AceHook-3.0", "AceEvent-
 -- fetch upvalues
 local ButtonBar = Bartender4.ButtonBar.prototype
 
+local pairs, setmetatable, table_insert = pairs, setmetatable, table.insert
+
+-- GLOBALS: CharacterMicroButton, SpellbookMicroButton, TalentMicroButton, AchievementMicroButton, QuestLogMicroButton, GuildMicroButton
+-- GLOBALS: PVPMicroButton, LFDMicroButton, CompanionsMicroButton, EJMicroButton, MainMenuMicroButton, HelpMicroButton
+-- GLOBALS: HasVehicleActionBar, UnitVehicleSkin, HasOverrideActionBar, GetOverrideBarSkin
+
 -- create prototype information
 local MicroMenuBar = setmetatable({}, {__index = ButtonBar})
-
-local table_insert = table.insert
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,

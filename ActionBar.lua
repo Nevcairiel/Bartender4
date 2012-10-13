@@ -2,11 +2,16 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+local _, Bartender4 = ...
 local StateBar = Bartender4.StateBar.prototype
 local ActionBar = setmetatable({}, {__index = StateBar})
 Bartender4.ActionBar = ActionBar
 
 local LAB10 = LibStub("LibActionButton-1.0")
+
+local tonumber, format, min = tonumber, format, min
+
+-- GLOBALS: UIParent, VehicleExit
 
 --[[===================================================================================
 	ActionBar Prototype

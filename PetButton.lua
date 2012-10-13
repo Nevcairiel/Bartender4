@@ -5,7 +5,7 @@
 --[[
 	Pet Button template
 ]]
-
+local _, Bartender4 = ...
 local PetButtonPrototype = CreateFrame("CheckButton")
 local PetButton_MT = {__index = PetButtonPrototype}
 
@@ -15,7 +15,11 @@ local KeyBound = LibStub("LibKeyBound-1.0")
 
 -- upvalues
 local _G = _G
-local format = string.format
+local format, select, setmetatable = string.format, select, setmetatable
+
+-- GLOBALS: InCombatLockdown, CreateFrame, SetDesaturation, IsModifiedClick, GetBindingKey, GetBindingText, SetBinding
+-- GLOBALS: AutoCastShine_AutoCastStop, AutoCastShine_AutoCastStart, CooldownFrame_SetTimer
+-- GLOBALS: PickupPetAction, , GetPetActionInfo, GetPetActionsUsable, GetPetActionCooldown
 
 local function onEnter(self, ...)
 	if not (Bartender4.db.profile.tooltip == "nocombat" and InCombatLockdown()) and Bartender4.db.profile.tooltip ~= "disabled" then

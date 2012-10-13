@@ -2,8 +2,13 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local BT4ActionBars = Bartender4:NewModule("ActionBars", "AceEvent-3.0")
+
+local select, ipairs, pairs, tostring, tonumber, min, setmetatable = select, ipairs, pairs, tostring, tonumber, min, setmetatable
+
+-- GLOBALS: UnitClass, InCombatLockdown, GetBindingKey, ClearOverrideBindings, SetOverrideBindingClick
 
 local ActionBar, ActionBar_MT
 

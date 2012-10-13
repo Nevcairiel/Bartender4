@@ -2,6 +2,7 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
 local BagBarMod = Bartender4:NewModule("BagBar", "AceHook-3.0")
@@ -11,10 +12,14 @@ local ButtonBar = Bartender4.ButtonBar.prototype
 local LBF = LibStub("LibButtonFacade", true)
 local Masque = LibStub("Masque", true)
 
+local _G = _G
+local next, pairs, setmetatable = next, pairs, setmetatable
+local table_insert, table_remove = table.insert, table.remove
+
+-- GLOBALS: UIParent, MainMenuBarBackpackButton, CharacterBag0Slot, CharacterBag1Slot, CharacterBag2Slot, CharacterBag3Slot
+
 -- create prototype information
 local BagBar = setmetatable({}, {__index = ButtonBar})
-
-local table_insert = table.insert
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
@@ -68,7 +73,7 @@ function BagBar:FeedButtons()
 	local count = 1
 	if self.buttons then
 		while next(self.buttons) do
-			local btn = table.remove(self.buttons)
+			local btn = table_remove(self.buttons)
 			btn:Hide()
 			btn:SetParent(UIParent)
 			btn:ClearSetPoint("CENTER")

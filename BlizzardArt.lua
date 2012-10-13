@@ -5,10 +5,15 @@
 	All rights to be transferred to Nevcairiel upon inclusion into Bartender4.
 	All rights reserved, otherwise.
 ]]
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
 -- fetch upvalues
 local Bar = Bartender4.Bar.prototype
+
+local setmetatable = setmetatable
+
+-- GLOBALS: UIParent
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = false,

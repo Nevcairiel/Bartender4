@@ -3,8 +3,11 @@
 	All rights reserved.
 ]]
 --[[ Generic Template for a Bar which contains Buttons ]]
-
+local _, Bartender4 = ...
 local Bar = Bartender4.Bar.prototype
+
+local setmetatable, tostring, pairs = setmetatable, tostring, pairs
+
 local ButtonBar = setmetatable({}, {__index = Bar})
 local ButtonBar_MT = {__index = ButtonBar}
 

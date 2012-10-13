@@ -2,10 +2,15 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
 local Bar = Bartender4.Bar.prototype
 local ButtonBar = Bartender4.ButtonBar.prototype
+
+local tostring, assert = tostring, assert
+
+-- GLOBALS: LibStub
 
 --[[===================================================================================
 	Bar Options

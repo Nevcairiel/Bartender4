@@ -2,9 +2,14 @@
 	Copyright (c) 2009-2012, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
+local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
+
+local error, select, pairs = error, select, pairs
+
+-- GLOBALS: LibStub, UnitHasVehicleUI, GetModifiedClick, SetModifiedClick, SaveBindings, GetCurrentBindingSet, InCombatLockdown
 
 local getFunc, setFunc
 do
