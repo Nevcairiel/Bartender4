@@ -198,18 +198,18 @@ function StateBar:UpdateStates(returnOnly)
 		statedriver = statedriver:gsub("%[bonusbar:5%]11", "[overridebar][possessbar]possess")
 	end
 
-	self:SetFrameRef("mainActionPageProvider", MainMenuBarArtFrame)
-	self:SetFrameRef("overrideActionPageProvider", OverrideActionBar)
-
 	self:SetAttribute("_onstate-page", [[
 		if newstate == "possess" or newstate == "11" then
-			local app = self:GetFrameRef("mainActionPageProvider")
-			newstate = app:GetAttribute("actionpage")
-			if newstate <= 10 then
-				app = self:GetFrameRef("overrideActionPageProvider")
-				newstate = app:GetAttribute("actionpage")
+			if HasVehicleActionBar() then
+				newstate = GetVehicleBarIndex()
+			elseif HasOverrideActionBar() then
+				newstate = GetOverrideBarIndex()
+			elseif HasTempShapeshiftActionBar() then
+				newstate = GetTempShapeshiftBarIndex()
+			else
+				newstate = nil
 			end
-			if newstate <= 10 then
+			if not newstate then
 				print("Bartender4: Cannot determine possess/vehicle action bar page, please report this!")
 				newstate = 12
 			end
