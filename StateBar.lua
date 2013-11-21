@@ -248,9 +248,27 @@ function StateBar:UpdateStates(returnOnly)
 	UnregisterStateDriver(self, "assist-harm")
 	self:SetAttribute("state-assist-harm", "nil")
 
+	local helpDriver, harmDriver = "", ""
 	if self.config.autoassist then
-		RegisterStateDriver(self, "assist-help", ("%s%s[help]nil; [target=targettarget, help]targettarget; nil"):format(preSelf, preFocus))
-		RegisterStateDriver(self, "assist-harm", ("%s[harm]nil; [target=targettarget, harm]targettarget; nil"):format(preFocus))
+		helpDriver = "[help]nil; [@targettarget, help]targettarget;"
+		harmDriver = "[harm]nil; [@targettarget, harm]targettarget;"
+	end
+
+	if self.config.mouseover then
+		local moMod = ""
+		if Bartender4.db.profile.mouseovermod and Bartender4.db.profile.mouseovermod ~= "NONE" then
+			moMod = ",mod:" .. Bartender4.db.profile.mouseovermod
+		end
+		helpDriver = ("[@mouseover,help%s]mouseover;"):format(moMod) .. helpDriver
+		harmDriver = ("[@mouseover,harm%s]mouseover;"):format(moMod) .. harmDriver
+	end
+
+	if helpDriver ~= "" then
+		RegisterStateDriver(self, "assist-help", ("%s%s%s nil"):format(preSelf, preFocus, helpDriver))
+	end
+
+	if harmDriver ~= "" then
+		RegisterStateDriver(self, "assist-harm", ("%s%s nil"):format(preFocus, harmDriver))
 	end
 
 	self:ForAll("UpdateState")
@@ -303,6 +321,17 @@ end
 function StateBar:SetConfigAutoAssist(_, value)
 	if value ~= nil then
 		self.config.autoassist = value
+	end
+	self:UpdateStates()
+end
+
+function StateBar:GetConfigMouseOver()
+	return self.config.mouseover
+end
+
+function StateBar:SetConfigMouseOver(_, value)
+	if value ~= nil then
+		self.config.mouseover = value
 	end
 	self:UpdateStates()
 end
