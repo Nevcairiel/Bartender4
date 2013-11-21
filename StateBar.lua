@@ -240,7 +240,7 @@ function StateBar:UpdateStates(returnOnly)
 
 	local preFocus = ""
 	if Bartender4.db.profile.focuscastmodifier then
-		preFocus = "[mod:FOCUSCAST,target=focus,exists,nodead]focus;"
+		preFocus = "[mod:FOCUSCAST,@focus,exists,nodead]focus;"
 	end
 
 	UnregisterStateDriver(self, "assist-help")
