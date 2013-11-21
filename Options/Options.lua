@@ -194,6 +194,18 @@ local function generateOptions()
 								end,
 								values = { none = L["No Display"], button = L["Full Button Mode"], hotkey = L["Hotkey Mode"] },
 							},
+							tooltip = {
+								order = 110,
+								name = L["Button Tooltip"],
+								type = "select",
+								desc = L["Configure the Button Tooltip."],
+								values = { ["disabled"] = L["Disabled"], ["nocombat"] = L["Disabled in Combat"], ["enabled"] = L["Enabled"] },
+								get = function() return Bartender4.db.profile.tooltip end,
+								set = function(info, value)
+									Bartender4.db.profile.tooltip = value
+									Bartender4.Bar:ForAll("UpdateButtonConfig")
+								end,
+							},
 							colors = {
 								order = 130,
 								type = "group",
@@ -222,18 +234,6 @@ local function generateOptions()
 										desc = L["Specify the Color of the Out of Mana Indicator"],
 									},
 								},
-							},
-							tooltip = {
-								order = 200,
-								name = L["Button Tooltip"],
-								type = "select",
-								desc = L["Configure the Button Tooltip."],
-								values = { ["disabled"] = L["Disabled"], ["nocombat"] = L["Disabled in Combat"], ["enabled"] = L["Enabled"] },
-								get = function() return Bartender4.db.profile.tooltip end,
-								set = function(info, value)
-									Bartender4.db.profile.tooltip = value
-									Bartender4.Bar:ForAll("UpdateButtonConfig")
-								end,
 							},
 							header_target = {
 								order = 300,
