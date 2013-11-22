@@ -252,7 +252,7 @@ local function generateOptions()
 							mouseovermod_desc = {
 								order = 302,
 								type = "description",
-								name = L["\n\"None\" as modifier means its always active, and no modifier is required.\n\nRemember to enable Mouse-Over Casting for the individual bars, on the \"State Configuration\" tab, if you want it to be active for a specific bar."],
+								name = "\n" .. L["\"None\" as modifier means its always active, and no modifier is required.\n\nRemember to enable Mouse-Over Casting for the individual bars, on the \"State Configuration\" tab, if you want it to be active for a specific bar."],
 							},
 						},
 					},
