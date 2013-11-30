@@ -223,14 +223,14 @@ function StateBar:UpdateStates(returnOnly)
 
 	RegisterStateDriver(self, "page", statedriver or "0")
 
-	self:SetAttribute("_onstate-assist-help", [[
+	self:SetAttribute("_onstate-target-help", [[
 		local state = (newstate ~= "nil") and newstate or nil
-		control:ChildUpdate("assist-help", state)
+		control:ChildUpdate("target-help", state)
 	]])
 
-	self:SetAttribute("_onstate-assist-harm", [[
+	self:SetAttribute("_onstate-target-harm", [[
 		local state = (newstate ~= "nil") and newstate or nil
-		control:ChildUpdate("assist-harm", state)
+		control:ChildUpdate("target-harm", state)
 	]])
 
 	local preSelf = ""
@@ -243,10 +243,10 @@ function StateBar:UpdateStates(returnOnly)
 		preFocus = "[mod:FOCUSCAST,@focus,exists,nodead]focus;"
 	end
 
-	UnregisterStateDriver(self, "assist-help")
-	self:SetAttribute("state-assist-help", "nil")
-	UnregisterStateDriver(self, "assist-harm")
-	self:SetAttribute("state-assist-harm", "nil")
+	UnregisterStateDriver(self, "target-help")
+	self:SetAttribute("state-target-help", "nil")
+	UnregisterStateDriver(self, "target-harm")
+	self:SetAttribute("state-target-harm", "nil")
 
 	local helpDriver, harmDriver = "", ""
 	if self.config.autoassist then
@@ -264,11 +264,11 @@ function StateBar:UpdateStates(returnOnly)
 	end
 
 	if helpDriver ~= "" then
-		RegisterStateDriver(self, "assist-help", ("%s%s%s nil"):format(preSelf, preFocus, helpDriver))
+		RegisterStateDriver(self, "target-help", ("%s%s%s nil"):format(preSelf, preFocus, helpDriver))
 	end
 
 	if harmDriver ~= "" then
-		RegisterStateDriver(self, "assist-harm", ("%s%s nil"):format(preFocus, harmDriver))
+		RegisterStateDriver(self, "target-harm", ("%s%s nil"):format(preFocus, harmDriver))
 	end
 
 	self:ForAll("UpdateState")

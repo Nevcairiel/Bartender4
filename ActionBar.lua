@@ -61,7 +61,7 @@ function ActionBar:UpdateButtonConfig()
 		self:ForAll("UpdateConfig", self.buttonConfig)
 	end
 
-	self:ForAll("SetAttribute", "autoassist", self.config.autoassist)
+	self:ForAll("SetAttribute", "smarttarget", self.config.autoassist)
 	-- self casting
 	self:ForAll("SetAttribute", "checkselfcast", Bartender4.db.profile.selfcastmodifier and true or nil)
 	self:ForAll("SetAttribute", "checkfocuscast", Bartender4.db.profile.focuscastmodifier and true or nil)
@@ -72,11 +72,11 @@ function ActionBar:UpdateButtonConfig()
 	self:ForAll("UpdateState")
 end
 
-local UpdateAutoAssist = [[
+local UpdateSmartTarget = [[
 	local state, type, action = ...
-	self:SetAttribute("assisttype", nil)
+	self:SetAttribute("targettype", nil)
 	self:SetAttribute("unit", nil)
-	if self:GetAttribute("autoassist") then
+	if self:GetAttribute("smarttarget") then
 		if type == "action" then
 			type, action = GetActionInfo(action)
 		end
@@ -84,11 +84,11 @@ local UpdateAutoAssist = [[
 			local id, subtype = FindSpellBookSlotBySpellID(action), "spell"
 			if id and id > 0 then
 				if IsHelpfulSpell(id, subtype) then
-					self:SetAttribute("assisttype", 1)
-					self:SetAttribute("unit", self:GetAttribute("assist_help"))
+					self:SetAttribute("targettype", 1)
+					self:SetAttribute("unit", self:GetAttribute("target_help"))
 				elseif IsHarmfulSpell(id, subtype) then
-					self:SetAttribute("assisttype", 2)
-					self:SetAttribute("unit", self:GetAttribute("assist_harm"))
+					self:SetAttribute("targettype", 2)
+					self:SetAttribute("unit", self:GetAttribute("target_harm"))
 				end
 			end
 		end
@@ -129,18 +129,18 @@ function ActionBar:UpdateButtons(numbuttons)
 			buttons[i]:AddToButtonFacade(self.LBFGroup)
 		end
 
-		buttons[i]:SetAttribute("OnStateChanged", UpdateAutoAssist)
+		buttons[i]:SetAttribute("OnStateChanged", UpdateSmartTarget)
 
-		buttons[i]:SetAttribute("_childupdate-assist-help", [[
-			self:SetAttribute("assist_help", message)
-			if self:GetAttribute("assisttype") == 1 then
+		buttons[i]:SetAttribute("_childupdate-target-help", [[
+			self:SetAttribute("target_help", message)
+			if self:GetAttribute("targettype") == 1 then
 				self:SetAttribute("unit", message)
 			end
 		]])
 
-		buttons[i]:SetAttribute("_childupdate-assist-harm", [[
-			self:SetAttribute("assist_harm", message)
-			if self:GetAttribute("assisttype") == 2 then
+		buttons[i]:SetAttribute("_childupdate-target-harm", [[
+			self:SetAttribute("target_harm", message)
+			if self:GetAttribute("targettype") == 2 then
 				self:SetAttribute("unit", message)
 			end
 		]])
