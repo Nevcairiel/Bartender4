@@ -61,7 +61,7 @@ function ActionBar:UpdateButtonConfig()
 		self:ForAll("UpdateConfig", self.buttonConfig)
 	end
 
-	self:ForAll("SetAttribute", "smarttarget", self.config.autoassist)
+	self:ForAll("SetAttribute", "smarttarget", self.config.autoassist or self.config.mouseover)
 	-- self casting
 	self:ForAll("SetAttribute", "checkselfcast", Bartender4.db.profile.selfcastmodifier and true or nil)
 	self:ForAll("SetAttribute", "checkfocuscast", Bartender4.db.profile.focuscastmodifier and true or nil)
