@@ -21,7 +21,8 @@ local initialPosition
 do
 	-- Sets the Bar to its initial Position in the Center of the Screen
 	function initialPosition(bar)
-		bar:ClearSetPoint("CENTER", 0, -250 + (bar.id-1) * 38)
+		local offset = type(bar.id) == "number" and bar.id or 1
+		bar:ClearSetPoint("CENTER", 0, -250 + (offset-1) * 38)
 		bar:SavePosition()
 	end
 end
@@ -95,6 +96,24 @@ local UpdateSmartTarget = [[
 	end
 ]]
 
+function ActionBar:SetupSmartButton(button)
+	button:SetAttribute("OnStateChanged", UpdateSmartTarget)
+
+	button:SetAttribute("_childupdate-target-help", [[
+		self:SetAttribute("target_help", message)
+		if self:GetAttribute("targettype") == 1 then
+			self:SetAttribute("unit", message)
+		end
+	]])
+
+	button:SetAttribute("_childupdate-target-harm", [[
+		self:SetAttribute("target_harm", message)
+		if self:GetAttribute("targettype") == 2 then
+			self:SetAttribute("unit", message)
+		end
+	]])
+end
+
 local customExitButton = {
 	func = function(button)
 		VehicleExit()
@@ -129,21 +148,7 @@ function ActionBar:UpdateButtons(numbuttons)
 			buttons[i]:AddToButtonFacade(self.LBFGroup)
 		end
 
-		buttons[i]:SetAttribute("OnStateChanged", UpdateSmartTarget)
-
-		buttons[i]:SetAttribute("_childupdate-target-help", [[
-			self:SetAttribute("target_help", message)
-			if self:GetAttribute("targettype") == 1 then
-				self:SetAttribute("unit", message)
-			end
-		]])
-
-		buttons[i]:SetAttribute("_childupdate-target-harm", [[
-			self:SetAttribute("target_harm", message)
-			if self:GetAttribute("targettype") == 2 then
-				self:SetAttribute("unit", message)
-			end
-		]])
+		self:SetupSmartButton(buttons[i])
 
 		if i == 12 then
 			buttons[i]:SetState(11, "custom", customExitButton)
