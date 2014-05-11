@@ -313,7 +313,7 @@ function StateBar:GetOptionObject()
 	local states = {
 		type = "group",
 		name = L["State Configuration"],
-		order = 5,
+		order = 25,
 		args = options,
 	}
 	obj:NewCategory("state", states)
