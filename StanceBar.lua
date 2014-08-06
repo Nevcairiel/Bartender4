@@ -103,9 +103,9 @@ function StanceButtonPrototype:Update()
 	CooldownFrame_SetTimer(self.cooldown, start, duration, enable)
 
 	if isActive then
-		self:SetChecked(1)
+		self:SetChecked(true)
 	else
-		self:SetChecked(0)
+		self:SetChecked(false)
 	end
 
 	if isCastable then
