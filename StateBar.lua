@@ -82,9 +82,9 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 	local newT = nil
 	if k == "WARRIOR" then
 		newT = {
-			{ id = "battle", name = GetSpellInfo(2457), index = 1, type = "form"},
-			{ id = "def", name = GetSpellInfo(71), index = 2, type = "form"},
-			{ id = "berserker", name = GetSpellInfo(2458), index = 3, type = "form"},
+			{ id = "battle", name = GetSpellInfo(2457), index = 1 },
+			{ id = "def", name = GetSpellInfo(71), index = 2 },
+			{ id = "gladiator", name = GetSpellInfo(156291), index = 3 },
 		}
 	elseif k == "DRUID" then
 		newT = {
