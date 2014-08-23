@@ -93,7 +93,6 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 				-- prowl is virtual, no real stance
 			{ id = "prowl", name = ("%s (%s)"):format((GetSpellInfo(768)), (GetSpellInfo(5215))), index = false},
 			{ id = "moonkin", name = GetSpellInfo(24858), index = 4 },
-			{ id = "treeoflife", name = GetSpellInfo(33891), index = -1, type = "form" },
 		}
 	elseif k == "ROGUE" then
 		newT = {
@@ -172,8 +171,6 @@ function StateBar:UpdateStates(returnOnly)
 							if prowl and prowl ~= 0 then
 								table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
 							end
-						elseif v.id == "incarnation" then
-							v.index = GetNumShapeshiftForms() + 1
 						end
 					elseif playerclass == "ROGUE" then
 						if v.id == "shadowdance" then
