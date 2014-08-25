@@ -353,7 +353,6 @@ end
 function Bartender4:SetupOptions()
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", getOptions)
 	AceConfigDialog:SetDefaultSize("Bartender4", 680,525)
-	self:RegisterChatCommand( "bar", "ChatCommand")
 	self:RegisterChatCommand( "bt", "ChatCommand")
 	self:RegisterChatCommand( "bt4", "ChatCommand")
 	self:RegisterChatCommand( "bartender", "ChatCommand")
