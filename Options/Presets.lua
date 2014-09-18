@@ -190,8 +190,8 @@ local function BuildBlizzardProfile()
 	SetBarLocation( config.actionbars[6], "BOTTOM", -510, 102 + dy )
 
 	config = Bartender4.db:GetNamespace("BagBar").profile
-	config.onebag = true
-	SetBarLocation( config, "BOTTOM", 463.5, 41.75 )
+	config.onebag = false
+	SetBarLocation( config, "BOTTOM", 345, 38.5 )
 
 	config = Bartender4.db:GetNamespace("MicroMenu").profile
 	config.position.scale = 1.0
