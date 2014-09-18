@@ -89,9 +89,9 @@ local function BuildSingleProfile()
 
 	config = Bartender4.db:GetNamespace("PetBar").profile
 	SetBarLocation( config, "BOTTOM", -164, 164 + dy )
-	end
+end
 
-	local function BuildDoubleProfile()
+local function BuildDoubleProfile()
 	local dy, config
 	dy = 0
 	if not PresetsMod.showRepBar then
