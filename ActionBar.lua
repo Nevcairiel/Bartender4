@@ -101,7 +101,7 @@ local UpdateSmartTarget = [[
 		end
 		if type == "spell" and action > 0 then
 			if BT_Spell_Overrides[action] then action = BT_Spell_Overrides[action] end
-			local id, subtype = BT_SlotLookup[action] or FindSpellBookSlotBySpellID(action), "spell"
+			local id, subtype = FindSpellBookSlotBySpellID(action), "spell"
 			if id and id > 0 then
 				if IsHelpfulSpell(id, subtype) then
 					self:SetAttribute("targettype", 1)
@@ -119,16 +119,16 @@ function ActionBar:SetupSmartTarget()
 	local s = [[
 		BT_Spell_Overrides = newtable()
 		BT_Spell_Overrides[93402] = 8921 -- sunfire -> moonfire
-
-		BT_SlotLookup = newtable()
 	]]
 
 	local i = 1
 	local subtype, action = GetSpellBookItemInfo(i, "spell")
 	while subtype do
 		if subtype == "SPELL" then
-			local spellId = select(7, GetSpellInfo(i, "spell")) or action
-			s = s .. "\n" .. ([[ BT_SlotLookup[%d] = %d ]]):format(spellId, i)
+			local spellId = select(7, GetSpellInfo(i, "spell"))
+			if spellId and spellId ~= action then
+				s = s .. "\n" .. ([[ BT_Spell_Overrides[%d] = %d ]]):format(spellId, action)
+			end
 		end
 
 		i = i + 1
