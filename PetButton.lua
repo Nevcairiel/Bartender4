@@ -44,6 +44,44 @@ local function onReceiveDrag(self)
 	self:Update()
 end
 
+local function SetCooldownHook(cooldown, ...)
+	local effectiveAlpha = cooldown:GetEffectiveAlpha()
+	local start, duration = ...
+
+	if start ~= 0 or duration ~= 0 then
+		-- update swipe alpha
+		cooldown:__SetSwipeColorLAB(cooldown.__SwipeR, cooldown.__SwipeG, cooldown.__SwipeB, cooldown.__SwipeA * effectiveAlpha)
+
+		-- only draw bling and edge if alpha is over 50%
+		cooldown:SetDrawBling(effectiveAlpha > 0.5)
+		if effectiveAlpha < 0.5 then
+			cooldown:SetDrawEdge(false)
+		end
+
+		-- ensure the swipe isn't drawn on fully faded bars
+		if effectiveAlpha <= 0.0 then
+			cooldown:SetDrawSwipe(false)
+		end
+	end
+
+	return cooldown:__SetCooldownLAB(...)
+end
+
+local function SetSwipeColorHook(cooldown, r, g, b, a)
+	local effectiveAlpha = cooldown:GetEffectiveAlpha()
+	cooldown.__SwipeR, cooldown.__SwipeG, cooldown.__SwipeB, cooldown.__SwipeA = r, g, b, (a or 1)
+	return cooldown:__SetSwipeColorLAB(r, g, b, a * effectiveAlpha)
+end
+
+local function HookCooldown(button)
+	button.cooldown.__SetCooldownLAB = button.cooldown.SetCooldown
+	button.cooldown.SetCooldown = SetCooldownHook
+
+	button.cooldown.__SetSwipeColorLAB = button.cooldown.SetSwipeColor
+	button.cooldown.__SwipeR, button.cooldown.__SwipeG, button.cooldown.__SwipeB, button.cooldown.__SwipeA = 0, 0, 0, 0.8
+	button.cooldown.SetSwipeColor = SetSwipeColorHook
+end
+
 Bartender4.PetButton = {}
 Bartender4.PetButton.prototype = PetButtonPrototype
 function Bartender4.PetButton:Create(id, parent)
@@ -85,6 +123,8 @@ function Bartender4.PetButton:Create(id, parent)
 	button.textureCache = {}
 	button.textureCache.pushed = button.pushedTexture:GetTexture()
 	button.textureCache.highlight = button.highlightTexture:GetTexture()
+
+	HookCooldown(button)
 
 	if Masque then
 		local group = parent.MasqueGroup
@@ -157,6 +197,10 @@ function PetButtonPrototype:Update()
 	end
 	self:UpdateCooldown()
 	self:UpdateHotkeys()
+end
+
+function PetButtonPrototype:UpdateAlpha()
+	self:UpdateCooldown()
 end
 
 function PetButtonPrototype:UpdateHotkeys()
