@@ -258,7 +258,7 @@ function Bartender4:UpdateBlizzardVehicle()
 			self.vehicleController:SetAttribute("_onstate-vehicle", [[
 				if newstate == "override" then
 					local f = self:GetFrameRef("overrideActionBar")
-					if f:GetAttribute("actionpage") > 10 then
+					if (f:GetAttribute("actionpage") or 0) > 10 then
 						newstate = "vehicle"
 					end
 				end
