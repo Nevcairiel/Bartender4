@@ -4,7 +4,6 @@
 	<Script file="deDE.lua"/>
 	<Script file="frFR.lua"/>
 	<Script file="esES.lua"/>
-	<Script file="esMX.lua"/>
 	<Script file="zhTW.lua"/>
 	<Script file="zhCN.lua"/>
 	<Script file="koKR.lua"/>
