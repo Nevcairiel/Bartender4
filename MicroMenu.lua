@@ -114,9 +114,13 @@ end
 
 function MicroMenuBar:UpdateButtonLayout()
 	ButtonBar.UpdateButtonLayout(self)
-	-- If the StoreButton is hidden we want to slide the remaining buttons down.
+	-- If the StoreButton is hidden we want to replace it with the Help button
 	if not StoreMicroButton:IsShown() then
-		HelpMicroButton:ClearSetPoint(MainMenuMicroButton:GetPoint())
-		MainMenuMicroButton:ClearSetPoint(StoreMicroButton:GetPoint())
+		HelpMicroButton:Show()
+		HelpMicroButton:ClearAllPoints()
+		HelpMicroButton:SetAllPoints(StoreMicroButton)
+	else
+		HelpMicroButton:Hide()
+		HelpMicroButton:ClearAllPoints()
 	end
 end
