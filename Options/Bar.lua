@@ -467,7 +467,7 @@ function Bar:GetOptionObject()
 					desc = L["Centers the bar vertically on screen."],
 					func = centerVert,
 				},
-				nl2 = {
+				nl3 = {
 					order = 35,
 					type = "description",
 					name = " ",
