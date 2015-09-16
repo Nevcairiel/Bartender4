@@ -154,14 +154,6 @@ do
 end
 
 local _, class = UnitClass("player")
-local stanceClasses = {
-	DRUID = true,
-	WARRIOR = true,
-	WARLOCK = true,
-	PRIEST = true,
-	ROGUE = true,
-}
-
 local function getStanceTable()
 	local tbl = {}
 
@@ -355,7 +347,6 @@ function Bar:GetOptionObject()
 					name = L["Hide in Stance/Form"],
 					desc = L["Hide this bar in a specific Stance or Form."],
 					values = getStanceTable,
-					hidden = function() return (not stanceClasses[class]) end,
 					disabled = customEnabled,
 				},
 				customNl = {
