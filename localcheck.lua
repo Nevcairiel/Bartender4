@@ -65,7 +65,7 @@ if( AUTO_IDENTIFY_SLUG ) then
 		local contents = git:read("*all")
 		git:close()
 
-		SITE_LOCATION, ADDON_SLUG = string.match(contents, "git%.(.-)%.com:wow/(.-)/mainline%.git")
+		SITE_LOCATION, ADDON_SLUG = string.match(contents, "git%.([^\n]-)%.com:wow/([^\n]-)/mainline%.git")
 	elseif( svn ) then
 		local contents = svn:read("*all")
 		svn:close()
