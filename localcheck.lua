@@ -212,7 +212,7 @@ for key, data in pairs(addonData) do
 	body = string.format("%s%s\r\n", body, data)
 end
 
-body = string.format("%s--%s\r\n", body, boundary)
+body = string.format("%s--%s--\r\n", body, boundary)
 
 http.request({
 	method = "POST",
