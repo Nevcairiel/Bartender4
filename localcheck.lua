@@ -23,7 +23,7 @@ DELETE_UNIMPORTED = true
 local OS_TYPE = os.getenv("HOME") and "linux" or "windows"
 
 -- Mak sure we have LuaSockets
-local _, http = pcall(require, "socket.http")
+local _, http = pcall(require, "ssl.https")
 local _, ltn = pcall(require, "ltn12")
 if( not http ) then
 	print("Failed to find socket.http, did you install LuaSockets?")
@@ -216,7 +216,7 @@ body = string.format("%s--%s--\r\n", body, boundary)
 
 http.request({
 	method = "POST",
-	url = string.format("http://www.%s.com/addons/%s/localization/import/?api-key=%s", SITE_LOCATION, ADDON_SLUG, CURSE_API_KEY),
+	url = string.format("https://www.%s.com/addons/%s/localization/import/?api-key=%s", SITE_LOCATION, ADDON_SLUG, CURSE_API_KEY),
 	sink = ltn12.sink.table(source),
 	source = ltn12.source.string(body),
 	headers = {
