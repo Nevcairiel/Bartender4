@@ -153,6 +153,7 @@ function Bartender4:HideBlizzard()
 	--MainMenuExpBar:UnregisterAllEvents()
 	--MainMenuExpBar:Hide()
 	MainMenuExpBar:SetParent(UIHider)
+	MainMenuExpBar:SetDeferAnimationCallback(nil)
 
 	MainMenuBarMaxLevelBar:Hide()
 	MainMenuBarMaxLevelBar:SetParent(UIHider)
@@ -161,11 +162,11 @@ function Bartender4:HideBlizzard()
 	--ReputationWatchBar:Hide()
 	ReputationWatchBar:SetParent(UIHider)
 
-	if ArtifactWatchBar then
-		ArtifactWatchBar:SetParent(UIHider)
-	end
+	ArtifactWatchBar:SetParent(UIHider)
+	ArtifactWatchBar.StatusBar:SetDeferAnimationCallback(nil)
 
 	HonorWatchBar:SetParent(UIHider)
+	HonorWatchBar.StatusBar:SetDeferAnimationCallback(nil)
 
 	StanceBarFrame:UnregisterAllEvents()
 	StanceBarFrame:Hide()
