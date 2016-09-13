@@ -110,8 +110,6 @@ XPBar.width = 1038
 XPBar.height = 21
 XPBar.offsetX = 8
 
-if ArtifactWatchBar then
-
 -- register module
 local APBarMod = Bartender4:NewModule("APBar", "AceHook-3.0")
 
@@ -150,5 +148,3 @@ APBar.ControlClickThrough = RepBar.ControlClickThrough
 APBar.width = 1038
 APBar.height = 21
 APBar.offsetX = 8
-
-end
