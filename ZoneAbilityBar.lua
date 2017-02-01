@@ -53,6 +53,7 @@ function ZoneAbilityBar:ApplyConfig(config)
 
 	if not self.config.position.x then
 		self:ClearSetPoint("BOTTOM", 0, 160)
+		self:PerformLayout()
 		self:SavePosition()
 	end
 
