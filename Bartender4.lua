@@ -15,7 +15,7 @@ local LibDualSpec = LibStub("LibDualSpec-1.0", true)
 local _G = _G
 local type, pairs, hooksecurefunc = type, pairs, hooksecurefunc
 
--- GLOBALS: LibStub, UIParent, PlaySound, RegisterStateDriver, UnregisterStateDriver
+-- GLOBALS: LibStub, UIParent, PlaySound, SOUNDKIT, RegisterStateDriver, UnregisterStateDriver
 -- GLOBALS: BINDING_HEADER_Bartender4, BINDING_CATEGORY_Bartender4, BINDING_NAME_TOGGLEACTIONBARLOCK, BINDING_NAME_BTTOGGLEACTIONBARLOCK
 -- GLOBALS: BINDING_HEADER_BT4PET, BINDING_CATEGORY_BT4PET, BINDING_HEADER_BT4STANCE, BINDING_CATEGORY_BT4STANCE
 -- GLOBALS: CreateFrame, MultiBarBottomLeft, MultiBarBottomRight, MultiBarLeft, MultiBarRight, UIPARENT_MANAGED_FRAME_POSITIONS
@@ -346,8 +346,8 @@ function Bartender4:ShowUnlockDialog()
 		}
 		f:SetPoint("TOP", 0, -50)
 		f:Hide()
-		f:SetScript("OnShow", function() PlaySound("igMainMenuOption") end)
-		f:SetScript("OnHide", function() PlaySound("gsTitleOptionExit") end)
+		f:SetScript('OnShow', function() PlaySound(SOUNDKIT and SOUNDKIT.IG_MAINMENU_OPTION or 'igMainMenuOption') end)
+		f:SetScript('OnHide', function() PlaySound(SOUNDKIT and SOUNDKIT.GS_TITLE_OPTION_EXIT or 'gsTitleOptionExit') end)
 
 		f:RegisterForDrag('LeftButton')
 		f:SetScript('OnDragStart', function(f) f:StartMoving() end)
