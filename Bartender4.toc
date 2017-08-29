@@ -1,4 +1,4 @@
-## Interface: 70200
+## Interface: 70300
 
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
