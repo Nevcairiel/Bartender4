@@ -346,8 +346,8 @@ function Bartender4:ShowUnlockDialog()
 		}
 		f:SetPoint("TOP", 0, -50)
 		f:Hide()
-		f:SetScript('OnShow', function() PlaySound(SOUNDKIT and SOUNDKIT.IG_MAINMENU_OPTION or 'igMainMenuOption') end)
-		f:SetScript('OnHide', function() PlaySound(SOUNDKIT and SOUNDKIT.GS_TITLE_OPTION_EXIT or 'gsTitleOptionExit') end)
+		f:SetScript('OnShow', function() PlaySound(SOUNDKIT.IG_MAINMENU_OPTION) end)
+		f:SetScript('OnHide', function() PlaySound(SOUNDKIT.GS_TITLE_OPTION_EXIT) end)
 
 		f:RegisterForDrag('LeftButton')
 		f:SetScript('OnDragStart', function(f) f:StartMoving() end)
