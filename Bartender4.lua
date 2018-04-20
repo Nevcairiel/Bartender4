@@ -153,6 +153,9 @@ function Bartender4:HideBlizzard()
 	if MicroButtonAndBagsBar then
 		MicroButtonAndBagsBar:Hide()
 		MicroButtonAndBagsBar:SetParent(UIHider)
+
+		MainMenuBar:UnregisterEvent("DISPLAY_SIZE_CHANGED")
+		MainMenuBar:UnregisterEvent("UI_SCALE_CHANGED")
 	end
 
 	if MainMenuExpBar then
