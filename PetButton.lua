@@ -9,6 +9,8 @@ local _, Bartender4 = ...
 local PetButtonPrototype = CreateFrame("CheckButton")
 local PetButton_MT = {__index = PetButtonPrototype}
 
+local WoW80 = select(4, GetBuildInfo()) >= 80000
+
 local LBF = LibStub("LibButtonFacade", true)
 local Masque = LibStub("Masque", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
@@ -105,7 +107,13 @@ function Bartender4.PetButton:Create(id, parent)
 end
 
 function PetButtonPrototype:Update()
-	local name, subtext, texture, isToken, isActive, autoCastAllowed, autoCastEnabled = GetPetActionInfo(self.id)
+	local name, texture, isToken, isActive, autoCastAllowed, autoCastEnabled, spellID
+	if WoW80 then
+		name, texture, isToken, isActive, autoCastAllowed, autoCastEnabled, spellID = GetPetActionInfo(self.id)
+	else
+		local _
+		name, _, texture, isToken, isActive, autoCastAllowed, autoCastEnabled, spellID = GetPetActionInfo(self.id)
+	end
 
 	if not isToken then
 		self.icon:SetTexture(texture)
@@ -116,7 +124,6 @@ function PetButtonPrototype:Update()
 	end
 
 	self.isToken = isToken
-	self.tooltipSubtext = subtext
 	self:SetChecked(isActive)
 	if autoCastAllowed and not autoCastEnabled then
 		self.autocastable:Show()
