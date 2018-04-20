@@ -98,9 +98,15 @@ function MicroMenuMod:BlizzardBarShow()
 	end
 end
 
-MicroMenuBar.button_width = 28
-MicroMenuBar.button_height = 58
-MicroMenuBar.vpad_offset = -21
+
+if not MicroButtonAndBagsBar then
+	MicroMenuBar.vpad_offset = -21
+	MicroMenuBar.button_width = 28
+	MicroMenuBar.button_height = 58
+else
+	MicroMenuBar.button_width = 28
+	MicroMenuBar.button_height = 36
+end
 function MicroMenuBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 
