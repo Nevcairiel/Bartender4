@@ -13,6 +13,8 @@ local ButtonBar = Bartender4.ButtonBar.prototype
 local _G = _G
 local format, setmetatable, min, select = string.format, setmetatable, min, select
 
+local WoW80 = select(4, GetBuildInfo()) >= 80000
+
 -- GLOBALS: CreateFrame, InCombatLockdown, ClearOverrideBindings, GetBindingKey, GetBindingText, SetOverrideBindingClick, SetBinding
 -- GLOBALS: GetNumShapeshiftForms, GetShapeshiftFormInfo, GetShapeshiftFormCooldown, CooldownFrame_Set
 
@@ -89,7 +91,13 @@ end
 function StanceButtonPrototype:Update()
 	if not self:IsShown() then return end
 	local id = self:GetID()
-	local texture, name, isActive, isCastable = GetShapeshiftFormInfo(id)
+	local texture, isActive, isCastable, spellID
+	if WoW80 then
+		texture, isActive, isCastable, spellID = GetShapeshiftFormInfo(id)
+	else
+		local _
+		texture, _, isActive, isCastable, spellID = GetShapeshiftFormInfo(id)
+	end
 
 	self.icon:SetTexture(texture)
 
@@ -177,7 +185,13 @@ end
 local actionTmpl = "Stance Button %d (%s)"
 function StanceButtonPrototype:GetActionName()
 	local id = self:GetID()
-	return format(actionTmpl, id, select(2, GetShapeshiftFormInfo(id)))
+	local name
+	if WoW80 then
+		name = GetSpellInfo(select(4, GetShapeshiftFormInfo(id)))
+	else
+		name = select(2, GetShapeshiftFormInfo(id))
+	end
+	return format(actionTmpl, id, name)
 end
 
 
