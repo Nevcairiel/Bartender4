@@ -10,6 +10,8 @@ local tonumber, tostring, assert, select, floor = tonumber, tostring, assert, se
 
 -- GLOBALS: GetNumShapeshiftForms, GetShapeshiftFormInfo, GetSpellInfo
 
+local WoW80 = select(4, GetBuildInfo()) >= 80000
+
 --[[===================================================================================
 	Bar Options
 ===================================================================================]]--
@@ -163,7 +165,11 @@ local function getStanceTable()
 
 	local num = GetNumShapeshiftForms()
 	for i = 1, num do
-		tbl[i] = select(2, GetShapeshiftFormInfo(i))
+		if WoW80 then
+			tbl[i] = GetSpellInfo(select(4, GetShapeshiftFormInfo(i)))
+		else
+			tbl[i] = select(2, GetShapeshiftFormInfo(i))
+		end
 	end
 	-- HACK: Metamorphosis work around, it is on slot 1 in GetShapeshiftFormInfo() but stance:2 is active..
 	if class == "WARLOCK" and tbl[1] == GetSpellInfo(59672) then
