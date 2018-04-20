@@ -150,23 +150,43 @@ function Bartender4:HideBlizzard()
 	MainMenuBarArtFrame:Hide()
 	MainMenuBarArtFrame:SetParent(UIHider)
 
-	--MainMenuExpBar:UnregisterAllEvents()
-	--MainMenuExpBar:Hide()
-	MainMenuExpBar:SetParent(UIHider)
-	MainMenuExpBar:SetDeferAnimationCallback(nil)
+	if MicroButtonAndBagsBar then
+		MicroButtonAndBagsBar:Hide()
+		MicroButtonAndBagsBar:SetParent(UIHider)
+	end
 
-	MainMenuBarMaxLevelBar:Hide()
-	MainMenuBarMaxLevelBar:SetParent(UIHider)
+	if MainMenuExpBar then
+		--MainMenuExpBar:UnregisterAllEvents()
+		--MainMenuExpBar:Hide()
+		MainMenuExpBar:SetParent(UIHider)
+		MainMenuExpBar:SetDeferAnimationCallback(nil)
+	end
 
-	--ReputationWatchBar:UnregisterAllEvents()
-	--ReputationWatchBar:Hide()
-	ReputationWatchBar:SetParent(UIHider)
+	if MainMenuBarMaxLevelBar then
+		MainMenuBarMaxLevelBar:Hide()
+		MainMenuBarMaxLevelBar:SetParent(UIHider)
+	end
 
-	ArtifactWatchBar:SetParent(UIHider)
-	ArtifactWatchBar.StatusBar:SetDeferAnimationCallback(nil)
+	if ReputationWatchBar then
+		--ReputationWatchBar:UnregisterAllEvents()
+		--ReputationWatchBar:Hide()
+		ReputationWatchBar:SetParent(UIHider)
+	end
 
-	HonorWatchBar:SetParent(UIHider)
-	HonorWatchBar.StatusBar:SetDeferAnimationCallback(nil)
+	if ArtifactWatchBar then
+		ArtifactWatchBar:SetParent(UIHider)
+		ArtifactWatchBar.StatusBar:SetDeferAnimationCallback(nil)
+	end
+
+	if HonorWatchBar then
+		HonorWatchBar:SetParent(UIHider)
+		HonorWatchBar.StatusBar:SetDeferAnimationCallback(nil)
+	end
+
+	if StatusTrackingBarManager then
+		StatusTrackingBarManager:Hide()
+		--StatusTrackingBarManager:SetParent(UIHider)
+	end
 
 	StanceBarFrame:UnregisterAllEvents()
 	StanceBarFrame:Hide()

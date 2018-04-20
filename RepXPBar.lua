@@ -5,6 +5,9 @@
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
+-- disable module in 8.0
+if not MainMenuExpBar then return end
+
 -- fetch upvalues
 local Bar = Bartender4.Bar.prototype
 

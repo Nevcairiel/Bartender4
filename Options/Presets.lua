@@ -12,6 +12,8 @@ local Bar = Bartender4.Bar.prototype
 
 -- GLOBALS: GetNumShapeshiftForms
 
+local WoW80 = select(4, GetBuildInfo()) >= 80000
+
 local PresetsMod = Bartender4:NewModule("Presets")
 
 function PresetsMod:ToggleModule(info, val)
@@ -68,28 +70,30 @@ local function BuildSingleProfile()
 	config.enabled = false
 	Bartender4:GetModule("StanceBar"):Disable()
 
-	if PresetsMod.showRepBar then
-		config = Bartender4.db:GetNamespace("RepBar").profile
-		config.enabled = true
-		config.position.scale = 0.44 -- Note: actually not possible via interface!
-		Bartender4:GetModule("RepBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -227, 57 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
-	end
+	if not WoW80 then
+		if PresetsMod.showRepBar then
+			config = Bartender4.db:GetNamespace("RepBar").profile
+			config.enabled = true
+			config.position.scale = 0.44 -- Note: actually not possible via interface!
+			Bartender4:GetModule("RepBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -227, 57 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
+		end
 
-	if PresetsMod.showXPBar then
-		config = Bartender4.db:GetNamespace("XPBar").profile
-		config.enabled = true
-		config.position.scale = 0.49 -- Note: actually not possible via interface!
-		Bartender4:GetModule("XPBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -252.85, 52 )
-	end
+		if PresetsMod.showXPBar then
+			config = Bartender4.db:GetNamespace("XPBar").profile
+			config.enabled = true
+			config.position.scale = 0.49 -- Note: actually not possible via interface!
+			Bartender4:GetModule("XPBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -252.85, 52 )
+		end
 
-	if PresetsMod.showAPBar and Bartender4:GetModule("APBar", true) then
-		config = Bartender4.db:GetNamespace("RepBar").profile
-		config.enabled = true
-		config.position.scale = 0.44 -- Note: actually not possible via interface!
-		Bartender4:GetModule("RepBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -227, 57 + 5 + dy )
+		if PresetsMod.showAPBar and Bartender4:GetModule("APBar", true) then
+			config = Bartender4.db:GetNamespace("RepBar").profile
+			config.enabled = true
+			config.position.scale = 0.44 -- Note: actually not possible via interface!
+			Bartender4:GetModule("RepBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -227, 57 + 5 + dy )
+		end
 	end
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
@@ -143,25 +147,27 @@ local function BuildDoubleProfile()
 	config.enabled = false
 	Bartender4:GetModule("MicroMenu"):Disable()
 
-	if PresetsMod.showRepBar then
-		config = Bartender4.db:GetNamespace("RepBar").profile
-		config.enabled = true
-		Bartender4:GetModule("RepBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -516, 65 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
-	end
+	if not WoW80 then
+		if PresetsMod.showRepBar then
+			config = Bartender4.db:GetNamespace("RepBar").profile
+			config.enabled = true
+			Bartender4:GetModule("RepBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -516, 65 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
+		end
 
-	if PresetsMod.showXPBar then
-		config = Bartender4.db:GetNamespace("XPBar").profile
-		config.enabled = true
-		Bartender4:GetModule("XPBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -516, 57 )
-	end
+		if PresetsMod.showXPBar then
+			config = Bartender4.db:GetNamespace("XPBar").profile
+			config.enabled = true
+			Bartender4:GetModule("XPBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -516, 57 )
+		end
 
-	if PresetsMod.showAPBar and Bartender4:GetModule("APBar", true) then
-		config = Bartender4.db:GetNamespace("APBar").profile
-		config.enabled = true
-		Bartender4:GetModule("APBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -516, 65 + 8 + dy )
+		if PresetsMod.showAPBar and Bartender4:GetModule("APBar", true) then
+			config = Bartender4.db:GetNamespace("APBar").profile
+			config.enabled = true
+			Bartender4:GetModule("APBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -516, 65 + 8 + dy )
+		end
 	end
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
@@ -222,25 +228,27 @@ local function BuildBlizzardProfile()
 	config.padding = -2
 	SetBarLocation( config, "BOTTOM", 37.5, 41.75 )
 
-	if PresetsMod.showRepBar then
-		config = Bartender4.db:GetNamespace("RepBar").profile
-		config.enabled = true
-		Bartender4:GetModule("RepBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -516, 65 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
-	end
+	if not WoW80 then
+		if PresetsMod.showRepBar then
+			config = Bartender4.db:GetNamespace("RepBar").profile
+			config.enabled = true
+			Bartender4:GetModule("RepBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -516, 65 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
+		end
 
-	if PresetsMod.showXPBar then
-		config = Bartender4.db:GetNamespace("XPBar").profile
-		config.enabled = true
-		Bartender4:GetModule("XPBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -516, 57 )
-	end
+		if PresetsMod.showXPBar then
+			config = Bartender4.db:GetNamespace("XPBar").profile
+			config.enabled = true
+			Bartender4:GetModule("XPBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -516, 57 )
+		end
 
-	if PresetsMod.showAPBar and Bartender4:GetModule("APBar", true) then
-		config = Bartender4.db:GetNamespace("APBar").profile
-		config.enabled = true
-		Bartender4:GetModule("APBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -516, 65 + 8 + dy )
+		if PresetsMod.showAPBar and Bartender4:GetModule("APBar", true) then
+			config = Bartender4.db:GetNamespace("APBar").profile
+			config.enabled = true
+			Bartender4:GetModule("APBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -516, 65 + 8 + dy )
+		end
 	end
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile

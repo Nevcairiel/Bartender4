@@ -12,6 +12,8 @@ local table_insert, table_concat, fmt = table.insert, table.concat, string.forma
 -- GLOBALS: GetSpellInfo, InCombatLockdown, GetNumShapeshiftForms
 -- GLOBALS: MainMenuBarArtFrame, OverrideActionBar, RegisterStateDriver, UnregisterStateDriver
 
+local WoW80 = select(4, GetBuildInfo()) >= 80000
+
 local StateBar = setmetatable({}, {__index = ButtonBar})
 local StateBar_MT = {__index = StateBar}
 
@@ -44,7 +46,9 @@ function Bartender4.StateBar:Create(id, config, name)
 	if playerclass == "DRUID" then
 		bar:RegisterEvent("PLAYER_TALENT_UPDATE")
 		bar:RegisterEvent("PLAYER_REGEN_ENABLED")
-		bar:RegisterEvent("GLYPH_UPDATED")
+		if not WoW80 then
+			bar:RegisterEvent("GLYPH_UPDATED")
+		end
 		bar:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 		bar:SetScript("OnEvent", StateBar.OnEvent)
 	end
