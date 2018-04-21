@@ -127,9 +127,12 @@ function Bartender4:HideBlizzard()
 	UIPARENT_MANAGED_FRAME_POSITIONS["PETACTIONBAR_YPOS"] = nil
 
 	--MainMenuBar:UnregisterAllEvents()
-	--MainMenuBar:Hide()
 	--MainMenuBar:SetParent(UIHider)
+	--MainMenuBar:Hide()
 	MainMenuBar:EnableMouse(false)
+	MainMenuBar:UnregisterEvent("DISPLAY_SIZE_CHANGED")
+	MainMenuBar:UnregisterEvent("UI_SCALE_CHANGED")
+
 
 	local animations = {MainMenuBar.slideOut:GetAnimations()}
 	animations[1]:SetOffset(0,0)
@@ -153,9 +156,6 @@ function Bartender4:HideBlizzard()
 	if MicroButtonAndBagsBar then
 		MicroButtonAndBagsBar:Hide()
 		MicroButtonAndBagsBar:SetParent(UIHider)
-
-		MainMenuBar:UnregisterEvent("DISPLAY_SIZE_CHANGED")
-		MainMenuBar:UnregisterEvent("UI_SCALE_CHANGED")
 	end
 
 	if MainMenuExpBar then
@@ -282,7 +282,7 @@ end
 
 function Bartender4:UpdateBlizzardVehicle()
 	if self.db.profile.blizzardVehicle then
-		MainMenuBar:SetParent(UIParent)
+		--MainMenuBar:SetParent(UIParent)
 		OverrideActionBar:SetParent(UIParent)
 		if not self.vehicleController then
 			self.vehicleController = CreateFrame("Frame", nil, UIParent, "SecureHandlerStateTemplate")
@@ -315,7 +315,7 @@ function Bartender4:UpdateBlizzardVehicle()
 		end
 		RegisterStateDriver(self.vehicleController, "vehicle", "[overridebar]override;[vehicleui]vehicle;novehicle")
 	else
-		MainMenuBar:SetParent(self.UIHider)
+		--MainMenuBar:SetParent(self.UIHider)
 		OverrideActionBar:SetParent(self.UIHider)
 		if self.vehicleController then
 			UnregisterStateDriver(self.vehicleController, "vehicle")
