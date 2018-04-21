@@ -68,6 +68,7 @@ VehicleBar.lua
 BlizzardArt.lua
 ExtraActionBar.lua
 ZoneAbilityBar.lua
+StatusTrackingBar.lua
 
 ## Options ##
 Options\AceGUIWidget-NumberEditBox.lua
@@ -87,6 +88,7 @@ Options\VehicleBar.lua
 Options\BlizzardArt.lua
 Options\ExtraActionBar.lua
 Options\ZoneAbilityBar.lua
+Options\StatusTrackingBar.lua
 
 ## Presets -- needs to be the last ##
 Options\Presets.lua
