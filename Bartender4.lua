@@ -117,10 +117,6 @@ function Bartender4:HideBlizzard()
 		_G["MultiBarLeftButton" .. i]:UnregisterAllEvents()
 		_G["MultiBarLeftButton" .. i]:SetAttribute("statehidden", true)
 	end
-	--UIPARENT_MANAGED_FRAME_POSITIONS["MultiBarRight"] = nil
-	--UIPARENT_MANAGED_FRAME_POSITIONS["MultiBarLeft"] = nil
-	--UIPARENT_MANAGED_FRAME_POSITIONS["MultiBarBottomLeft"] = nil
-	--UIPARENT_MANAGED_FRAME_POSITIONS["MultiBarBottomRight"] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS["MainMenuBar"] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS["StanceBarFrame"] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS["PossessBarFrame"] = nil
@@ -140,16 +136,6 @@ function Bartender4:HideBlizzard()
 	animations = {OverrideActionBar.slideOut:GetAnimations()}
 	animations[1]:SetOffset(0,0)
 
-	--MainMenuBarArtFrame:UnregisterEvent("PLAYER_ENTERING_WORLD")
-	--MainMenuBarArtFrame:UnregisterEvent("BAG_UPDATE")
-	--MainMenuBarArtFrame:UnregisterEvent("ACTIONBAR_PAGE_CHANGED")
-	--MainMenuBarArtFrame:UnregisterEvent("KNOWN_CURRENCY_TYPES_UPDATE")
-	--MainMenuBarArtFrame:UnregisterEvent("CURRENCY_DISPLAY_UPDATE")
-	--MainMenuBarArtFrame:UnregisterEvent("ADDON_LOADED")
-	--MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERING_VEHICLE")
-	--MainMenuBarArtFrame:UnregisterEvent("UNIT_ENTERED_VEHICLE")
-	--MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITING_VEHICLE")
-	--MainMenuBarArtFrame:UnregisterEvent("UNIT_EXITED_VEHICLE")
 	MainMenuBarArtFrame:Hide()
 	MainMenuBarArtFrame:SetParent(UIHider)
 
