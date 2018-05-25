@@ -33,17 +33,21 @@ function StatusBarMod:OnEnable()
 		self.bar.content:SetSize(804, 14)
 		self.bar.content:Show()
 		self.bar.content.OnStatusBarsUpdated = function() end
-
-		self.bar.content:SetParent(self.bar)
-		self.bar.content:SetFrameLevel(self.bar:GetFrameLevel() + 1)
 		
-		StatusTrackingBarManager:SetParent(self.bar.content)
-		StatusTrackingBarManager:SetPoint("TOPLEFT", self.bar.content, "TOPLEFT", 0, 0)
-		StatusTrackingBarManager:Show()
+		self.bar.manager = CreateFrame("Frame", "BT4StatusBarTrackingManager", self.bar.content, "StatusTrackingBarManagerTemplate")
+		self.bar.manager:AddBarFromTemplate("FRAME", "ReputationStatusBarTemplate")
+		self.bar.manager:AddBarFromTemplate("FRAME", "HonorStatusBarTemplate")
+		self.bar.manager:AddBarFromTemplate("FRAME", "ArtifactStatusBarTemplate")
+		self.bar.manager:AddBarFromTemplate("FRAME", "ExpStatusBarTemplate")
+		self.bar.manager:AddBarFromTemplate("FRAME", "AzeriteBarTemplate")
+		self.bar.manager:SetBarSize(true)
+		self.bar.manager:Show()
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
+	self:SecureHook(StatusTrackingBarManager, "SetTextLocked", "ManagerTextLock")
+	self:SecureHook(StatusTrackingBarManager, "UpdateBarsShown", "ManagerUpdateBars")
 end
 
 function StatusBarMod:ApplyConfig()
@@ -54,6 +58,14 @@ function StatusBarMod:UpdateLayout()
 	self.bar:PerformLayout()
 end
 
+function StatusBarMod:ManagerTextLock(_, lock)
+	self.bar.manager:SetTextLocked(lock)
+end
+
+function StatusBarMod:ManagerUpdateBars()
+	self.bar.manager:UpdateBarsShown()
+end
+
 function StatusBar:ApplyConfig(config)
 	Bar.ApplyConfig(self, config)
 
@@ -61,7 +73,7 @@ function StatusBar:ApplyConfig(config)
 end
 
 StatusBar.width = 812
-StatusBar.height = 22
+StatusBar.height = 26
 StatusBar.offsetX = 5
 StatusBar.offsetY = 10
 function StatusBar:PerformLayout()
@@ -69,8 +81,6 @@ function StatusBar:PerformLayout()
 	local bar = self.content
 	bar:ClearAllPoints()
 	bar:SetPoint("TOPLEFT", self, "TOPLEFT", self.offsetX, self.offsetY)
-
-	StatusTrackingBarManager:SetBarSize(true)
 end
 
 StatusBar.ClickThroughSupport = false
