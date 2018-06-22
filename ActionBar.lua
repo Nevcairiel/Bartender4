@@ -82,13 +82,20 @@ function ActionBar:UpdateButtonConfig()
 
 	self:ForAll("SetAttribute", "smarttarget", self.config.autoassist or self.config.mouseover)
 	-- self casting
-	self:ForAll("SetAttribute", "checkselfcast", Bartender4.db.profile.selfcastmodifier and true or nil)
-	self:ForAll("SetAttribute", "checkfocuscast", Bartender4.db.profile.focuscastmodifier and true or nil)
-	self:ForAll("SetAttribute", "*unit2", Bartender4.db.profile.selfcastrightclick and "player" or nil)
+	self:UpdateSelfCast()
 	-- button lock
 	self:ForAll("SetAttribute", "buttonlock", Bartender4.db.profile.buttonlock)
 	-- update state
 	self:ForAll("UpdateState")
+end
+
+function ActionBar:UpdateSelfCast()
+	StateBar.UpdateSelfCast(self)
+
+	-- self casting
+	self:ForAll("SetAttribute", "checkselfcast", Bartender4.db.profile.selfcastmodifier and true or nil)
+	self:ForAll("SetAttribute", "checkfocuscast", Bartender4.db.profile.focuscastmodifier and true or nil)
+	self:ForAll("SetAttribute", "*unit2", Bartender4.db.profile.selfcastrightclick and "player" or nil)
 end
 
 local UpdateSmartTarget = [[
