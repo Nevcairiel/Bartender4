@@ -19,4 +19,4 @@ externals:
   libs/LibDualSpec-1.0: git://git.wowace.com/wow/libdualspec-1-0/mainline.git
 
 ignore:
-  - localcheck.lua
+  - locale-export.lua
