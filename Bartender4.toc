@@ -63,7 +63,6 @@ BagBar.lua
 PetBar.lua
 StanceBar.lua
 MicroMenu.lua
-RepXPBar.lua
 VehicleBar.lua
 BlizzardArt.lua
 ExtraActionBar.lua
@@ -83,7 +82,6 @@ Options\BagBar.lua
 Options\MicroMenu.lua
 Options\PetBar.lua
 Options\StanceBar.lua
-Options\RepXPBar.lua
 Options\VehicleBar.lua
 Options\BlizzardArt.lua
 Options\ExtraActionBar.lua
