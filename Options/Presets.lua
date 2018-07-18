@@ -12,8 +12,6 @@ local Bar = Bartender4.Bar.prototype
 
 -- GLOBALS: GetNumShapeshiftForms
 
-local WoW80 = select(4, GetBuildInfo()) >= 80000
-
 local PresetsMod = Bartender4:NewModule("Presets")
 
 function PresetsMod:ToggleModule(info, val)
@@ -32,16 +30,9 @@ end
 local function BuildSingleProfile()
 	local dy, config
 	dy = 0
-	if not PresetsMod.showRepBar then
-		dy = dy - 5
+	if not PresetsMod.showStatusBar then
+		dy = dy - 8
 	end
-	if not PresetsMod.showXPBar then
-		dy = dy - 6
-	end
-	if not PresetsMod.showAPBar then
-		dy = dy - 5
-	end
-	-- -8
 
 	Bartender4.db.profile.blizzardVehicle = false
 	Bartender4.db.profile.outofrange = "hotkey"
@@ -70,30 +61,12 @@ local function BuildSingleProfile()
 	config.enabled = false
 	Bartender4:GetModule("StanceBar"):Disable()
 
-	if not WoW80 then
-		if PresetsMod.showRepBar then
-			config = Bartender4.db:GetNamespace("RepBar").profile
-			config.enabled = true
-			config.position.scale = 0.44 -- Note: actually not possible via interface!
-			Bartender4:GetModule("RepBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -227, 57 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
-		end
-
-		if PresetsMod.showXPBar then
-			config = Bartender4.db:GetNamespace("XPBar").profile
-			config.enabled = true
-			config.position.scale = 0.49 -- Note: actually not possible via interface!
-			Bartender4:GetModule("XPBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -252.85, 52 )
-		end
-
-		if PresetsMod.showAPBar and Bartender4:GetModule("APBar", true) then
-			config = Bartender4.db:GetNamespace("RepBar").profile
-			config.enabled = true
-			config.position.scale = 0.44 -- Note: actually not possible via interface!
-			Bartender4:GetModule("RepBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -227, 57 + 5 + dy )
-		end
+	if PresetsMod.showStatusBar then
+		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
+		config.enabled = true
+		config.scale = 0.63
+		Bartender4:GetModule("StatusTrackingBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -256, 52)
 	end
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
@@ -109,14 +82,8 @@ end
 local function BuildDoubleProfile()
 	local dy, config
 	dy = 0
-	if not PresetsMod.showRepBar then
-		dy = dy - 8
-	end
-	if not PresetsMod.showXPBar then
-		dy = dy - 11
-	end
-	if not PresetsMod.showAPBar then
-		dy = dy - 8
+	if not PresetsMod.showStatusBar then
+		dy = dy - 16
 	end
 
 	Bartender4.db.profile.blizzardVehicle = true
@@ -147,27 +114,12 @@ local function BuildDoubleProfile()
 	config.enabled = false
 	Bartender4:GetModule("MicroMenu"):Disable()
 
-	if not WoW80 then
-		if PresetsMod.showRepBar then
-			config = Bartender4.db:GetNamespace("RepBar").profile
-			config.enabled = true
-			Bartender4:GetModule("RepBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -516, 65 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
-		end
-
-		if PresetsMod.showXPBar then
-			config = Bartender4.db:GetNamespace("XPBar").profile
-			config.enabled = true
-			Bartender4:GetModule("XPBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -516, 57 )
-		end
-
-		if PresetsMod.showAPBar and Bartender4:GetModule("APBar", true) then
-			config = Bartender4.db:GetNamespace("APBar").profile
-			config.enabled = true
-			Bartender4:GetModule("APBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -516, 65 + 8 + dy )
-		end
+	if PresetsMod.showStatusBar then
+		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
+		config.enabled = true
+		config.scale = 1.265
+		Bartender4:GetModule("StatusTrackingBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -515, 62)
 	end
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
@@ -190,14 +142,8 @@ end
 local function BuildBlizzardProfile()
 	local dy, config
 	dy = 0
-	if not PresetsMod.showRepBar then
-		dy = dy - 8
-	end
-	if not PresetsMod.showXPBar then
-		dy = dy - 11
-	end
-	if not PresetsMod.showAPBar then
-		dy = dy - 8
+	if not PresetsMod.showStatusBar then
+		dy = dy - 16
 	end
 
 	Bartender4.db.profile.blizzardVehicle = true
@@ -228,27 +174,12 @@ local function BuildBlizzardProfile()
 	config.padding = -2
 	SetBarLocation( config, "BOTTOM", 37.5, 41.75 )
 
-	if not WoW80 then
-		if PresetsMod.showRepBar then
-			config = Bartender4.db:GetNamespace("RepBar").profile
-			config.enabled = true
-			Bartender4:GetModule("RepBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -516, 65 + dy ) -- Note that dy is actually correct since it's only incorrect for the RepBar if the RepBar itself does not exist
-		end
-
-		if PresetsMod.showXPBar then
-			config = Bartender4.db:GetNamespace("XPBar").profile
-			config.enabled = true
-			Bartender4:GetModule("XPBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -516, 57 )
-		end
-
-		if PresetsMod.showAPBar and Bartender4:GetModule("APBar", true) then
-			config = Bartender4.db:GetNamespace("APBar").profile
-			config.enabled = true
-			Bartender4:GetModule("APBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -516, 65 + 8 + dy )
-		end
+	if PresetsMod.showStatusBar then
+		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
+		config.enabled = true
+		config.scale = 1.265
+		Bartender4:GetModule("StatusTrackingBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -515, 62)
 	end
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
@@ -291,9 +222,7 @@ end
 function PresetsMod:SetupOptions()
 	if not self.options then
 		PresetsMod.defaultType = "BLIZZARD"
-		self.showXPBar = true
-		self.showRepBar = true
-		self.showAPBar = Bartender4:GetModule("APBar", true) ~= nil
+		self.showStatusBar = true
 		local otbl = {
 			message1 = {
 				order = 1,
@@ -318,42 +247,16 @@ function PresetsMod:SetupOptions()
 				type = "description",
 				name = ""
 			},
-			xpbar = {
+			statusbar = {
 				order = 20,
 				type = "toggle",
-				name = L["Show XP Bar"],
-				get = function() return PresetsMod.showXPBar end,
-				set = function(info, val) PresetsMod.showXPBar = val end,
+				width = "full",
+				name = L["Status Tracking Bar (XP/Rep/...)"],
+				get = function() return PresetsMod.showStatusBar end,
+				set = function(info, val) PresetsMod.showStatusBar = val end,
 				disabled = function() return PresetsMod.defaultType == "RESET" end
 			},
-			nl2  = {
-					order = 21,
-					type = "description",
-					name = ""
-			},
-			repbar = {
-				order = 30,
-				type = "toggle",
-				name = L["Show Reputation Bar"],
-				get = function() return PresetsMod.showRepBar end,
-				set = function(info, val) PresetsMod.showRepBar = val end,
-				disabled = function() return PresetsMod.defaultType == "RESET" end
-			},
-			nl3 = {
-				order = 31,
-				type = "description",
-				name = ""
-			},
-			apbar = {
-				order = 35,
-				type = "toggle",
-				name = L["Show Artifact Power Bar"],
-				get = function() return PresetsMod.showAPBar end,
-				set = function(info, val) PresetsMod.showAPBar = val end,
-				disabled = function() return PresetsMod.defaultType == "RESET" end,
-				hidden = (Bartender4:GetModule("APBar", true) == nil),
-			},
-			nl4 = {
+			nl2 = {
 				order = 36,
 				type = "description",
 				name = ""
