@@ -340,6 +340,7 @@ function Bar:GetOptionObject()
 					desc = L["Hide this bar in a specific Stance or Form."],
 					values = getStanceTable,
 					disabled = customEnabled,
+					hidden = function() return GetNumShapeshiftForms() == 0 end,
 				},
 				customNl = {
 					order = 98,
