@@ -1,0 +1,8 @@
+language: minimal
+
+script: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
