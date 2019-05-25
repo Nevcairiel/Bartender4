@@ -1,0 +1,117 @@
+std = "lua51"
+max_line_length = false
+exclude_files = {
+	"libs/",
+	"locale/find-locale-strings.lua",
+	".luacheckrc"
+}
+
+ignore = {
+	"11./BINDING_.*", -- Setting an undefined (Keybinding) global variable
+	"211", -- Unused local variable
+	"211/L", -- Unused local variable "L"
+	"212", -- Unused argument
+	"213", -- Unused loop variable
+	"311", -- Value assigned to a local variable is unused
+	"542", -- empty if branch
+}
+
+globals = {
+	"_G",
+	"bit",
+	"max", "min", "floor", "ceil",
+	"format",
+	"hooksecurefunc",
+
+	-- misc custom, third party libraries
+	"LibStub",
+
+	-- API functions
+	"CanExitVehicle",
+	"ClearOverrideBindings",
+	"CreateFrame",
+	"GetBindingKey",
+	"GetBindingText",
+	"GetCurrentBindingSet",
+	"GetModifiedClick",
+	"GetNumShapeshiftForms",
+	"GetPetActionCooldown",
+	"GetPetActionInfo",
+	"GetPetActionsUsable",
+	"GetShapeshiftFormCooldown",
+	"GetShapeshiftFormInfo",
+	"GetSpecialization",
+	"GetSpellBookItemInfo",
+	"GetSpellInfo",
+	"InCombatLockdown",
+	"IsModifiedClick",
+	"MouseIsOver",
+	"PickupPetAction",
+	"PlaySound",
+	"SaveBindings",
+	"SetBinding",
+	"SetModifiedClick",
+	"SetOverrideBindingClick",
+	"UnitClass",
+	"UnitHasVehicleUI",
+	"VehicleExit",
+
+	-- FrameXML functions
+	"AutoCastShine_AutoCastStart",
+	"AutoCastShine_AutoCastStop",
+	"CooldownFrame_Set",
+	"RegisterStateDriver",
+	"SetDesaturation",
+	"UnregisterStateDriver",
+	"UpdateMicroButtonsParent",
+
+	-- FrameXML Frames
+	"AchievementMicroButton",
+	"CharacterBag0Slot",
+	"CharacterBag1Slot",
+	"CharacterBag2Slot",
+	"CharacterBag3Slot",
+	"CharacterMicroButton",
+	"CollectionsMicroButton",
+	"EJMicroButton",
+	"ExtraActionBarFrame",
+	"GuildMicroButton",
+	"HelpMicroButton",
+	"LFDMicroButton",
+	"MainMenuBar",
+	"MainMenuBarArtFrame",
+	"MainMenuBarBackpackButton",
+	"MainMenuMicroButton",
+	"MainMenuBarVehicleLeaveButton",
+	"MicroButtonAndBagsBar",
+	"MultiBarBottomLeft",
+	"MultiBarBottomRight",
+	"MultiBarLeft",
+	"MultiBarRight",
+	"OverrideActionBar",
+	"PetActionBarFrame",
+	"PetBattleFrame",
+	"PlayerTalentFrame",
+	"PossessBarFrame",
+	"QueueStatusFrame",
+	"QuestLogMicroButton",
+	"SpellbookMicroButton",
+	"SpellFlyout",
+	"StanceBarFrame",
+	"StatusTrackingBarManager",
+	"StoreMicroButton",
+	"TalentMicroButton",
+	"UIParent",
+	"WorldFrame",
+	"ZoneAbilityFrame",
+
+	-- FrameXML Misc
+	"ChatFontNormal",
+	"GameFontNormal",
+	"UIPARENT_MANAGED_FRAME_POSITIONS",
+
+	-- FrameXML Constants
+	"LEAVE_VEHICLE",
+	"OKAY",
+	"SOUNDKIT",
+}
