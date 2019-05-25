@@ -1,6 +1,8 @@
 package-as: Bartender4
 externals:
-  libs/LibStub: https://repos.wowace.com/wow/libstub/tags/1.0
+  libs/LibStub:
+    url: https://repos.wowace.com/wow/libstub/trunk/
+    tag: 1.0
   libs/CallbackHandler-1.0: https://repos.wowace.com/wow/callbackhandler/trunk/CallbackHandler-1.0
   libs/AceAddon-3.0: https://repos.wowace.com/wow/ace3/trunk/AceAddon-3.0
   libs/AceConsole-3.0: https://repos.wowace.com/wow/ace3/trunk/AceConsole-3.0
