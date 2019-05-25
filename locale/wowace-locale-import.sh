@@ -15,7 +15,7 @@ do_import() {
 
   echo -n "Importing $namespace..."
   result=$( curl -sS -X POST -w "%{http_code}" -o "$tempfile" \
-    -H "X-Api-Token: $CF_API_TOKEN" \
+    -H "X-Api-Token: $CF_API_KEY" \
     -F "metadata={ language: \"enUS\", namespace: \"$namespace\", \"missing-phrase-handling\": \"DeletePhrase\" }" \
     -F "localizations=<$file" \
     "https://www.wowace.com/api/projects/13501/localization/import"
@@ -31,7 +31,6 @@ do_import() {
 }
 
 lua locale/find-locale-strings.lua || exit 1
-tra
 
 do_import "" "exported-locale-strings.lua"
 
