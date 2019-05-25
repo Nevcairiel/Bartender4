@@ -20,4 +20,5 @@ externals:
 
 ignore:
   - .travis.yml
-  - locale-import.lua
+  - locale/find-locale-strings.lua
+  - locale/wowace-locale-import.sh
