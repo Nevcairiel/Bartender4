@@ -1,6 +1,13 @@
 language: minimal
 
-script: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash
+addons:
+  apt:
+    packages:
+      - luarocks
+
+script: 
+  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then ./locale/wowace-locale-import.sh; fi
+  - curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash
 
 notifications:
   email:
