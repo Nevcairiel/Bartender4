@@ -6,7 +6,7 @@ addons:
       - luarocks
 
 script: 
-  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then ./locale/wowace-locale-import.sh; fi
+  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then ./locale/wowace-locale-import.sh || travis_terminate 1; fi 
   - curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash
 
 notifications:
