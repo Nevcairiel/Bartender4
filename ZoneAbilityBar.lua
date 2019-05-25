@@ -34,7 +34,7 @@ function ZoneAbilityBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("ZoneAbilityBar", self.db.profile, L["Zone Ability Bar"]), {__index = ZoneAbilityBar})
 		self.bar.content = ZoneAbilityFrame
-		
+
 		self.bar.content.ignoreFramePositionManager = true
 		self.bar.content:SetParent(self.bar)
 		--self.bar.content:SetFrameLevel(self.bar:GetFrameLevel() + 1)

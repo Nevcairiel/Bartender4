@@ -33,7 +33,7 @@ function StatusBarMod:OnEnable()
 		self.bar.content:SetSize(804, 14)
 		self.bar.content:Show()
 		self.bar.content.OnStatusBarsUpdated = function() end
-		
+
 		self.bar.manager = CreateFrame("Frame", "BT4StatusBarTrackingManager", self.bar.content, "StatusTrackingBarManagerTemplate")
 		self.bar.manager:AddBarFromTemplate("FRAME", "ReputationStatusBarTemplate")
 		self.bar.manager:AddBarFromTemplate("FRAME", "HonorStatusBarTemplate")

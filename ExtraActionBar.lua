@@ -34,7 +34,7 @@ function ExtraActionBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("ExtraActionBar", self.db.profile, L["Extra Action Bar"]), {__index = ExtraActionBar})
 		self.bar.content = ExtraActionBarFrame
-		
+
 		self.bar.content.ignoreFramePositionManager = true
 		self.bar.content:SetParent(self.bar)
 		--self.bar.content:SetFrameLevel(self.bar:GetFrameLevel() + 1)

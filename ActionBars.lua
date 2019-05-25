@@ -168,7 +168,7 @@ end
 
 -- Creates a new bar object based on the id and the specified config
 function BT4ActionBars:Create(id, config)
-	local id = tostring(id)
+	id = tostring(id)
 	local bar = setmetatable(Bartender4.StateBar:Create(id, config, (L["Bar %s"]):format(id)), ActionBar_MT)
 	bar.module = self
 
