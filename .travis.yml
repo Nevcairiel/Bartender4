@@ -7,11 +7,12 @@ addons:
 
 install: luarocks install --local luacheck
 
-script: /home/travis/.luarocks/bin/luacheck . --no-color -q
+before_script:
+  - /home/travis/.luarocks/bin/luacheck . --no-color -q
+  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then ./locale/wowace-locale-import.sh; fi
 
-after_success:
-  - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then ./locale/wowace-locale-import.sh || travis_terminate 1; fi
-  - curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash; if [[ $? != 0 ]]; then TRAVIS_TEST_RESULT=1; fi
+script:
+  - curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash
 
 notifications:
   email:
