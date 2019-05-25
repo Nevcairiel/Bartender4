@@ -139,38 +139,8 @@ function Bartender4:HideBlizzard()
 	MainMenuBarArtFrame:Hide()
 	MainMenuBarArtFrame:SetParent(UIHider)
 
-	if MicroButtonAndBagsBar then
-		MicroButtonAndBagsBar:Hide()
-		MicroButtonAndBagsBar:SetParent(UIHider)
-	end
-
-	if MainMenuExpBar then
-		--MainMenuExpBar:UnregisterAllEvents()
-		--MainMenuExpBar:Hide()
-		MainMenuExpBar:SetParent(UIHider)
-		MainMenuExpBar:SetDeferAnimationCallback(nil)
-	end
-
-	if MainMenuBarMaxLevelBar then
-		MainMenuBarMaxLevelBar:Hide()
-		MainMenuBarMaxLevelBar:SetParent(UIHider)
-	end
-
-	if ReputationWatchBar then
-		--ReputationWatchBar:UnregisterAllEvents()
-		--ReputationWatchBar:Hide()
-		ReputationWatchBar:SetParent(UIHider)
-	end
-
-	if ArtifactWatchBar then
-		ArtifactWatchBar:SetParent(UIHider)
-		ArtifactWatchBar.StatusBar:SetDeferAnimationCallback(nil)
-	end
-
-	if HonorWatchBar then
-		HonorWatchBar:SetParent(UIHider)
-		HonorWatchBar.StatusBar:SetDeferAnimationCallback(nil)
-	end
+	MicroButtonAndBagsBar:Hide()
+	MicroButtonAndBagsBar:SetParent(UIHider)
 
 	if StatusTrackingBarManager then
 		StatusTrackingBarManager:Hide()
