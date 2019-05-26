@@ -18,6 +18,10 @@ ignore = {
 
 globals = {
 	"_G",
+	"UIPARENT_MANAGED_FRAME_POSITIONS",
+}
+
+read_globals = {
 	"bit",
 	"max", "min", "floor", "ceil",
 	"format",
@@ -108,7 +112,6 @@ globals = {
 	-- FrameXML Misc
 	"ChatFontNormal",
 	"GameFontNormal",
-	"UIPARENT_MANAGED_FRAME_POSITIONS",
 
 	-- FrameXML Constants
 	"LEAVE_VEHICLE",
