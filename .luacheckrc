@@ -36,6 +36,7 @@ read_globals = {
 	"CreateFrame",
 	"GetBindingKey",
 	"GetBindingText",
+	"GetBuildInfo",
 	"GetCurrentBindingSet",
 	"GetModifiedClick",
 	"GetNumShapeshiftForms",
@@ -112,6 +113,7 @@ read_globals = {
 	-- FrameXML Misc
 	"ChatFontNormal",
 	"GameFontNormal",
+	"MICRO_BUTTONS",
 
 	-- FrameXML Constants
 	"LEAVE_VEHICLE",
