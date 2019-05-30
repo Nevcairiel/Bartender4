@@ -4,6 +4,9 @@
 ]]
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
+
+if not CanExitVehicle then return end
+
 -- register module
 local VehicleBarMod = Bartender4:NewModule("Vehicle", "AceHook-3.0")
 

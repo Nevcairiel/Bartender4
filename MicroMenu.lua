@@ -41,17 +41,9 @@ function MicroMenuMod:OnEnable()
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("MicroMenu", self.db.profile, L["Micro Menu"]), {__index = MicroMenuBar})
 		local buttons = {}
 
-		table_insert(buttons, CharacterMicroButton)
-		table_insert(buttons, SpellbookMicroButton)
-		table_insert(buttons, TalentMicroButton)
-		table_insert(buttons, AchievementMicroButton)
-		table_insert(buttons, QuestLogMicroButton)
-		table_insert(buttons, GuildMicroButton)
-		table_insert(buttons, LFDMicroButton)
-		table_insert(buttons, CollectionsMicroButton)
-		table_insert(buttons, EJMicroButton)
-		table_insert(buttons, StoreMicroButton)
-		table_insert(buttons, MainMenuMicroButton)
+		for i=1, #MICRO_BUTTONS do
+			table_insert(buttons, _G[MICRO_BUTTONS[i]])
+		end
 		self.bar.buttons = buttons
 
 		MicroMenuMod.button_count = #buttons
@@ -65,10 +57,14 @@ function MicroMenuMod:OnEnable()
 	end
 
 	self:SecureHook("UpdateMicroButtons", "MicroMenuBarShow")
-	self:SecureHookScript(OverrideActionBar, "OnShow", "BlizzardBarShow")
-	self:SecureHookScript(OverrideActionBar, "OnHide", "MicroMenuBarShow")
-	self:SecureHookScript(PetBattleFrame.BottomFrame.MicroButtonFrame, "OnShow", "BlizzardBarShow")
-	self:SecureHookScript(PetBattleFrame.BottomFrame.MicroButtonFrame, "OnHide", "MicroMenuBarShow")
+	if OverrideActionBar then
+		self:SecureHookScript(OverrideActionBar, "OnShow", "BlizzardBarShow")
+		self:SecureHookScript(OverrideActionBar, "OnHide", "MicroMenuBarShow")
+	end
+	if PetBattleFrame then
+		self:SecureHookScript(PetBattleFrame.BottomFrame.MicroButtonFrame, "OnShow", "BlizzardBarShow")
+		self:SecureHookScript(PetBattleFrame.BottomFrame.MicroButtonFrame, "OnHide", "MicroMenuBarShow")
+	end
 
 	self.bar:Enable()
 	self:ToggleOptions()
@@ -83,7 +79,7 @@ end
 
 function MicroMenuMod:MicroMenuBarShow()
 	-- Only "fix" button anchors if another frame that uses the MicroButtonBar isn't active.
-	if not (OverrideActionBar:IsShown() or PetBattleFrame:IsShown()) then
+	if not ((OverrideActionBar and OverrideActionBar:IsShown()) or (PetBattleFrame and PetBattleFrame:IsShown())) then
 		UpdateMicroButtonsParent(self.bar)
 		self.bar:UpdateButtonLayout()
 	end
@@ -112,7 +108,7 @@ function MicroMenuBar:ApplyConfig(config)
 	self:UpdateButtonLayout()
 end
 
-if HelpMicroButton then
+if HelpMicroButton and StoreMicroButton then
 	function MicroMenuBar:UpdateButtonLayout()
 		ButtonBar.UpdateButtonLayout(self)
 		-- If the StoreButton is hidden we want to replace it with the Help button

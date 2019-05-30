@@ -4,6 +4,9 @@
 ]]
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
+
+if not ExtraActionBarFrame then return end
+
 -- register module
 local ExtraActionBarMod = Bartender4:NewModule("ExtraActionBar", "AceHook-3.0")
 

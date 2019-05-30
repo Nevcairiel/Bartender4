@@ -4,6 +4,9 @@
 ]]
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
+
+if not ZoneAbilityFrame then return end
+
 -- register module
 local ZoneAbilityBarMod = Bartender4:NewModule("ZoneAbilityBar", "AceHook-3.0")
 

@@ -62,7 +62,9 @@ function Bartender4:OnInitialize()
 	self:UpdateBlizzardVehicle()
 
 	-- fix the strata of the QueueStatusFrame, otherwise it overlaps our bars
-	QueueStatusFrame:SetParent(UIParent)
+	if QueueStatusFrame then -- classic doesn't have this
+		QueueStatusFrame:SetParent(UIParent)
+	end
 
 	if LDB then
 		createLDBLauncher()
@@ -133,14 +135,18 @@ function Bartender4:HideBlizzard()
 	local animations = {MainMenuBar.slideOut:GetAnimations()}
 	animations[1]:SetOffset(0,0)
 
-	animations = {OverrideActionBar.slideOut:GetAnimations()}
-	animations[1]:SetOffset(0,0)
+	if OverrideActionBar then -- classic doesn't have this
+		animations = {OverrideActionBar.slideOut:GetAnimations()}
+		animations[1]:SetOffset(0,0)
+	end
 
 	MainMenuBarArtFrame:Hide()
 	MainMenuBarArtFrame:SetParent(UIHider)
 
-	MicroButtonAndBagsBar:Hide()
-	MicroButtonAndBagsBar:SetParent(UIHider)
+	if MicroButtonAndBagsBar then -- classic doesn't have this
+		MicroButtonAndBagsBar:Hide()
+		MicroButtonAndBagsBar:SetParent(UIHider)
+	end
 
 	if StatusTrackingBarManager then
 		StatusTrackingBarManager:Hide()
@@ -155,9 +161,11 @@ function Bartender4:HideBlizzard()
 	--BonusActionBarFrame:Hide()
 	--BonusActionBarFrame:SetParent(UIHider)
 
-	--PossessBarFrame:UnregisterAllEvents()
-	PossessBarFrame:Hide()
-	PossessBarFrame:SetParent(UIHider)
+	if PossessBarFrame then -- classic doesn't have this
+		--PossessBarFrame:UnregisterAllEvents()
+		PossessBarFrame:Hide()
+		PossessBarFrame:SetParent(UIHider)
+	end
 
 	PetActionBarFrame:UnregisterAllEvents()
 	PetActionBarFrame:Hide()
@@ -237,6 +245,7 @@ function Bartender4:RegisterPetBattleDriver()
 end
 
 function Bartender4:UpdateBlizzardVehicle()
+	if not OverrideActionBar then return end -- classic doesn't have this
 	if self.db.profile.blizzardVehicle then
 		--MainMenuBar:SetParent(UIParent)
 		OverrideActionBar:SetParent(UIParent)

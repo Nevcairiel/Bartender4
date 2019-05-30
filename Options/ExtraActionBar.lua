@@ -5,7 +5,8 @@
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
-local ExtraActionBarMod = Bartender4:GetModule("ExtraActionBar")
+local ExtraActionBarMod = Bartender4:GetModule("ExtraActionBar", true)
+if not ExtraActionBarMod then return end
 
 -- fetch upvalues
 local Bar = Bartender4.Bar.prototype

@@ -11,6 +11,8 @@ local PetBarMod = Bartender4:NewModule("PetBar", "AceEvent-3.0")
 local ActionBars = Bartender4:GetModule("ActionBars")
 local ButtonBar = Bartender4.ButtonBar.prototype
 
+local WoWClassic = select(4, GetBuildInfo()) < 20000
+
 local setmetatable, select = setmetatable, select
 
 -- GLOBALS: InCombatLockdown, ClearOverrideBindings, GetBindingKey, SetOverrideBindingClick
@@ -57,7 +59,9 @@ function PetBarMod:OnEnable()
 	self.bar:RegisterEvent("PET_BAR_UPDATE_COOLDOWN")
 	self.bar:RegisterEvent("PET_BAR_SHOWGRID")
 	self.bar:RegisterEvent("PET_BAR_HIDEGRID")
-	self.bar:RegisterEvent("PET_SPECIALIZATION_CHANGED")
+	if not WoWClassic then
+		self.bar:RegisterEvent("PET_SPECIALIZATION_CHANGED")
+	end
 
 	self:ApplyConfig()
 	self:ToggleOptions()

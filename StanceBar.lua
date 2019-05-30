@@ -10,6 +10,8 @@ local StanceBarMod = Bartender4:NewModule("StanceBar", "AceEvent-3.0")
 -- fetch upvalues
 local ButtonBar = Bartender4.ButtonBar.prototype
 
+local WoWClassic = select(4, GetBuildInfo()) < 20000
+
 local _G = _G
 local format, setmetatable, min, select = string.format, setmetatable, min, select
 
@@ -48,15 +50,17 @@ function StanceBarMod:OnEnable()
 	self:ToggleOptions()
 	self.bar:RegisterEvent("PLAYER_ENTERING_WORLD")
 	self.bar:RegisterEvent("UPDATE_BONUS_ACTIONBAR")
-	self.bar:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR")
-	self.bar:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
 	self.bar:RegisterEvent("ACTIONBAR_PAGE_CHANGED")
 	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_FORM")
 	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_FORMS")
 	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_USABLE")
-	self.bar:RegisterEvent("UPDATE_POSSESS_BAR")
 	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_COOLDOWN")
 	self.bar:RegisterEvent("PLAYER_REGEN_ENABLED")
+	if not WoWClassic then
+		self.bar:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR")
+		self.bar:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
+		self.bar:RegisterEvent("UPDATE_POSSESS_BAR")
+	end
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
 	self:ReassignBindings()
 	self:ApplyConfig()
