@@ -42,7 +42,9 @@ function MicroMenuMod:OnEnable()
 		local buttons = {}
 
 		for i=1, #MICRO_BUTTONS do
-			table_insert(buttons, _G[MICRO_BUTTONS[i]])
+			if not StoreMicroButton or MICRO_BUTTONS[i] ~= "HelpMicroButton" then
+				table_insert(buttons, _G[MICRO_BUTTONS[i]])
+			end
 		end
 		self.bar.buttons = buttons
 
