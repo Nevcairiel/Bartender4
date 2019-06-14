@@ -12,9 +12,36 @@ local ButtonBar = Bartender4.ButtonBar.prototype
 
 local pairs, setmetatable, table_insert = pairs, setmetatable, table.insert
 
+local WoWClassic = select(4, GetBuildInfo()) < 20000
+
 -- GLOBALS: CharacterMicroButton, SpellbookMicroButton, TalentMicroButton, AchievementMicroButton, QuestLogMicroButton, GuildMicroButton
 -- GLOBALS: LFDMicroButton, CollectionsMicroButton, EJMicroButton, MainMenuMicroButton
 -- GLOBALS: HasVehicleActionBar, UnitVehicleSkin, HasOverrideActionBar, GetOverrideBarSkin
+
+local BT_MICRO_BUTTONS = WoWClassic and {
+	"CharacterMicroButton",
+	"SpellbookMicroButton",
+	"TalentMicroButton",
+	"QuestLogMicroButton",
+	"SocialsMicroButton",
+	"WorldMapMicroButton",
+	"MainMenuMicroButton",
+	"HelpMicroButton",
+	}
+	or
+	{
+	"CharacterMicroButton",
+	"SpellbookMicroButton",
+	"TalentMicroButton",
+	"AchievementMicroButton",
+	"QuestLogMicroButton",
+	"GuildMicroButton",
+	"LFDMicroButton",
+	"CollectionsMicroButton",
+	"EJMicroButton",
+	"StoreMicroButton",
+	"MainMenuMicroButton",
+	}
 
 -- create prototype information
 local MicroMenuBar = setmetatable({}, {__index = ButtonBar})
@@ -41,10 +68,8 @@ function MicroMenuMod:OnEnable()
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("MicroMenu", self.db.profile, L["Micro Menu"]), {__index = MicroMenuBar})
 		local buttons = {}
 
-		for i=1, #MICRO_BUTTONS do
-			if not StoreMicroButton or MICRO_BUTTONS[i] ~= "HelpMicroButton" then
-				table_insert(buttons, _G[MICRO_BUTTONS[i]])
-			end
+		for i=1, #BT_MICRO_BUTTONS do
+			table_insert(buttons, _G[BT_MICRO_BUTTONS[i]])
 		end
 		self.bar.buttons = buttons
 
@@ -90,7 +115,7 @@ end
 function MicroMenuMod:BlizzardBarShow()
 	-- Only reset button positions not set in MoveMicroButtons()
 	for i,v in pairs(self.bar.buttons) do
-		if (((i-1)%6) > 0) then
+		if v ~= CharacterMicroButton and v ~= LFDMicroButton then
 			v:ClearSetPoint(unpack(self.bar.anchors[i]))
 		end
 	end
