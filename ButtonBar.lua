@@ -18,11 +18,7 @@ local defaults = Bartender4:Merge({
 	hidehotkey = false,
 	hideequipped = false,
 	skin = {
-		ID = "DreamLayout",
-		Backdrop = true,
-		Gloss = 0,
 		Zoom = false,
-		Colors = {},
 	},
 }, Bartender4.Bar.defaults)
 
@@ -30,7 +26,6 @@ Bartender4.ButtonBar = {}
 Bartender4.ButtonBar.prototype = ButtonBar
 Bartender4.ButtonBar.defaults = defaults
 
-local LBF = LibStub("LibButtonFacade", true)
 local Masque = LibStub("Masque", true)
 
 function Bartender4.ButtonBar:Create(id, config, name)
@@ -38,38 +33,15 @@ function Bartender4.ButtonBar:Create(id, config, name)
 
 	if Masque then
 		bar.MasqueGroup = Masque:Group("Bartender4", tostring(id))
-	elseif LBF then
-		bar.LBFGroup = LBF:Group("Bartender4", tostring(id))
-		bar.LBFGroup.SkinID = config.skin.ID or "Blizzard"
-		bar.LBFGroup.Backdrop = config.skin.Backdrop
-		bar.LBFGroup.Gloss = config.skin.Gloss
-		bar.LBFGroup.Colors = config.skin.Colors
-
-		LBF:RegisterSkinCallback("Bartender4", self.SkinChanged, self)
 	end
 
 	return bar
 end
 
-local barregistry = Bartender4.Bar.barregistry
-function Bartender4.ButtonBar:SkinChanged(SkinID, Gloss, Backdrop, Group, Button, Colors)
-	local bar = barregistry[tostring(Group)]
-	if not bar then return end
-
-	bar:SkinChanged(SkinID, Gloss, Backdrop, Colors, Button)
-end
-
 ButtonBar.BT4BarType = "ButtonBar"
-
-function ButtonBar:UpdateSkin()
-	if not self.LBFGroup then return end
-	local config = self.config
-	self.LBFGroup:Skin(config.skin.ID, config.skin.Gloss, config.skin.Backdrop, config.skin.Colors)
-end
 
 function ButtonBar:ApplyConfig(config)
 	Bar.ApplyConfig(self, config)
-	ButtonBar.UpdateSkin(self)
 	-- any module inherting this template should call UpdateButtonLayout after setting up its buttons, we cannot call it here
 	--self:UpdateButtonLayout()
 end
@@ -241,7 +213,7 @@ function ButtonBar:UpdateButtonLayout()
 		end
 	end
 
-	if not LBF and not Masque then
+	if not Masque then
 		for i = 1, #buttons do
 			local button = buttons[i]
 			if button.icon and self.config.skin.Zoom then
@@ -251,13 +223,6 @@ function ButtonBar:UpdateButtonLayout()
 			end
 		end
 	end
-end
-
-function ButtonBar:SkinChanged(SkinID, Gloss, Backdrop, Colors)
-	self.config.skin.ID = SkinID
-	self.config.skin.Gloss = Gloss
-	self.config.skin.Backdrop = Backdrop
-	self.config.skin.Colors = Colors
 end
 
 --[[===================================================================================

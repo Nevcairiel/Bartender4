@@ -23,7 +23,6 @@ local StanceBar = setmetatable({}, {__index = ButtonBar})
 local StanceButtonPrototype = CreateFrame("CheckButton")
 local StanceButton_MT = {__index = StanceButtonPrototype}
 
-local LBF = LibStub("LibButtonFacade", true)
 local Masque = LibStub("Masque", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
 
@@ -219,12 +218,6 @@ function StanceBarMod:CreateStanceButton(id)
 			Button = button
 		}
 		group:AddButton(button, button.MasqueButtonData)
-	elseif LBF then
-		local group = self.bar.LBFGroup
-		button.LBFButtonData = {
-			Button = button
-		}
-		group:AddButton(button, button.LBFButtonData)
 	end
 
 	return button

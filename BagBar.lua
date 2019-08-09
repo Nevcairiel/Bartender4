@@ -9,7 +9,6 @@ local BagBarMod = Bartender4:NewModule("BagBar", "AceHook-3.0")
 
 -- fetch upvalues
 local ButtonBar = Bartender4.ButtonBar.prototype
-local LBF = LibStub("LibButtonFacade", true)
 local Masque = LibStub("Masque", true)
 
 local _G = _G
@@ -88,10 +87,6 @@ function BagBar:FeedButtons()
 				local group = self.MasqueGroup
 				group:RemoveButton(btn)
 			end
-			if btn.LBFButtonData then
-				local group = self.LBFGroup
-				group:RemoveButton(btn)
-			end
 		end
 	else
 		self.buttons = {}
@@ -121,15 +116,6 @@ function BagBar:FeedButtons()
 				}
 			end
 			group:AddButton(v, v.MasqueButtonData)
-		elseif LBF then
-			local group = self.LBFGroup
-			if not v.LBFButtonData then
-				v.LBFButtonData = {
-					Button = v,
-					Icon = _G[v:GetName() .. "IconTexture"],
-				}
-			end
-			group:AddButton(v, v.LBFButtonData)
 		end
 
 		v.ClearSetPoint = clearSetPoint

@@ -9,7 +9,6 @@ local _, Bartender4 = ...
 local PetButtonPrototype = CreateFrame("CheckButton")
 local PetButton_MT = {__index = PetButtonPrototype}
 
-local LBF = LibStub("LibButtonFacade", true)
 local Masque = LibStub("Masque", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
 
@@ -93,13 +92,6 @@ function Bartender4.PetButton:Create(id, parent)
 			Normal = button.normalTexture,
 		}
 		group:AddButton(button, button.MasqueButtonData)
-	elseif LBF then
-		local group = parent.LBFGroup
-		button.LBFButtonData = {
-			Button = button,
-			Normal = button.normalTexture,
-		}
-		group:AddButton(button, button.LBFButtonData)
 	end
 	return button
 end
@@ -176,8 +168,6 @@ function PetButtonPrototype:ShowButton()
 	local backdrop, gloss
 	if Masque then
 		backdrop, gloss = Masque:GetBackdrop(self), Masque:GetGloss(self)
-	elseif LBF then
-		backdrop, gloss = LBF:GetBackdropLayer(self), LBF:GetGlossLayer(self)
 	end
 	-- Toggle backdrop/gloss
 	if backdrop then
@@ -198,8 +188,6 @@ function PetButtonPrototype:HideButton()
 	local backdrop, gloss
 	if Masque then
 		backdrop, gloss = Masque:GetBackdrop(self), Masque:GetGloss(self)
-	elseif LBF then
-		backdrop, gloss = LBF:GetBackdropLayer(self), LBF:GetGlossLayer(self)
 	end
 	-- Toggle backdrop/gloss
 	if backdrop then

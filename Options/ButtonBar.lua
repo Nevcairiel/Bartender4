@@ -78,10 +78,10 @@ function ButtonBar:GetOptionObject()
 			order = 59,
 			name = L["Zoom"],
 			type = "toggle",
-			desc = L["Toggle Button Zoom\nFor more style options you need to install ButtonFacade"],
+			desc = L["Toggle Button Zoom\nFor more style options you need to install Masque"],
 			get = optGetter,
 			set = optSetter,
-			hidden = function() return LibStub("LibButtonFacade", true) and true or false end,
+			hidden = function() return LibStub("Masque", true) and true or false end,
 		},
 		rows = {
 			order = 70,

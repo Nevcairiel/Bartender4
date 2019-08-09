@@ -201,8 +201,6 @@ function ActionBar:UpdateButtons(numbuttons)
 
 		if self.MasqueGroup then
 			buttons[i]:AddToMasque(self.MasqueGroup)
-		elseif self.LBFGroup then
-			buttons[i]:AddToButtonFacade(self.LBFGroup)
 		end
 
 		self:SetupSmartButton(buttons[i])
@@ -241,12 +239,6 @@ function ActionBar:UpdateButtons(numbuttons)
 	self:SetClickThrough()
 	self:UpdateSelfCast() -- update selfcast and states
 end
-
-function ActionBar:SkinChanged(...)
-	StateBar.SkinChanged(self, ...)
-	self:ForAll("UpdateAction")
-end
-
 
 --[[===================================================================================
 	ActionBar Config Interface

@@ -65,7 +65,6 @@ end
 
 VehicleBar.button_width = 32
 VehicleBar.button_height = 32
-VehicleBar.LBFOverride = true
 function VehicleBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 
