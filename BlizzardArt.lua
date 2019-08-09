@@ -139,6 +139,9 @@ function BlizzardArt:ApplyConfig()
 		self.rightCap:Show()
 	end
 
+	if MainMenuBarPerformanceBarFrame then
+		MainMenuBarPerformanceBarFrame:Hide()
+	end
 	if config.artLayout == "CLASSIC" then -- Classical layout: one bar, micro menu and bags
 		self:SetSize(1024, 53)
 		self.barTex1:SetWidth(256)
@@ -151,6 +154,14 @@ function BlizzardArt:ApplyConfig()
 		self.barTex3:SetTexCoord(0.0, 1.0, 0.08203125, 0.25) -- Last quarter of classic bar
 		self.barTex3b:Hide()
 		self.rightCap:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 992, -48)
+
+		if MainMenuBarPerformanceBarFrame then
+			MainMenuBarPerformanceBarFrame:SetParent(self)
+			MainMenuBarPerformanceBarFrame:ClearAllPoints()
+			MainMenuBarPerformanceBarFrame:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 781, -58)
+			MainMenuBarPerformanceBarFrame:Show()
+			MainMenuBarPerformanceBarFrame:SetFrameLevel(self:GetFrameLevel() - 1)
+		end
 	elseif config.artLayout == "TWOBAR" then -- Two bars next to each other
 		self:SetSize(1024, 53)
 		self.barTex1:SetWidth(247) -- Tex1b will complement the other 9 pixels

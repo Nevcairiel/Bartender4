@@ -186,6 +186,11 @@ function Bartender4:HideBlizzard()
 		end
 	end
 
+	if MainMenuBarPerformanceBarFrame then
+		MainMenuBarPerformanceBarFrame:Hide()
+		MainMenuBarPerformanceBarFrame:SetParent(UIHider)
+	end
+
 	self:RegisterPetBattleDriver()
 end
 
