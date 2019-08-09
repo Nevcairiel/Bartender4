@@ -15,6 +15,8 @@ local LibDualSpec = LibStub("LibDualSpec-1.0", true)
 local _G = _G
 local type, pairs, hooksecurefunc = type, pairs, hooksecurefunc
 
+local WoWClassic = select(4, GetBuildInfo()) < 20000
+
 -- GLOBALS: LibStub, UIParent, PlaySound, SOUNDKIT, RegisterStateDriver, UnregisterStateDriver
 -- GLOBALS: BINDING_HEADER_Bartender4, BINDING_CATEGORY_Bartender4, BINDING_NAME_TOGGLEACTIONBARLOCK, BINDING_NAME_BTTOGGLEACTIONBARLOCK
 -- GLOBALS: BINDING_HEADER_BT4PET, BINDING_CATEGORY_BT4PET, BINDING_HEADER_BT4STANCE, BINDING_CATEGORY_BT4STANCE
@@ -178,7 +180,7 @@ function Bartender4:HideBlizzard()
 	PetActionBarFrame:Hide()
 	PetActionBarFrame:SetParent(UIHider)
 
-	if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then
+	if not WoWClassic then
 		if PlayerTalentFrame then
 			PlayerTalentFrame:UnregisterEvent("ACTIVE_TALENT_GROUP_CHANGED")
 		else

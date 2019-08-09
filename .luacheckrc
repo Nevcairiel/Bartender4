@@ -93,6 +93,7 @@ read_globals = {
 	"MultiBarBottomRight",
 	"MultiBarLeft",
 	"MultiBarRight",
+	"MultiCastActionBarFrame",
 	"OverrideActionBar",
 	"PetActionBarFrame",
 	"PetBattleFrame",
@@ -119,4 +120,9 @@ read_globals = {
 	"LEAVE_VEHICLE",
 	"OKAY",
 	"SOUNDKIT",
+
+	-- Classic-only
+	"MainMenuBarPerformanceBarFrame",
+	"MainMenuExpBar",
+	"ReputationWatchBar",
 }
