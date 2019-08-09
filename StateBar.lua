@@ -82,7 +82,36 @@ end
 local modifiers = { "ctrl", "alt", "shift" }
 
 -- specifiy the available stances for each class
-local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
+local DefaultStanceMap
+
+if WoWClassic then
+DefaultStanceMap = setmetatable({}, { __index = function(t,k)
+	local newT = nil
+	if k == "DRUID" then
+		newT = {
+			{ id = "bear", name = GetSpellInfo(5487), index = 3 },
+			{ id = "cat", name = GetSpellInfo(768), index = 1 },
+				-- prowl is virtual, no real stance
+			{ id = "prowl", name = ("%s (%s)"):format((GetSpellInfo(768)), (GetSpellInfo(5215))), index = false},
+			{ id = "moonkin", name = GetSpellInfo(24858), index = 4 },
+		}
+	elseif k == "ROGUE" then
+		newT = {
+			{ id = "stealth", name = GetSpellInfo(1784), index = 1 },
+		}
+	elseif k ==  "WARRIOR" then
+		newT = {
+			{ id = "battle", name = GetSpellInfo(2457), index = 1 },
+			{ id = "def", name = GetSpellInfo(71), index = 2 },
+			{ id = "berserker", name = GetSpellInfo(2458), index = 3 },
+		}
+	end
+	rawset(t, k, newT)
+
+	return newT
+end})
+else
+DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 	local newT = nil
 	if k == "DRUID" then
 		newT = {
@@ -101,6 +130,7 @@ local DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 
 	return newT
 end})
+end
 Bartender4.StanceMap = DefaultStanceMap
 
 local stancemap
