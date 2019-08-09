@@ -16,6 +16,8 @@ local _G = _G
 local next, pairs, setmetatable = next, pairs, setmetatable
 local table_insert, table_remove = table.insert, table.remove
 
+local WoWClassic = select(4, GetBuildInfo()) < 20000
+
 -- GLOBALS: UIParent, MainMenuBarBackpackButton, CharacterBag0Slot, CharacterBag1Slot, CharacterBag2Slot, CharacterBag3Slot
 
 -- create prototype information
@@ -66,8 +68,13 @@ local function clearSetPoint(btn, ...)
 	btn:SetPoint(...)
 end
 
+if WoWClassic then
+BagBar.button_width = 37
+BagBar.button_height = 37
+else
 BagBar.button_width = 30
 BagBar.button_height = 30
+end
 BagBarMod.button_count = 5
 function BagBar:FeedButtons()
 	local count = 1

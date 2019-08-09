@@ -122,8 +122,13 @@ function MicroMenuMod:BlizzardBarShow()
 end
 
 
+if WoWClassic then
+MicroMenuBar.button_width = 29
+MicroMenuBar.button_height = 58
+else
 MicroMenuBar.button_width = 28
 MicroMenuBar.button_height = 36
+end
 function MicroMenuBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
 

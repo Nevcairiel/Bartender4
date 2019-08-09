@@ -12,6 +12,8 @@ local Bar = Bartender4.Bar.prototype
 
 -- GLOBALS: GetNumShapeshiftForms
 
+local WoWClassic = select(4, GetBuildInfo()) < 20000
+
 local PresetsMod = Bartender4:NewModule("Presets")
 
 function PresetsMod:ToggleModule(info, val)
@@ -61,7 +63,7 @@ local function BuildSingleProfile()
 	config.enabled = false
 	Bartender4:GetModule("StanceBar"):Disable()
 
-	if PresetsMod.showStatusBar then
+	if PresetsMod.showStatusBar and not WoWClassic then
 		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
 		config.enabled = true
 		config.scale = 0.63
@@ -114,7 +116,7 @@ local function BuildDoubleProfile()
 	config.enabled = false
 	Bartender4:GetModule("MicroMenu"):Disable()
 
-	if PresetsMod.showStatusBar then
+	if PresetsMod.showStatusBar and not WoWClassic then
 		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
 		config.enabled = true
 		config.scale = 1.265
@@ -142,7 +144,7 @@ end
 local function BuildBlizzardProfile()
 	local dy, config
 	dy = 0
-	if not PresetsMod.showStatusBar then
+	if not PresetsMod.showStatusBar or WoWClassic then
 		dy = dy - 16
 	end
 
@@ -165,21 +167,33 @@ local function BuildBlizzardProfile()
 	config.actionbars[6].padding = 6
 	SetBarLocation( config.actionbars[6], "BOTTOM", -510, 110 + dy )
 
-	config = Bartender4.db:GetNamespace("BagBar").profile
-	config.onebag = false
-	SetBarLocation( config, "BOTTOM", 345, 38.5 )
+	if WoWClassic then
+		config = Bartender4.db:GetNamespace("BagBar").profile
+		config.onebag = false
+		config.padding = 5
+		SetBarLocation( config, "BOTTOM", 296, 40)
 
-	config = Bartender4.db:GetNamespace("MicroMenu").profile
-	config.position.scale = 1.0
-	config.padding = -2
-	SetBarLocation( config, "BOTTOM", 37.5, 41.75 )
+		config = Bartender4.db:GetNamespace("MicroMenu").profile
+		config.position.scale = 1.0
+		config.padding = -2
+		SetBarLocation( config, "BOTTOM", 33, 62)
+	else
+		config = Bartender4.db:GetNamespace("BagBar").profile
+		config.onebag = false
+		SetBarLocation( config, "BOTTOM", 345, 38.5 )
 
-	if PresetsMod.showStatusBar then
-		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
-		config.enabled = true
-		config.scale = 1.265
-		Bartender4:GetModule("StatusTrackingBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -515, 62)
+		config = Bartender4.db:GetNamespace("MicroMenu").profile
+		config.position.scale = 1.0
+		config.padding = -2
+		SetBarLocation( config, "BOTTOM", 37.5, 41.75 )
+
+		if PresetsMod.showStatusBar then
+			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
+			config.enabled = true
+			config.scale = 1.265
+			Bartender4:GetModule("StatusTrackingBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -515, 62)
+		end
 	end
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
@@ -254,7 +268,8 @@ function PresetsMod:SetupOptions()
 				name = L["Status Tracking Bar (XP/Rep/...)"],
 				get = function() return PresetsMod.showStatusBar end,
 				set = function(info, val) PresetsMod.showStatusBar = val end,
-				disabled = function() return PresetsMod.defaultType == "RESET" end
+				disabled = function() return PresetsMod.defaultType == "RESET" end,
+				hidden = function() return WoWClassic end,
 			},
 			nl2 = {
 				order = 36,
