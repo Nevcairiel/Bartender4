@@ -16,6 +16,9 @@ local WoWClassic = select(4, GetBuildInfo()) < 20000
 
 local PresetsMod = Bartender4:NewModule("Presets")
 
+PresetsMod.showXPBar = true
+PresetsMod.showStatusBar = true
+
 function PresetsMod:ToggleModule(info, val)
 	-- We are always enabled. Period.
 	if not self:IsEnabled() then
@@ -144,8 +147,14 @@ end
 local function BuildBlizzardProfile()
 	local dy, config
 	dy = 0
-	if not PresetsMod.showStatusBar or WoWClassic then
-		dy = dy - 16
+	if WoWClassic then
+		if not PresetsMod.showXPBar then
+			dy = dy - 13
+		end
+	else
+		if not PresetsMod.showStatusBar then
+			dy = dy - 16
+		end
 	end
 
 	Bartender4.db.profile.blizzardVehicle = true
@@ -177,6 +186,18 @@ local function BuildBlizzardProfile()
 		config.position.scale = 1.0
 		config.padding = -2
 		SetBarLocation( config, "BOTTOM", 33, 62)
+
+		if PresetsMod.showXPBar then
+			config = Bartender4.db:GetNamespace("XPBar").profile
+			config.enabled = true
+			Bartender4:GetModule("XPBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -514, 54)
+
+			config = Bartender4.db:GetNamespace("RepBar").profile
+			config.enabled = true
+			Bartender4:GetModule("RepBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -514, 61)
+		end
 	else
 		config = Bartender4.db:GetNamespace("BagBar").profile
 		config.onebag = false
@@ -237,6 +258,7 @@ function PresetsMod:SetupOptions()
 	if not self.options then
 		PresetsMod.defaultType = "BLIZZARD"
 		self.showStatusBar = true
+		self.showXPBar = true
 		local otbl = {
 			message1 = {
 				order = 1,
@@ -270,6 +292,16 @@ function PresetsMod:SetupOptions()
 				set = function(info, val) PresetsMod.showStatusBar = val end,
 				disabled = function() return PresetsMod.defaultType == "RESET" end,
 				hidden = function() return WoWClassic end,
+			},
+			xpbar = {
+				order = 20,
+				type = "toggle",
+				width = "full",
+				name = L["XP Bar"],
+				get = function() return PresetsMod.showXPBar end,
+				set = function(info, val) PresetsMod.showXPBar = val end,
+				disabled = function() return PresetsMod.defaultType == "RESET" end,
+				hidden = function() return not WoWClassic end,
 			},
 			nl2 = {
 				order = 36,

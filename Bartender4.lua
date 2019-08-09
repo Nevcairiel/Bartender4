@@ -193,6 +193,16 @@ function Bartender4:HideBlizzard()
 		MainMenuBarPerformanceBarFrame:SetParent(UIHider)
 	end
 
+	if MainMenuExpBar then
+		MainMenuExpBar:Hide()
+		MainMenuExpBar:SetParent(UIHider)
+	end
+
+	if ReputationWatchBar then
+		ReputationWatchBar:Hide()
+		ReputationWatchBar:SetParent(UIHider)
+	end
+
 	self:RegisterPetBattleDriver()
 end
 

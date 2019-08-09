@@ -71,6 +71,9 @@ ExtraActionBar.lua
 ZoneAbilityBar.lua
 StatusTrackingBar.lua
 
+## Classic-only ##
+XPBarClassic.lua
+
 ## Options ##
 Options\AceGUIWidget-NumberEditBox.lua
 
@@ -89,6 +92,9 @@ Options\BlizzardArt.lua
 Options\ExtraActionBar.lua
 Options\ZoneAbilityBar.lua
 Options\StatusTrackingBar.lua
+
+## Classic-only ##
+Options\XPBarClassic.lua
 
 ## Presets -- needs to be the last ##
 Options\Presets.lua
