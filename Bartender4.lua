@@ -122,6 +122,7 @@ function Bartender4:HideBlizzard()
 	UIPARENT_MANAGED_FRAME_POSITIONS["MainMenuBar"] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS["StanceBarFrame"] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS["PossessBarFrame"] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS["MultiCastActionBarFrame"] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS["PETACTIONBAR_YPOS"] = nil
 
 	--MainMenuBar:UnregisterAllEvents()
@@ -165,6 +166,12 @@ function Bartender4:HideBlizzard()
 		--PossessBarFrame:UnregisterAllEvents()
 		PossessBarFrame:Hide()
 		PossessBarFrame:SetParent(UIHider)
+	end
+
+	if MultiCastActionBarFrame then
+		MultiCastActionBarFrame:UnregisterAllEvents()
+		MultiCastActionBarFrame:Hide()
+		MultiCastActionBarFrame:SetParent(UIHider)
 	end
 
 	PetActionBarFrame:UnregisterAllEvents()
