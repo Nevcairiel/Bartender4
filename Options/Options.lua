@@ -8,6 +8,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 local error, select, pairs = error, select, pairs
+local WoWClassic = select(4, GetBuildInfo()) < 20000
 
 -- GLOBALS: LibStub, UnitHasVehicleUI, GetModifiedClick, SetModifiedClick, SaveBindings, GetCurrentBindingSet, InCombatLockdown
 
@@ -25,7 +26,7 @@ end
 
 local KB = LibStub("LibKeyBound-1.0")
 local LDBIcon = LibStub("LibDBIcon-1.0", true)
-local LibDualSpec = LibStub("LibDualSpec-1.0", true)
+local LibDualSpec = (not WoWClassic) and LibStub("LibDualSpec-1.0", true)
 
 local function generateOptions()
 	Bartender4.options = {
