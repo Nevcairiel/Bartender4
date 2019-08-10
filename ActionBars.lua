@@ -28,7 +28,7 @@ local abdefaults = {
 			stance = {
 				DRUID = { bear = 9, cat = 7, prowl = 8 },
 				ROGUE = { stealth = 7 },
-				WARRIOR = { battle = 7, def = 8, beserker = 9 },
+				WARRIOR = WoWClassic and { battle = 7, def = 8, berserker = 9 } or nil,
 			},
 		},
 		visibility = {
