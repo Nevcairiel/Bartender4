@@ -180,7 +180,7 @@ local function BuildBlizzardProfile()
 		config = Bartender4.db:GetNamespace("BagBar").profile
 		config.onebag = false
 		config.padding = 5
-		SetBarLocation( config, "BOTTOM", 296, 40)
+		SetBarLocation( config, "BOTTOM", 296, 41)
 
 		config = Bartender4.db:GetNamespace("MicroMenu").profile
 		config.position.scale = 1.0
