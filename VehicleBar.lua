@@ -5,7 +5,7 @@
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
-if not CanExitVehicle then return end
+local WoWClassic = select(4, GetBuildInfo()) < 20000
 
 -- register module
 local VehicleBarMod = Bartender4:NewModule("Vehicle", "AceHook-3.0")
@@ -57,8 +57,14 @@ function VehicleBarMod:ApplyConfig()
 end
 
 function VehicleBarMod:MainMenuBarVehicleLeaveButton_Update()
-	if CanExitVehicle() then
-		MainMenuBarVehicleLeaveButton:Show()
+	if WoWClassic then
+		if UnitOnTaxi("player") then
+			MainMenuBarVehicleLeaveButton:Show()
+		end
+	else
+		if CanExitVehicle() then
+			MainMenuBarVehicleLeaveButton:Show()
+		end
 	end
 	self.bar:UpdateButtonLayout()
 end

@@ -59,6 +59,7 @@ read_globals = {
 	"SetOverrideBindingClick",
 	"UnitClass",
 	"UnitHasVehicleUI",
+	"UnitOnTaxi",
 	"VehicleExit",
 
 	-- FrameXML functions
