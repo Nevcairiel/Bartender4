@@ -125,6 +125,7 @@ end
 if WoWClassic then
 MicroMenuBar.button_width = 29
 MicroMenuBar.button_height = 58
+MicroMenuBar.vpad_offset = -20
 else
 MicroMenuBar.button_width = 28
 MicroMenuBar.button_height = 36
