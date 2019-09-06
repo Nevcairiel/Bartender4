@@ -87,6 +87,7 @@ read_globals = {
 	"MainMenuBar",
 	"MainMenuBarArtFrame",
 	"MainMenuBarBackpackButton",
+	"MainMenuBarMaxLevelBar",
 	"MainMenuMicroButton",
 	"MainMenuBarVehicleLeaveButton",
 	"MicroButtonAndBagsBar",
