@@ -28,10 +28,10 @@ Bartender4.ButtonBar.defaults = defaults
 
 local Masque = LibStub("Masque", true)
 
-function Bartender4.ButtonBar:Create(id, config, name)
+function Bartender4.ButtonBar:Create(id, config, name, noSkinning)
 	local bar = setmetatable(Bartender4.Bar:Create(id, config, name), ButtonBar_MT)
 
-	if Masque then
+	if Masque and not noSkinning then
 		bar.MasqueGroup = Masque:Group("Bartender4", tostring(id))
 	end
 
