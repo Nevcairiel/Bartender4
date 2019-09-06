@@ -203,6 +203,11 @@ function Bartender4:HideBlizzard()
 		ReputationWatchBar:SetParent(UIHider)
 	end
 
+	if MainMenuBarMaxLevelBar then
+		MainMenuBarMaxLevelBar:Hide()
+		MainMenuBarMaxLevelBar:SetParent(UIHider)
+	end
+
 	self:RegisterPetBattleDriver()
 end
 
