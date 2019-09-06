@@ -73,6 +73,11 @@ function MicroMenuMod:OnEnable()
 		end
 		self.bar.buttons = buttons
 
+		-- check if its owned by the UI on initial load
+		if self.bar.buttons[1]:GetParent() ~= MainMenuBarArtFrame then
+			self.ownedByUI = true
+		end
+
 		MicroMenuMod.button_count = #buttons
 
 		self.bar.anchors = {}
@@ -84,6 +89,7 @@ function MicroMenuMod:OnEnable()
 	end
 
 	self:SecureHook("UpdateMicroButtons", "MicroMenuBarShow")
+	self:SecureHook("UpdateMicroButtonsParent")
 	if OverrideActionBar then
 		self:SecureHookScript(OverrideActionBar, "OnShow", "BlizzardBarShow")
 		self:SecureHookScript(OverrideActionBar, "OnHide", "MicroMenuBarShow")
@@ -104,9 +110,22 @@ function MicroMenuMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
+function MicroMenuMod:UpdateMicroButtonsParent(parent)
+	-- our own parent, ignore
+	if parent == self.bar then return end
+
+	-- any other parent then MainMenuBarArtFrame means its taken over by the Override bar or the PetBattleFrame
+	if parent ~= MainMenuBarArtFrame then
+		self.ownedByUI = true
+		return
+	end
+	self.ownedByUI = false
+	self:MicroMenuBarShow()
+end
+
 function MicroMenuMod:MicroMenuBarShow()
 	-- Only "fix" button anchors if another frame that uses the MicroButtonBar isn't active.
-	if not ((OverrideActionBar and OverrideActionBar:IsShown()) or (PetBattleFrame and PetBattleFrame:IsShown())) then
+	if not self.ownedByUI then
 		UpdateMicroButtonsParent(self.bar)
 		self.bar:UpdateButtonLayout()
 	end
