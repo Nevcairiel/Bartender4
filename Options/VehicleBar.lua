@@ -9,12 +9,11 @@ local VehicleBarMod = Bartender4:GetModule("Vehicle", true)
 if not VehicleBarMod then return end
 
 -- fetch upvalues
-local ButtonBar = Bartender4.ButtonBar.prototype
+local Bar = Bartender4.Bar.prototype
 
 function VehicleBarMod:SetupOptions()
 	if not self.options then
-		self.optionobject = ButtonBar:GetOptionObject()
-		self.optionobject.table.general.args.rows.max = self.button_count
+		self.optionobject = Bar:GetOptionObject()
 		local enabled = {
 			type = "toggle",
 			order = 1,
@@ -44,7 +43,6 @@ function VehicleBarMod:SetupOptions()
 			desc = L["Configure the VehicleBar"],
 			childGroups = "tab",
 		}
-		self.optionobject.table.general.args.padding.min = -30
 		Bartender4:RegisterBarOptions("Vehicle", self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
