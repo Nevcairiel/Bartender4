@@ -107,7 +107,7 @@ function MicroMenuMod:UpdateMicroButtonsParent(parent)
 	if parent == self.bar then return end
 
 	-- any other parent then MainMenuBarArtFrame means its taken over by the Override bar or the PetBattleFrame
-	if parent and (parent == OverrideActionBar or parent == (PetBattleFrame and PetBattleFrame.BottomFrame.MicroButtonFrame)) then
+	if parent and ((Bartender4.db.profile.blizzardVehicle and parent == OverrideActionBar) or parent == (PetBattleFrame and PetBattleFrame.BottomFrame.MicroButtonFrame)) then
 		self.ownedByUI = true
 		self:BlizzardBarShow()
 		return
