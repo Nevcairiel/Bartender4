@@ -90,14 +90,6 @@ function MicroMenuMod:OnEnable()
 
 	self:SecureHook("UpdateMicroButtons", "MicroMenuBarShow")
 	self:SecureHook("UpdateMicroButtonsParent")
-	if OverrideActionBar then
-		self:SecureHookScript(OverrideActionBar, "OnShow", "BlizzardBarShow")
-		self:SecureHookScript(OverrideActionBar, "OnHide", "MicroMenuBarShow")
-	end
-	if PetBattleFrame then
-		self:SecureHookScript(PetBattleFrame.BottomFrame.MicroButtonFrame, "OnShow", "BlizzardBarShow")
-		self:SecureHookScript(PetBattleFrame.BottomFrame.MicroButtonFrame, "OnHide", "MicroMenuBarShow")
-	end
 
 	self.bar:Enable()
 	self:ToggleOptions()
@@ -117,6 +109,7 @@ function MicroMenuMod:UpdateMicroButtonsParent(parent)
 	-- any other parent then MainMenuBarArtFrame means its taken over by the Override bar or the PetBattleFrame
 	if parent ~= MainMenuBarArtFrame then
 		self.ownedByUI = true
+		self:BlizzardBarShow()
 		return
 	end
 	self.ownedByUI = false
