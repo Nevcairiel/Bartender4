@@ -108,11 +108,13 @@ end
 
 function MicroMenuMod:PET_BATTLE_CLOSE()
 	UpdateMicroButtonsParent(self.bar)
+	self:MicroMenuBarShow()
 end
 
 function MicroMenuMod:ActionBarController_UpdateAll()
 	if self.ownedByUI and CURRENT_ACTION_BAR_STATE == LE_ACTIONBAR_STATE_MAIN and not (C_PetBattles and C_PetBattles.IsInBattle()) then
 		UpdateMicroButtonsParent(self.bar)
+		self:MicroMenuBarShow()
 	end
 end
 
