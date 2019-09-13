@@ -90,6 +90,10 @@ function MicroMenuMod:OnEnable()
 
 	self:SecureHook("UpdateMicroButtons", "MicroMenuBarShow")
 	self:SecureHook("UpdateMicroButtonsParent")
+	self:SecureHook("ActionBarController_UpdateAll")
+	if C_PetBattles then
+		self:RegisterEvent("PET_BATTLE_CLOSE")
+	end
 
 	self.bar:Enable()
 	self:ToggleOptions()
@@ -102,9 +106,22 @@ function MicroMenuMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
+function MicroMenuMod:PET_BATTLE_CLOSE()
+	UpdateMicroButtonsParent(self.bar)
+end
+
+function MicroMenuMod:ActionBarController_UpdateAll()
+	if self.ownedByUI and CURRENT_ACTION_BAR_STATE == LE_ACTIONBAR_STATE_MAIN and not (C_PetBattles and C_PetBattles.IsInBattle()) then
+		UpdateMicroButtonsParent(self.bar)
+	end
+end
+
 function MicroMenuMod:UpdateMicroButtonsParent(parent)
 	-- our own parent, ignore
-	if parent == self.bar then return end
+	if parent == self.bar then
+		self.ownedByUI = false
+		return
+	end
 
 	-- any other parent then MainMenuBarArtFrame means its taken over by the Override bar or the PetBattleFrame
 	if parent and ((Bartender4.db.profile.blizzardVehicle and parent == OverrideActionBar) or parent == (PetBattleFrame and PetBattleFrame.BottomFrame.MicroButtonFrame)) then

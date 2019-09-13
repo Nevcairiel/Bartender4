@@ -31,6 +31,7 @@ read_globals = {
 	"LibStub",
 
 	-- API functions
+	"C_PetBattles",
 	"CanExitVehicle",
 	"ClearOverrideBindings",
 	"CreateFrame",
@@ -115,10 +116,12 @@ read_globals = {
 
 	-- FrameXML Misc
 	"ChatFontNormal",
+	"CURRENT_ACTION_BAR_STATE",
 	"GameFontNormal",
 	"MICRO_BUTTONS",
 
 	-- FrameXML Constants
+	"LE_ACTIONBAR_STATE_MAIN",
 	"LEAVE_VEHICLE",
 	"OKAY",
 	"SOUNDKIT",
