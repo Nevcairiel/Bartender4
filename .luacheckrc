@@ -127,6 +127,7 @@ read_globals = {
 	"SOUNDKIT",
 
 	-- Classic-only
+	"KeyRingButton",
 	"MainMenuBarPerformanceBarFrame",
 	"MainMenuExpBar",
 	"ReputationWatchBar",

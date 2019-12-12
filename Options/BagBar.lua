@@ -5,6 +5,8 @@
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
+local WoWClassic = select(4, GetBuildInfo()) < 20000
+
 local BagBarMod = Bartender4:GetModule("BagBar")
 
 -- fetch upvalues
@@ -34,6 +36,18 @@ function BagBarMod:SetupOptions()
 			set = function(info, state) self.db.profile.onebag = state; self.bar:FeedButtons(); self.bar:UpdateButtonLayout() end,
 		}
 		self.optionobject:AddElement("general", "onebag", onebag)
+
+		if WoWClassic then
+			local keyring = {
+				type = "toggle",
+				order = 80,
+				name = L["Keyring"],
+				desc = L["Show the keyring button."],
+				get = function() return self.db.profile.keyring end,
+				set = function(info, state) self.db.profile.keyring = state; self.bar:FeedButtons(); self.bar:UpdateButtonLayout() end,
+			}
+			self.optionobject:AddElement("general", "keyring", keyring)
+		end
 
 		self.disabledoptions = {
 			general = {
