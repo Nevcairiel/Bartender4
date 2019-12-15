@@ -289,12 +289,12 @@ local function generateOptions()
 						type = "description",
 						name = "\n|cffffd200" .. L["My BagBar does not have the Keyring on it, how do i get it back?"] .. "|r",
 						order = 5,
-					},
+					} or nil,
 					line6 = WoWClassic and {
 						type = "description",
 						name = L["Its simple! Just check the Keyring option in the BagBars configuration menu, and it'll appear next to your bags."],
 						order = 6,
-					},
+					} or nil,
 					line7 = {
 						type = "description",
 						name = "\n|cffffd200" .. L["I've found a bug! Where do I report it?"] .. "|r",
