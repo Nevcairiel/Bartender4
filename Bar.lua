@@ -148,7 +148,7 @@ function Bartender4.Bar:Create(id, config, name)
 	bar:SetWidth(1)
 	bar:SetHeight(1)
 
-	local overlay = CreateFrame("Button", bar:GetName() .. "Overlay", bar)
+	local overlay = CreateFrame("Button", bar:GetName() .. "Overlay", bar, BackdropTemplateMixin and "BackdropTemplate" or nil)
 	bar.overlay = overlay
 	overlay.bar = bar
 	table_insert(snapBars, overlay)

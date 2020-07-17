@@ -347,7 +347,7 @@ end
 
 function Bartender4:ShowUnlockDialog()
 	if not self.unlock_dialog then
-		local f = CreateFrame("Frame", "Bartender4Dialog", UIParent)
+		local f = CreateFrame("Frame", "Bartender4Dialog", UIParent, BackdropTemplateMixin and "BackdropTemplate" or nil)
 		f:SetFrameStrata("DIALOG")
 		f:SetToplevel(true)
 		f:EnableMouse(true)

@@ -115,6 +115,7 @@ read_globals = {
 	"ZoneAbilityFrame",
 
 	-- FrameXML Misc
+	"BackdropTemplateMixin",
 	"ChatFontNormal",
 	"CURRENT_ACTION_BAR_STATE",
 	"GameFontNormal",
