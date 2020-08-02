@@ -16,6 +16,9 @@ local defaults = Bartender4:Merge({
 	rows = 1,
 	hidemacrotext = false,
 	hidehotkey = false,
+	hotkeyfont = "Arial Narrow",
+	hotkeyfontsize = 15,
+	hotkeyfontoutline = "OUTLINE",
 	hideequipped = false,
 	skin = {
 		Zoom = false,
@@ -27,6 +30,7 @@ Bartender4.ButtonBar.prototype = ButtonBar
 Bartender4.ButtonBar.defaults = defaults
 
 local Masque = LibStub("Masque", true)
+local LSM30 = LibStub("LibSharedMedia-3.0")
 
 function Bartender4.ButtonBar:Create(id, config, name, noSkinning)
 	local bar = setmetatable(Bartender4.Bar:Create(id, config, name), ButtonBar_MT)
@@ -47,7 +51,7 @@ function ButtonBar:ApplyConfig(config)
 end
 
 function ButtonBar:UpdateButtonConfig()
-
+	self:UpdateFonts()
 end
 
 -- get the current padding
@@ -106,6 +110,39 @@ end
 
 function ButtonBar:GetHideHotkey()
 	return self.config.hidehotkey
+end
+
+function ButtonBar:SetHotkeyFont(font)
+	if font ~= nil then
+		self.config.hotkeyfont = font
+	end
+	self:UpdateFonts()
+end
+
+function ButtonBar:GetHotkeyFont()
+	return self.config.hotkeyfont
+end
+
+function ButtonBar:SetHotkeyFontSize(size)
+	if size ~= nil then
+		self.config.hotkeyfontsize = size
+	end
+	self:UpdateFonts()
+end
+
+function ButtonBar:GetHotkeyFontSize()
+	return self.config.hotkeyfontsize
+end
+
+function ButtonBar:SetHotkeyFontOutline(outline)
+	if outline ~= nil then
+		self.config.hotkeyfontoutline = outline
+	end
+	self:UpdateFonts()
+end
+
+function ButtonBar:GetHotkeyFontOutline()
+	return self.config.hotkeyfontoutline
 end
 
 function ButtonBar:SetHideEquipped(state)
@@ -222,6 +259,17 @@ function ButtonBar:UpdateButtonLayout()
 				button.icon:SetTexCoord(0,1,0,1)
 			end
 		end
+	end
+end
+
+function ButtonBar:UpdateFonts()
+	local buttons = self.buttons
+	if (self.numbuttons or #buttons) == 0 then return end
+
+	local font = LSM30:Fetch("font", self.config.hotkeyfont) or "Fonts\\ARIALN.ttf"
+
+	for i = 1, #buttons do
+		buttons[i].HotKey:SetFont(font, self.config.hotkeyfontsize, self.config.hotkeyfontoutline)
 	end
 end
 

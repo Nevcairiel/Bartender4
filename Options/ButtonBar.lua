@@ -12,6 +12,8 @@ local tostring, assert = tostring, assert
 
 -- GLOBALS: LibStub
 
+local LSM30 = LibStub("LibSharedMedia-3.0")
+
 --[[===================================================================================
 	Bar Options
 ===================================================================================]]--
@@ -28,6 +30,9 @@ do
 		zoom = "Zoom",
 		macrotext = "HideMacroText",
 		hotkey = "HideHotkey",
+		hotkeyfont = "HotkeyFont",
+		hotkeyfontsize = "HotkeyFontSize",
+		hotkeyfontoutline = "HotkeyFontOutline",
 		equipped = "HideEquipped",
 		vgrowth = "VGrowth",
 		hgrowth = "HGrowth",
@@ -60,7 +65,21 @@ do
 		local option = info[#info]
 		return callFunc(bar, "Set", option, ...)
 	end
+
+	function otherOptGetter(info, other)
+		local bar = getBar(info[2])
+		return callFunc(bar, "Get", other)
+	end
 end
+
+local fontFlags = {
+    [""] = "None",
+    ["OUTLINE"] = "Outline",
+    ["THICKOUTLINE"] = "Thick Outline",
+    ["nil, MONOCHROME"] = "Monochrome",
+    ["OUTLINE , MONOCHROME"] = "Monochrome Outline",
+    ["THICKOUTLINE , MONOCHROME"] = "Monochrome Thick Outline",
+};
 
 function ButtonBar:GetOptionObject()
 	local obj = Bar.GetOptionObject()
@@ -115,24 +134,63 @@ function ButtonBar:GetOptionObject()
 			name = L["Button Look"],
 			type = "header",
 		},
-		macrotext = {
+		hotkeys = {
+			type = "group",
+			name = L["Hotkey"],
+			inline = true,
 			order = 81,
+			args = {
+				hotkey = {
+					order = 95,
+					type = "toggle",
+					name = L["Hide Hotkey"],
+					desc = L["Hide the Hotkey on the buttons of this bar."],
+					set = optSetter,
+					get = optGetter,
+				},
+				hotkeyfont = {
+					type = "select",
+					dialogControl = "LSM30_Font",
+					name = L["Font"],
+					order = 100,
+					values = AceGUIWidgetLSMlists.font,
+					set = optSetter,
+					get = optGetter,
+					disabled = function(info) return otherOptGetter(info, "hotkey") end,
+				},
+				hotkeyfontsize = {
+					type = "range",
+					name = L["Font Size"],
+					order = 105,
+					softMin = 6,
+					softMax = 26,
+					step = 1,
+					set = optSetter,
+					get = optGetter,
+					disabled = function(info) return otherOptGetter(info, "hotkey") end,
+				},
+				hotkeyfontoutline = {
+					type = "select",
+					name = L["Font Outline"],
+					desc = "",
+					set = optSetter,
+					get = optGetter,
+					values = fontFlags,
+					order = 105,
+					disabled = function(info) return otherOptGetter(info, "hotkey") end,
+				}
+			}
+		},
+		macrotext = {
+			order = 82,
 			type = "toggle",
 			name = L["Hide Macro Text"],
 			desc = L["Hide the Macro Text on the buttons of this bar."],
 			set = optSetter,
 			get = optGetter,
 		},
-		hotkey = {
-			order = 82,
-			type = "toggle",
-			name = L["Hide Hotkey"],
-			desc = L["Hide the Hotkey on the buttons of this bar."],
-			set = optSetter,
-			get = optGetter,
-		},
 		equipped = {
-			order = 82,
+			order = 83,
 			type = "toggle",
 			name = L["Hide Equipped Border"],
 			desc = L["Hide the inner border indicating the equipped status on the buttons of this bar."],

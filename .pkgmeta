@@ -10,6 +10,7 @@ externals:
   libs/AceDBOptions-3.0: https://repos.wowace.com/wow/ace3/trunk/AceDBOptions-3.0
   libs/AceLocale-3.0: https://repos.wowace.com/wow/ace3/trunk/AceLocale-3.0
   libs/AceGUI-3.0: https://repos.wowace.com/wow/ace3/trunk/AceGUI-3.0
+  libs/AceGUI-3.0-SharedMediaWidgets: https://repos.wowace.com/wow/ace-gui-3-0-shared-media-widgets
   libs/AceConfig-3.0: https://repos.wowace.com/wow/ace3/trunk/AceConfig-3.0
   libs/LibActionButton-1.0: https://repos.wowace.com/wow/libactionbutton-1-0
   libs/LibButtonGlow-1.0: https://repos.wowace.com/wow/libbuttonglow-1-0
@@ -17,6 +18,7 @@ externals:
   libs/LibDBIcon-1.0: https://repos.wowace.com/wow/libdbicon-1-0/trunk/LibDBIcon-1.0
   libs/LibWindow-1.1: https://repos.wowace.com/wow/libwindow-1-1/trunk/LibWindow-1.1
   libs/LibDualSpec-1.0: https://repos.wowace.com/wow/libdualspec-1-0
+  libs/LibSharedMedia-3.0: https://repos.wowace.com/wow/sharedmedia/trunk
 
 ignore:
   - .travis.yml
