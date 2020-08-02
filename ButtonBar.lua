@@ -266,10 +266,10 @@ function ButtonBar:UpdateFonts()
 	local buttons = self.buttons
 	if (self.numbuttons or #buttons) == 0 then return end
 
-	local font = LSM30:Fetch("font", self.config.hotkeyfont) or "Fonts\\ARIALN.ttf"
+	local font = LSM30:Fetch("font", self:GetHotkeyFont()) or "Fonts\\ARIALN.ttf"
 
 	for i = 1, #buttons do
-		buttons[i].HotKey:SetFont(font, self.config.hotkeyfontsize, self.config.hotkeyfontoutline)
+		buttons[i].HotKey:SetFont(font, self:GetHotkeyFontSize(), self:GetHotkeyFontOutline())
 	end
 end
 
