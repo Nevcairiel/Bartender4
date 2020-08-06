@@ -11,13 +11,15 @@ local setmetatable, tostring, pairs = setmetatable, tostring, pairs
 local ButtonBar = setmetatable({}, {__index = Bar})
 local ButtonBar_MT = {__index = ButtonBar}
 
+local DefaultHotKeyFontTemplate = _G["NumberFontNormalSmallGray"]
+
 local defaults = Bartender4:Merge({
 	padding = 2,
 	rows = 1,
 	hidemacrotext = false,
 	hidehotkey = false,
-	hotkeyfont = "Arial Narrow",
-	hotkeyfontsize = 15,
+	hotkeyfont = DefaultHotKeyFontTemplate:GetFont(),
+	hotkeyfontsize = 13,
 	hotkeyfontoutline = "OUTLINE",
 	hideequipped = false,
 	skin = {
