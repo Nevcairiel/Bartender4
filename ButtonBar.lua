@@ -11,14 +11,24 @@ local setmetatable, tostring, pairs = setmetatable, tostring, pairs
 local ButtonBar = setmetatable({}, {__index = Bar})
 local ButtonBar_MT = {__index = ButtonBar}
 
-local DefaultHotKeyFontTemplate = _G["NumberFontNormalSmallGray"]
+local LSM30 = LibStub("LibSharedMedia-3.0")
+
+local DefaultHotKeyFontName = LSM30:Fetch("font", "Arial Narrow")
+local DefaultHotKeyFontPath = _G["NumberFontNormalSmallGray"]:GetFont()
+for _, fontName in ipairs(LSM30:List("font")) do
+	local fontPath = LSM30:Fetch("font", fontName)
+	if fontPath == DefaultHotKeyFontPath then
+		DefaultHotKeyFontName = fontName
+		break
+	end
+end
 
 local defaults = Bartender4:Merge({
 	padding = 2,
 	rows = 1,
 	hidemacrotext = false,
 	hidehotkey = false,
-	hotkeyfont = DefaultHotKeyFontTemplate:GetFont(),
+	hotkeyfont = DefaultHotKeyFontName,
 	hotkeyfontsize = 13,
 	hotkeyfontoutline = "OUTLINE",
 	hideequipped = false,
@@ -32,7 +42,6 @@ Bartender4.ButtonBar.prototype = ButtonBar
 Bartender4.ButtonBar.defaults = defaults
 
 local Masque = LibStub("Masque", true)
-local LSM30 = LibStub("LibSharedMedia-3.0")
 
 function Bartender4.ButtonBar:Create(id, config, name, noSkinning)
 	local bar = setmetatable(Bartender4.Bar:Create(id, config, name), ButtonBar_MT)
@@ -268,7 +277,7 @@ function ButtonBar:UpdateFonts()
 	local buttons = self.buttons
 	if (self.numbuttons or #buttons) == 0 then return end
 
-	local font = LSM30:Fetch("font", self:GetHotkeyFont()) or "Fonts\\ARIALN.ttf"
+	local font = LSM30:Fetch("font", self:GetHotkeyFont()) or DefaultHotKeyFontPath
 
 	for i = 1, #buttons do
 		buttons[i].HotKey:SetFont(font, self:GetHotkeyFontSize(), self:GetHotkeyFontOutline())
