@@ -30,6 +30,10 @@ jobs:
           luarocks install --local luacheck
           /home/runner/.luarocks/bin/luacheck . --no-color -q
           
+      - name: Update Locale
+        if: github.ref == 'refs/heads/master'
+        run: ./locale/wowace-locale-import.sh
+          
       - name: Create Classic Package
         run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -g 1.13.5 -m .pkgmeta-classic
         env:
