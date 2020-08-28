@@ -141,6 +141,14 @@ function Bartender4:HideBlizzard()
 	if OverrideActionBar then -- classic doesn't have this
 		animations = {OverrideActionBar.slideOut:GetAnimations()}
 		animations[1]:SetOffset(0,0)
+
+		-- when blizzard vehicle is turned off, we need to manually fix the state since the OverrideActionBar animation wont run
+		hooksecurefunc("BeginActionBarTransition", function(bar, animIn)
+			if bar == OverrideActionBar and not self.db.profile.blizzardVehicle then
+				OverrideActionBar.slideOut:Stop()
+				MainMenuBar:Show()
+			end
+		end)
 	end
 
 	MainMenuBarArtFrame:Hide()
