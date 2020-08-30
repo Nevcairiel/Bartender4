@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI-PR
 
 on: [pull_request]
 
@@ -18,4 +18,4 @@ jobs:
         sudo apt-get install luarocks
         luarocks install --local luacheck
         /home/runner/.luarocks/bin/luacheck . --no-color -q
-        
+
