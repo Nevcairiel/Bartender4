@@ -25,6 +25,7 @@ do
 		enabled = "Enabled",
 		grid = "Grid",
 		flyoutDirection = "FlyoutDirection",
+		buttonOffset = "ButtonOffset",
 	}
 
 	-- retrieves a valid bar object from the modules actionbars table
@@ -99,6 +100,20 @@ function module:GetOptionsObject()
 				desc = L["Direction of the button flyouts on this bar (eg. summon demon/pet)"],
 				type = "select",
 				values = {LEFT = L["Left"], RIGHT = L["Right"], UP = L["Up"], DOWN = L["Down"]},
+				set = optSetter,
+				get = optGetter,
+			},
+			advheader = {
+				order = 199,
+				name = L["Advanced"],
+				type = "header",
+			},
+			buttonOffset = {
+				order = 201,
+				name = L["Button Offset"],
+				desc = L["How many buttons to offset the action to the left. This can be used, for example, to use the same actions on two individual shorter bars (front and back)."],
+				type = "range",
+				min = 0, max = 11, step = 1,
 				set = optSetter,
 				get = optGetter,
 			},

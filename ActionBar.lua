@@ -180,7 +180,7 @@ local customExitButton = {
 }
 
 -- Update the number of buttons in our bar, creating new ones if necessary
-function ActionBar:UpdateButtons(numbuttons)
+function ActionBar:UpdateButtons(numbuttons, offset)
 	if numbuttons then
 		self.config.buttons = min(numbuttons, 12)
 	else
@@ -189,15 +189,29 @@ function ActionBar:UpdateButtons(numbuttons)
 
 	local buttons = self.buttons or {}
 
+	local updateStartValue = #buttons + 1
+	if offset and offset ~= self.config.buttonOffset then
+		updateStartValue = 1
+	end
+
+	if offset then
+		self.config.buttonOffset = min(offset, 11)
+	else
+		offset = min(self.config.buttonOffset, 11)
+	end
+
 	local updateBindings = (numbuttons > #buttons)
 	-- create more buttons if needed
-	for i = (#buttons+1), numbuttons do
+	for i = updateStartValue, numbuttons do
 		local absid = (self.id - 1) * 12 + i
-		buttons[i] = LAB10:CreateButton(absid, format("BT4Button%d", absid), self, nil)
-		for k = 1,14 do
-			buttons[i]:SetState(k, "action", (k - 1) * 12 + i)
+		if buttons[i] == nil then
+			buttons[i] = LAB10:CreateButton(absid, format("BT4Button%d", absid), self, nil)
 		end
-		buttons[i]:SetState(0, "action", absid)
+		local offsetid = (i + offset - 1) % 12 + 1
+		for k = 1,14 do
+			buttons[i]:SetState(k, "action", (k - 1) * 12 + offsetid)
+		end
+		buttons[i]:SetState(0, "action", (self.id - 1) * 12 + offsetid)
 
 		if self.MasqueGroup then
 			buttons[i]:AddToMasque(self.MasqueGroup)
@@ -250,8 +264,17 @@ function ActionBar:GetButtons()
 	return self.config.buttons
 end
 
+-- get the current number of buttons
+function ActionBar:GetButtonOffset()
+	return self.config.buttonOffset
+end
+
 -- set the number of buttons and refresh layout
 ActionBar.SetButtons = ActionBar.UpdateButtons
+
+function ActionBar:SetButtonOffset(offset)
+	return self:UpdateButtons(nil, offset)
+end
 
 function ActionBar:GetEnabled()
 	return true
