@@ -25,6 +25,7 @@ do
 		enabled = "Enabled",
 		grid = "Grid",
 		flyoutDirection = "FlyoutDirection",
+		buttonOffset = "ButtonOffset",
 	}
 
 	-- retrieves a valid bar object from the modules actionbars table
@@ -90,6 +91,15 @@ function module:GetOptionsObject()
 				desc = L["Number of buttons."],
 				type = "range",
 				min = 1, max = 12, step = 1,
+				set = optSetter,
+				get = optGetter,
+			},
+			buttonOffset = {
+				order = 51,
+				name = L["Button Offset"],
+				desc = L["How many buttons to offset to the left."],
+				type = "range",
+				min = 0, max = 11, step = 1,
 				set = optSetter,
 				get = optGetter,
 			},
