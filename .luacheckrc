@@ -123,6 +123,7 @@ read_globals = {
 
 	-- FrameXML Constants
 	"LE_ACTIONBAR_STATE_MAIN",
+	"LE_ACTIONBAR_STATE_OVERRIDE",
 	"LEAVE_VEHICLE",
 	"OKAY",
 	"SOUNDKIT",
