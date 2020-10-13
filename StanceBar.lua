@@ -217,7 +217,7 @@ function StanceBarMod:CreateStanceButton(id)
 		button.MasqueButtonData = {
 			Button = button
 		}
-		group:AddButton(button, button.MasqueButtonData)
+		group:AddButton(button, button.MasqueButtonData, "Action")
 	end
 
 	return button
