@@ -110,7 +110,10 @@ local UpdateSmartTarget = [[
 			if BT_Spell_Overrides[action] then action = BT_Spell_Overrides[action] end
 			local id, subtype = FindSpellBookSlotBySpellID(action), "spell"
 			if id and id > 0 then
-				if IsHelpfulSpell(id, subtype) then
+				if IsHelpfulSpell(id, subtype) == IsHarmfulSpell(id, subtype) then
+					self:SetAttribute("targettype", 3)
+					self:SetAttribute("unit", self:GetAttribute("target_all"))
+				elseif IsHelpfulSpell(id, subtype) then
 					self:SetAttribute("targettype", 1)
 					self:SetAttribute("unit", self:GetAttribute("target_help"))
 				elseif IsHarmfulSpell(id, subtype) then
@@ -125,7 +128,6 @@ local UpdateSmartTarget = [[
 function ActionBar:SetupSmartTarget()
 	local s = [[
 		BT_Spell_Overrides = newtable()
-		BT_Spell_Overrides[93402] = 8921 -- sunfire -> moonfire
 		BT_Spell_Overrides[16979] = 102401 -- wild charge (bear)
 		BT_Spell_Overrides[49376] = 102401 -- wild charge (cat)
 	]]
@@ -166,6 +168,13 @@ function ActionBar:SetupSmartButton(button)
 	button:SetAttribute("_childupdate-target-harm", [[
 		self:SetAttribute("target_harm", message)
 		if self:GetAttribute("targettype") == 2 then
+			self:SetAttribute("unit", message)
+		end
+	]])
+
+	button:SetAttribute("_childupdate-target-all", [[
+		self:SetAttribute("target_all", message)
+		if self:GetAttribute("targettype") == 3 then
 			self:SetAttribute("unit", message)
 		end
 	]])
