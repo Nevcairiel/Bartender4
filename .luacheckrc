@@ -81,7 +81,7 @@ read_globals = {
 	"CharacterMicroButton",
 	"CollectionsMicroButton",
 	"EJMicroButton",
-	"ExtraActionBarFrame",
+	"ExtraAbilityContainer",
 	"GuildMicroButton",
 	"HelpMicroButton",
 	"LFDMicroButton",
@@ -112,7 +112,6 @@ read_globals = {
 	"TalentMicroButton",
 	"UIParent",
 	"WorldFrame",
-	"ZoneAbilityFrame",
 
 	-- FrameXML Misc
 	"BackdropTemplateMixin",

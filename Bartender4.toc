@@ -84,7 +84,6 @@ MicroMenu.lua
 VehicleBar.lua
 BlizzardArt.lua
 ExtraActionBar.lua
-ZoneAbilityBar.lua
 StatusTrackingBar.lua
 
 ## Classic-only ##
@@ -106,7 +105,6 @@ Options\StanceBar.lua
 Options\VehicleBar.lua
 Options\BlizzardArt.lua
 Options\ExtraActionBar.lua
-Options\ZoneAbilityBar.lua
 Options\StatusTrackingBar.lua
 
 ## Classic-only ##

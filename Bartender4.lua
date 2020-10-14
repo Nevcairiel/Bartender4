@@ -126,6 +126,7 @@ function Bartender4:HideBlizzard()
 	UIPARENT_MANAGED_FRAME_POSITIONS["PossessBarFrame"] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS["MultiCastActionBarFrame"] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS["PETACTIONBAR_YPOS"] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS["ExtraAbilityContainer"] = nil
 
 	--MainMenuBar:UnregisterAllEvents()
 	--MainMenuBar:SetParent(UIHider)

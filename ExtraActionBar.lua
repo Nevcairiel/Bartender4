@@ -5,7 +5,7 @@
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
-if not ExtraActionBarFrame then return end
+if not ExtraAbilityContainer then return end
 
 -- register module
 local ExtraActionBarMod = Bartender4:NewModule("ExtraActionBar", "AceHook-3.0")
@@ -14,8 +14,6 @@ local ExtraActionBarMod = Bartender4:NewModule("ExtraActionBar", "AceHook-3.0")
 local Bar = Bartender4.Bar.prototype
 
 local setmetatable, table_insert = setmetatable, table.insert
-
--- GLOBALS: ExtraActionBarFrame
 
 -- create prototype information
 local ExtraActionBar = setmetatable({}, {__index = Bar})
@@ -36,7 +34,7 @@ end
 function ExtraActionBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("ExtraActionBar", self.db.profile, L["Extra Action Bar"]), {__index = ExtraActionBar})
-		self.bar.content = ExtraActionBarFrame
+		self.bar.content = ExtraAbilityContainer
 
 		self.bar.content.ignoreFramePositionManager = true
 		self.bar.content:SetParent(self.bar)
@@ -51,6 +49,9 @@ function ExtraActionBarMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
+ExtraActionBar.width = 128
+ExtraActionBar.height = 128
+
 function ExtraActionBar:ApplyConfig(config)
 	Bar.ApplyConfig(self, config)
 
@@ -63,8 +64,8 @@ function ExtraActionBar:ApplyConfig(config)
 end
 
 function ExtraActionBar:PerformLayout()
-	self:SetSize(64, 64)
+	self:SetSize(128, 128)
 	local bar = self.content
 	bar:ClearAllPoints()
-	bar:SetPoint("TOPLEFT", 0, 0)
+	bar:SetPoint("CENTER", self, "TOPLEFT", 64, -64)
 end
