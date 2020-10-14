@@ -32,6 +32,7 @@ read_globals = {
 
 	-- API functions
 	"C_PetBattles",
+	"C_ZoneAbility",
 	"CanExitVehicle",
 	"ClearOverrideBindings",
 	"CreateFrame",
@@ -49,6 +50,7 @@ read_globals = {
 	"GetSpecialization",
 	"GetSpellBookItemInfo",
 	"GetSpellInfo",
+	"HasExtraActionBar",
 	"InCombatLockdown",
 	"IsModifiedClick",
 	"MouseIsOver",
@@ -82,6 +84,7 @@ read_globals = {
 	"CollectionsMicroButton",
 	"EJMicroButton",
 	"ExtraAbilityContainer",
+	"ExtraActionBarFrame",
 	"GuildMicroButton",
 	"HelpMicroButton",
 	"LFDMicroButton",
@@ -112,6 +115,7 @@ read_globals = {
 	"TalentMicroButton",
 	"UIParent",
 	"WorldFrame",
+	"ZoneAbilityFrame",
 
 	-- FrameXML Misc
 	"BackdropTemplateMixin",

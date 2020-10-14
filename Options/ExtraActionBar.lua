@@ -25,6 +25,16 @@ function ExtraActionBarMod:SetupOptions()
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
 
+		local hideArtwork = {
+			type = "toggle",
+			order = 80,
+			name = L["Hide Artwork"],
+			desc = L["Hide the Extra Action Button artwork."],
+			get = function() return self.db.profile.hideArtwork end,
+			set = function(info, state) self.db.profile.hideArtwork = state; self:UpdateArtwork() end,
+		}
+		self.optionobject:AddElement("general", "hideArtwork", hideArtwork)
+
 		self.disabledoptions = {
 			general = {
 				type = "group",

@@ -20,6 +20,7 @@ local ExtraActionBar = setmetatable({}, {__index = Bar})
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
+	hideArtwork = false,
 	visibility = {
 		vehicleui = false,
 		overridebar = false,
@@ -43,10 +44,32 @@ function ExtraActionBarMod:OnEnable()
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
+
+	self:SecureHook("ExtraActionBar_Update")
+	self:SecureHook(ZoneAbilityFrame, "UpdateDisplayedZoneAbilities")
 end
 
 function ExtraActionBarMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
+	self:UpdateArtwork()
+end
+
+function ExtraActionBarMod:UpdateArtwork()
+	self:ExtraActionBar_Update()
+	self:UpdateDisplayedZoneAbilities()
+end
+
+function ExtraActionBarMod:ExtraActionBar_Update()
+	if HasExtraActionBar() then
+		ExtraActionBarFrame.button.style:SetShown(not self.db.profile.hideArtwork)
+	end
+end
+
+function ExtraActionBarMod:UpdateDisplayedZoneAbilities()
+	local abilities = C_ZoneAbility.GetActiveAbilities()
+	if abilities and #abilities > 0 then
+		ZoneAbilityFrame.Style:SetShown(not self.db.profile.hideArtwork)
+	end
 end
 
 ExtraActionBar.width = 128
