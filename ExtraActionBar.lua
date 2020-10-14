@@ -66,10 +66,7 @@ function ExtraActionBarMod:ExtraActionBar_Update()
 end
 
 function ExtraActionBarMod:UpdateDisplayedZoneAbilities()
-	local abilities = C_ZoneAbility.GetActiveAbilities()
-	if abilities and #abilities > 0 then
-		ZoneAbilityFrame.Style:SetShown(not self.db.profile.hideArtwork)
-	end
+	ZoneAbilityFrame.Style:SetShown(not self.db.profile.hideArtwork)
 end
 
 ExtraActionBar.width = 128

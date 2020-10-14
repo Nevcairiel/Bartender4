@@ -32,7 +32,6 @@ read_globals = {
 
 	-- API functions
 	"C_PetBattles",
-	"C_ZoneAbility",
 	"CanExitVehicle",
 	"ClearOverrideBindings",
 	"CreateFrame",
