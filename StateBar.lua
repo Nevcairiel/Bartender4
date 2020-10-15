@@ -271,9 +271,9 @@ function StateBar:UpdateStates(returnOnly)
 		if Bartender4.db.profile.mouseovermod and Bartender4.db.profile.mouseovermod ~= "NONE" then
 			moMod = ",mod:" .. Bartender4.db.profile.mouseovermod
 		end
-		helpDriver = ("[@mouseover,help%s]mouseover;"):format(moMod) .. helpDriver
-		harmDriver = ("[@mouseover,nodead,harm%s]mouseover;"):format(moMod) .. harmDriver
-		allDriver  = ("[@mouseover,nodead]mouseover;"):format(moMod) .. allDriver
+		helpDriver = ("[@mouseover,exists,help%s]mouseover;"):format(moMod) .. helpDriver
+		harmDriver = ("[@mouseover,nodead,exists,harm%s]mouseover;"):format(moMod) .. harmDriver
+		allDriver  = ("[@mouseover,nodead,exists]mouseover;"):format(moMod) .. allDriver
 	end
 
 	if helpDriver ~= "" then
