@@ -35,7 +35,7 @@ end
 
 function VehicleBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.Bar:Create("Vehicle", self.db.profile, L["Vehicle Bar"], true), {__index = VehicleBar})
+		self.bar = setmetatable(Bartender4.Bar:Create("Vehicle", self.db.profile, L["Vehicle Bar"]), {__index = VehicleBar})
 		self.bar.content =  MainMenuBarVehicleLeaveButton
 		self.bar.content:SetParent(self.bar)
 		self.bar.content.ClearSetPoint = self.bar.ClearSetPoint

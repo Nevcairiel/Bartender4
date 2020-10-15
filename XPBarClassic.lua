@@ -28,7 +28,7 @@ end
 
 function XPBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.Bar:Create("XP", self.db.profile, L["XP Bar"]), {__index = XPBar})
+		self.bar = setmetatable(Bartender4.Bar:Create("XP", self.db.profile, L["XP Bar"], 1), {__index = XPBar})
 		self.bar.content = MainMenuExpBar
 		self.bar.content:SetParent(self.bar)
 		self.bar.content:SetFrameLevel(self.bar:GetFrameLevel() + 1)
@@ -82,7 +82,7 @@ end
 
 function RepBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.Bar:Create("Rep", self.db.profile, L["Reputation Bar"]), {__index = RepBar})
+		self.bar = setmetatable(Bartender4.Bar:Create("Rep", self.db.profile, L["Reputation Bar"], 1), {__index = RepBar})
 		self.bar.content = ReputationWatchBar
 		self.bar.content:SetParent(self.bar)
 		self.bar.content:SetFrameLevel(self.bar:GetFrameLevel() + 1)

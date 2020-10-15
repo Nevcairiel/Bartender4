@@ -132,7 +132,7 @@ Bartender4.Bar = {}
 Bartender4.Bar.defaults = defaults
 Bartender4.Bar.prototype = Bar
 Bartender4.Bar.barregistry = barregistry
-function Bartender4.Bar:Create(id, config, name)
+function Bartender4.Bar:Create(id, config, name, level)
 	id = tostring(id)
 	assert(not barregistry[id], "duplicated entry in barregistry.")
 
@@ -147,6 +147,7 @@ function Bartender4.Bar:Create(id, config, name)
 
 	bar:SetWidth(1)
 	bar:SetHeight(1)
+	bar:SetFrameLevel(level or 10)
 
 	local overlay = CreateFrame("Button", bar:GetName() .. "Overlay", bar, BackdropTemplateMixin and "BackdropTemplate" or nil)
 	bar.overlay = overlay

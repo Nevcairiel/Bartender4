@@ -37,10 +37,9 @@ end
 
 function BlizzardArtMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.Bar:Create("BlizzardArt", self.db.profile, L["Blizzard Art"]), {__index = BlizzardArt})
+		self.bar = setmetatable(Bartender4.Bar:Create("BlizzardArt", self.db.profile, L["Blizzard Art"], 5), {__index = BlizzardArt})
 		self.bar.highLevel = CreateFrame("Frame", nil, self.bar)
 		self.bar.highLevel:SetAllPoints(self.bar)
-		self.bar.highLevel:SetFrameLevel(100)
 		self.bar.leftCap = self.bar.highLevel:CreateTexture("BlizzardArtLeftCap", "ARTWORK")
 		self.bar.leftCap:ClearAllPoints()
 		self.bar.leftCap:SetHeight(128)
