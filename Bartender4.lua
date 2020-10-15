@@ -154,6 +154,9 @@ function Bartender4:HideBlizzard()
 
 	MainMenuBarArtFrame:Hide()
 	MainMenuBarArtFrame:SetParent(UIHider)
+	MainMenuBarArtFrame:ClearAllPoints()
+	MainMenuBarArtFrame:SetPoint("BOTTOM", UIParent, "BOTTOM")
+	MainMenuBarArtFrameBackground:ClearAllPoints()
 
 	if MicroButtonAndBagsBar then -- classic doesn't have this
 		MicroButtonAndBagsBar:Hide()
@@ -168,6 +171,7 @@ function Bartender4:HideBlizzard()
 	StanceBarFrame:UnregisterAllEvents()
 	StanceBarFrame:Hide()
 	StanceBarFrame:SetParent(UIHider)
+	StanceBarFrame:ClearAllPoints()
 
 	--BonusActionBarFrame:UnregisterAllEvents()
 	--BonusActionBarFrame:Hide()
@@ -177,17 +181,20 @@ function Bartender4:HideBlizzard()
 		--PossessBarFrame:UnregisterAllEvents()
 		PossessBarFrame:Hide()
 		PossessBarFrame:SetParent(UIHider)
+		PossessBarFrame:ClearAllPoints()
 	end
 
 	if MultiCastActionBarFrame then
 		MultiCastActionBarFrame:UnregisterAllEvents()
 		MultiCastActionBarFrame:Hide()
 		MultiCastActionBarFrame:SetParent(UIHider)
+		MultiCastActionBarFrame:ClearAllPoints()
 	end
 
 	PetActionBarFrame:UnregisterAllEvents()
 	PetActionBarFrame:Hide()
 	PetActionBarFrame:SetParent(UIHider)
+	PetActionBarFrame:ClearAllPoints()
 
 	if not WoWClassic then
 		if PlayerTalentFrame then
