@@ -38,8 +38,8 @@ function ExtraActionBarMod:OnEnable()
 		self.bar.content = ExtraAbilityContainer
 
 		self.bar.content.ignoreFramePositionManager = true
+		self.bar.content:SetToplevel(false)
 		self.bar.content:SetParent(self.bar)
-		--self.bar.content:SetFrameLevel(self.bar:GetFrameLevel() + 1)
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
