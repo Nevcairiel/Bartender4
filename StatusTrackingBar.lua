@@ -42,6 +42,7 @@ function StatusBarMod:OnEnable()
 		self.bar.manager:AddBarFromTemplate("FRAME", "AzeriteBarTemplate")
 		self.bar.manager:SetBarSize(true)
 		self.bar.manager:Show()
+		self.bar.manager:SetFrameLevel(2)
 	end
 	self.bar:Enable()
 	self:ToggleOptions()

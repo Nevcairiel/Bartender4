@@ -147,7 +147,7 @@ function Bartender4.Bar:Create(id, config, name, level)
 
 	bar:SetWidth(1)
 	bar:SetHeight(1)
-	bar:SetFrameLevel(level or 10)
+	bar:SetFrameLevel(level or 5)
 
 	local overlay = CreateFrame("Button", bar:GetName() .. "Overlay", bar, BackdropTemplateMixin and "BackdropTemplate" or nil)
 	bar.overlay = overlay
