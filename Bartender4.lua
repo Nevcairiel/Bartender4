@@ -156,7 +156,10 @@ function Bartender4:HideBlizzard()
 	MainMenuBarArtFrame:SetParent(UIHider)
 	MainMenuBarArtFrame:ClearAllPoints()
 	MainMenuBarArtFrame:SetPoint("BOTTOM", UIParent, "BOTTOM")
-	MainMenuBarArtFrameBackground:ClearAllPoints()
+
+	if MainMenuBarArtFrameBackground then
+		MainMenuBarArtFrameBackground:ClearAllPoints()
+	end
 
 	if MicroButtonAndBagsBar then -- classic doesn't have this
 		MicroButtonAndBagsBar:Hide()

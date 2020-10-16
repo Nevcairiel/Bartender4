@@ -89,6 +89,7 @@ read_globals = {
 	"LFDMicroButton",
 	"MainMenuBar",
 	"MainMenuBarArtFrame",
+	"MainMenuBarArtFrameBackground",
 	"MainMenuBarBackpackButton",
 	"MainMenuBarMaxLevelBar",
 	"MainMenuMicroButton",
