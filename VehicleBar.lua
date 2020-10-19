@@ -40,7 +40,7 @@ function VehicleBarMod:OnEnable()
 		self.bar.content:SetParent(self.bar)
 		self.bar.content.ClearSetPoint = self.bar.ClearSetPoint
 	end
-	self:SecureHook("MainMenuBarVehicleLeaveButton_Update")
+	self:RawHook("MainMenuBarVehicleLeaveButton_Update", true)
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()

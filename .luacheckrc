@@ -19,6 +19,7 @@ ignore = {
 globals = {
 	"_G",
 	"UIPARENT_MANAGED_FRAME_POSITIONS",
+	"ShowPetActionBar",
 }
 
 read_globals = {

@@ -198,6 +198,7 @@ function Bartender4:HideBlizzard()
 	PetActionBarFrame:Hide()
 	PetActionBarFrame:SetParent(UIHider)
 	PetActionBarFrame:ClearAllPoints()
+	ShowPetActionBar = function() end
 
 	if not WoWClassic then
 		if PlayerTalentFrame then
