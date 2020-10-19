@@ -199,7 +199,7 @@ function ActionBar:UpdateButtons(numbuttons, offset)
 	local buttons = self.buttons or {}
 
 	local updateStartValue = #buttons + 1
-	if offset and offset ~= self.config.buttonOffset then
+	if self.currentButtonOffset ~= self.config.buttonOffset then
 		updateStartValue = 1
 	end
 
@@ -251,6 +251,7 @@ function ActionBar:UpdateButtons(numbuttons, offset)
 
 	self.numbuttons = numbuttons
 	self.buttons = buttons
+	self.currentButtonOffset = offset
 
 	self:UpdateButtonLayout()
 	self:SetGrid()
