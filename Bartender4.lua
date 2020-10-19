@@ -88,6 +88,32 @@ function Bartender4:OnInitialize()
 	end
 end
 
+local function hideActionBarFrame(frame, clearEvents, reanchor)
+	if frame then
+		if clearEvents then
+			frame:UnregisterAllEvents()
+		end
+
+		frame:Hide()
+		frame:SetParent(Bartender4.UIHider)
+
+		-- setup faux anchors so the frame position data returns valid
+		if reanchor then
+			local left, right, top, bottom = frame:GetLeft(), frame:GetRight(), frame:GetTop(), frame:GetBottom()
+			frame:ClearAllPoints()
+			if left and right and top and bottom then
+				frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", left, top)
+				frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMLEFT", right, bottom)
+			else
+				frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", 10, 10)
+				frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMLEFT", 20, 20)
+			end
+		else
+			frame:ClearAllPoints()
+		end
+	end
+end
+
 function Bartender4:HideBlizzard()
 	-- Hidden parent frame
 	local UIHider = CreateFrame("Frame")
@@ -152,53 +178,24 @@ function Bartender4:HideBlizzard()
 		end)
 	end
 
-	MainMenuBarArtFrame:Hide()
-	MainMenuBarArtFrame:SetParent(UIHider)
-	MainMenuBarArtFrame:ClearAllPoints()
-	MainMenuBarArtFrame:SetPoint("BOTTOM", UIParent, "BOTTOM")
-
-	if MainMenuBarArtFrameBackground then
-		MainMenuBarArtFrameBackground:ClearAllPoints()
-	end
-
-	if MicroButtonAndBagsBar then -- classic doesn't have this
-		MicroButtonAndBagsBar:Hide()
-		MicroButtonAndBagsBar:SetParent(UIHider)
-	end
+	hideActionBarFrame(MainMenuBarArtFrame, false, true)
+	hideActionBarFrame(MainMenuBarArtFrameBackground)
+	hideActionBarFrame(MicroButtonAndBagsBar)
 
 	if StatusTrackingBarManager then
 		StatusTrackingBarManager:Hide()
 		--StatusTrackingBarManager:SetParent(UIHider)
 	end
 
-	StanceBarFrame:UnregisterAllEvents()
-	StanceBarFrame:Hide()
-	StanceBarFrame:SetParent(UIHider)
-	StanceBarFrame:ClearAllPoints()
+	hideActionBarFrame(StanceBarFrame, true, true)
+	hideActionBarFrame(PossessBarFrame, false, true)
+	hideActionBarFrame(MultiCastActionBarFrame, true, true)
+	hideActionBarFrame(PetActionBarFrame, true, true)
+	ShowPetActionBar = function() end
 
 	--BonusActionBarFrame:UnregisterAllEvents()
 	--BonusActionBarFrame:Hide()
 	--BonusActionBarFrame:SetParent(UIHider)
-
-	if PossessBarFrame then -- classic doesn't have this
-		--PossessBarFrame:UnregisterAllEvents()
-		PossessBarFrame:Hide()
-		PossessBarFrame:SetParent(UIHider)
-		PossessBarFrame:ClearAllPoints()
-	end
-
-	if MultiCastActionBarFrame then
-		MultiCastActionBarFrame:UnregisterAllEvents()
-		MultiCastActionBarFrame:Hide()
-		MultiCastActionBarFrame:SetParent(UIHider)
-		MultiCastActionBarFrame:ClearAllPoints()
-	end
-
-	PetActionBarFrame:UnregisterAllEvents()
-	PetActionBarFrame:Hide()
-	PetActionBarFrame:SetParent(UIHider)
-	PetActionBarFrame:ClearAllPoints()
-	ShowPetActionBar = function() end
 
 	if not WoWClassic then
 		if PlayerTalentFrame then
