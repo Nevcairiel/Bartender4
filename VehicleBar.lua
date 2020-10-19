@@ -50,17 +50,24 @@ function VehicleBarMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
-function VehicleBarMod:MainMenuBarVehicleLeaveButton_Update()
+local function ShouldVehicleButtonBeShown()
 	if WoWClassic then
-		if UnitOnTaxi("player") then
-			MainMenuBarVehicleLeaveButton:Show()
-		end
+		return UnitOnTaxi("player")
 	else
-		if CanExitVehicle() then
-			MainMenuBarVehicleLeaveButton:Show()
-		end
+		return CanExitVehicle()
 	end
-	self.bar:PerformLayout()
+end
+
+function VehicleBarMod:MainMenuBarVehicleLeaveButton_Update()
+	if ShouldVehicleButtonBeShown() then
+		self.bar:PerformLayout()
+		MainMenuBarVehicleLeaveButton:Show()
+		MainMenuBarVehicleLeaveButton:Enable()
+	else
+		MainMenuBarVehicleLeaveButton:SetHighlightTexture([[Interface\Buttons\ButtonHilight-Square]], "ADD")
+		MainMenuBarVehicleLeaveButton:UnlockHighlight()
+		MainMenuBarVehicleLeaveButton:Hide()
+	end
 end
 
 function VehicleBar:ApplyConfig(config)
