@@ -88,7 +88,7 @@ function Bartender4:OnInitialize()
 	end
 end
 
-local function hideActionBarFrame(frame, clearEvents, reanchor)
+local function hideActionBarFrame(frame, clearEvents, reanchor, noAnchorChanges)
 	if frame then
 		if clearEvents then
 			frame:UnregisterAllEvents()
@@ -98,7 +98,7 @@ local function hideActionBarFrame(frame, clearEvents, reanchor)
 		frame:SetParent(Bartender4.UIHider)
 
 		-- setup faux anchors so the frame position data returns valid
-		if reanchor then
+		if reanchor and not noAnchorChanges then
 			local left, right, top, bottom = frame:GetLeft(), frame:GetRight(), frame:GetTop(), frame:GetBottom()
 			frame:ClearAllPoints()
 			if left and right and top and bottom then
@@ -108,7 +108,7 @@ local function hideActionBarFrame(frame, clearEvents, reanchor)
 				frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", 10, 10)
 				frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMLEFT", 20, 20)
 			end
-		else
+		elseif not noAnchorChanges then
 			frame:ClearAllPoints()
 		end
 	end
@@ -180,7 +180,7 @@ function Bartender4:HideBlizzard()
 
 	hideActionBarFrame(MainMenuBarArtFrame, false, true)
 	hideActionBarFrame(MainMenuBarArtFrameBackground)
-	hideActionBarFrame(MicroButtonAndBagsBar)
+	hideActionBarFrame(MicroButtonAndBagsBar, false, false, true)
 
 	if StatusTrackingBarManager then
 		StatusTrackingBarManager:Hide()
@@ -205,25 +205,10 @@ function Bartender4:HideBlizzard()
 		end
 	end
 
-	if MainMenuBarPerformanceBarFrame then
-		MainMenuBarPerformanceBarFrame:Hide()
-		MainMenuBarPerformanceBarFrame:SetParent(UIHider)
-	end
-
-	if MainMenuExpBar then
-		MainMenuExpBar:Hide()
-		MainMenuExpBar:SetParent(UIHider)
-	end
-
-	if ReputationWatchBar then
-		ReputationWatchBar:Hide()
-		ReputationWatchBar:SetParent(UIHider)
-	end
-
-	if MainMenuBarMaxLevelBar then
-		MainMenuBarMaxLevelBar:Hide()
-		MainMenuBarMaxLevelBar:SetParent(UIHider)
-	end
+	hideActionBarFrame(MainMenuBarPerformanceBarFrame, false, false, true)
+	hideActionBarFrame(MainMenuExpBar, false, false, true)
+	hideActionBarFrame(ReputationWatchBar, false, false, true)
+	hideActionBarFrame(MainMenuBarMaxLevelBar, false, false, true)
 
 	self:RegisterPetBattleDriver()
 end
