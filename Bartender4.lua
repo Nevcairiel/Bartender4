@@ -211,6 +211,12 @@ function Bartender4:HideBlizzard()
 	hideActionBarFrame(MainMenuBarMaxLevelBar, false, false, true)
 
 	self:RegisterPetBattleDriver()
+
+	if IsAddOnLoaded("Blizzard_NewPlayerExperience") then
+		self:NPE_LoadUI()
+	elseif NPE_LoadUI ~= nil then
+		self:SecureHook("NPE_LoadUI")
+	end
 end
 
 function Bartender4:InitializeProfile()
@@ -335,6 +341,20 @@ function Bartender4:ToggleLock()
 	else
 		self:Lock()
 	end
+end
+
+function Bartender4:NPE_LoadUI()
+	if not (Tutorials and Tutorials.AddSpellToActionBar) then return end
+
+	-- Action Bar drag tutorials
+	Tutorials.AddSpellToActionBar:Disable()
+	Tutorials.AddClassSpellToActionBar:Disable()
+
+	-- these tutorials rely on finding valid action bar buttons, and error otherwise
+	Tutorials.Intro_CombatTactics:Disable()
+
+	-- enable spell pushing because the drag tutorial is turned off
+	Tutorials.AutoPushSpellWatcher:Complete()
 end
 
 local getSnap, setSnap

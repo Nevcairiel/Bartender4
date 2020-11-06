@@ -52,6 +52,7 @@ read_globals = {
 	"GetSpellInfo",
 	"HasExtraActionBar",
 	"InCombatLockdown",
+	"IsAddOnLoaded",
 	"IsModifiedClick",
 	"MouseIsOver",
 	"PickupPetAction",
@@ -69,8 +70,10 @@ read_globals = {
 	"AutoCastShine_AutoCastStart",
 	"AutoCastShine_AutoCastStop",
 	"CooldownFrame_Set",
+	"NPE_LoadUI",
 	"RegisterStateDriver",
 	"SetDesaturation",
+	"Tutorials",
 	"UnregisterStateDriver",
 	"UpdateMicroButtonsParent",
 
