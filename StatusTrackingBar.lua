@@ -28,7 +28,7 @@ end
 
 function StatusBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.Bar:Create("Status", self.db.profile, L["Status Tracking Bar"]), {__index = StatusBar})
+		self.bar = setmetatable(Bartender4.Bar:Create("Status", self.db.profile, L["Status Tracking Bar"], 1), {__index = StatusBar})
 		self.bar.content = CreateFrame("Frame", nil, self.bar)
 		self.bar.content:SetSize(804, 14)
 		self.bar.content:Show()
@@ -42,6 +42,7 @@ function StatusBarMod:OnEnable()
 		self.bar.manager:AddBarFromTemplate("FRAME", "AzeriteBarTemplate")
 		self.bar.manager:SetBarSize(true)
 		self.bar.manager:Show()
+		self.bar.manager:SetFrameLevel(2)
 	end
 	self.bar:Enable()
 	self:ToggleOptions()

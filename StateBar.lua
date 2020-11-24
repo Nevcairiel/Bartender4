@@ -237,6 +237,11 @@ function StateBar:UpdateStates(returnOnly)
 		control:ChildUpdate("target-harm", state)
 	]])
 
+	self:SetAttribute("_onstate-target-all", [[
+		local state = (newstate ~= "nil") and newstate or nil
+		control:ChildUpdate("target-all", state)
+	]])
+
 	local preSelf = ""
 	if Bartender4.db.profile.selfcastmodifier then
 		preSelf = "[mod:SELFCAST]player;"
@@ -251,11 +256,14 @@ function StateBar:UpdateStates(returnOnly)
 	self:SetAttribute("state-target-help", "nil")
 	UnregisterStateDriver(self, "target-harm")
 	self:SetAttribute("state-target-harm", "nil")
+	UnregisterStateDriver(self, "target-all")
+	self:SetAttribute("state-target-all", "nil")
 
-	local helpDriver, harmDriver = "", ""
+	local helpDriver, harmDriver, allDriver = "", "", ""
 	if self.config.autoassist then
 		helpDriver = "[help]nil; [@targettarget, help]targettarget;"
 		harmDriver = "[harm]nil; [@targettarget, harm]targettarget;"
+		allDriver  = "" -- no autoassist without harm/help distinction
 	end
 
 	if self.config.mouseover then
@@ -263,8 +271,9 @@ function StateBar:UpdateStates(returnOnly)
 		if Bartender4.db.profile.mouseovermod and Bartender4.db.profile.mouseovermod ~= "NONE" then
 			moMod = ",mod:" .. Bartender4.db.profile.mouseovermod
 		end
-		helpDriver = ("[@mouseover,help%s]mouseover;"):format(moMod) .. helpDriver
-		harmDriver = ("[@mouseover,harm%s]mouseover;"):format(moMod) .. harmDriver
+		helpDriver = ("[@mouseover,exists,help%s]mouseover;"):format(moMod) .. helpDriver
+		harmDriver = ("[@mouseover,nodead,exists,harm%s]mouseover;"):format(moMod) .. harmDriver
+		allDriver  = ("[@mouseover,nodead,exists]mouseover;"):format(moMod) .. allDriver
 	end
 
 	if helpDriver ~= "" then
@@ -273,6 +282,10 @@ function StateBar:UpdateStates(returnOnly)
 
 	if harmDriver ~= "" then
 		RegisterStateDriver(self, "target-harm", ("%s%s nil"):format(preFocus, harmDriver))
+	end
+
+	if allDriver ~= "" then
+		RegisterStateDriver(self, "target-all", ("%s%s%s nil"):format(preSelf, preFocus, allDriver))
 	end
 
 	self:ForAll("UpdateState")

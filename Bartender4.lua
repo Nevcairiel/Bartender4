@@ -88,6 +88,32 @@ function Bartender4:OnInitialize()
 	end
 end
 
+local function hideActionBarFrame(frame, clearEvents, reanchor, noAnchorChanges)
+	if frame then
+		if clearEvents then
+			frame:UnregisterAllEvents()
+		end
+
+		frame:Hide()
+		frame:SetParent(Bartender4.UIHider)
+
+		-- setup faux anchors so the frame position data returns valid
+		if reanchor and not noAnchorChanges then
+			local left, right, top, bottom = frame:GetLeft(), frame:GetRight(), frame:GetTop(), frame:GetBottom()
+			frame:ClearAllPoints()
+			if left and right and top and bottom then
+				frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", left, top)
+				frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMLEFT", right, bottom)
+			else
+				frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", 10, 10)
+				frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMLEFT", 20, 20)
+			end
+		elseif not noAnchorChanges then
+			frame:ClearAllPoints()
+		end
+	end
+end
+
 function Bartender4:HideBlizzard()
 	-- Hidden parent frame
 	local UIHider = CreateFrame("Frame")
@@ -126,6 +152,7 @@ function Bartender4:HideBlizzard()
 	UIPARENT_MANAGED_FRAME_POSITIONS["PossessBarFrame"] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS["MultiCastActionBarFrame"] = nil
 	UIPARENT_MANAGED_FRAME_POSITIONS["PETACTIONBAR_YPOS"] = nil
+	UIPARENT_MANAGED_FRAME_POSITIONS["ExtraAbilityContainer"] = nil
 
 	--MainMenuBar:UnregisterAllEvents()
 	--MainMenuBar:SetParent(UIHider)
@@ -141,44 +168,34 @@ function Bartender4:HideBlizzard()
 	if OverrideActionBar then -- classic doesn't have this
 		animations = {OverrideActionBar.slideOut:GetAnimations()}
 		animations[1]:SetOffset(0,0)
+
+		-- when blizzard vehicle is turned off, we need to manually fix the state since the OverrideActionBar animation wont run
+		hooksecurefunc("BeginActionBarTransition", function(bar, animIn)
+			if bar == OverrideActionBar and not self.db.profile.blizzardVehicle then
+				OverrideActionBar.slideOut:Stop()
+				MainMenuBar:Show()
+			end
+		end)
 	end
 
-	MainMenuBarArtFrame:Hide()
-	MainMenuBarArtFrame:SetParent(UIHider)
-
-	if MicroButtonAndBagsBar then -- classic doesn't have this
-		MicroButtonAndBagsBar:Hide()
-		MicroButtonAndBagsBar:SetParent(UIHider)
-	end
+	hideActionBarFrame(MainMenuBarArtFrame, false, true)
+	hideActionBarFrame(MainMenuBarArtFrameBackground)
+	hideActionBarFrame(MicroButtonAndBagsBar, false, false, true)
 
 	if StatusTrackingBarManager then
 		StatusTrackingBarManager:Hide()
 		--StatusTrackingBarManager:SetParent(UIHider)
 	end
 
-	StanceBarFrame:UnregisterAllEvents()
-	StanceBarFrame:Hide()
-	StanceBarFrame:SetParent(UIHider)
+	hideActionBarFrame(StanceBarFrame, true, true)
+	hideActionBarFrame(PossessBarFrame, false, true)
+	hideActionBarFrame(MultiCastActionBarFrame, true, true)
+	hideActionBarFrame(PetActionBarFrame, true, true)
+	ShowPetActionBar = function() end
 
 	--BonusActionBarFrame:UnregisterAllEvents()
 	--BonusActionBarFrame:Hide()
 	--BonusActionBarFrame:SetParent(UIHider)
-
-	if PossessBarFrame then -- classic doesn't have this
-		--PossessBarFrame:UnregisterAllEvents()
-		PossessBarFrame:Hide()
-		PossessBarFrame:SetParent(UIHider)
-	end
-
-	if MultiCastActionBarFrame then
-		MultiCastActionBarFrame:UnregisterAllEvents()
-		MultiCastActionBarFrame:Hide()
-		MultiCastActionBarFrame:SetParent(UIHider)
-	end
-
-	PetActionBarFrame:UnregisterAllEvents()
-	PetActionBarFrame:Hide()
-	PetActionBarFrame:SetParent(UIHider)
 
 	if not WoWClassic then
 		if PlayerTalentFrame then
@@ -188,27 +205,18 @@ function Bartender4:HideBlizzard()
 		end
 	end
 
-	if MainMenuBarPerformanceBarFrame then
-		MainMenuBarPerformanceBarFrame:Hide()
-		MainMenuBarPerformanceBarFrame:SetParent(UIHider)
-	end
-
-	if MainMenuExpBar then
-		MainMenuExpBar:Hide()
-		MainMenuExpBar:SetParent(UIHider)
-	end
-
-	if ReputationWatchBar then
-		ReputationWatchBar:Hide()
-		ReputationWatchBar:SetParent(UIHider)
-	end
-
-	if MainMenuBarMaxLevelBar then
-		MainMenuBarMaxLevelBar:Hide()
-		MainMenuBarMaxLevelBar:SetParent(UIHider)
-	end
+	hideActionBarFrame(MainMenuBarPerformanceBarFrame, false, false, true)
+	hideActionBarFrame(MainMenuExpBar, false, false, true)
+	hideActionBarFrame(ReputationWatchBar, false, false, true)
+	hideActionBarFrame(MainMenuBarMaxLevelBar, false, false, true)
 
 	self:RegisterPetBattleDriver()
+
+	if IsAddOnLoaded("Blizzard_NewPlayerExperience") then
+		self:NPE_LoadUI()
+	elseif NPE_LoadUI ~= nil then
+		self:SecureHook("NPE_LoadUI")
+	end
 end
 
 function Bartender4:InitializeProfile()
@@ -280,6 +288,9 @@ function Bartender4:UpdateBlizzardVehicle()
 	if self.db.profile.blizzardVehicle then
 		--MainMenuBar:SetParent(UIParent)
 		OverrideActionBar:SetParent(UIParent)
+		if CURRENT_ACTION_BAR_STATE ~= LE_ACTIONBAR_STATE_OVERRIDE then
+			OverrideActionBar:Hide()
+		end
 		if not self.vehicleController then
 			self.vehicleController = CreateFrame("Frame", nil, UIParent, "SecureHandlerStateTemplate")
 			self.vehicleController:SetFrameRef("overrideActionBar", OverrideActionBar)
@@ -330,6 +341,20 @@ function Bartender4:ToggleLock()
 	else
 		self:Lock()
 	end
+end
+
+function Bartender4:NPE_LoadUI()
+	if not (Tutorials and Tutorials.AddSpellToActionBar) then return end
+
+	-- Action Bar drag tutorials
+	Tutorials.AddSpellToActionBar:Disable()
+	Tutorials.AddClassSpellToActionBar:Disable()
+
+	-- these tutorials rely on finding valid action bar buttons, and error otherwise
+	Tutorials.Intro_CombatTactics:Disable()
+
+	-- enable spell pushing because the drag tutorial is turned off
+	Tutorials.AutoPushSpellWatcher:Complete()
 end
 
 local getSnap, setSnap

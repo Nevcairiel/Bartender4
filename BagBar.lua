@@ -125,7 +125,7 @@ function BagBar:FeedButtons()
 						Icon = _G[v:GetName() .. "IconTexture"],
 					}
 				end
-				group:AddButton(v, v.MasqueButtonData)
+				group:AddButton(v, v.MasqueButtonData, "Item")
 			end
 		end
 

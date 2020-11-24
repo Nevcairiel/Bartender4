@@ -35,12 +35,12 @@ end
 
 function VehicleBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.Bar:Create("Vehicle", self.db.profile, L["Vehicle Bar"], true), {__index = VehicleBar})
+		self.bar = setmetatable(Bartender4.Bar:Create("Vehicle", self.db.profile, L["Vehicle Bar"]), {__index = VehicleBar})
 		self.bar.content =  MainMenuBarVehicleLeaveButton
 		self.bar.content:SetParent(self.bar)
 		self.bar.content.ClearSetPoint = self.bar.ClearSetPoint
 	end
-	self:SecureHook("MainMenuBarVehicleLeaveButton_Update")
+	self:RawHook("MainMenuBarVehicleLeaveButton_Update", true)
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
@@ -50,17 +50,24 @@ function VehicleBarMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
-function VehicleBarMod:MainMenuBarVehicleLeaveButton_Update()
+local function ShouldVehicleButtonBeShown()
 	if WoWClassic then
-		if UnitOnTaxi("player") then
-			MainMenuBarVehicleLeaveButton:Show()
-		end
+		return UnitOnTaxi("player")
 	else
-		if CanExitVehicle() then
-			MainMenuBarVehicleLeaveButton:Show()
-		end
+		return CanExitVehicle()
 	end
-	self.bar:PerformLayout()
+end
+
+function VehicleBarMod:MainMenuBarVehicleLeaveButton_Update()
+	if ShouldVehicleButtonBeShown() then
+		self.bar:PerformLayout()
+		MainMenuBarVehicleLeaveButton:Show()
+		MainMenuBarVehicleLeaveButton:Enable()
+	else
+		MainMenuBarVehicleLeaveButton:SetHighlightTexture([[Interface\Buttons\ButtonHilight-Square]], "ADD")
+		MainMenuBarVehicleLeaveButton:UnlockHighlight()
+		MainMenuBarVehicleLeaveButton:Hide()
+	end
 end
 
 function VehicleBar:ApplyConfig(config)
