@@ -16,6 +16,7 @@ local abdefaults = {
 	['**'] = Bartender4:Merge({
 		enabled = true,
 		buttons = 12,
+		buttonOffset = 0,
 		hidemacrotext = false,
 		showgrid = false,
 		flyoutDirection = "UP",

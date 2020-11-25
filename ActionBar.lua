@@ -110,7 +110,10 @@ local UpdateSmartTarget = [[
 			if BT_Spell_Overrides[action] then action = BT_Spell_Overrides[action] end
 			local id, subtype = FindSpellBookSlotBySpellID(action), "spell"
 			if id and id > 0 then
-				if IsHelpfulSpell(id, subtype) then
+				if IsHelpfulSpell(id, subtype) == IsHarmfulSpell(id, subtype) then
+					self:SetAttribute("targettype", 3)
+					self:SetAttribute("unit", self:GetAttribute("target_all"))
+				elseif IsHelpfulSpell(id, subtype) then
 					self:SetAttribute("targettype", 1)
 					self:SetAttribute("unit", self:GetAttribute("target_help"))
 				elseif IsHarmfulSpell(id, subtype) then
@@ -125,7 +128,6 @@ local UpdateSmartTarget = [[
 function ActionBar:SetupSmartTarget()
 	local s = [[
 		BT_Spell_Overrides = newtable()
-		BT_Spell_Overrides[93402] = 8921 -- sunfire -> moonfire
 		BT_Spell_Overrides[16979] = 102401 -- wild charge (bear)
 		BT_Spell_Overrides[49376] = 102401 -- wild charge (cat)
 	]]
@@ -169,6 +171,13 @@ function ActionBar:SetupSmartButton(button)
 			self:SetAttribute("unit", message)
 		end
 	]])
+
+	button:SetAttribute("_childupdate-target-all", [[
+		self:SetAttribute("target_all", message)
+		if self:GetAttribute("targettype") == 3 then
+			self:SetAttribute("unit", message)
+		end
+	]])
 end
 
 local customExitButton = {
@@ -180,7 +189,7 @@ local customExitButton = {
 }
 
 -- Update the number of buttons in our bar, creating new ones if necessary
-function ActionBar:UpdateButtons(numbuttons)
+function ActionBar:UpdateButtons(numbuttons, offset)
 	if numbuttons then
 		self.config.buttons = min(numbuttons, 12)
 	else
@@ -189,15 +198,29 @@ function ActionBar:UpdateButtons(numbuttons)
 
 	local buttons = self.buttons or {}
 
+	local updateStartValue = #buttons + 1
+	if self.currentButtonOffset ~= self.config.buttonOffset then
+		updateStartValue = 1
+	end
+
+	if offset then
+		self.config.buttonOffset = min(offset, 11)
+	else
+		offset = min(self.config.buttonOffset, 11)
+	end
+
 	local updateBindings = (numbuttons > #buttons)
 	-- create more buttons if needed
-	for i = (#buttons+1), numbuttons do
+	for i = updateStartValue, numbuttons do
 		local absid = (self.id - 1) * 12 + i
-		buttons[i] = LAB10:CreateButton(absid, format("BT4Button%d", absid), self, nil)
-		for k = 1,14 do
-			buttons[i]:SetState(k, "action", (k - 1) * 12 + i)
+		if buttons[i] == nil then
+			buttons[i] = LAB10:CreateButton(absid, format("BT4Button%d", absid), self, nil)
 		end
-		buttons[i]:SetState(0, "action", absid)
+		local offsetid = (i + offset - 1) % 12 + 1
+		for k = 1,14 do
+			buttons[i]:SetState(k, "action", (k - 1) * 12 + offsetid)
+		end
+		buttons[i]:SetState(0, "action", (self.id - 1) * 12 + offsetid)
 
 		if self.MasqueGroup then
 			buttons[i]:AddToMasque(self.MasqueGroup)
@@ -228,6 +251,7 @@ function ActionBar:UpdateButtons(numbuttons)
 
 	self.numbuttons = numbuttons
 	self.buttons = buttons
+	self.currentButtonOffset = offset
 
 	self:UpdateButtonLayout()
 	self:SetGrid()
@@ -250,8 +274,17 @@ function ActionBar:GetButtons()
 	return self.config.buttons
 end
 
+-- get the current number of buttons
+function ActionBar:GetButtonOffset()
+	return self.config.buttonOffset
+end
+
 -- set the number of buttons and refresh layout
 ActionBar.SetButtons = ActionBar.UpdateButtons
+
+function ActionBar:SetButtonOffset(offset)
+	return self:UpdateButtons(nil, offset)
+end
 
 function ActionBar:GetEnabled()
 	return true

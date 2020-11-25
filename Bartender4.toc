@@ -1,8 +1,8 @@
 #@retail@
-## Interface: 80300
+## Interface: 90002
 #@end-retail@
 #@non-retail@
-# ## Interface: 11303
+# ## Interface: 11305
 #@end-non-retail@
 
 ## Title: Bartender4
@@ -86,7 +86,6 @@ MicroMenu.lua
 VehicleBar.lua
 BlizzardArt.lua
 ExtraActionBar.lua
-ZoneAbilityBar.lua
 StatusTrackingBar.lua
 
 ## Classic-only ##
@@ -108,7 +107,6 @@ Options\StanceBar.lua
 Options\VehicleBar.lua
 Options\BlizzardArt.lua
 Options\ExtraActionBar.lua
-Options\ZoneAbilityBar.lua
 Options\StatusTrackingBar.lua
 
 ## Classic-only ##

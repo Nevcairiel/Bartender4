@@ -19,6 +19,7 @@ ignore = {
 globals = {
 	"_G",
 	"UIPARENT_MANAGED_FRAME_POSITIONS",
+	"ShowPetActionBar",
 }
 
 read_globals = {
@@ -49,7 +50,9 @@ read_globals = {
 	"GetSpecialization",
 	"GetSpellBookItemInfo",
 	"GetSpellInfo",
+	"HasExtraActionBar",
 	"InCombatLockdown",
+	"IsAddOnLoaded",
 	"IsModifiedClick",
 	"MouseIsOver",
 	"PickupPetAction",
@@ -67,8 +70,10 @@ read_globals = {
 	"AutoCastShine_AutoCastStart",
 	"AutoCastShine_AutoCastStop",
 	"CooldownFrame_Set",
+	"NPE_LoadUI",
 	"RegisterStateDriver",
 	"SetDesaturation",
+	"Tutorials",
 	"UnregisterStateDriver",
 	"UpdateMicroButtonsParent",
 
@@ -81,12 +86,14 @@ read_globals = {
 	"CharacterMicroButton",
 	"CollectionsMicroButton",
 	"EJMicroButton",
+	"ExtraAbilityContainer",
 	"ExtraActionBarFrame",
 	"GuildMicroButton",
 	"HelpMicroButton",
 	"LFDMicroButton",
 	"MainMenuBar",
 	"MainMenuBarArtFrame",
+	"MainMenuBarArtFrameBackground",
 	"MainMenuBarBackpackButton",
 	"MainMenuBarMaxLevelBar",
 	"MainMenuMicroButton",
@@ -123,6 +130,7 @@ read_globals = {
 
 	-- FrameXML Constants
 	"LE_ACTIONBAR_STATE_MAIN",
+	"LE_ACTIONBAR_STATE_OVERRIDE",
 	"LEAVE_VEHICLE",
 	"OKAY",
 	"SOUNDKIT",

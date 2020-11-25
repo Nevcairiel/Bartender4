@@ -91,7 +91,7 @@ function Bartender4.PetButton:Create(id, parent)
 			Button = button,
 			Normal = button.normalTexture,
 		}
-		group:AddButton(button, button.MasqueButtonData)
+		group:AddButton(button, button.MasqueButtonData, "Pet")
 	end
 	return button
 end

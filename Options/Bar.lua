@@ -221,7 +221,6 @@ function Bar:GetOptionObject()
 					get = optGetter,
 					set = optSetter,
 					hidden = clickThroughVis,
-					width = "full",
 				},
 			},
 		},
