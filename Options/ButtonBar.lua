@@ -106,7 +106,7 @@ function ButtonBar:GetOptionObject()
 			name = L["Horizontal Growth"],
 			desc = L["Horizontal growth direction for this bar."],
 			type = "select",
-			values = {LEFT = L["Left"], RIGHT = L["Right"]},
+			values = {LEFT = L["Left"], RIGHT = L["Right"], BOTH = L["Both"]},
 			set = optSetter,
 			get = optGetter,
 		},
