@@ -273,7 +273,7 @@ function StateBar:UpdateStates(returnOnly)
 		end
 		helpDriver = ("[@mouseover,exists,help%s]mouseover;"):format(moMod) .. helpDriver
 		harmDriver = ("[@mouseover,nodead,exists,harm%s]mouseover;"):format(moMod) .. harmDriver
-		allDriver  = ("[@mouseover,nodead,exists]mouseover;"):format(moMod) .. allDriver
+		allDriver  = ("[@mouseover,nodead,exists%s]mouseover;"):format(moMod) .. allDriver
 	end
 
 	if helpDriver ~= "" then
