@@ -181,11 +181,14 @@ function ButtonBar:UpdateButtonLayout()
 	if self.config.position.growHorizontal == "RIGHT" then
 		h1, h2 = "LEFT", "RIGHT"
 		xOff = 5
-	else
+	elseif self.config.position.growHorizontal == "LEFT" then
 		h1, h2 = "RIGHT", "LEFT"
 		xOff = -3
 
 		hpad = -hpad
+	elseif self.config.position.growHorizontal == "BOTH" then
+		h1, h2 = "LEFT", "RIGHT"
+		xOff = (self.button_width + hpad) * (ButtonPerRow - 1) / -2
 	end
 
 	if self.config.position.growVertical == "DOWN" then
