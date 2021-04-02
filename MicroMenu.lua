@@ -16,7 +16,7 @@ local WoWClassic = select(4, GetBuildInfo()) < 20000
 
 -- GLOBALS: CharacterMicroButton, SpellbookMicroButton, TalentMicroButton, AchievementMicroButton, QuestLogMicroButton, GuildMicroButton
 -- GLOBALS: LFDMicroButton, CollectionsMicroButton, EJMicroButton, MainMenuMicroButton
--- GLOBALS: HasVehicleActionBar, UnitVehicleSkin, HasOverrideActionBar, ActionBarController_GetCurrentActionBarState, GetOverrideBarSkin
+-- GLOBALS: HasVehicleActionBar, UnitVehicleSkin, HasOverrideActionBar, GetOverrideBarSkin
 
 local BT_MICRO_BUTTONS = WoWClassic and {
 	"CharacterMicroButton",
