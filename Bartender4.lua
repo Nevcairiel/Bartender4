@@ -288,7 +288,7 @@ function Bartender4:UpdateBlizzardVehicle()
 	if self.db.profile.blizzardVehicle then
 		--MainMenuBar:SetParent(UIParent)
 		OverrideActionBar:SetParent(UIParent)
-		if CURRENT_ACTION_BAR_STATE ~= LE_ACTIONBAR_STATE_OVERRIDE then
+		if ActionBarController_GetCurrentActionBarState() ~= LE_ACTIONBAR_STATE_OVERRIDE then
 			OverrideActionBar:Hide()
 		end
 		if not self.vehicleController then

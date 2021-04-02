@@ -67,6 +67,7 @@ read_globals = {
 	"VehicleExit",
 
 	-- FrameXML functions
+	"ActionBarController_GetCurrentActionBarState",
 	"AutoCastShine_AutoCastStart",
 	"AutoCastShine_AutoCastStop",
 	"CooldownFrame_Set",
@@ -124,7 +125,6 @@ read_globals = {
 	-- FrameXML Misc
 	"BackdropTemplateMixin",
 	"ChatFontNormal",
-	"CURRENT_ACTION_BAR_STATE",
 	"GameFontNormal",
 	"MICRO_BUTTONS",
 
