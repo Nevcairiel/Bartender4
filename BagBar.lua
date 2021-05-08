@@ -15,7 +15,7 @@ local _G = _G
 local next, pairs, setmetatable = next, pairs, setmetatable
 local table_insert, table_remove = table.insert, table.remove
 
-local WoWClassic = select(4, GetBuildInfo()) < 20000
+local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 
 -- GLOBALS: UIParent, MainMenuBarBackpackButton, CharacterBag0Slot, CharacterBag1Slot, CharacterBag2Slot, CharacterBag3Slot, KeyRingButton
 

@@ -10,7 +10,7 @@ local StanceBarMod = Bartender4:NewModule("StanceBar", "AceEvent-3.0")
 -- fetch upvalues
 local ButtonBar = Bartender4.ButtonBar.prototype
 
-local WoWClassic = select(4, GetBuildInfo()) < 20000
+local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 
 local _G = _G
 local format, setmetatable, min, select = string.format, setmetatable, min, select

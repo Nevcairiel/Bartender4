@@ -12,7 +12,7 @@ local Bar = Bartender4.Bar.prototype
 
 -- GLOBALS: GetNumShapeshiftForms
 
-local WoWClassic = select(4, GetBuildInfo()) < 20000
+local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 
 local PresetsMod = Bartender4:NewModule("Presets")
 
