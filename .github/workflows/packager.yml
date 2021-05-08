@@ -42,7 +42,7 @@ jobs:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
           GITHUB_OAUTH: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create Classic Package
+      - name: Create BC Package
         run: curl -s https://raw.githubusercontent.com/BigWigsMods/packager/master/release.sh | bash -s -- -g bc -m .pkgmeta-bc
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
