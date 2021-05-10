@@ -21,7 +21,12 @@
 ## OptionalDeps: Ace3, Masque, LibButtonGlow-1.0, LibActionButton-1.0, LibKeyBound-1.0, LibDBIcon-1.0, LibWindow-1.1, LibDualSpec-1.0
 #@end-retail@
 #@non-retail@
+# #@version-classic@
 # ## OptionalDeps: Ace3, Masque, LibButtonGlow-1.0, LibActionButton-1.0, LibKeyBound-1.0, LibDBIcon-1.0, LibWindow-1.1, LibClassicSpellActionCount-1.0
+# #@end-version-classic@
+# #@version-bc@
+# ## OptionalDeps: Ace3, Masque, LibButtonGlow-1.0, LibActionButton-1.0, LibKeyBound-1.0, LibDBIcon-1.0, LibWindow-1.1
+# #@end-version-bc@
 #@end-non-retail@
 
 #@no-lib-strip@
@@ -43,7 +48,9 @@ libs\AceGUI-3.0\AceGUI-3.0.xml
 libs\AceConfig-3.0\AceConfig-3.0.xml
 
 #@non-retail@
+# #@version-classic@
 # libs\LibClassicSpellActionCount-1.0\LibClassicSpellActionCount-1.0.lua
+# #@end-version-classic@
 #@end-non-retail@
 
 libs\LibKeyBound-1.0\lib.xml
@@ -84,7 +91,9 @@ ExtraActionBar.lua
 StatusTrackingBar.lua
 
 ## Classic-only ##
-XPBarClassic.lua
+#@non-retail@
+# XPBarClassic.lua
+#@end-non-retail@
 
 ## Options ##
 Options\AceGUIWidget-NumberEditBox.lua
@@ -105,7 +114,9 @@ Options\ExtraActionBar.lua
 Options\StatusTrackingBar.lua
 
 ## Classic-only ##
-Options\XPBarClassic.lua
+#@non-retail@
+# Options\XPBarClassic.lua
+#@end-non-retail@
 
 ## Presets -- needs to be the last ##
 Options\Presets.lua
