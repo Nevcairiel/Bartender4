@@ -26,7 +26,7 @@
 # #@end-version-classic@
 # #@version-bcc@
 # ## OptionalDeps: Ace3, Masque, LibButtonGlow-1.0, LibActionButton-1.0, LibKeyBound-1.0, LibDBIcon-1.0, LibWindow-1.1
-# #@end-version-bc@
+# #@end-version-bcc@
 #@end-non-retail@
 
 #@no-lib-strip@
