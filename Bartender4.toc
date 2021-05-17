@@ -91,9 +91,7 @@ ExtraActionBar.lua
 StatusTrackingBar.lua
 
 ## Classic-only ##
-#@non-retail@
-# XPBarClassic.lua
-#@end-non-retail@
+XPBarClassic.lua
 
 ## Options ##
 Options\AceGUIWidget-NumberEditBox.lua
@@ -114,9 +112,7 @@ Options\ExtraActionBar.lua
 Options\StatusTrackingBar.lua
 
 ## Classic-only ##
-#@non-retail@
-# Options\XPBarClassic.lua
-#@end-non-retail@
+Options\XPBarClassic.lua
 
 ## Presets -- needs to be the last ##
 Options\Presets.lua
