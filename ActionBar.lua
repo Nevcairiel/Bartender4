@@ -71,9 +71,16 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.clickOnDown = Bartender4.db.profile.onkeydown
 	self.buttonConfig.flyoutDirection = self.config.flyoutDirection
 
-	if tonumber(self.id) == 1 then
+	local bar = ({
+		[1] = "ACTIONBUTTON",
+		[3] = "MULTIACTIONBAR3BUTTON", --MultiBarRightButton
+		[4] = "MULTIACTIONBAR4BUTTON", --MultiBarLeftButton
+		[5] = "MULTIACTIONBAR2BUTTON", --MultiBarBottomRightButton
+		[6] = "MULTIACTIONBAR1BUTTON", --MultiBarBottomLeftButton
+	})[tonumber(self.id) or 0]
+	if bar then
 		for i, button in self:GetAll() do
-			self.buttonConfig.keyBoundTarget = format("ACTIONBUTTON%d", i)
+			self.buttonConfig.keyBoundTarget = format("%s%d", bar, i)
 			button:UpdateConfig(self.buttonConfig)
 		end
 	else
