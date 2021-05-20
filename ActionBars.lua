@@ -155,16 +155,23 @@ function BT4ActionBars:UpdateButtons(force)
 end
 
 function BT4ActionBars:ReassignBindings()
-	if InCombatLockdown() then return end
-	if not self.actionbars or not self.actionbars[1] then return end
-	local frame = self.actionbars[1]
-	ClearOverrideBindings(frame)
-	for i = 1,min(#frame.buttons, 12) do
-		local button, real_button = ("ACTIONBUTTON%d"):format(i), ("BT4Button%d"):format(i)
-		for k=1, select('#', GetBindingKey(button)) do
-			local key = select(k, GetBindingKey(button))
-			if key and key ~= "" then
-				SetOverrideBindingClick(frame, false, key, real_button)
+	if InCombatLockdown() or not self.actionbars then return end
+
+	for bar,bind in pairs({
+		[1] = "ACTIONBUTTON",
+		[3] = "MULTIACTIONBAR3BUTTON", --MultiBarRightButton
+		[4] = "MULTIACTIONBAR4BUTTON", --MultiBarLeftButton
+		[5] = "MULTIACTIONBAR2BUTTON", --MultiBarBottomRightButton
+		[6] = "MULTIACTIONBAR1BUTTON", --MultiBarBottomLeftButton
+	}) do
+		local frame = self.actionbars[bar]
+		if frame then
+			ClearOverrideBindings(frame)
+			for i=1,min(#frame.buttons, 12) do
+				local button, real_button = ("%s%d"):format(bind, i), ("BT4Button%d"):format((bar-1)*12 + i)
+				for _,key in pairs({GetBindingKey(button)}) do
+					SetOverrideBindingClick(frame, false, key, real_button)
+				end
 			end
 		end
 	end
