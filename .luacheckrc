@@ -32,6 +32,7 @@ read_globals = {
 	"LibStub",
 
 	-- API functions
+	"AttemptToSaveBindings",
 	"C_PetBattles",
 	"CanExitVehicle",
 	"ClearOverrideBindings",
