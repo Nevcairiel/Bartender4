@@ -95,6 +95,7 @@ DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 				-- prowl is virtual, no real stance
 			{ id = "prowl", name = ("%s (%s)"):format((GetSpellInfo(768)), (GetSpellInfo(5215))), index = false},
 			{ id = "moonkin", name = GetSpellInfo(24858), index = 4 },
+			WoWBC and { id = "treeoflife", name = GetSpellInfo(33891), index = 2 } or nil,
 		}
 	elseif k == "ROGUE" then
 		newT = {
