@@ -13,6 +13,7 @@ local table_insert, table_concat, fmt = table.insert, table.concat, string.forma
 -- GLOBALS: MainMenuBarArtFrame, OverrideActionBar, RegisterStateDriver, UnregisterStateDriver
 
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+local WoWBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 
 local StateBar = setmetatable({}, {__index = ButtonBar})
 local StateBar_MT = {__index = StateBar}
@@ -104,6 +105,10 @@ DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 			{ id = "battle", name = GetSpellInfo(2457), index = 1 },
 			{ id = "def", name = GetSpellInfo(71), index = 2 },
 			{ id = "berserker", name = GetSpellInfo(2458), index = 3 },
+		}
+	elseif k == "PRIEST" and WoWBC then
+		newT = {
+			{ id = "shadowform", name = GetSpellInfo(15473), index = 1 },
 		}
 	end
 	rawset(t, k, newT)
