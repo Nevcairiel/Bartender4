@@ -71,9 +71,22 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.clickOnDown = Bartender4.db.profile.onkeydown
 	self.buttonConfig.flyoutDirection = self.config.flyoutDirection
 
-	if tonumber(self.id) == 1 then
+	local barmapping = {
+		["1"] = "ACTIONBUTTON",
+		["3"] = "MULTIACTIONBAR3BUTTON",
+		["4"] = "MULTIACTIONBAR4BUTTON",
+		["5"] = "MULTIACTIONBAR2BUTTON",
+		["6"] = "MULTIACTIONBAR1BUTTON",
+	}
+	if barmapping[self.id] then
 		for i, button in self:GetAll() do
-			self.buttonConfig.keyBoundTarget = format("ACTIONBUTTON%d", i)
+			-- If no keybinding on Bartender4 button config, inherit from the corresponding Blizzard bars.
+			local hotkey = GetBindingKey("CLICK "..button:GetName()..":LeftButton")
+			if not hotkey or hotkey == "" then
+			    self.buttonConfig.keyBoundTarget = barmapping[self.id]..i
+			else
+			    self.buttonConfig.keyBoundTarget = false
+			end
 			button:UpdateConfig(self.buttonConfig)
 		end
 	else
