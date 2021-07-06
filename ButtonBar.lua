@@ -11,11 +11,26 @@ local setmetatable, tostring, pairs = setmetatable, tostring, pairs
 local ButtonBar = setmetatable({}, {__index = Bar})
 local ButtonBar_MT = {__index = ButtonBar}
 
+local LSM30 = LibStub("LibSharedMedia-3.0")
+
+local DefaultHotKeyFontName = LSM30:Fetch("font", "Arial Narrow")
+local DefaultHotKeyFontPath = _G["NumberFontNormalSmallGray"]:GetFont()
+for _, fontName in ipairs(LSM30:List("font")) do
+	local fontPath = LSM30:Fetch("font", fontName)
+	if fontPath == DefaultHotKeyFontPath then
+		DefaultHotKeyFontName = fontName
+		break
+	end
+end
+
 local defaults = Bartender4:Merge({
 	padding = 2,
 	rows = 1,
 	hidemacrotext = false,
 	hidehotkey = false,
+	hotkeyfont = DefaultHotKeyFontName,
+	hotkeyfontsize = 13,
+	hotkeyfontoutline = "OUTLINE",
 	hideequipped = false,
 	skin = {
 		Zoom = false,
@@ -47,7 +62,7 @@ function ButtonBar:ApplyConfig(config)
 end
 
 function ButtonBar:UpdateButtonConfig()
-
+	self:UpdateFonts()
 end
 
 -- get the current padding
@@ -106,6 +121,39 @@ end
 
 function ButtonBar:GetHideHotkey()
 	return self.config.hidehotkey
+end
+
+function ButtonBar:SetHotkeyFont(font)
+	if font ~= nil then
+		self.config.hotkeyfont = font
+	end
+	self:UpdateFonts()
+end
+
+function ButtonBar:GetHotkeyFont()
+	return self.config.hotkeyfont
+end
+
+function ButtonBar:SetHotkeyFontSize(size)
+	if size ~= nil then
+		self.config.hotkeyfontsize = size
+	end
+	self:UpdateFonts()
+end
+
+function ButtonBar:GetHotkeyFontSize()
+	return self.config.hotkeyfontsize
+end
+
+function ButtonBar:SetHotkeyFontOutline(outline)
+	if outline ~= nil then
+		self.config.hotkeyfontoutline = outline
+	end
+	self:UpdateFonts()
+end
+
+function ButtonBar:GetHotkeyFontOutline()
+	return self.config.hotkeyfontoutline
 end
 
 function ButtonBar:SetHideEquipped(state)
@@ -225,6 +273,17 @@ function ButtonBar:UpdateButtonLayout()
 				button.icon:SetTexCoord(0,1,0,1)
 			end
 		end
+	end
+end
+
+function ButtonBar:UpdateFonts()
+	local buttons = self.buttons
+	if (self.numbuttons or #buttons) == 0 then return end
+
+	local font = LSM30:Fetch("font", self:GetHotkeyFont()) or DefaultHotKeyFontPath
+
+	for i = 1, #buttons do
+		buttons[i].HotKey:SetFont(font, self:GetHotkeyFontSize(), self:GetHotkeyFontOutline())
 	end
 end
 
