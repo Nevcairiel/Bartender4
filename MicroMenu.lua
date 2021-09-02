@@ -25,6 +25,7 @@ local BT_MICRO_BUTTONS = WoWClassic and {
 	"QuestLogMicroButton",
 	"SocialsMicroButton",
 	"WorldMapMicroButton",
+	"LFGMicroButton",
 	"MainMenuMicroButton",
 	"HelpMicroButton",
 	}
