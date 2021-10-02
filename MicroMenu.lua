@@ -18,16 +18,7 @@ local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 -- GLOBALS: LFDMicroButton, CollectionsMicroButton, EJMicroButton, MainMenuMicroButton
 -- GLOBALS: HasVehicleActionBar, UnitVehicleSkin, HasOverrideActionBar, GetOverrideBarSkin
 
-local BT_MICRO_BUTTONS = WoWClassic and {
-	"CharacterMicroButton",
-	"SpellbookMicroButton",
-	"TalentMicroButton",
-	"QuestLogMicroButton",
-	"SocialsMicroButton",
-	"WorldMapMicroButton",
-	"MainMenuMicroButton",
-	"HelpMicroButton",
-	}
+local BT_MICRO_BUTTONS = WoWClassic and MICRO_BUTTONS
 	or
 	{
 	"CharacterMicroButton",
