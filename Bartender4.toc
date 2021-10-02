@@ -1,6 +1,6 @@
 ## Interface: 90100
-## Interface-Classic: 11307
-## Interface-BCC: 20501
+## Interface-Classic: 11400
+## Interface-BCC: 20502
 
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
