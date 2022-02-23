@@ -18,24 +18,7 @@ local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 -- GLOBALS: LFDMicroButton, CollectionsMicroButton, EJMicroButton, MainMenuMicroButton
 -- GLOBALS: HasVehicleActionBar, UnitVehicleSkin, HasOverrideActionBar, GetOverrideBarSkin
 
-local BT_MICRO_BUTTONS
-
-if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
-	BT_MICRO_BUTTONS =
-	{
-	"CharacterMicroButton",
-	"SpellbookMicroButton",
-	"TalentMicroButton",
-	"QuestLogMicroButton",
-	"SocialsMicroButton",
-	"WorldMapMicroButton",
-	"MainMenuMicroButton",
-	"HelpMicroButton",
-	}
-elseif WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE then
-	BT_MICRO_BUTTONS = MICRO_BUTTONS
-else
-	BT_MICRO_BUTTONS =
+local BT_MICRO_BUTTONS = WoWClassic and CopyTable(MICRO_BUTTONS) or
 	{
 	"CharacterMicroButton",
 	"SpellbookMicroButton",
@@ -49,7 +32,6 @@ else
 	"StoreMicroButton",
 	"MainMenuMicroButton",
 	}
-end
 
 -- create prototype information
 local MicroMenuBar = setmetatable({}, {__index = ButtonBar})
@@ -75,6 +57,11 @@ function MicroMenuMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("MicroMenu", self.db.profile, L["Micro Menu"], true), {__index = MicroMenuBar})
 		local buttons = {}
+
+		-- handle lfg/worldmap button on classic
+		if WoWClassic then
+			tDeleteItem(BT_MICRO_BUTTONS, C_LFGList.IsLookingForGroupEnabled() and "WorldMapMicroButton" or "LFGMicroButton")
+		end
 
 		for i=1, #BT_MICRO_BUTTONS do
 			table_insert(buttons, _G[BT_MICRO_BUTTONS[i]])
