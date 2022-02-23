@@ -18,8 +18,24 @@ local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 -- GLOBALS: LFDMicroButton, CollectionsMicroButton, EJMicroButton, MainMenuMicroButton
 -- GLOBALS: HasVehicleActionBar, UnitVehicleSkin, HasOverrideActionBar, GetOverrideBarSkin
 
-local BT_MICRO_BUTTONS = WoWClassic and MICRO_BUTTONS
-	or
+local BT_MICRO_BUTTONS
+
+if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+	BT_MICRO_BUTTONS =
+	{
+	"CharacterMicroButton",
+	"SpellbookMicroButton",
+	"TalentMicroButton",
+	"QuestLogMicroButton",
+	"SocialsMicroButton",
+	"WorldMapMicroButton",
+	"MainMenuMicroButton",
+	"HelpMicroButton",
+	}
+elseif WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE then
+	BT_MICRO_BUTTONS = MICRO_BUTTONS
+else
+	BT_MICRO_BUTTONS =
 	{
 	"CharacterMicroButton",
 	"SpellbookMicroButton",
@@ -33,6 +49,7 @@ local BT_MICRO_BUTTONS = WoWClassic and MICRO_BUTTONS
 	"StoreMicroButton",
 	"MainMenuMicroButton",
 	}
+end
 
 -- create prototype information
 local MicroMenuBar = setmetatable({}, {__index = ButtonBar})
