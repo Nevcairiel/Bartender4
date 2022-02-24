@@ -39,8 +39,6 @@ jobs:
       - name: Update Locale
         if: github.ref == 'refs/heads/master'
         run: ./locale/wowace-locale-import.sh
-        env:
-          CF_API_KEY: ${{ secrets.CF_API_KEY }}
 
       - uses: BigWigsMods/packager@v2
         with:
