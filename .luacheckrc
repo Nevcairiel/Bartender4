@@ -27,12 +27,15 @@ read_globals = {
 	"max", "min", "floor", "ceil",
 	"format",
 	"hooksecurefunc",
+	"CopyTable",
+	"tDeleteItem",
 
 	-- misc custom, third party libraries
 	"LibStub",
 
 	-- API functions
 	"AttemptToSaveBindings",
+	"C_LFGList",
 	"C_PetBattles",
 	"CanExitVehicle",
 	"ClearOverrideBindings",
