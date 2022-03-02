@@ -6,7 +6,7 @@
 	Generic Bar Frame Template
 ]]
 local _, Bartender4 = ...
-local Bar = CreateFrame("Button")
+local Bar = CreateFrame("Frame")
 local Bar_MT = {__index = Bar}
 
 local table_concat, table_insert, tostring, assert, pairs, min, max = table.concat, table.insert, tostring, assert, pairs, min, max
