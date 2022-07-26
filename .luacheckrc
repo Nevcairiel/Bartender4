@@ -44,6 +44,7 @@ read_globals = {
 	"GetBindingText",
 	"GetBuildInfo",
 	"GetCurrentBindingSet",
+	"GetCVarBool",
 	"GetModifiedClick",
 	"GetNumShapeshiftForms",
 	"GetPetActionCooldown",

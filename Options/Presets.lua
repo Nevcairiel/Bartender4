@@ -199,6 +199,8 @@ local function BuildBlizzardProfile()
 		end
 	end
 
+	local showKeyRing = KeyRingButton and GetCVarBool("showKeyring") or nil
+
 	Bartender4.db.profile.blizzardVehicle = true
 	Bartender4.db.profile.outofrange = "hotkey"
 	Bartender4.db.profile.focuscastmodifier = false
@@ -222,7 +224,8 @@ local function BuildBlizzardProfile()
 		config = Bartender4.db:GetNamespace("BagBar").profile
 		config.onebag = false
 		config.padding = 5
-		SetBarLocation( config, "BOTTOM", 296, 41)
+		config.keyring = showKeyRing
+		SetBarLocation( config, "BOTTOM", 272, 42)
 
 		config = Bartender4.db:GetNamespace("MicroMenu").profile
 		config.position.scale = 1.0

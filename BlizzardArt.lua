@@ -106,6 +106,8 @@ function BlizzardArt:ApplyConfig()
 		self:SetPoint("BOTTOM", UIParent, "BOTTOM", -512, 48)
 	end
 
+	local showKeyRing = KeyRingButton and GetCVarBool("showKeyring") or nil
+
 	if config.artSkin == "HUMAN" then -- Lions on the background of buttons
 		self.barTex0:SetTexture("Interface\\MainMenuBar\\UI-MainMenuBar-Human")
 		self.barTex1:SetTexture("Interface\\MainMenuBar\\UI-MainMenuBar-Human")
@@ -151,17 +153,32 @@ function BlizzardArt:ApplyConfig()
 		self.barTex1:SetTexCoord(0.0, 1.0, 0.58203125, 0.75) -- Second quarter of classic bar
 		self.barTex1b:Hide()
 		self.barTex2:Show()
-		self.barTex2:SetTexCoord(0.0, 1.0, 0.33203125, 0.5) -- Third quarter of classic bar
 		self.barTex3:Show()
 		self.barTex3:SetWidth(256)
-		self.barTex3:SetTexCoord(0.0, 1.0, 0.08203125, 0.25) -- Last quarter of classic bar
+
 		self.barTex3b:Hide()
 		self.rightCap:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 992, -48)
+
+		if showKeyRing then
+			self.barTex3:SetTexture("Interface\\MainMenuBar\\UI-MainMenuBar-KeyRing");
+			self.barTex3:SetTexCoord(0, 1, 0.1640625, 0.5);
+			self.barTex2:SetTexture("Interface\\MainMenuBar\\UI-MainMenuBar-KeyRing");
+			self.barTex2:SetTexCoord(0, 1, 0.6640625, 1);
+		else
+			self.barTex3:SetTexture("Interface\\MainMenuBar\\UI-MainMenuBar-Dwarf")
+			self.barTex3:SetTexCoord(0.0, 1.0, 0.08203125, 0.25)
+			self.barTex2:SetTexture("Interface\\MainMenuBar\\UI-MainMenuBar-Dwarf")
+			self.barTex2:SetTexCoord(0.0, 1.0, 0.33203125, 0.5)
+		end
 
 		if MainMenuBarPerformanceBarFrame then
 			MainMenuBarPerformanceBarFrame:SetParent(self)
 			MainMenuBarPerformanceBarFrame:ClearAllPoints()
-			MainMenuBarPerformanceBarFrame:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 781, -58)
+			if showKeyRing then
+				MainMenuBarPerformanceBarFrame:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 774, -58)
+			else
+				MainMenuBarPerformanceBarFrame:SetPoint("BOTTOMLEFT", self, "TOPLEFT", 781, -58)
+			end
 			MainMenuBarPerformanceBarFrame:Show()
 			MainMenuBarPerformanceBarFrame:SetFrameLevel(self:GetFrameLevel() - 1)
 		end
