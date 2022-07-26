@@ -171,7 +171,7 @@ function BlizzardArt:ApplyConfig()
 			self.barTex2:SetTexCoord(0.0, 1.0, 0.33203125, 0.5)
 		end
 
-		if MainMenuBarPerformanceBarFrame then
+		if MainMenuBarPerformanceBarFrame and GetExpansionLevel() < LE_EXPANSION_NORTHREND then
 			MainMenuBarPerformanceBarFrame:SetParent(self)
 			MainMenuBarPerformanceBarFrame:ClearAllPoints()
 			if showKeyRing then

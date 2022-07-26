@@ -223,9 +223,14 @@ local function BuildBlizzardProfile()
 	if WoWClassic then
 		config = Bartender4.db:GetNamespace("BagBar").profile
 		config.onebag = false
-		config.padding = 5
 		config.keyring = showKeyRing
-		SetBarLocation( config, "BOTTOM", 272, 42)
+		if GetExpansionLevel() >= LE_EXPANSION_NORTHREND then
+			config.padding = 4
+			SetBarLocation( config, "BOTTOM", 303, 42)
+		else
+			config.padding = 5
+			SetBarLocation( config, "BOTTOM", 272, 42)
+		end
 
 		config = Bartender4.db:GetNamespace("MicroMenu").profile
 		config.position.scale = 1.0
