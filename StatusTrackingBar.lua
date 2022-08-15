@@ -13,6 +13,8 @@ if not StatusTrackingBarManager then return end
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = false,
+	width = 804,
+	twentySections = true,
 }, Bartender4.Bar.defaults) }
 
 -- register module
@@ -30,7 +32,7 @@ function StatusBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("Status", self.db.profile, L["Status Tracking Bar"], 1), {__index = StatusBar})
 		self.bar.content = CreateFrame("Frame", nil, self.bar)
-		self.bar.content:SetSize(804, 14)
+		self.bar.content:SetSize(self.db.profile.width, 14)
 		self.bar.content:Show()
 		self.bar.content.OnStatusBarsUpdated = function() end
 
@@ -40,7 +42,7 @@ function StatusBarMod:OnEnable()
 		self.bar.manager:AddBarFromTemplate("FRAME", "ArtifactStatusBarTemplate")
 		self.bar.manager:AddBarFromTemplate("FRAME", "ExpStatusBarTemplate")
 		self.bar.manager:AddBarFromTemplate("FRAME", "AzeriteBarTemplate")
-		self.bar.manager:SetBarSize(true)
+		self.bar.manager:SetBarSize(self.db.profile.twentySections)
 		self.bar.manager:Show()
 		self.bar.manager:SetFrameLevel(2)
 	end
@@ -78,8 +80,14 @@ StatusBar.height = 26
 StatusBar.offsetX = 5
 StatusBar.offsetY = 10
 function StatusBar:PerformLayout()
+	self.manager:SetWidth(self.config.width)
+	self.manager:SetBarSize(self.config.twentySections)
+
+	StatusBar.width = self.config.width + 8
 	self:SetSize(self.width, self.height)
+
 	local bar = self.content
+	bar:SetSize(self.config.width, 14)
 	bar:ClearAllPoints()
 	bar:SetPoint("TOPLEFT", self, "TOPLEFT", self.offsetX, self.offsetY)
 end
