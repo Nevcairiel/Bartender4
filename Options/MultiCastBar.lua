@@ -3,7 +3,8 @@
 	All rights reserved.
 ]]
 
-if not HasMultiCastActionBar or not MultiCastActionBarFrame or select(2, UnitClass("player")) ~= "SHAMAN" then return end
+local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
+if WoWRetail or not HasMultiCastActionBar or not MultiCastActionBarFrame or select(2, UnitClass("player")) ~= "SHAMAN" then return end
 
 -- fetch upvalues
 local _, Bartender4 = ...
