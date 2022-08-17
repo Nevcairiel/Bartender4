@@ -46,7 +46,6 @@ read_globals = {
 	"GetClassicExpansionLevel",
 	"GetCurrentBindingSet",
 	"GetCVarBool",
-	"GetExpansionLevel",
 	"GetModifiedClick",
 	"GetNumShapeshiftForms",
 	"GetPetActionCooldown",
@@ -139,7 +138,6 @@ read_globals = {
 	-- FrameXML Constants
 	"LE_ACTIONBAR_STATE_MAIN",
 	"LE_ACTIONBAR_STATE_OVERRIDE",
-	"LE_EXPANSION_NORTHREND",
 	"LEAVE_VEHICLE",
 	"OKAY",
 	"SOUNDKIT",

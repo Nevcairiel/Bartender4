@@ -14,7 +14,7 @@ local table_insert, table_concat, fmt = table.insert, table.concat, string.forma
 
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
-local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC) and GetClassicExpansionLevel() == LE_EXPANSION_NORTHREND
+local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC) and GetClassicExpansionLevel() == 2
 
 local StateBar = setmetatable({}, {__index = ButtonBar})
 local StateBar_MT = {__index = StateBar}

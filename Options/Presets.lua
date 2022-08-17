@@ -224,7 +224,7 @@ local function BuildBlizzardProfile()
 		config = Bartender4.db:GetNamespace("BagBar").profile
 		config.onebag = false
 		config.keyring = showKeyRing
-		if GetExpansionLevel() >= LE_EXPANSION_NORTHREND then
+		if GetClassicExpansionLevel() >= 2 --[[Wrath]] then
 			config.padding = 4
 			SetBarLocation( config, "BOTTOM", 303, 42)
 		else
