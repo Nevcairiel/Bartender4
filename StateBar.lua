@@ -14,6 +14,7 @@ local table_insert, table_concat, fmt = table.insert, table.concat, string.forma
 
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC) and GetClassicExpansionLevel() == LE_EXPANSION_NORTHREND
 
 local StateBar = setmetatable({}, {__index = ButtonBar})
 local StateBar_MT = {__index = StateBar}
@@ -100,6 +101,7 @@ DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 	elseif k == "ROGUE" then
 		newT = {
 			{ id = "stealth", name = GetSpellInfo(1784), index = 1 },
+			WoWWrath and { id = "shadowdance", name = GetSpellInfo(51713), index = 2 } or nil,
 		}
 	elseif k ==  "WARRIOR" then
 		newT = {

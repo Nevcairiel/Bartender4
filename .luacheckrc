@@ -43,6 +43,7 @@ read_globals = {
 	"GetBindingKey",
 	"GetBindingText",
 	"GetBuildInfo",
+	"GetClassicExpansionLevel",
 	"GetCurrentBindingSet",
 	"GetCVarBool",
 	"GetExpansionLevel",
