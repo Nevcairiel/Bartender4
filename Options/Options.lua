@@ -93,6 +93,7 @@ local function generateOptions()
 								name = L["Use Blizzard Vehicle UI"],
 								desc = L["Enable the use of the Blizzard Vehicle UI, hiding any Bartender4 bars in the meantime."],
 								width = "full",
+								hidden = not UnitHasVehicleUI,
 								get = getFunc,
 								set = function(info, value)
 									if UnitHasVehicleUI("player") then
