@@ -78,6 +78,7 @@ read_globals = {
 	"AutoCastShine_AutoCastStop",
 	"CooldownFrame_Set",
 	"HasMultiCastActionBar",
+	"MainMenuBarVehicleLeaveButton_Update",
 	"NPE_LoadUI",
 	"RegisterStateDriver",
 	"SetDesaturation",
