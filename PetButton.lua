@@ -64,13 +64,6 @@ function Bartender4.PetButton:Create(id, parent)
 	button:SetScript("OnDragStart", onDragStart)
 	button:SetScript("OnReceiveDrag", onReceiveDrag)
 
-	button.flash = _G[name .. "Flash"]
-	button.cooldown = _G[name .. "Cooldown"]
-	button.icon = _G[name .. "Icon"]
-	button.autocastable = _G[name .. "AutoCastable"]
-	button.autocast = _G[name .. "Shine"]
-	button.hotkey = _G[name .. "HotKey"]
-
 	button:SetNormalTexture("")
 	local oldNT = button:GetNormalTexture()
 	oldNT:Hide()
@@ -110,14 +103,14 @@ function PetButtonPrototype:Update()
 	self.isToken = isToken
 	self:SetChecked(isActive)
 	if autoCastAllowed and not autoCastEnabled then
-		self.autocastable:Show()
-		AutoCastShine_AutoCastStop(self.autocast)
+		self.AutoCastable:Show()
+		AutoCastShine_AutoCastStop(self.AutoCastShine)
 	elseif autoCastAllowed then
-		self.autocastable:Hide()
-		AutoCastShine_AutoCastStart(self.autocast)
+		self.AutoCastable:Hide()
+		AutoCastShine_AutoCastStart(self.AutoCastShine)
 	else
-		self.autocastable:Hide()
-		AutoCastShine_AutoCastStop(self.autocast)
+		self.AutoCastable:Hide()
+		AutoCastShine_AutoCastStop(self.AutoCastShine)
 	end
 
 	if texture then
@@ -152,7 +145,7 @@ end
 
 function PetButtonPrototype:UpdateHotkeys()
 	local key = self:GetHotkey() or ""
-	local hotkey = self.hotkey
+	local hotkey = self.HotKey
 
 	if key == "" or self.parent.config.hidehotkey then
 		hotkey:Hide()
