@@ -9,6 +9,7 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 local error, select, pairs = error, select, pairs
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local SaveBindings = SaveBindings or AttemptToSaveBindings
 
 -- GLOBALS: LibStub, UnitHasVehicleUI, GetModifiedClick, SetModifiedClick, SaveBindings, GetCurrentBindingSet, InCombatLockdown
@@ -27,7 +28,7 @@ end
 
 local KB = LibStub("LibKeyBound-1.0")
 local LDBIcon = LibStub("LibDBIcon-1.0", true)
-local LibDualSpec = (not WoWClassic) and LibStub("LibDualSpec-1.0", true)
+local LibDualSpec = (not WoWClassic or WoWWrath) and LibStub("LibDualSpec-1.0", true)
 
 local function generateOptions()
 	Bartender4.options = {
