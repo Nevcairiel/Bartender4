@@ -7,6 +7,8 @@ local _, Bartender4 = ...
 -- only in 8.0
 if not StatusTrackingBarManager then return end
 
+local WoW10 = select(4, GetBuildInfo()) >= 100000
+
 -- fetch upvalues
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
@@ -45,6 +47,7 @@ function StatusBarMod:SetupOptions()
 			desc = L["Divide the bar into 20 sections, instead of only 10, for long status bars."],
 			get = function() return self.db.profile.twentySections end,
 			set = function(info, state) self.db.profile.twentySections = state; self.bar:PerformLayout() end,
+			hidden = WoW10,
 		}
 		self.optionobject:AddElement("general", "twentySections", sections)
 
