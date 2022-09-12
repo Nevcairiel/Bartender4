@@ -128,3 +128,4 @@ Options\MultiCastBar.lua
 
 ## Presets -- needs to be the last ##
 Options\Presets.lua
+Options\PresetsClassic.lua

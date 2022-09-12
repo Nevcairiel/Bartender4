@@ -11,7 +11,10 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
 
 local WoW10 = select(4, GetBuildInfo()) >= 100000
-if not WoW10 then return end
+if WoW10 then return end
+
+local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+
 
 local PresetsMod = Bartender4:NewModule("Presets")
 
@@ -44,19 +47,27 @@ local function BuildSingleProfile()
 		end
 	end
 
+	local actionButtonScale = WoW10 and 0.8 or 1.0
+
 	Bartender4.db.profile.blizzardVehicle = false
 	Bartender4.db.profile.outofrange = "hotkey"
 	Bartender4.db.profile.focuscastmodifier = false
 
 	config = Bartender4.db:GetNamespace("ActionBars").profile
 	config.actionbars[1].padding = 6
+	config.actionbars[1].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[1], "BOTTOM", -256, 41.75 )
+	config.actionbars[2].position.scale = actionButtonScale
 	config.actionbars[2].enabled = false
 	config.actionbars[3].padding = 5
 	config.actionbars[3].rows = 12
+	config.actionbars[3].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[3], "BOTTOMRIGHT", -42, 610 )
 	config.actionbars[4].padding = 5
 	config.actionbars[4].rows = 12
+	config.actionbars[4].position.scale = actionButtonScale
+	config.actionbars[5].position.scale = actionButtonScale
+	config.actionbars[6].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[4], "BOTTOMRIGHT", -82, 610 )
 	SetBarLocation( config.actionbars[5], "BOTTOM", -232, 94 + dy )
 	SetBarLocation( config.actionbars[6], "BOTTOM", -232, 132 + dy )
@@ -118,24 +129,32 @@ local function BuildDoubleProfile()
 		end
 	end
 
+	local actionButtonScale = WoW10 and 0.8 or 1.0
+
 	Bartender4.db.profile.blizzardVehicle = true
 	Bartender4.db.profile.outofrange = "hotkey"
 	Bartender4.db.profile.focuscastmodifier = false
 
 	config = Bartender4.db:GetNamespace("ActionBars").profile
 	config.actionbars[1].padding = 6
+	config.actionbars[1].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[1], "BOTTOM", -510, 41.75 )
 	config.actionbars[2].padding = 6
+	config.actionbars[2].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[2], "BOTTOM", 3, 41.75 )
 	config.actionbars[3].padding = 5
 	config.actionbars[3].rows = 12
+	config.actionbars[3].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[3], "BOTTOMRIGHT", -42, 610 )
 	config.actionbars[4].padding = 5
 	config.actionbars[4].rows = 12
+	config.actionbars[4].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[4], "BOTTOMRIGHT", -82, 610 )
 	config.actionbars[5].padding = 6
+	config.actionbars[5].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[5], "BOTTOM", 3, 102 + dy )
 	config.actionbars[6].padding = 6
+	config.actionbars[6].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[6], "BOTTOM", -510, 102 + dy )
 
 	config = Bartender4.db:GetNamespace("BagBar").profile
@@ -199,6 +218,7 @@ local function BuildBlizzardProfile()
 	end
 
 	local showKeyRing = KeyRingButton and GetCVarBool("showKeyring") or nil
+	local actionButtonScale = WoW10 and 0.8 or 1.0
 
 	Bartender4.db.profile.blizzardVehicle = true
 	Bartender4.db.profile.outofrange = "hotkey"
@@ -206,17 +226,23 @@ local function BuildBlizzardProfile()
 
 	config = Bartender4.db:GetNamespace("ActionBars").profile
 	config.actionbars[1].padding = 6
+	config.actionbars[1].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[1], "BOTTOM", -510, 41.75 )
 	config.actionbars[2].enabled = false
+	config.actionbars[2].position.scale = actionButtonScale
 	config.actionbars[3].padding = 5
 	config.actionbars[3].rows = 12
+	config.actionbars[3].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[3], "BOTTOMRIGHT", -82, 610 )
 	config.actionbars[4].padding = 5
 	config.actionbars[4].rows = 12
+	config.actionbars[4].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[4], "BOTTOMRIGHT", -42, 610 )
 	config.actionbars[5].padding = 6
+	config.actionbars[5].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[5], "BOTTOM", 3, 110 + dy )
 	config.actionbars[6].padding = 6
+	config.actionbars[6].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[6], "BOTTOM", -510, 110 + dy )
 
 	if WoWClassic then
