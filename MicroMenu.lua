@@ -13,6 +13,7 @@ local ButtonBar = Bartender4.ButtonBar.prototype
 local pairs, setmetatable, table_insert = pairs, setmetatable, table.insert
 
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+local WoW10 = select(4, GetBuildInfo()) >= 100000
 
 -- GLOBALS: CharacterMicroButton, SpellbookMicroButton, TalentMicroButton, AchievementMicroButton, QuestLogMicroButton, GuildMicroButton
 -- GLOBALS: LFDMicroButton, CollectionsMicroButton, EJMicroButton, MainMenuMicroButton
@@ -42,9 +43,9 @@ local defaults = { profile = Bartender4:Merge({
 	visibility = {
 		possess = false,
 	},
-	padding = -3,
+	padding = WoW10 and 1 or -3,
 	position = {
-		scale = 0.8,
+		scale = WoW10 and 1.0 or 0.8,
 	},
 }, Bartender4.ButtonBar.defaults) }
 
@@ -149,12 +150,16 @@ end
 
 
 if WoWClassic then
-MicroMenuBar.button_width = 29
-MicroMenuBar.button_height = 58
-MicroMenuBar.vpad_offset = -20
+	MicroMenuBar.button_width = 29
+	MicroMenuBar.button_height = 58
+	MicroMenuBar.vpad_offset = -20
+elseif WoW10 then
+	MicroMenuBar.button_width = 19
+	MicroMenuBar.button_height = 26
+	MicroMenuBar.vpad_offset = 0
 else
-MicroMenuBar.button_width = 28
-MicroMenuBar.button_height = 36
+	MicroMenuBar.button_width = 28
+	MicroMenuBar.button_height = 36
 end
 function MicroMenuBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
