@@ -126,6 +126,9 @@ Options\XPBarClassic.lua
 Options\MultiCastBar.lua
 #@end-version-wrath@
 
+## XML
+ArtBarTemplates.xml
+
 ## Presets -- needs to be the last ##
 Options\Presets.lua
 Options\PresetsClassic.lua

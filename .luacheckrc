@@ -69,15 +69,18 @@ read_globals = {
 	"SetModifiedClick",
 	"SetOverrideBindingClick",
 	"UnitClass",
+	"UnitFactionGroup",
 	"UnitHasVehicleUI",
 	"UnitOnTaxi",
 	"VehicleExit",
 
 	-- FrameXML functions
 	"ActionBarController_GetCurrentActionBarState",
+	"AnchorUtil",
 	"AutoCastShine_AutoCastStart",
 	"AutoCastShine_AutoCastStop",
 	"CooldownFrame_Set",
+	"GridLayoutUtil",
 	"HasMultiCastActionBar",
 	"MainMenuBarVehicleLeaveButton_Update",
 	"NPE_LoadUI",

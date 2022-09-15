@@ -12,6 +12,8 @@ local Bar = Bartender4.Bar.prototype
 
 local BlizzardArtMod = Bartender4:GetModule("BlizzardArt")
 
+local WoW10 = select(4, GetBuildInfo()) >= 100000
+
 function BlizzardArtMod:SetupOptions()
 	if not self.options then
 		self.optionobject = Bar:GetOptionObject()
@@ -25,46 +27,49 @@ function BlizzardArtMod:SetupOptions()
 			handler = self,
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
-		local endcapleft = {
-			type = "select",
-			order = 40,
-			name = L["Left ending"],
-			desc = L["Choose the ending to the left"],
-			values = {NONE=L["None"], DWARF=L["Griffin"], HUMAN=L["Lion"]},
-			get = function() return self.db.profile.leftCap end,
-			set = function(info, val) self.db.profile.leftCap = val; BlizzardArtMod:ApplyConfig() end,
-		}
-		self.optionobject:AddElement("general", "endcapleft", endcapleft)
-		local endcapright = {
-			type = "select",
-			order = 41,
-			name = L["Right ending"],
-			desc = L["Choose the ending to the right"],
-			values = {NONE=L["None"], DWARF=L["Griffin"], HUMAN=L["Lion"]},
-			get = function() return self.db.profile.rightCap end,
-			set = function(info, val) self.db.profile.rightCap = val; BlizzardArtMod:ApplyConfig() end,
-		}
-		self.optionobject:AddElement("general", "endcapright", endcapright)
 		local layout = {
 			type = "select",
-			order = 42,
+			order = 40,
 			name = L["Layout"],
 			desc = L["Choose between the classic WoW layout and two variations"],
-			values = {CLASSIC=L["Classic"], ONEBAR=L["One action bar only"], TWOBAR=L["Two action bars"]},
+			values = WoW10 and {MODERN=L["Modern"], CLASSIC=L["Classic"], ONEBAR=L["One action bar only"], TWOBAR=L["Two action bars"]} or {CLASSIC=L["Classic"], ONEBAR=L["One action bar only"], TWOBAR=L["Two action bars"]},
 			get = function() return self.db.profile.artLayout end,
 			set = function(info, val) self.db.profile.artLayout = val; BlizzardArtMod:ApplyConfig() end,
 		}
 		self.optionobject:AddElement("general", "artlayout", layout)
 		local background = {
 			type = "select",
-			order = 43,
+			order = 41,
 			name = L["Empty button background"],
 			desc = L["The background of button places where no buttons are placed"],
 			values = {DWARF=L["Griffin"], HUMAN=L["Lion"]},
 			get = function() return self.db.profile.artSkin end,
 			set = function(info, val) self.db.profile.artSkin = val; BlizzardArtMod:ApplyConfig() end,
+			hidden = function() return self.db.profile.artLayout == "MODERN" end,
 		}
 		self.optionobject:AddElement("general", "artskin", background)
+		local endcapleft = {
+			type = "select",
+			order = 42,
+			name = L["Left ending"],
+			desc = L["Choose the ending to the left"],
+			values = {NONE=L["None"], DWARF=L["Griffin"], HUMAN=L["Lion"]},
+			get = function() return self.db.profile.leftCap end,
+			set = function(info, val) self.db.profile.leftCap = val; BlizzardArtMod:ApplyConfig() end,
+			hidden = function() return self.db.profile.artLayout == "MODERN" end,
+		}
+		self.optionobject:AddElement("general", "endcapleft", endcapleft)
+		local endcapright = {
+			type = "select",
+			order = 43,
+			name = L["Right ending"],
+			desc = L["Choose the ending to the right"],
+			values = {NONE=L["None"], DWARF=L["Griffin"], HUMAN=L["Lion"]},
+			get = function() return self.db.profile.rightCap end,
+			set = function(info, val) self.db.profile.rightCap = val; BlizzardArtMod:ApplyConfig() end,
+			hidden = function() return self.db.profile.artLayout == "MODERN" end,
+		}
+		self.optionobject:AddElement("general", "endcapright", endcapright)
 
 		self.disabledoptions = {
 			general = {

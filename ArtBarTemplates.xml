@@ -1,0 +1,25 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.blizzard.com/wow/ui/
+..\FrameXML\UI.xsd">
+	<Frame name="BT4ArtBarBorderArtTemplate" inherits="NineSliceCodeTemplate" virtual="true">
+		<KeyValues>
+			<KeyValue key="layoutType" value="UniqueCornersLayout" type="string"/>
+			<KeyValue key="layoutTextureKit" value="ui-hud-actionbar-frame" type="string"/>
+		</KeyValues>
+	</Frame>
+
+	<Frame name="BT4ArtBarBackgroundTemplate" inherits="NineSliceCodeTemplate" virtual="true">
+		<KeyValues>
+			<KeyValue key="layoutType" value="UniqueCornersLayout" type="string"/>
+			<KeyValue key="layoutTextureKit" value="ui-hud-actionbar-frame-background" type="string"/>
+			<KeyValue key="layoutTextureLayer" value="BACKGROUND" type="string"/>
+		</KeyValues>
+	</Frame>
+
+	<Frame name="BT4ArtBarButtonRightDivider" inherits="NineSliceCodeTemplate" virtual="true">
+		<Size x="12"/>
+		<KeyValues>
+			<KeyValue key="layoutType" value="ThreeSliceVerticalLayout" type="string"/>
+			<KeyValue key="layoutTextureKit" value="ui-hud-actionbar-frame-divider" type="string"/>
+		</KeyValues>
+	</Frame>
+</Ui>
