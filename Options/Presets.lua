@@ -278,7 +278,7 @@ local function BuildBlizzardProfile()
 
 	config = Bartender4.db:GetNamespace("BagBar").profile
 	config.onebag = false
-	SetBarLocation( config, "BOTTOMRIGHT", -184, 80 )
+	SetBarLocation( config, "BOTTOMRIGHT", -212, 74 )
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
 	config.enabled = true

@@ -20,6 +20,13 @@ globals = {
 	"_G",
 	"UIPARENT_MANAGED_FRAME_POSITIONS",
 	"ShowPetActionBar",
+
+	"CharacterReagentBag0Slot",
+	"CharacterBag3Slot",
+	"CharacterBag2Slot",
+	"CharacterBag1Slot",
+	"CharacterBag0Slot",
+	"MainMenuBarBackpackButton",
 }
 
 read_globals = {
@@ -92,10 +99,6 @@ read_globals = {
 
 	-- FrameXML Frames
 	"AchievementMicroButton",
-	"CharacterBag0Slot",
-	"CharacterBag1Slot",
-	"CharacterBag2Slot",
-	"CharacterBag3Slot",
 	"CharacterMicroButton",
 	"CollectionsMicroButton",
 	"EJMicroButton",
@@ -107,7 +110,6 @@ read_globals = {
 	"MainMenuBar",
 	"MainMenuBarArtFrame",
 	"MainMenuBarArtFrameBackground",
-	"MainMenuBarBackpackButton",
 	"MainMenuBarMaxLevelBar",
 	"MainMenuMicroButton",
 	"MainMenuBarVehicleLeaveButton",

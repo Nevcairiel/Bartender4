@@ -331,6 +331,10 @@ function Bar:SetSize(width, height)
 	end
 end
 
+function Bar:GetSize()
+	return self.overlay:GetSize()
+end
+
 function Bar:GetConfigAlpha()
 	return self.config.alpha
 end
