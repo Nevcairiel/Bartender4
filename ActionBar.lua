@@ -28,13 +28,19 @@ do
 	end
 end
 
+local function WoW10Migration(config)
+	-- migrate scale/padding to WoW 10.0 layout, as the action buttons increased in size
+	if config and not config.WoW10Layout and config.position.x then
+		config.position.scale = config.position.scale * 0.8
+		config.padding = config.padding / 0.8
+		config.WoW10Layout = true
+	end
+end
+
 -- Apply the specified config to the bar and refresh all settings
 function ActionBar:ApplyConfig(config)
-	-- migrate scale/padding to WoW 10.0 layout, as the action buttons increased in size
-	if WoW10 and not self.config.WoW10Layout and self.config.position.x then
-		self.config.position.scale = self.config.position.scale * 0.8
-		self.config.padding = self.config.padding / 0.8
-		self.config.WoW10Layout = true
+	if WoW10 then
+		WoW10Migration(config or self.config)
 	end
 
 	StateBar.ApplyConfig(self, config)
