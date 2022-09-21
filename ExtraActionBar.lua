@@ -40,6 +40,8 @@ function ExtraActionBarMod:OnEnable()
 		self.bar.content.ignoreFramePositionManager = true
 		self.bar.content:SetToplevel(false)
 		self.bar.content:SetParent(self.bar)
+		self.bar.content:SetScript("OnShow", nil)
+		self.bar.content:SetScript("OnHide", nil)
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
@@ -47,6 +49,9 @@ function ExtraActionBarMod:OnEnable()
 
 	self:SecureHook("ExtraActionBar_Update")
 	self:SecureHook(ZoneAbilityFrame, "UpdateDisplayedZoneAbilities")
+	if ExtraAbilityContainer.ApplySystemAnchor then
+		self:SecureHook(ExtraAbilityContainer, "ApplySystemAnchor")
+	end
 end
 
 function ExtraActionBarMod:ApplyConfig()
@@ -67,6 +72,10 @@ end
 
 function ExtraActionBarMod:UpdateDisplayedZoneAbilities()
 	ZoneAbilityFrame.Style:SetShown(not self.db.profile.hideArtwork)
+end
+
+function ExtraActionBarMod:ApplySystemAnchor()
+	self.bar:PerformLayout()
 end
 
 ExtraActionBar.width = 128
