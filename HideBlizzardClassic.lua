@@ -112,7 +112,7 @@ function Bartender4:HideBlizzard()
 
 	hideActionBarFrame(StanceBarFrame, true, true)
 	hideActionBarFrame(PossessBarFrame, false, true)
-	hideActionBarFrame(MultiCastActionBarFrame, false, false, true)
+	hideActionBarFrame(MultiCastActionBarFrame, false, true)
 	hideActionBarFrame(PetActionBarFrame, true, true)
 	ShowPetActionBar = function() end
 
