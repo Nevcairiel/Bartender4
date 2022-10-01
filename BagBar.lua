@@ -43,7 +43,7 @@ local noopFunc = function() end
 
 function BagBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.ButtonBar:Create("BagBar", self.db.profile, L["Bag Bar"]), {__index = BagBar})
+		self.bar = setmetatable(Bartender4.ButtonBar:Create("BagBar", self.db.profile, L["Bag Bar"], true), {__index = BagBar})
 
 		CharacterReagentBag0Slot.SetBarExpanded = noopFunc
 		CharacterBag3Slot.SetBarExpanded = noopFunc
@@ -89,10 +89,10 @@ function BagBar:FeedButtons()
 			btn:SetParent(UIParent)
 			btn:ClearSetPoint("CENTER")
 
-			if btn.MasqueButtonData then
+			--[[if btn.MasqueButtonData then
 				local group = self.MasqueGroup
 				group:RemoveButton(btn)
-			end
+			end]]
 		end
 	else
 		self.buttons = {}
@@ -120,16 +120,16 @@ function BagBar:FeedButtons()
 		v:SetParent(self)
 		v:Show()
 
-		if Masque then
+		--[[if Masque then
 			local group = self.MasqueGroup
 			if not v.MasqueButtonData then
 				v.MasqueButtonData = {
 					Button = v,
-					Icon = _G[v:GetName() .. "IconTexture"],
+					Icon = v.icon
 				}
 			end
 			group:AddButton(v, v.MasqueButtonData, "Item")
-		end
+		end]]
 
 		v.ClearSetPoint = clearSetPoint
 	end
