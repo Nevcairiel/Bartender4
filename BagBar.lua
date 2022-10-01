@@ -45,11 +45,11 @@ function BagBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("BagBar", self.db.profile, L["Bag Bar"]), {__index = BagBar})
 
-		CharacterReagentBag0Slot.SetBarExpanded = function() end
-		CharacterBag3Slot.SetBarExpanded = function() end
-		CharacterBag2Slot.SetBarExpanded = function() end
-		CharacterBag1Slot.SetBarExpanded = function() end
-		CharacterBag0Slot.SetBarExpanded = function() end
+		CharacterReagentBag0Slot.SetBarExpanded = noopFunc
+		CharacterBag3Slot.SetBarExpanded = noopFunc
+		CharacterBag2Slot.SetBarExpanded = noopFunc
+		CharacterBag1Slot.SetBarExpanded = noopFunc
+		CharacterBag0Slot.SetBarExpanded = noopFunc
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
