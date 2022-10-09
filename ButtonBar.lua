@@ -203,6 +203,17 @@ function ButtonBar:UpdateButtonLayout()
 		vpad = -vpad
 	end
 
+	local vprev = "TOP"
+	-- BagBar button alignment
+	if self.config.verticalAlignment then
+		if self.config.verticalAlignment == "CENTER" then
+			vprev = ""
+		elseif self.config.verticalAlignment == "BOTTOM" then
+			vprev = "BOTTOM"
+		end
+		-- otherwise, top
+	end
+
 	-- anchor button 1
 	local anchor = self:GetAnchor()
 	buttons[1]:ClearSetPoint(anchor, self, anchor, xOff - (self.hpad_offset or 0), yOff - (self.vpad_offset or 0))
@@ -214,7 +225,8 @@ function ButtonBar:UpdateButtonLayout()
 			buttons[i]:ClearSetPoint(v1 .. h1, buttons[i-ButtonPerRow], v2 .. h1, 0, -vpad)
 		-- align to the previous button
 		else
-			buttons[i]:ClearSetPoint("TOP" .. h1, buttons[i-1], "TOP" .. h2, hpad, buttons[i].bt4_yoffset or 0)
+			--buttons[i]:ClearSetPoint("TOP" .. h1, buttons[i-1], "TOP" .. h2, hpad, buttons[i].bt4_yoffset or 0)
+			buttons[i]:ClearSetPoint(vprev .. h1, buttons[i-1], vprev .. h2, hpad, buttons[i].bt4_yoffset or 0)
 		end
 	end
 
