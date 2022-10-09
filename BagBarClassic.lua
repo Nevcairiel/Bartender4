@@ -28,6 +28,7 @@ local BagBar = setmetatable({}, {__index = ButtonBar})
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = true,
+	verticalAlignment = "BOTTOM",
 	keyring = true,
 	onebag = false,
 	visibility = {

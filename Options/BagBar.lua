@@ -28,6 +28,17 @@ function BagBarMod:SetupOptions()
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
 
+		local verticalAlignment = {
+			type = "select",
+			order = 79,
+			name = L["Vertical Button Alignment"],
+			desc = L["Vertical button alignment for this bar."],
+			get = function() return self.db.profile.verticalAlignment end,
+			set = function(info, state) self.db.profile.verticalAlignment = state; self.bar:UpdateButtonLayout() end,
+			values = { TOP = L["TOP"], CENTER = L["CENTER"], BOTTOM = L["BOTTOM"] },
+		}
+		self.optionobject:AddElement("general", "verticalAlignment", verticalAlignment)
+
 		local onebag = {
 			type = "toggle",
 			order = 80,

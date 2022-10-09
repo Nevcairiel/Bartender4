@@ -203,6 +203,17 @@ function ButtonBar:UpdateButtonLayout()
 		vpad = -vpad
 	end
 
+	local valign = "TOP"
+	-- variable in-row button alignment
+	if self.config.verticalAlignment then
+		if self.config.verticalAlignment == "CENTER" then
+			valign = ""
+		elseif self.config.verticalAlignment == "BOTTOM" then
+			valign = "BOTTOM"
+		end
+		-- otherwise, top
+	end
+
 	-- anchor button 1
 	local anchor = self:GetAnchor()
 	buttons[1]:ClearSetPoint(anchor, self, anchor, xOff - (self.hpad_offset or 0), yOff - (self.vpad_offset or 0))
@@ -214,7 +225,7 @@ function ButtonBar:UpdateButtonLayout()
 			buttons[i]:ClearSetPoint(v1 .. h1, buttons[i-ButtonPerRow], v2 .. h1, 0, -vpad)
 		-- align to the previous button
 		else
-			buttons[i]:ClearSetPoint("TOP" .. h1, buttons[i-1], "TOP" .. h2, hpad, buttons[i].bt4_yoffset or 0)
+			buttons[i]:ClearSetPoint(valign .. h1, buttons[i-1], valign .. h2, hpad, 0)
 		end
 	end
 
