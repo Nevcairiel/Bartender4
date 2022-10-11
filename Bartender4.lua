@@ -77,10 +77,12 @@ function Bartender4:OnInitialize()
 
 	BINDING_HEADER_Bartender4 = "Bartender4"
 	BINDING_NAME_BTTOGGLEACTIONBARLOCK = BINDING_NAME_TOGGLEACTIONBARLOCK
-	for i=1,10 do
-		_G[("BINDING_HEADER_BT4BLANK%d"):format(i)] = L["Bar %s"]:format(i)
+	local ActionBarsMod = Bartender4:GetModule("ActionBars")
+	for _, i in ipairs(ActionBarsMod.LIST_ACTIONBARS) do
+		local name = ActionBarsMod:GetBarName(i)
+		_G[("BINDING_HEADER_BT4BLANK%d"):format(i)] = name
 		for k=1,12 do
-			_G[("BINDING_NAME_CLICK BT4Button%d:LeftButton"):format(((i-1)*12)+k)] = ("%s %s"):format(L["Bar %s"]:format(i), L["Button %s"]:format(k))
+			_G[("BINDING_NAME_CLICK BT4Button%d:LeftButton"):format(((i-1)*12)+k)] = ("%s %s"):format(name, L["Button %s"]:format(k))
 		end
 	end
 	BINDING_HEADER_BT4PET = L["Pet Bar"]

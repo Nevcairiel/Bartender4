@@ -5,6 +5,8 @@
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
+local WoW10 = select(4, GetBuildInfo()) >= 100000
+
 local Bar = Bartender4.Bar.prototype
 local ButtonBar = Bartender4.ButtonBar.prototype
 local StateBar = Bartender4.StateBar.prototype
@@ -61,7 +63,22 @@ end
 
 local hasStances
 
-local validStanceTable = {
+local validStanceTable = WoW10 and {
+	[0] = L["Don't Page"],
+	(L["Page %2d (%s)"]):format(1, (L["Bar %s"]):format("1")),
+	(L["Page %2d (%s)"]):format(2, (L["Bar %s"]):format("2")),
+	(L["Page %2d (%s)"]):format(3, (L["Bar %s"]):format("3")),
+	(L["Page %2d (%s)"]):format(4, (L["Bar %s"]):format("4")),
+	(L["Page %2d (%s)"]):format(5, (L["Bar %s"]):format("5")),
+	(L["Page %2d (%s)"]):format(6, (L["Bar %s"]):format("6")),
+	(L["Page %2d (%s)"]):format(7, (L["Special Bar %d"]):format(1)),
+	(L["Page %2d (%s)"]):format(8, (L["Special Bar %d"]):format(2)),
+	(L["Page %2d (%s)"]):format(9, (L["Special Bar %d"]):format(3)),
+	(L["Page %2d (%s)"]):format(10, (L["Special Bar %d"]):format(4)),
+	(L["Page %2d (%s)"]):format(13, (L["Bar %s"]):format("7")),
+	(L["Page %2d (%s)"]):format(14, (L["Bar %s"]):format("8")),
+	(L["Page %2d (%s)"]):format(15, (L["Bar %s"]):format("9")),
+} or {
 	[0] = L["Don't Page"],
 	(L["Page %2d"]):format(1),
 	(L["Page %2d"]):format(2),

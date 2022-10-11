@@ -14,6 +14,7 @@ local WoW10 = select(4, GetBuildInfo()) >= 100000
 if not WoW10 then return end
 
 local PresetsMod = Bartender4:NewModule("Presets")
+local ActionBarsMod = Bartender4:GetModule("ActionBars")
 
 PresetsMod.showXPBar = true
 PresetsMod.showStatusBar = true
@@ -308,7 +309,7 @@ end
 local function UpdateGlobalProfileSettings()
 	-- flag ActionBars as WoW10 Layout
 	local config = Bartender4.db:GetNamespace("ActionBars").profile
-	for i=1,10 do
+	for _, i in ipairs(ActionBarsMod.LIST_ACTIONBARS) do
 		config.actionbars[i].WoW10Layout = true
 	end
 end

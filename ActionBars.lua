@@ -10,6 +10,7 @@ local select, ipairs, pairs, tostring, tonumber, min, setmetatable = select, ipa
 
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
+local WoW10 = select(4, GetBuildInfo()) >= 100000
 
 -- GLOBALS: UnitClass, InCombatLockdown, GetBindingKey, ClearOverrideBindings, SetOverrideBindingClick
 
@@ -51,7 +52,19 @@ local abdefaults = {
 	[10] = {
 		enabled = false,
 	},
+	[13] = {
+		enabled = false,
+	},
+	[14] = {
+		enabled = false,
+	},
+	[15] = {
+		enabled = false,
+	},
 }
+
+local LIST_ACTIONBARS = WoW10 and { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15 } or { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }
+BT4ActionBars.LIST_ACTIONBARS = LIST_ACTIONBARS
 
 local defaults = {
 	profile = {
@@ -75,7 +88,7 @@ function BT4ActionBars:OnEnable()
 		self.playerclass = select(2, UnitClass("player"))
 		self.actionbars = {}
 
-		for i=1,10 do
+		for _, i in ipairs(LIST_ACTIONBARS) do
 			local config = self.db.profile.actionbars[i]
 			if config.enabled then
 				self.actionbars[i] = self:Create(i, config)
@@ -116,7 +129,7 @@ function BT4ActionBars:SetupOptions()
 		}
 
 		-- iterate over bars and create their option tables
-		for i=1,10 do
+		for _, i in ipairs(LIST_ACTIONBARS) do
 			local config = self.db.profile.actionbars[i]
 			if config.enabled then
 				self:CreateBarOption(i)
@@ -129,7 +142,7 @@ end
 
 -- Applys the config in the current profile to all active Bars
 function BT4ActionBars:ApplyConfig()
-	for i=1,10 do
+	for _, i in ipairs(LIST_ACTIONBARS) do
 		local config = self.db.profile.actionbars[i]
 		-- make sure the bar has its current config object if it exists already
 		if self.actionbars[i] then
@@ -172,10 +185,22 @@ function BT4ActionBars:ReassignBindings()
 	end
 end
 
+function BT4ActionBars:GetBarName(id)
+	if WoW10 then
+		local barID = tonumber(id)
+		if barID == 7 or barID == 8 or barID == 9 or barID == 10 then
+			return (L["Special Bar %d"]):format(barID - 6)
+		elseif barID == 13 or barID == 14 or barID == 15 then
+			return (L["Bar %s"]):format(tostring(barID - 6))
+		end
+	end
+	return (L["Bar %s"]):format(id)
+end
+
 -- Creates a new bar object based on the id and the specified config
 function BT4ActionBars:Create(id, config)
 	id = tostring(id)
-	local bar = setmetatable(Bartender4.StateBar:Create(id, config, (L["Bar %s"]):format(id)), ActionBar_MT)
+	local bar = setmetatable(Bartender4.StateBar:Create(id, config, self:GetBarName(id)), ActionBar_MT)
 	bar.module = self
 
 	bar:SetScript("OnEvent", bar.OnEvent)
