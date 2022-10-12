@@ -200,6 +200,7 @@ local function BuildClassicBlizzardProfile()
 
 	config = Bartender4.db:GetNamespace("BagBar").profile
 	config.onebag = false
+	config.verticalAlignment = "TOP"
 	SetBarLocation( config, "BOTTOM", 345, 38.5 )
 
 	config = Bartender4.db:GetNamespace("MicroMenu").profile
