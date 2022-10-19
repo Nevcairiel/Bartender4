@@ -307,6 +307,80 @@ local function BuildBlizzardProfile()
 	end
 end
 
+local function BuildModernArtClassicProfile()
+	local dy, config
+	dy = 0
+
+	if not PresetsMod.showStatusBar then
+		dy = dy - 16
+	end
+
+	local actionButtonScale = 0.9
+
+	Bartender4.db.profile.blizzardVehicle = true
+	Bartender4.db.profile.outofrange = "hotkey"
+	Bartender4.db.profile.focuscastmodifier = false
+
+	config = Bartender4.db:GetNamespace("ActionBars").profile
+	config.actionbars[1].padding = 2 / actionButtonScale
+	config.actionbars[1].position.scale = actionButtonScale
+	SetBarLocation( config.actionbars[1], "BOTTOM", -510, 43 )
+	config.actionbars[2].enabled = false
+	config.actionbars[2].position.scale = actionButtonScale
+	config.actionbars[3].padding = 2 / actionButtonScale
+	config.actionbars[3].rows = 12
+	config.actionbars[3].position.scale = actionButtonScale
+	SetBarLocation( config.actionbars[3], "BOTTOMRIGHT", -82, 675 )
+	config.actionbars[4].padding = 2 / actionButtonScale
+	config.actionbars[4].rows = 12
+	config.actionbars[4].position.scale = actionButtonScale
+	SetBarLocation( config.actionbars[4], "BOTTOMRIGHT", -42, 675 )
+	config.actionbars[5].padding = 2 / actionButtonScale
+	config.actionbars[5].position.scale = actionButtonScale
+	SetBarLocation( config.actionbars[5], "BOTTOM", 3, 108 + dy )
+	config.actionbars[6].padding = 2 / actionButtonScale
+	config.actionbars[6].position.scale = actionButtonScale
+	SetBarLocation( config.actionbars[6], "BOTTOM", -510, 108 + dy )
+
+	config = Bartender4.db:GetNamespace("BagBar").profile
+	config.onebag = false
+	SetBarLocation( config, "BOTTOM", 300, 36 )
+
+	config = Bartender4.db:GetNamespace("MicroMenu").profile
+	config.position.scale = 1.4
+	config.padding = -1
+	SetBarLocation( config, "BOTTOM", 7, 41 )
+
+	if PresetsMod.showStatusBar then
+		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
+		config.enabled = true
+		config.scale = 1
+		config.width = 1032
+		config.twentySections = true
+		Bartender4:GetModule("StatusTrackingBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -517, 68)
+	end
+
+	config = Bartender4.db:GetNamespace("BlizzardArt").profile
+	config.enabled = true
+	config.artLayout = "MODERNARTCLASSIC"
+	config.position.scale = 0.9
+	Bartender4:GetModule("BlizzardArt"):Enable()
+	SetBarLocation( config, "BOTTOM", -512, 47 )
+
+	config = Bartender4.db:GetNamespace("PetBar").profile
+	if GetNumShapeshiftForms() > 0 then
+		SetBarLocation( config, "BOTTOM", -251, 142 + dy )
+		if GetNumShapeshiftForms() > 0 then
+			config = Bartender4.db:GetNamespace("StanceBar").profile
+			config.position.scale = 1.0
+			SetBarLocation( config, "BOTTOM", -480, 142 + dy )
+		end
+	else
+		SetBarLocation( config, "BOTTOM", -480, 142 + dy )
+	end
+end
+
 local function UpdateGlobalProfileSettings()
 	-- flag ActionBars as WoW10 Layout
 	local config = Bartender4.db:GetNamespace("ActionBars").profile
@@ -325,6 +399,8 @@ function PresetsMod:ResetProfile(type)
 	-- load the preset
 	if type == "BLIZZARD" then
 		BuildBlizzardProfile()
+	elseif type == "MODERN_ART_CLASSIC" then
+		BuildModernArtClassicProfile()
 	elseif type == "CLASSIC" then
 		BuildClassicBlizzardProfile()
 	elseif type == "DOUBLE_CLASSIC" then
@@ -366,7 +442,8 @@ function PresetsMod:SetupOptions()
 				type = "select",
 				width = "double",
 				name = L["Presets"],
-				values = { BLIZZARD = L["Modern Blizzard interface"], CLASSIC = L["Classic interface"], DOUBLE_CLASSIC = L["Two bars wide (Classic)"], SINGLE_CLASSIC = L["Three bars stacked (Classic)"], ZRESET = L["Full reset"] },
+				values = { BLIZZARD = L["Modern Blizzard interface"], MODERN_ART_CLASSIC = L["Modern Art, Classic interface"], CLASSIC = L["Classic interface"], DOUBLE_CLASSIC = L["Two bars wide (Classic)"], SINGLE_CLASSIC = L["Three bars stacked (Classic)"], ZRESET = L["Full reset"] },
+				sorting = { "BLIZZARD", "MODERN_ART_CLASSIC", "CLASSIC", "DOUBLE_CLASSIC", "SINGLE_CLASSIC", "ZRESET" },
 				get = function() return PresetsMod.defaultType end,
 				set = function(info, val) PresetsMod.defaultType = val end
 			},
@@ -382,7 +459,7 @@ function PresetsMod:SetupOptions()
 				name = L["Use three stacked action bars"],
 				get = function() return PresetsMod.threeStackedBars end,
 				set = function(info, val) PresetsMod.threeStackedBars = val end,
-				hidden = function() return PresetsMod.defaultType ~= "BLIZZARD" end,
+				hidden = function() return {PresetsMod.defaultType ~= "BLIZZARD", PresetsMod.defaultType ~= "MODERN_ART_CLASSIC" } end,
 			},
 			nl12 = {
 				order = 16,
