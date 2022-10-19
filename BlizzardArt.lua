@@ -98,6 +98,18 @@ function BlizzardArtMod:OnEnable()
 			self.bar.nineSliceBackground.Center:SetColorTexture(0,0,0,0.2) -- fixup the slice background
 			self.bar.nineSliceBackground:SetAllPoints()
 			self.bar.nineSliceBackground:Show()
+			
+			-- menu & bag
+			self.bar.nineSliceMenuBagParent = CreateFrame("Frame", nil, self.bar)
+			self.bar.nineSliceMenuBagParent:SetFrameLevel(4)
+			self.bar.nineSliceMenuBagParent:SetPoint("BOTTOMLEFT", self.bar, "BOTTOMLEFT", 575, -52)
+			self.bar.nineSliceMenuBagParent:SetSize(562, 45)
+
+			self.bar.nineSliceMenuBagBorder = CreateFrame("Frame", nil, self.bar.nineSliceMenuBagParent, "BT4ArtBarBorderArtTemplate")
+			self.bar.nineSliceMenuBagBorder:SetFrameLevel(52)
+			self.bar.nineSliceMenuBagBorder:SetPoint("TOPLEFT", self.bar.nineSliceMenuBagParent, "TOPLEFT", -4, 4)
+			self.bar.nineSliceMenuBagBorder:SetPoint("BOTTOMRIGHT", self.bar.nineSliceMenuBagParent, "BOTTOMRIGHT", 7, -7)
+			self.bar.nineSliceMenuBagBorder:Show()
 		end
 	end
 	self.bar:Enable()
@@ -124,6 +136,11 @@ function BlizzardArt:ApplyConfig()
 
 	-- MODERN is only supported in WoW 10.0+
 	if not WoW10 and config.artLayout == "MODERN" then
+		config.artLayout = "CLASSIC"
+	end
+	
+	-- MODERNARTCLASSIC is only supported in WoW 10.0+
+	if not WoW10 and config.artLayout == "MODERNARTCLASSIC" then
 		config.artLayout = "CLASSIC"
 	end
 
@@ -155,6 +172,9 @@ function BlizzardArt:ApplyConfig()
 
 		-- show the modern NineSlice border/background
 		self.nineSliceParent:Show()
+		
+		-- hide the modern NineSlice MenuBag border
+		self.nineSliceMenuBagParent:Hide()
 
 		-- show button art
 		if not self.modernButtonArt then
@@ -178,12 +198,104 @@ function BlizzardArt:ApplyConfig()
 		end
 
 		self:SetSize(577, 61)
+	elseif WoW10 and config.artLayout == "MODERNARTCLASSIC" then --modern art, classic layout
+		-- hide all the classic artwork
+		self.barTex0:Hide()
+		self.barTex1:Hide()
+		self.barTex1b:Hide()
+		self.barTex2:Hide()
+		self.barTex3:Hide()
+		self.barTex3b:Hide()
+			
+		local factionGroup = UnitFactionGroup("player")			
+		if ( factionGroup == "Horde" ) then
+			self.leftCap:SetAtlas("ui-hud-actionbar-wyvern-left")
+			self.rightCap:SetAtlas("ui-hud-actionbar-wyvern-right")
+		else
+			self.leftCap:SetAtlas("ui-hud-actionbar-gryphon-left")
+			self.rightCap:SetAtlas("ui-hud-actionbar-gryphon-right")
+		end
+			
+		self.leftCap:SetSize(104.5, 98)
+		self.leftCap:ClearAllPoints()
+		self.leftCap:SetPoint("BOTTOMRIGHT", self.nineSliceParent, "BOTTOMLEFT", 0, -15)
+		self.rightCap:SetTexCoord(0,1,0,1)
+		self.rightCap:SetSize(104.5, 98)
+		self.rightCap:ClearAllPoints()
+		self.rightCap:SetPoint("BOTTOMLEFT", self.nineSliceParent, "BOTTOMRIGHT", 565, -15)
+			
+		-- show the modern NineSlice border
+		self.nineSliceParent:Show()
+
+		-- show the modern NineSlice background
+		if not self.modernBackgroundArt then
+			self.modernBackgroundArt = {}
+				
+			self.modernBackgroundArt = CreateFrame("Frame", nil, self.nineSliceParent)
+			self.modernBackgroundArt:SetSize(563,45)
+			
+			self.modernBackgroundArt = self.nineSliceParent:CreateTexture(nil, "BACKGROUND")
+			self.modernBackgroundArt:SetAllPoints()
+			self.modernBackgroundArt:SetAtlas("ui-hud-actionbar-frame-background")
+			self.modernBackgroundArt:SetColorTexture(0.1,0.1,0.1,1)
+		end
+			
+		-- show button art
+		if not self.modernButtonArt then
+			self.modernButtonArt = {}			
+			for i=1,12 do
+				self.modernButtonArt[i] = CreateFrame("Frame", nil, self.nineSliceParent)
+				self.modernButtonArt[i]:SetSize(45,45)
+
+				self.modernButtonArt[i].SlotArt = self.modernButtonArt[i]:CreateTexture(nil, "BACKGROUND")
+				self.modernButtonArt[i].SlotArt:SetAllPoints()
+				self.modernButtonArt[i].SlotArt:SetAtlas("ui-hud-actionbar-iconframe-slot")
+				
+				self.modernButtonArt[i].SlotBorderArt = self.modernButtonArt[i]:CreateTexture(nil, "BACKGROUND")
+				self.modernButtonArt[i].SlotBorderArt:SetAllPoints()
+				self.modernButtonArt[i].SlotBorderArt:SetAtlas("ui-hud-actionbar-iconframe")		
+				if i < 12 then
+					self.modernButtonArt[i].Divider = CreateFrame("Frame", nil, self.modernButtonArt[i], "BT4ArtBarButtonRightDivider")
+					self.modernButtonArt[i].Divider:SetPoint("LEFT", self.modernButtonArt[i], "RIGHT", -5, 0)
+					self.modernButtonArt[i].Divider:SetPoint("TOP")
+					self.modernButtonArt[i].Divider:SetPoint("BOTTOM")
+				end
+			end
+
+			local layout = GridLayoutUtil.CreateStandardGridLayout(12, 2, 2, 1, 1)			
+			GridLayoutUtil.ApplyGridLayout(self.modernButtonArt, AnchorUtil.CreateAnchor("TOPLEFT", self.nineSliceParent, "TOPLEFT"), layout)
+		end
+		
+		-- show the modern NineSlice MenuBag border
+		self.nineSliceMenuBagParent:Show()
+		
+		-- show menu & bag background
+		if not self.modernMenuArt then
+			self.modernMenuArt = {}
+				
+			self.modernMenuArt[1] = CreateFrame("Frame", nil, self.nineSliceMenuBagParent)
+			self.modernMenuArt[1]:SetSize(563,45)
+			
+			self.modernMenuArt[1].BackgroundArt = self.modernMenuArt[1]:CreateTexture(nil, "BACKGROUND")
+			self.modernMenuArt[1].BackgroundArt:SetAllPoints()
+			self.modernMenuArt[1].BackgroundArt:SetAtlas("ui-hud-actionbar-frame-background")
+			self.modernMenuArt[1].BackgroundArt:SetColorTexture(0.1,0.1,0.1,1)
+				
+			self.modernMenuArt[1].Divider = CreateFrame("Frame", nil, self.modernMenuArt[1], "BT4ArtBarButtonRightDivider")
+			self.modernMenuArt[1].Divider:SetPoint("LEFT", self.modernMenuArt[1], "RIGHT", -240, 0)
+			self.modernMenuArt[1].Divider:SetPoint("TOP")
+			self.modernMenuArt[1].Divider:SetPoint("BOTTOM")
+
+			local layout = GridLayoutUtil.CreateStandardGridLayout(1, 0, 2, 1, 1)			
+			GridLayoutUtil.ApplyGridLayout(self.modernMenuArt, AnchorUtil.CreateAnchor("TOPLEFT", self.nineSliceMenuBagParent, "TOPLEFT"), layout)
+		end
 	else
 		self.barTex0:Show()
 		self.barTex1:Show()
 
 		if WoW10 then
 			self.nineSliceParent:Hide()
+			self.nineSliceMenuBagParent:Hide()
 		end
 
 		self.leftCap:SetHeight(128)

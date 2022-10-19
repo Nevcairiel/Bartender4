@@ -32,7 +32,7 @@ function BlizzardArtMod:SetupOptions()
 			order = 40,
 			name = L["Layout"],
 			desc = L["Choose between the classic WoW layout and two variations"],
-			values = WoW10 and {MODERN=L["Modern"], CLASSIC=L["Classic"], ONEBAR=L["One action bar only"], TWOBAR=L["Two action bars"]} or {CLASSIC=L["Classic"], ONEBAR=L["One action bar only"], TWOBAR=L["Two action bars"]},
+			values = WoW10 and {MODERN=L["Modern"], MODERNARTCLASSIC=L["Modern Art, Classic"], CLASSIC=L["Classic"], ONEBAR=L["One action bar only"], TWOBAR=L["Two action bars"]} or {CLASSIC=L["Classic"], ONEBAR=L["One action bar only"], TWOBAR=L["Two action bars"]},
 			get = function() return self.db.profile.artLayout end,
 			set = function(info, val) self.db.profile.artLayout = val; BlizzardArtMod:ApplyConfig() end,
 		}
@@ -45,7 +45,7 @@ function BlizzardArtMod:SetupOptions()
 			values = {DWARF=L["Griffin"], HUMAN=L["Lion"]},
 			get = function() return self.db.profile.artSkin end,
 			set = function(info, val) self.db.profile.artSkin = val; BlizzardArtMod:ApplyConfig() end,
-			hidden = function() return self.db.profile.artLayout == "MODERN" end,
+			hidden = function() return self.db.profile.artLayout == "MODERN" or self.db.profile.artLayout == "MODERNARTCLASSIC" end,
 		}
 		self.optionobject:AddElement("general", "artskin", background)
 		local endcapleft = {
@@ -56,7 +56,7 @@ function BlizzardArtMod:SetupOptions()
 			values = {NONE=L["None"], DWARF=L["Griffin"], HUMAN=L["Lion"]},
 			get = function() return self.db.profile.leftCap end,
 			set = function(info, val) self.db.profile.leftCap = val; BlizzardArtMod:ApplyConfig() end,
-			hidden = function() return self.db.profile.artLayout == "MODERN" end,
+			hidden = function() return self.db.profile.artLayout == "MODERN" or self.db.profile.artLayout == "MODERNARTCLASSIC" end,
 		}
 		self.optionobject:AddElement("general", "endcapleft", endcapleft)
 		local endcapright = {
@@ -67,7 +67,7 @@ function BlizzardArtMod:SetupOptions()
 			values = {NONE=L["None"], DWARF=L["Griffin"], HUMAN=L["Lion"]},
 			get = function() return self.db.profile.rightCap end,
 			set = function(info, val) self.db.profile.rightCap = val; BlizzardArtMod:ApplyConfig() end,
-			hidden = function() return self.db.profile.artLayout == "MODERN" end,
+			hidden = function() return self.db.profile.artLayout == "MODERN" or self.db.profile.artLayout == "MODERNARTCLASSIC" end,
 		}
 		self.optionobject:AddElement("general", "endcapright", endcapright)
 
