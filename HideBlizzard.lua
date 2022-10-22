@@ -45,6 +45,9 @@ function Bartender4:HideBlizzard()
 	hideActionBarFrame(MultiBarBottomRight, true)
 	hideActionBarFrame(MultiBarLeft, true)
 	hideActionBarFrame(MultiBarRight, true)
+	hideActionBarFrame(MultiBar5, true)
+	hideActionBarFrame(MultiBar6, true)
+	hideActionBarFrame(MultiBar7, true)
 
 	-- Hide MultiBar Buttons, but keep the bars alive
 	for i=1,12 do
@@ -67,6 +70,18 @@ function Bartender4:HideBlizzard()
 		_G["MultiBarLeftButton" .. i]:Hide()
 		_G["MultiBarLeftButton" .. i]:UnregisterAllEvents()
 		_G["MultiBarLeftButton" .. i]:SetAttribute("statehidden", true)
+
+		_G["MultiBar5Button" .. i]:Hide()
+		_G["MultiBar5Button" .. i]:UnregisterAllEvents()
+		_G["MultiBar5Button" .. i]:SetAttribute("statehidden", true)
+
+		_G["MultiBar6Button" .. i]:Hide()
+		_G["MultiBar6Button" .. i]:UnregisterAllEvents()
+		_G["MultiBar6Button" .. i]:SetAttribute("statehidden", true)
+
+		_G["MultiBar7Button" .. i]:Hide()
+		_G["MultiBar7Button" .. i]:UnregisterAllEvents()
+		_G["MultiBar7Button" .. i]:SetAttribute("statehidden", true)
 	end
 
 	--MainMenuBar:UnregisterAllEvents()
