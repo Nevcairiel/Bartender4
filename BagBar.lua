@@ -19,8 +19,6 @@ local _G = _G
 local next, pairs, setmetatable = next, pairs, setmetatable
 local table_insert, table_remove = table.insert, table.remove
 
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
-
 -- create prototype information
 local BagBar = setmetatable({}, {__index = ButtonBar})
 
@@ -113,9 +111,6 @@ function BagBar:FeedButtons()
 	end
 
 	table_insert(self.buttons, MainMenuBarBackpackButton)
-	if #self.buttons > 1 then
-		MainMenuBarBackpackButton.bt4_yoffset = 10
-	end
 
 	for i,v in pairs(self.buttons) do
 		v:SetParent(self)
