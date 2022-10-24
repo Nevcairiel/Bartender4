@@ -144,7 +144,7 @@ function module:CreateBarOption(id, options)
 		if WoW10 then
 			if barID == 7 or barID == 8 or barID == 9 or barID == 10 then
 				order = 13 + barID
-				desc = (L["Configure Special Bar %d"]):format(barID - 6) .. "\n\n" .. L["Usually used for druid shapeshift forms, but can be re-used for additional bars"]
+				desc = (L["Configure Class Bar %d"]):format(barID - 6) .. "\n\n" .. L["Usually used for druid shapeshift forms, but can be re-used for additional bars on other classes"]
 			elseif barID == 13 or barID == 14 or barID == 15 then
 				order = 10 + barID - 6
 				desc = (L["Configure Bar %s"]):format(tostring(barID - 6))
