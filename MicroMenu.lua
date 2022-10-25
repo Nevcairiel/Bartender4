@@ -194,8 +194,15 @@ if WoW10 and QueueStatusButton then
 	-- create prototype information
 	local QueueStatusBar = setmetatable({}, {__index = Bar})
 
+	local queuedefaults = { profile = Bartender4:Merge({
+		enabled = true,
+		visibility = {
+			possess = false,
+		},
+	}, Bartender4.Bar.defaults) }
+
 	function QueueStatusMod:OnInitialize()
-		self.db = Bartender4.db:RegisterNamespace("QueueStatus", defaults)
+		self.db = Bartender4.db:RegisterNamespace("QueueStatus", queuedefaults)
 		self:SetEnabledState(self.db.profile.enabled)
 	end
 
