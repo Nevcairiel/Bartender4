@@ -101,6 +101,7 @@ read_globals = {
 	"AchievementMicroButton",
 	"CharacterMicroButton",
 	"CollectionsMicroButton",
+	"EditModeManagerFrame",
 	"EJMicroButton",
 	"ExtraAbilityContainer",
 	"ExtraActionBarFrame",

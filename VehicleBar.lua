@@ -40,6 +40,11 @@ function VehicleBarMod:OnEnable()
 	end
 	if MainMenuBarVehicleLeaveButton_Update then
 		self:RawHook("MainMenuBarVehicleLeaveButton_Update", true)
+	else
+		self:SecureHook(MainMenuBarVehicleLeaveButton, "Update", "MainMenuBarVehicleLeaveButton_Update")
+	end
+	if EditModeManagerFrame then
+		self:SecureHook(EditModeManagerFrame, "UpdateBottomActionBarPositions")
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
@@ -68,6 +73,10 @@ function VehicleBarMod:MainMenuBarVehicleLeaveButton_Update()
 		MainMenuBarVehicleLeaveButton:UnlockHighlight()
 		MainMenuBarVehicleLeaveButton:Hide()
 	end
+end
+
+function VehicleBarMod:UpdateBottomActionBarPositions()
+	self.bar:PerformLayout()
 end
 
 function VehicleBar:ApplyConfig(config)
