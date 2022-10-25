@@ -78,6 +78,9 @@ local function BuildSingleProfile()
 	config.position.scale = 1.0
 	SetBarLocation( config, "BOTTOM", 279, 108 )
 
+	config = Bartender4.db:GetNamespace("Vehicle").profile
+	SetBarLocation( config, "BOTTOM", -302, 125 )
+
 	if PresetsMod.showStatusBar then
 		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
 		config.enabled = true
@@ -144,6 +147,9 @@ local function BuildDoubleProfile()
 	config = Bartender4.db:GetNamespace("QueueStatus").profile
 	config.position.scale = 1.0
 	SetBarLocation( config, "BOTTOM", 513, 105 )
+
+	config = Bartender4.db:GetNamespace("Vehicle").profile
+	SetBarLocation( config, "BOTTOMLEFT", 530, 163 )
 
 	if PresetsMod.showStatusBar then
 		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
@@ -220,6 +226,9 @@ local function BuildClassicBlizzardProfile()
 	config = Bartender4.db:GetNamespace("QueueStatus").profile
 	config.position.scale = 1.0
 	SetBarLocation( config, "BOTTOM", 513, 105 )
+
+	config = Bartender4.db:GetNamespace("Vehicle").profile
+	SetBarLocation( config, "BOTTOMLEFT", 530, 163 )
 
 	if PresetsMod.showStatusBar then
 		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
@@ -298,6 +307,9 @@ local function BuildBlizzardProfile()
 	config.onebag = false
 	SetBarLocation( config, "BOTTOMRIGHT", -212, 74 )
 
+	config = Bartender4.db:GetNamespace("Vehicle").profile
+	SetBarLocation( config, "BOTTOM", -337, 153 )
+
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
 	config.enabled = true
 	config.artLayout = "MODERN"
@@ -370,6 +382,9 @@ local function BuildModernArtClassicProfile()
 	config = Bartender4.db:GetNamespace("QueueStatus").profile
 	config.position.scale = 1.0
 	SetBarLocation( config, "BOTTOM", 516, 106 )
+
+	config = Bartender4.db:GetNamespace("Vehicle").profile
+	SetBarLocation( config, "BOTTOMLEFT", 530, 150 )
 
 	if PresetsMod.showStatusBar then
 		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
