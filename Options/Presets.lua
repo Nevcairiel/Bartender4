@@ -74,6 +74,10 @@ local function BuildSingleProfile()
 	config.enabled = false
 	Bartender4:GetModule("StanceBar"):Disable()
 
+	config = Bartender4.db:GetNamespace("QueueStatus").profile
+	config.position.scale = 1.0
+	SetBarLocation( config, "BOTTOM", 279, 108 )
+
 	if PresetsMod.showStatusBar then
 		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
 		config.enabled = true
@@ -136,6 +140,10 @@ local function BuildDoubleProfile()
 	config = Bartender4.db:GetNamespace("MicroMenu").profile
 	config.enabled = false
 	Bartender4:GetModule("MicroMenu"):Disable()
+
+	config = Bartender4.db:GetNamespace("QueueStatus").profile
+	config.position.scale = 1.0
+	SetBarLocation( config, "BOTTOM", 513, 105 )
 
 	if PresetsMod.showStatusBar then
 		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
@@ -209,6 +217,10 @@ local function BuildClassicBlizzardProfile()
 	config.padding = -1
 	SetBarLocation( config, "BOTTOM", 32, 41.75 )
 
+	config = Bartender4.db:GetNamespace("QueueStatus").profile
+	config.position.scale = 1.0
+	SetBarLocation( config, "BOTTOM", 513, 105 )
+
 	if PresetsMod.showStatusBar then
 		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
 		config.enabled = true
@@ -277,6 +289,10 @@ local function BuildBlizzardProfile()
 	config.position.scale = 1.0
 	config.padding = 1
 	SetBarLocation( config, "BOTTOMRIGHT", -229, 34 )
+
+	config = Bartender4.db:GetNamespace("QueueStatus").profile
+	config.position.scale = 1.0
+	SetBarLocation( config, "BOTTOMRIGHT", -271, 40.5 )
 
 	config = Bartender4.db:GetNamespace("BagBar").profile
 	config.onebag = false
@@ -350,6 +366,10 @@ local function BuildModernArtClassicProfile()
 	config.position.scale = 1.4
 	config.padding = -1
 	SetBarLocation( config, "BOTTOM", 7, 41 )
+
+	config = Bartender4.db:GetNamespace("QueueStatus").profile
+	config.position.scale = 1.0
+	SetBarLocation( config, "BOTTOM", 516, 106 )
 
 	if PresetsMod.showStatusBar then
 		config = Bartender4.db:GetNamespace("StatusTrackingBar").profile

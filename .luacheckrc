@@ -129,6 +129,7 @@ read_globals = {
 	"PlayerTalentFrame",
 	"PossessActionBar",
 	"PossessBarFrame",
+	"QueueStatusButton",
 	"QueueStatusFrame",
 	"QuestLogMicroButton",
 	"SpellbookMicroButton",
