@@ -29,7 +29,7 @@ end
 
 local function onDragStart(self)
 	if InCombatLockdown() then return end
-	if not Bartender4.db.profile.buttonlock or IsModifiedClick("PICKUPACTION") then
+	if Bartender4.ButtonsUnlocked or IsModifiedClick("PICKUPACTION") then
 		self:SetChecked(false)
 		PickupPetAction(self.id)
 		self:Update()

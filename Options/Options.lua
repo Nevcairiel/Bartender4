@@ -52,11 +52,14 @@ local function generateOptions()
 				order = 2,
 				type = "toggle",
 				name = L["Button Lock"],
-				desc = L["Lock the buttons."],
-				get = function() return Bartender4.db.profile.buttonlock end,
+				desc = L["Lock the button contents from being dragged off. When locked, actions can still be dragged by holding Shift."] .. "\n\n" .. L["NOTE: When the buttons are unlocked, actions will always trigger on key release, instead of key press. This setting is not permanent and will not be saved."],
+				get = function() return not Bartender4.ButtonsUnlocked end,
 				set = function(info, value)
-					Bartender4.db.profile.buttonlock = value
+					Bartender4.ButtonsUnlocked = not value
 					Bartender4.Bar:ForAll("ForAll", "SetAttribute", "buttonlock", value)
+					if not value then
+						Bartender4:Print(L["Buttons are unlocked. While unlocked, actions will always execute on key release, instead of key press. This setting is not permanent and will not be saved."])
+					end
 				end,
 			},
 			minimapIcon = {
@@ -110,7 +113,7 @@ local function generateOptions()
 								order = 2,
 								type = "toggle",
 								name = L["Toggle actions on key press instead of release"],
-								desc = L["Toggles actions immediately when you press the key, and not only on release. Note that draging actions will cause them to be cast in this mode."],
+								desc = L["Toggles actions immediately when you press the key, and not only on release. Note that the buttons need to be locked for actions to run on key press."],
 								get = function(info)
 									if WoW10 then
 										return GetCVarBool("ActionButtonUseKeyDown")

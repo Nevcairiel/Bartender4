@@ -4,8 +4,8 @@
 			print("Cannot change the button lock during combat.")
 			return
 		end
-		Bartender4.db.profile.buttonlock = not Bartender4.db.profile.buttonlock
-		Bartender4.Bar:ForAll("ForAll", "SetAttribute", "buttonlock", Bartender4.db.profile.buttonlock)
+		Bartender4.ButtonsUnlocked = not Bartender4.ButtonsUnlocked
+		Bartender4.Bar:ForAll("ForAll", "SetAttribute", "buttonlock", not Bartender4.ButtonsUnlocked)
 	</Binding>
 	<Binding name="CLICK BT4Button1:LeftButton" header="BT4BLANK1" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button2:LeftButton" category="Bartender4 "/>
