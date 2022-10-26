@@ -85,6 +85,7 @@ end
 
 function ButtonBar:SetZoom(zoom)
 	self.config.skin.Zoom = zoom
+	self:UpdateButtonConfig()
 	self:UpdateButtonLayout()
 end
 
