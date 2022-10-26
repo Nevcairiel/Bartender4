@@ -39,8 +39,8 @@ function VehicleBarMod:SetupOptions()
 		self.options = {
 			order = 30,
 			type = "group",
-			name = L["VehicleBar"],
-			desc = L["Configure the VehicleBar"],
+			name = L["Vehicle Bar"],
+			desc = L["Configure the Vehicle Bar"],
 			childGroups = "tab",
 		}
 		Bartender4:RegisterBarOptions("Vehicle", self.options)
