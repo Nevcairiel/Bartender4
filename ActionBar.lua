@@ -89,6 +89,7 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.hideElements.macro = self.config.hidemacrotext and true or false
 	self.buttonConfig.hideElements.hotkey = self.config.hidehotkey and true or false
 	self.buttonConfig.hideElements.equipped = self.config.hideequipped and true or false
+	self.buttonConfig.hideElements.border = self.config.skin.Zoom and true or false
 
 	self.buttonConfig.showGrid = self.config.showgrid
 	self.buttonConfig.clickOnDown = Bartender4.db.profile.onkeydown
