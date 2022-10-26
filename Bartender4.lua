@@ -82,7 +82,7 @@ function Bartender4:OnInitialize()
 		local name = ActionBarsMod:GetBarName(i)
 		_G[("BINDING_HEADER_BT4BLANK%d"):format(i)] = name
 		for k=1,12 do
-			_G[("BINDING_NAME_CLICK BT4Button%d:LeftButton"):format(((i-1)*12)+k)] = ("%s %s"):format(name, L["Button %s"]:format(k))
+			_G[("BINDING_NAME_CLICK BT4Button%d:Keybind"):format(((i-1)*12)+k)] = ("%s %s"):format(name, L["Button %s"]:format(k))
 		end
 	end
 	BINDING_HEADER_BT4PET = L["Pet Bar"]
@@ -138,7 +138,7 @@ function Bartender4:RegisterPetBattleDriver()
 		self.petBattleController:SetAttribute("_onstate-petbattle", [[
 			if newstate == "petbattle" then
 				for i=1,6 do
-					local button, vbutton = ("CLICK BT4Button%d:LeftButton"):format(i), ("ACTIONBUTTON%d"):format(i)
+					local button, vbutton = ("CLICK BT4Button%d:Keybind"):format(i), ("ACTIONBUTTON%d"):format(i)
 					for k=1,select("#", GetBindingKey(button)) do
 						local key = select(k, GetBindingKey(button))
 						self:SetBinding(true, key, vbutton)
@@ -177,7 +177,7 @@ function Bartender4:UpdateBlizzardVehicle()
 				end
 				if newstate == "vehicle" then
 					for i=1,6 do
-						local button, vbutton = ("CLICK BT4Button%d:LeftButton"):format(i), ("OverrideActionBarButton%d"):format(i)
+						local button, vbutton = ("CLICK BT4Button%d:Keybind"):format(i), ("OverrideActionBarButton%d"):format(i)
 						for k=1,select("#", GetBindingKey(button)) do
 							local key = select(k, GetBindingKey(button))
 							self:SetBindingClick(true, key, vbutton)

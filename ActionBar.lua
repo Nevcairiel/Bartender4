@@ -94,6 +94,8 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.clickOnDown = Bartender4.db.profile.onkeydown
 	self.buttonConfig.flyoutDirection = self.config.flyoutDirection
 
+	self.buttonConfig.keyBoundClickButton = "Keybind"
+
 	if tonumber(self.id) == 1 then
 		for i, button in self:GetAll() do
 			self.buttonConfig.keyBoundTarget = format("ACTIONBUTTON%d", i)

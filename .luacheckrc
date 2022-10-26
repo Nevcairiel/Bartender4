@@ -72,6 +72,7 @@ read_globals = {
 	"PlaySound",
 	"SaveBindings",
 	"SetBinding",
+	"SetBindingClick",
 	"SetCVar",
 	"SetModifiedClick",
 	"SetOverrideBindingClick",

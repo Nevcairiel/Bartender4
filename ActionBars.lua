@@ -179,9 +179,29 @@ function BT4ActionBars:ReassignBindings()
 		for k=1, select('#', GetBindingKey(button)) do
 			local key = select(k, GetBindingKey(button))
 			if key and key ~= "" then
-				SetOverrideBindingClick(frame, false, key, real_button)
+				SetOverrideBindingClick(frame, false, key, real_button, "Keybind")
 			end
 		end
+	end
+
+	-- re-assign bindings from LeftButton to Keybind buttons
+	local needSaving = false
+	for id, bar in pairs(self.actionbars) do
+		for i = 1,min(#bar.buttons, 12) do
+			local button = bar.buttons[i]:GetName()
+			local clickbutton = ("CLICK %s:LeftButton"):format(button)
+			for k=1, select('#', GetBindingKey(clickbutton)) do
+				local key = select(k, GetBindingKey(clickbutton))
+				if key and key ~= "" then
+					SetBindingClick(key, button, "Keybind")
+					needSaving = true
+				end
+			end
+		end
+	end
+
+	if needSaving then
+		SaveBindings(GetCurrentBindingSet())
 	end
 end
 
