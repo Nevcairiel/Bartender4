@@ -199,6 +199,11 @@ if WoW10 and QueueStatusButton then
 		visibility = {
 			possess = false,
 		},
+		position = {
+			x = -315,
+			y = 150,
+			point = "BOTTOMRIGHT",
+		},
 	}, Bartender4.Bar.defaults) }
 
 	function QueueStatusMod:OnInitialize()
