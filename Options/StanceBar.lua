@@ -25,6 +25,7 @@ function StanceBarMod:SetupOptions()
 			get = function() return self.db.profile.enabled end,
 			set = "ToggleModule",
 			handler = self,
+			width = "full",
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
 

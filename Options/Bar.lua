@@ -213,8 +213,14 @@ function Bar:GetOptionObject()
 					get = optGetter,
 					set = optSetter,
 				},
-				clickthrough = {
+				styleheader = {
 					order = 200,
+					type = "header",
+					name = L["Advanced"],
+					hidden = clickThroughVis,
+				},
+				clickthrough = {
+					order = 201,
 					name = L["Click-Through"],
 					desc = L["Disable any reaction to mouse events on this bar, making the bar click-through."],
 					type = "toggle",

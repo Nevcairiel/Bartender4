@@ -77,6 +77,7 @@ function module:GetOptionsObject()
 				name = L["Enabled"],
 				desc = L["Enable/Disable the bar."],
 				type = "toggle",
+				width = "full",
 				set = optSetter,
 				get = optGetter,
 			},
@@ -106,13 +107,8 @@ function module:GetOptionsObject()
 				set = optSetter,
 				get = optGetter,
 			},
-			advheader = {
-				order = 199,
-				name = L["Advanced"],
-				type = "header",
-			},
 			buttonOffset = {
-				order = 201,
+				order = 202,
 				name = L["Button Offset"],
 				desc = L["How many buttons to offset the action to the left. This can be used, for example, to use the same actions on two individual shorter bars (front and back)."],
 				type = "range",

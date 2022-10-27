@@ -75,15 +75,6 @@ function ButtonBar:GetOptionObject()
 			set = optSetter,
 			get = optGetter,
 		},
-		zoom = {
-			order = 59,
-			name = L["Zoom"],
-			type = "toggle",
-			desc = L["Toggle Button Zoom\nFor more style options you need to install Masque"],
-			get = optGetter,
-			set = optSetter,
-			hidden = function() return LibStub("Masque", true) and true or false end,
-		},
 		rows = {
 			order = 70,
 			name = L["Rows"],
@@ -133,12 +124,21 @@ function ButtonBar:GetOptionObject()
 			get = optGetter,
 		},
 		equipped = {
-			order = 82,
+			order = 83,
 			type = "toggle",
 			name = L["Hide Equipped Border"],
 			desc = L["Hide the inner border indicating the equipped status on the buttons of this bar."],
 			set = optSetter,
 			get = optGetter,
+		},
+		zoom = {
+			order = 85,
+			name = L["Zoom"],
+			type = "toggle",
+			desc = L["Toggle Button Zoom\nFor more style options you need to install Masque"],
+			get = optGetter,
+			set = optSetter,
+			hidden = function() return LibStub("Masque", true) and true or false end,
 		},
 	}
 	obj:AddElementGroup("general", otbl_general)

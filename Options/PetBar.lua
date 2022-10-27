@@ -20,16 +20,17 @@ function PetBarMod:SetupOptions()
 			type = "toggle",
 			order = 1,
 			name = L["Enabled"],
-			desc = L["Enable the PetBar"],
+			desc = L["Enable the Pet Bar"],
 			get = function() return self.db.profile.enabled end,
 			set = "ToggleModule",
 			handler = self,
+			width = "full",
 		}
 
 		local cat_general = {
 			enabled = enabled,
 			grid = {
-				order = 83,
+				order = 79,
 				type = "toggle",
 				name = L["Button Grid"],
 				desc = L["Toggle the button grid."],
