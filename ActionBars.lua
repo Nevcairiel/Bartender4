@@ -193,8 +193,11 @@ local function MigrateKeybindBindings(target, ...)
 	return needSaving
 end
 
+local s_inReassignBindings = false
 function BT4ActionBars:ReassignBindings()
-	if InCombatLockdown() then return end
+	if InCombatLockdown() or s_inReassignBindings then return end
+	s_inReassignBindings = true
+
 	if self.actionbars then
 		for id, mapping in pairs(BINDING_MAPPINGS) do
 			local frame = self.actionbars[id]
@@ -226,6 +229,8 @@ function BT4ActionBars:ReassignBindings()
 	if needSaving then
 		SaveBindings(GetCurrentBindingSet())
 	end
+
+	s_inReassignBindings = false
 end
 
 function BT4ActionBars:GetBarName(id)
