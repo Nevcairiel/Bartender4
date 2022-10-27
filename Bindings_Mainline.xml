@@ -19,18 +19,30 @@
 	<Binding name="CLICK BT4Button10:Keybind" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button11:Keybind" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button12:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button13:Keybind" header="BT4BLANK2" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button14:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button15:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button16:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button17:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button18:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button19:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button20:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button21:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button22:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button23:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button24:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button61:Keybind" header="BT4BLANK6" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button62:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button63:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button64:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button65:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button66:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button67:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button68:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button69:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button70:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button71:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button72:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button49:Keybind" header="BT4BLANK5" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button50:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button51:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button52:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button53:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button54:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button55:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button56:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button57:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button58:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button59:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button60:Keybind" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button25:Keybind" header="BT4BLANK3" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button26:Keybind" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button27:Keybind" category="Bartender4 "/>
@@ -55,30 +67,6 @@
 	<Binding name="CLICK BT4Button46:Keybind" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button47:Keybind" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button48:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button49:Keybind" header="BT4BLANK5" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button50:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button51:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button52:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button53:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button54:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button55:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button56:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button57:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button58:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button59:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button60:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button61:Keybind" header="BT4BLANK6" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button62:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button63:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button64:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button65:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button66:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button67:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button68:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button69:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button70:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button71:Keybind" category="Bartender4 "/>
-	<Binding name="CLICK BT4Button72:Keybind" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button145:Keybind" header="BT4BLANK13" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button146:Keybind" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button147:Keybind" category="Bartender4 "/>
@@ -115,6 +103,18 @@
 	<Binding name="CLICK BT4Button178:Keybind" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button179:Keybind" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button180:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button13:Keybind" header="BT4BLANK2" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button14:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button15:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button16:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button17:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button18:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button19:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button20:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button21:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button22:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button23:Keybind" category="Bartender4 "/>
+	<Binding name="CLICK BT4Button24:Keybind" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button73:Keybind" header="BT4BLANK7" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button74:Keybind" category="Bartender4 "/>
 	<Binding name="CLICK BT4Button75:Keybind" category="Bartender4 "/>
