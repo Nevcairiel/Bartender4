@@ -27,6 +27,7 @@ do
 	end
 end
 
+local s_HookedKeyBound, s_KeyBoundHookShowBTOptions
 local KB = LibStub("LibKeyBound-1.0")
 local LDBIcon = LibStub("LibDBIcon-1.0", true)
 local LibDualSpec = (not WoWClassic or WoWWrath) and LibStub("LibDualSpec-1.0", true)
@@ -79,6 +80,13 @@ local function generateOptions()
 				func = function()
 					KB:Toggle()
 					AceConfigDialog:Close("Bartender4")
+
+					if KeyboundDialog and not s_HookedKeyBound then
+						KeyboundDialog:HookScript("OnHide", function() if s_KeyBoundHookShowBTOptions then AceConfigDialog:Open("Bartender4") s_KeyBoundHookShowBTOptions = nil end end)
+						s_HookedKeyBound = true
+					end
+
+					s_KeyBoundHookShowBTOptions = true
 				end,
 			},
 			bars = {

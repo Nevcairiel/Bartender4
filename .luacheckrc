@@ -39,6 +39,7 @@ read_globals = {
 
 	-- misc custom, third party libraries
 	"LibStub",
+	"KeyboundDialog",
 
 	-- API functions
 	"AttemptToSaveBindings",
