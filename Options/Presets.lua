@@ -494,7 +494,7 @@ function PresetsMod:SetupOptions()
 				name = L["Use three stacked action bars"],
 				get = function() return PresetsMod.threeStackedBars end,
 				set = function(info, val) PresetsMod.threeStackedBars = val end,
-				hidden = function() return {PresetsMod.defaultType ~= "BLIZZARD", PresetsMod.defaultType ~= "MODERN_ART_CLASSIC" } end,
+				hidden = function() return PresetsMod.defaultType ~= "BLIZZARD" end,
 			},
 			nl12 = {
 				order = 16,
