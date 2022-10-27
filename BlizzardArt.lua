@@ -26,7 +26,7 @@ local defaults = { profile = Bartender4:Merge({
 }, Bartender4.Bar.defaults) }
 
 -- register module
-local BlizzardArtMod = Bartender4:NewModule("BlizzardArt", "AceEvent-3.0")
+local BlizzardArtMod = Bartender4:NewModule("BlizzardArt", "AceEvent-3.0", "AceHook-3.0")
 
 -- create prototype information
 local BlizzardArt = setmetatable({}, {__index = Bar})
@@ -118,6 +118,10 @@ function BlizzardArtMod:OnEnable()
 
 	if WoW10 then
 		self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "ApplyConfig")
+	end
+
+	if MainMenuBar_UpdateKeyRing then
+		self:SecureHook("MainMenuBar_UpdateKeyRing", "ApplyConfig")
 	end
 end
 

@@ -166,6 +166,7 @@ read_globals = {
 
 	-- Classic-only
 	"KeyRingButton",
+	"MainMenuBar_UpdateKeyRing",
 	"MainMenuBarPerformanceBarFrame",
 	"MainMenuExpBar",
 	"ReputationWatchBar",
