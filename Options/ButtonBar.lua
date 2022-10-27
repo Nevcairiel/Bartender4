@@ -29,6 +29,7 @@ do
 		macrotext = "HideMacroText",
 		hotkey = "HideHotkey",
 		equipped = "HideEquipped",
+		border = "HideBorder",
 		vgrowth = "VGrowth",
 		hgrowth = "HGrowth",
 	}

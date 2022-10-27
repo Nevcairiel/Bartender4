@@ -19,6 +19,7 @@ local defaults = Bartender4:Merge({
 	hidemacrotext = false,
 	hidehotkey = false,
 	hideequipped = false,
+	hideborder = false,
 	skin = {
 		Zoom = false,
 	},
@@ -120,6 +121,17 @@ end
 
 function ButtonBar:GetHideEquipped()
 	return self.config.hideequipped
+end
+
+function ButtonBar:SetHideBorder(state)
+	if state ~= nil then
+		self.config.hideborder = state
+	end
+	self:UpdateButtonConfig()
+end
+
+function ButtonBar:GetHideBorder()
+	return self.config.hideborder
 end
 
 function ButtonBar:SetHGrowth(value)

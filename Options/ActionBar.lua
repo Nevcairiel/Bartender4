@@ -28,6 +28,7 @@ do
 		grid = "Grid",
 		flyoutDirection = "FlyoutDirection",
 		buttonOffset = "ButtonOffset",
+		border = "HideBorder",
 	}
 
 	-- retrieves a valid bar object from the modules actionbars table
@@ -118,6 +119,15 @@ function module:GetOptionsObject()
 				min = 0, max = 11, step = 1,
 				set = optSetter,
 				get = optGetter,
+			},
+			border = {
+				order = 84,
+				type = "toggle",
+				name = L["Hide Border"],
+				desc = L["Hide the border around the action button."],
+				set = optSetter,
+				get = optGetter,
+				hidden = not WoW10,
 			},
 		}
 		obj:AddElementGroup("general", cat_general)
