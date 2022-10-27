@@ -110,7 +110,7 @@ function ActionBar:UpdateButtonConfig()
 	-- self casting
 	self:UpdateSelfCast()
 	-- button lock
-	self:ForAll("SetAttribute", "buttonlock", not Bartender4.ButtonsUnlocked)
+	self:ForAll("SetAttribute", "buttonlock", Bartender4.db.profile.buttonlock)
 	self:ForAll("SetAttribute", "unlockedpreventdrag", true)
 	-- update state
 	self:ForAll("UpdateState")
