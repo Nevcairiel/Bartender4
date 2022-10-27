@@ -97,9 +97,9 @@ function ActionBar:UpdateButtonConfig()
 
 	self.buttonConfig.keyBoundClickButton = "Keybind"
 
-	if tonumber(self.id) == 1 then
+	if self.bindingmapping then
 		for i, button in self:GetAll() do
-			self.buttonConfig.keyBoundTarget = format("ACTIONBUTTON%d", i)
+			self.buttonConfig.keyBoundTarget = self.bindingmapping:format(i)
 			button:UpdateConfig(self.buttonConfig)
 		end
 	else

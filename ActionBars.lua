@@ -66,6 +66,18 @@ local abdefaults = {
 local LIST_ACTIONBARS = WoW10 and { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15 } or { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }
 BT4ActionBars.LIST_ACTIONBARS = LIST_ACTIONBARS
 
+local BINDING_MAPPINGS = {
+	[1] = "ACTIONBUTTON%d",
+	[3] = "MULTIACTIONBAR3BUTTON%d",
+	[4] = "MULTIACTIONBAR4BUTTON%d",
+	[5] = "MULTIACTIONBAR2BUTTON%d",
+	[6] = "MULTIACTIONBAR1BUTTON%d",
+	[13] = "MULTIACTIONBAR5BUTTON%d",
+	[14] = "MULTIACTIONBAR6BUTTON%d",
+	[15] = "MULTIACTIONBAR7BUTTON%d",
+}
+
+
 local defaults = {
 	profile = {
 		actionbars = abdefaults,
@@ -91,7 +103,7 @@ function BT4ActionBars:OnEnable()
 		for _, i in ipairs(LIST_ACTIONBARS) do
 			local config = self.db.profile.actionbars[i]
 			if config.enabled then
-				self.actionbars[i] = self:Create(i, config)
+				self.actionbars[i] = self:Create(i, config, BINDING_MAPPINGS[i])
 			else
 				self:CreateBarOption(i, self.disabledoptions)
 			end
@@ -171,15 +183,19 @@ end
 
 function BT4ActionBars:ReassignBindings()
 	if InCombatLockdown() then return end
-	if self.actionbars and self.actionbars[1] then
-		local frame = self.actionbars[1]
-		ClearOverrideBindings(frame)
-		for i = 1,min(#frame.buttons, 12) do
-			local button, real_button = ("ACTIONBUTTON%d"):format(i), ("BT4Button%d"):format(i)
-			for k=1, select('#', GetBindingKey(button)) do
-				local key = select(k, GetBindingKey(button))
-				if key and key ~= "" then
-					SetOverrideBindingClick(frame, false, key, real_button, "Keybind")
+	if self.actionbars then
+		for id, mapping in pairs(BINDING_MAPPINGS) do
+			local frame = self.actionbars[id]
+			if frame then
+				ClearOverrideBindings(frame)
+				for i = 1,min(#frame.buttons, 12) do
+					local button, real_button = mapping:format(i), frame.buttons[i]:GetName()
+					for k=1, select('#', GetBindingKey(button)) do
+						local key = select(k, GetBindingKey(button))
+						if key and key ~= "" then
+							SetOverrideBindingClick(frame, false, key, real_button, "Keybind")
+						end
+					end
 				end
 			end
 		end
@@ -217,10 +233,11 @@ function BT4ActionBars:GetBarName(id)
 end
 
 -- Creates a new bar object based on the id and the specified config
-function BT4ActionBars:Create(id, config)
+function BT4ActionBars:Create(id, config, bindingmapping)
 	id = tostring(id)
 	local bar = setmetatable(Bartender4.StateBar:Create(id, config, self:GetBarName(id)), ActionBar_MT)
 	bar.module = self
+	bar.bindingmapping = bindingmapping
 
 	bar:SetScript("OnEvent", bar.OnEvent)
 	if not WoWClassic then
@@ -253,7 +270,7 @@ function BT4ActionBars:EnableBar(id)
 	local config = self.db.profile.actionbars[id]
 	config.enabled = true
 	if not bar then
-		bar = self:Create(id, config)
+		bar = self:Create(id, config, BINDING_MAPPINGS[id])
 		self.actionbars[id] = bar
 	else
 		bar.disabled = nil
