@@ -181,6 +181,18 @@ function BT4ActionBars:UpdateButtons(force)
 	end
 end
 
+local function MigrateKeybindBindings(target, ...)
+	local needSaving = false
+	for k=1, select('#', ...) do
+		local key = select(k, ...)
+		if key and key ~= "" then
+			SetBindingClick(key, target, "Keybind")
+			needSaving = true
+		end
+	end
+	return needSaving
+end
+
 function BT4ActionBars:ReassignBindings()
 	if InCombatLockdown() then return end
 	if self.actionbars then
@@ -206,12 +218,8 @@ function BT4ActionBars:ReassignBindings()
 	for i = 1,180 do
 		local button = ("BT4Button%d"):format(i)
 		local clickbutton = ("CLICK %s:LeftButton"):format(button)
-		for k=1, select('#', GetBindingKey(clickbutton)) do
-			local key = select(k, GetBindingKey(clickbutton))
-			if key and key ~= "" then
-				SetBindingClick(key, button, "Keybind")
-				needSaving = true
-			end
+		if MigrateKeybindBindings(button, GetBindingKey(clickbutton)) then
+			needSaving = true
 		end
 	end
 
