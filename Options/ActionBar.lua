@@ -145,9 +145,13 @@ function module:CreateBarOption(id, options)
 			if barID == 7 or barID == 8 or barID == 9 or barID == 10 then
 				order = 13 + barID
 				desc = (L["Configure Class Bar %d"]):format(barID - 6) .. "\n\n" .. L["Usually used for druid shapeshift forms, but can be re-used for additional bars on other classes"]
-			elseif barID == 13 or barID == 14 or barID == 15 then
-				order = 10 + barID - 6
-				desc = (L["Configure Bar %s"]):format(tostring(barID - 6))
+			elseif self.BLIZZARD_BAR_MAP[barID] then
+				barID = self.BLIZZARD_BAR_MAP[barID]
+				order = 10 + barID
+				desc = (L["Configure Bar %s"]):format(tostring(barID))
+			elseif barID == 2 then
+				order = 19
+				desc = L["Configure the Bonus Action Bar"] .. "\n\n" .. L["By default this bar is used as the second page of the primary action bar."]
 			end
 		end
 		self.options[id] = {

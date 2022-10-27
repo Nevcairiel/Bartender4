@@ -233,13 +233,25 @@ function BT4ActionBars:ReassignBindings()
 	s_inReassignBindings = false
 end
 
+BT4ActionBars.BLIZZARD_BAR_MAP = {
+	[6] = 2,
+	[5] = 3,
+	[3] = 4,
+	[4] = 5,
+	[13] = 6,
+	[14] = 7,
+	[15] = 8,
+}
+
 function BT4ActionBars:GetBarName(id)
 	if WoW10 then
 		local barID = tonumber(id)
 		if barID == 7 or barID == 8 or barID == 9 or barID == 10 then
 			return (L["Class Bar %d"]):format(barID - 6)
-		elseif barID == 13 or barID == 14 or barID == 15 then
-			return (L["Bar %s"]):format(tostring(barID - 6))
+		elseif self.BLIZZARD_BAR_MAP[barID] then
+			return (L["Bar %s"]):format(tostring(self.BLIZZARD_BAR_MAP[barID]))
+		elseif barID == 2 then
+			return L["Bonus Action Bar"]
 		end
 	end
 	return (L["Bar %s"]):format(id)
