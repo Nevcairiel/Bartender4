@@ -213,7 +213,7 @@ function Bar:GetOptionObject()
 					get = optGetter,
 					set = optSetter,
 				},
-				styleheader = {
+				advheader = {
 					order = 200,
 					type = "header",
 					name = L["Advanced"],
