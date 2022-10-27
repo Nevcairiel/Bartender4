@@ -53,7 +53,7 @@ function ExtraActionBarMod:SetupOptions()
 			desc = L["Configure the Extra Action Bar"],
 			childGroups = "tab",
 		}
-		Bartender4:RegisterBarOptions("ExtraActionBar", self.options)
+		Bartender4:RegisterActionBarOptions("ExtraActionBar", self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
 end

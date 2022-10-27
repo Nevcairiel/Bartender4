@@ -48,7 +48,7 @@ function StanceBarMod:SetupOptions()
 			childGroups = "tab",
 			disabled = function(info) return GetNumShapeshiftForms() == 0 end,
 		}
-		Bartender4:RegisterBarOptions("StanceBar", self.options)
+		Bartender4:RegisterActionBarOptions("StanceBar", self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
 end

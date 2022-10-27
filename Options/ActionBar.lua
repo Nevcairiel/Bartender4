@@ -165,5 +165,5 @@ function module:CreateBarOption(id, options)
 	self.options[id].args = options
 
 	-- register options in the BT GUI
-	Bartender4:RegisterBarOptions(id, self.options[id])
+	Bartender4:RegisterActionBarOptions(id, self.options[id])
 end

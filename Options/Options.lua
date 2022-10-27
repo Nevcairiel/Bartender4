@@ -84,7 +84,7 @@ local function generateOptions()
 			bars = {
 				order = 20,
 				type = "group",
-				name = L["Bars"],
+				name = L["Action Bars"],
 				args = {
 					options = {
 						type = "group",
@@ -276,6 +276,14 @@ local function generateOptions()
 					},
 				},
 			},
+			uibars = {
+				order = 20,
+				type = "group",
+				name = L["UI Bars"],
+				desc = L["Bars for Action Bar related UI elements"],
+				args = {
+				},
+			},
 			faq = {
 				name = L["FAQ"],
 				desc = L["Frequently Asked Questions"],
@@ -380,7 +388,14 @@ end
 
 function Bartender4:SetupOptions()
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", getOptions)
+
+	-- set default size
 	AceConfigDialog:SetDefaultSize("Bartender4", 680, 600)
+
+	-- expand both bar sections
+	AceConfigDialog:GetStatusTable("Bartender4").groups = { groups = { bars = true, uibars = true } }
+
+	-- setup slash commands
 	self:RegisterChatCommand( "bt", "ChatCommand")
 	self:RegisterChatCommand( "bt4", "ChatCommand")
 	self:RegisterChatCommand( "bartender", "ChatCommand")
@@ -395,6 +410,13 @@ function Bartender4:RegisterModuleOptions(key, table)
 end
 
 function Bartender4:RegisterBarOptions(id, table)
+	if not self.options then
+		error("Options table has not been created yet, respond to the callback!", 2)
+	end
+	self.options.args.uibars.args[id] = table
+end
+
+function Bartender4:RegisterActionBarOptions(id, table)
 	if not self.options then
 		error("Options table has not been created yet, respond to the callback!", 2)
 	end
