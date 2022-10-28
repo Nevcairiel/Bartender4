@@ -56,7 +56,7 @@ function PetBarMod:SetupOptions()
 			order = 30,
 			type = "group",
 			name = L["Pet Bar"],
-			desc = L["Configure the Pet Bar"],
+			desc = L["Manage the abilities of your trusted companion"],
 			childGroups = "tab",
 		}
 		Bartender4:RegisterActionBarOptions("PetBar", self.options)

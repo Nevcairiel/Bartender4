@@ -298,19 +298,9 @@ local function generateOptions()
 				type = "group",
 				order = 1000,
 				args = {
-					line1 = {
-						type = "description",
-						name = "|cffffd200" .. L["I just installed Bartender4, but my keybindings do not show up on the buttons/do not work."] .. "|r",
-						order = 1,
-					},
-					line2 = {
-						type = "description",
-						name = L["Bartender4 only converts the bindings of Bar1 to be directly usable, all other Bars will have to be re-bound to the Bartender4 keys. A direct indicator if your key-bindings are setup correctly is the hotkey display on the buttons. If the key-bindings shows correctly on your button, everything should work fine as well."],
-						order = 2,
-					},
 					line3 = {
 						type = "description",
-						name = "|cffffd200" .. L["How do I change the Bartender4 Keybindings then?"] .. "|r",
+						name = "|cffffd200" .. L["How do I change the Bartender4 Keybindings?"] .. "|r",
 						order = 3,
 					},
 					line4 = {
@@ -335,12 +325,12 @@ local function generateOptions()
 					},
 					line8 = {
 						type = "description",
-						name = L["You can report bugs or give suggestions at the discussion forums at |cffffff78http://forums.wowace.com/showthread.php?t=12513|r or check the project page at |cffffff78http://www.wowace.com/addons/bartender4/|r"],
+						name = L["You can report bugs or give suggestions on the project page at |cffffff78https://www.wowace.com/projects/bartender4|r or on GitHub at |cffffff78https://github.com/Nevcairiel/Bartender4|r"],
 						order = 8,
 					},
 					line9 = {
 						type = "description",
-						name = "\n" .. L["Alternatively, you can also find us on |cffffff78irc://irc.freenode.org/wowace|r"] .. "\n",
+						name = "\n" .. L["Alternatively, you can also find us on the |cffffff78WoWUIDev Discord|r"] .. "\n",
 						order = 9,
 					},
 					line10 = {
@@ -355,7 +345,7 @@ local function generateOptions()
 					},
 					line12= {
 						type = "description",
-						name = L["Bartender4 was written by Nevcairiel of EU-Antonidas. He will accept cookies as compensation for his hard work!"],
+						name = L["Bartender4 was written by Nevcairiel of EU-Zirkel des Cenarius. He will accept cookies as compensation for his hard work!"],
 						order = 12,
 					},
 				},

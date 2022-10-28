@@ -42,7 +42,7 @@ function MicroMenuMod:SetupOptions()
 			order = 30,
 			type = "group",
 			name = L["Micro Menu"],
-			desc = L["Configure the Micro Menu"],
+			desc = L["Manages the Micro Menu buttons"],
 			childGroups = "tab",
 		}
 		self.optionobject.table.general.args.padding.min = -30
@@ -83,7 +83,7 @@ if QueueStatusMod then
 				order = 100,
 				type = "group",
 				name = L["Queue Status Bar"],
-				desc = L["Configure the Queue Status Bar"],
+				desc = L["Contains the \"Green Eye\" when signing up for groups or raids"],
 				childGroups = "tab",
 			}
 			Bartender4:RegisterBarOptions("QueueStatus", self.options)

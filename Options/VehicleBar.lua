@@ -41,7 +41,7 @@ function VehicleBarMod:SetupOptions()
 			order = 30,
 			type = "group",
 			name = L["Vehicle Bar"],
-			desc = L["Configure the Vehicle Bar"],
+			desc = L["The Vehicle Bar contains the \"Leave Vehicle\" button"],
 			childGroups = "tab",
 		}
 		Bartender4:RegisterBarOptions("Vehicle", self.options)

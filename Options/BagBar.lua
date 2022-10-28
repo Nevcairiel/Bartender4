@@ -90,7 +90,7 @@ function BagBarMod:SetupOptions()
 			order = 30,
 			type = "group",
 			name = L["Bag Bar"],
-			desc = L["Configure the Bag Bar"],
+			desc = L["Manages the Backpack and all the extra bags"],
 			childGroups = "tab",
 		}
 		Bartender4:RegisterBarOptions("BagBar", self.options)

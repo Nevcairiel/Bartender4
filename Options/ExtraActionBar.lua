@@ -51,7 +51,7 @@ function ExtraActionBarMod:SetupOptions()
 			order = 30,
 			type = "group",
 			name = L["Extra Action Bar"],
-			desc = L["Configure the Extra Action Bar"],
+			desc = L["Manages the Extra Action Button used in many quests and encounters, as well as Zone specific abilities"],
 			childGroups = "tab",
 		}
 		Bartender4:RegisterActionBarOptions("ExtraActionBar", self.options)

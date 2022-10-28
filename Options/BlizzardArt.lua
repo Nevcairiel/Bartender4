@@ -87,7 +87,7 @@ function BlizzardArtMod:SetupOptions()
 			order = 101,
 			type = "group",
 			name = L["Blizzard Art Bar"],
-			desc = L["Configure the Blizzard Art Bar"],
+			desc = L["The Blizzard Art Bar manages the background artwork to re-create a good looking bottom action bar cluster"],
 			childGroups = "tab",
 		}
 		Bartender4:RegisterBarOptions("BlizzardArt", self.options)
