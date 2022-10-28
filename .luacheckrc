@@ -27,6 +27,8 @@ globals = {
 	"CharacterBag1Slot",
 	"CharacterBag0Slot",
 	"MainMenuBarBackpackButton",
+
+	"UIParentBottomManagedFrameContainer",
 }
 
 read_globals = {
@@ -89,6 +91,7 @@ read_globals = {
 	"AutoCastShine_AutoCastStart",
 	"AutoCastShine_AutoCastStop",
 	"CooldownFrame_Set",
+	"EditModeMagnetismManager",
 	"GridLayoutUtil",
 	"HasMultiCastActionBar",
 	"MainMenuBarVehicleLeaveButton_Update",

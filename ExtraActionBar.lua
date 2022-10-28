@@ -37,7 +37,11 @@ function ExtraActionBarMod:OnEnable()
 		self.bar = setmetatable(Bartender4.Bar:Create("ExtraActionBar", self.db.profile, L["Extra Action Bar"], 2), {__index = ExtraActionBar})
 		self.bar.content = ExtraAbilityContainer
 
-		self.bar.content.ignoreFramePositionManager = true
+		-- remove EditMode hooks
+		self.bar.content.ClearAllPoints = nil
+		self.bar.content.SetPoint = nil
+		self.bar.content.SetScale = nil
+
 		self.bar.content:SetToplevel(false)
 		self.bar.content:SetParent(self.bar)
 		self.bar.content:SetScript("OnShow", nil)
@@ -51,6 +55,11 @@ function ExtraActionBarMod:OnEnable()
 	self:SecureHook(ZoneAbilityFrame, "UpdateDisplayedZoneAbilities")
 	if ExtraAbilityContainer.ApplySystemAnchor then
 		self:SecureHook(ExtraAbilityContainer, "ApplySystemAnchor")
+		self:SecureHook(ExtraAbilityContainer, "HighlightSystem")
+	end
+
+	if UIParentBottomManagedFrameContainer then
+		UIParentBottomManagedFrameContainer.showingFrames[ExtraAbilityContainer] = nil
 	end
 end
 
@@ -74,7 +83,16 @@ function ExtraActionBarMod:UpdateDisplayedZoneAbilities()
 	ZoneAbilityFrame.Style:SetShown(not self.db.profile.hideArtwork)
 end
 
+function ExtraActionBarMod:HighlightSystem()
+	ExtraAbilityContainer.Selection:Hide()
+	EditModeMagnetismManager:UnregisterFrame(ExtraAbilityContainer)
+end
+
 function ExtraActionBarMod:ApplySystemAnchor()
+	if UIParentBottomManagedFrameContainer then
+		UIParentBottomManagedFrameContainer.showingFrames[ExtraAbilityContainer] = nil
+	end
+
 	self.bar:PerformLayout()
 end
 
@@ -95,6 +113,7 @@ end
 function ExtraActionBar:PerformLayout()
 	self:SetSize(128, 128)
 	local bar = self.content
+	bar:SetParent(self)
 	bar:ClearAllPoints()
 	bar:SetPoint("CENTER", self, "TOPLEFT", 64, -64)
 end

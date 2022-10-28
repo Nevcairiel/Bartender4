@@ -34,18 +34,36 @@ end
 function VehicleBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("Vehicle", self.db.profile, L["Vehicle Bar"]), {__index = VehicleBar})
-		self.bar.content =  MainMenuBarVehicleLeaveButton
+		self.bar.content = MainMenuBarVehicleLeaveButton
+
+		-- remove EditMode hooks
+		self.bar.content.ClearAllPoints = nil
+		self.bar.content.SetPoint = nil
+		self.bar.content.SetScale = nil
+
 		self.bar.content:SetParent(self.bar)
-		self.bar.content.ClearSetPoint = self.bar.ClearSetPoint
+		self.bar.content:SetScript("OnShow", nil)
+		self.bar.content:SetScript("OnHide", nil)
 	end
 	if MainMenuBarVehicleLeaveButton_Update then
 		self:RawHook("MainMenuBarVehicleLeaveButton_Update", true)
 	else
 		self:SecureHook(MainMenuBarVehicleLeaveButton, "Update", "MainMenuBarVehicleLeaveButton_Update")
 	end
-	if EditModeManagerFrame then
-		self:SecureHook(EditModeManagerFrame, "UpdateBottomActionBarPositions")
+
+	if MainMenuBarVehicleLeaveButton.ApplySystemAnchor then
+		self:SecureHook(MainMenuBarVehicleLeaveButton, "ApplySystemAnchor")
+		self:SecureHook(MainMenuBarVehicleLeaveButton, "HighlightSystem")
 	end
+
+	if EditModeManagerFrame then
+		self:SecureHook(EditModeManagerFrame, "UpdateBottomActionBarPositions", "ApplySystemAnchor")
+	end
+
+	if UIParentBottomManagedFrameContainer then
+		UIParentBottomManagedFrameContainer.showingFrames[MainMenuBarVehicleLeaveButton] = nil
+	end
+
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
@@ -75,8 +93,13 @@ function VehicleBarMod:MainMenuBarVehicleLeaveButton_Update()
 	end
 end
 
-function VehicleBarMod:UpdateBottomActionBarPositions()
+function VehicleBarMod:ApplySystemAnchor()
 	self.bar:PerformLayout()
+end
+
+function VehicleBarMod:HighlightSystem()
+	MainMenuBarVehicleLeaveButton.Selection:Hide()
+	EditModeMagnetismManager:UnregisterFrame(MainMenuBarVehicleLeaveButton)
 end
 
 function VehicleBar:ApplyConfig(config)
