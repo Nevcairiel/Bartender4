@@ -211,7 +211,7 @@ local customExitButton = {
 	func = function(button)
 		VehicleExit()
 	end,
-	texture = "Interface\\Icons\\Spell_Shadow_SacrificialShield",
+	texture = "Interface\\AddOns\\Bartender4\\Artwork\\LeaveVehicle.tga", --"Interface\\Icons\\Spell_Shadow_SacrificialShield",
 	tooltip = LEAVE_VEHICLE,
 }
 
