@@ -26,6 +26,14 @@ function ExtraActionBarMod:SetupOptions()
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
 
+		local editmode = {
+			type = "description",
+			order = 2,
+			name = L["NOTE: It is strongly recommended to use Edit Mode to move the Extra Action Bar to avoid any complications in Raid Encounters, and leave the Bartender4 Extra Action Bar disabled."] .."\n\n"..L["After disabling the Extra Action Bar, you should reload your UI to fully reset it to vanilla."],
+			width = "full",
+		}
+		self.optionobject:AddElement("general", "editmode", editmode)
+
 		local hideArtwork = {
 			type = "toggle",
 			order = 80,
@@ -44,11 +52,12 @@ function ExtraActionBarMod:SetupOptions()
 				order = 1,
 				args = {
 					enabled = enabled,
+					editmode = editmode,
 				}
 			}
 		}
 		self.options = {
-			order = 30,
+			order = 50,
 			type = "group",
 			name = L["Extra Action Bar"],
 			desc = L["Manages the Extra Action Button used in many quests and encounters, as well as Zone specific abilities"],
