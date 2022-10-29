@@ -256,11 +256,14 @@ function ActionBar:UpdateButtons(numbuttons, offset)
 		self:SetupSmartButton(buttons[i])
 
 		if i == 12 then
-			buttons[i]:SetState(11, "custom", customExitButton)
-			buttons[i]:SetState(12, "custom", customExitButton)
-			buttons[i]:SetState(16, "custom", customExitButton)
-			buttons[i]:SetState(17, "custom", customExitButton)
-			buttons[i]:SetState(18, "custom", customExitButton)
+			if WoW10 then
+				buttons[i]:SetState(16, "custom", customExitButton)
+				buttons[i]:SetState(17, "custom", customExitButton)
+				buttons[i]:SetState(18, "custom", customExitButton)
+			else
+				buttons[i]:SetState(11, "custom", customExitButton)
+				buttons[i]:SetState(12, "custom", customExitButton)
+			end
 		end
 	end
 
