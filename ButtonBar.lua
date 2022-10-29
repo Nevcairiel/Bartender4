@@ -35,7 +35,7 @@ function Bartender4.ButtonBar:Create(id, config, name, noSkinning)
 	local bar = setmetatable(Bartender4.Bar:Create(id, config, name), ButtonBar_MT)
 
 	if Masque and not noSkinning then
-		bar.MasqueGroup = Masque:Group("Bartender4", tostring(id))
+		bar.MasqueGroup = Masque:Group("Bartender4", name, tostring(id))
 	end
 
 	return bar
