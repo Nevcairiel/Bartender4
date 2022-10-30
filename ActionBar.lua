@@ -344,6 +344,10 @@ function ActionBar:GetFlyoutDirection()
 	return self.config.flyoutDirection
 end
 
+function ActionBar:GetSpellFlyoutDirection()
+	return self.config.flyoutDirection
+end
+
 function ActionBar:SetFlyoutDirection(state)
 	if state ~= nil then
 		self.config.flyoutDirection = state
