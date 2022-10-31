@@ -42,7 +42,7 @@ local noopFunc = function() end
 
 function BagBarMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.ButtonBar:Create("BagBar", self.db.profile, L["Bag Bar"], true), {__index = BagBar})
+		self.bar = setmetatable(Bartender4.ButtonBar:Create("BagBar", self.db.profile, L["Bag Bar"]), {__index = BagBar})
 
 		CharacterReagentBag0Slot.SetBarExpanded = noopFunc
 		CharacterBag3Slot.SetBarExpanded = noopFunc
@@ -76,11 +76,23 @@ local function clearSetPoint(btn, ...)
 	btn:SetPoint(...)
 end
 
+local function MasqueButtonType(button)
+	if button == CharacterReagentBag0Slot then
+		return "ReagentBag"
+	elseif button == MainMenuBarBackpackButton then
+		return "Backpack"
+	else
+		return "BagSlot"
+	end
+end
+
 BagBar.button_width = 30
 BagBar.button_height = 30
 BagBarMod.button_count = 6
 function BagBar:FeedButtons()
 	local count = 1
+	local group = self.MasqueGroup
+
 	if self.buttons then
 		while next(self.buttons) do
 			local btn = table_remove(self.buttons)
@@ -88,10 +100,9 @@ function BagBar:FeedButtons()
 			btn:SetParent(UIParent)
 			btn:ClearSetPoint("CENTER")
 
-			--[[if btn.MasqueButtonData then
-				local group = self.MasqueGroup
+			if group and btn.MasqueButtonData then
 				group:RemoveButton(btn)
-			end]]
+			end
 		end
 	else
 		self.buttons = {}
@@ -107,6 +118,7 @@ function BagBar:FeedButtons()
 		table_insert(self.buttons, CharacterBag2Slot)
 		table_insert(self.buttons, CharacterBag1Slot)
 		table_insert(self.buttons, CharacterBag0Slot)
+
 		count = count + 4
 	end
 
@@ -116,16 +128,15 @@ function BagBar:FeedButtons()
 		v:SetParent(self)
 		v:Show()
 
-		--[[if Masque then
-			local group = self.MasqueGroup
+		if group then
 			if not v.MasqueButtonData then
 				v.MasqueButtonData = {
 					Button = v,
 					Icon = v.icon
 				}
 			end
-			group:AddButton(v, v.MasqueButtonData, "Item")
-		end]]
+			group:AddButton(v, v.MasqueButtonData, MasqueButtonType(v))
+		end
 
 		v.ClearSetPoint = clearSetPoint
 	end
