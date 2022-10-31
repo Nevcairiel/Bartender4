@@ -156,18 +156,9 @@ function PetButtonPrototype:UpdateHotkeys()
 end
 
 function PetButtonPrototype:ShowButton()
-	self.pushedTexture:SetTexture(self.textureCache.pushed)
-	self.highlightTexture:SetTexture(self.textureCache.highlight)
-	local backdrop, gloss
-	if Masque then
-		backdrop, gloss = Masque:GetBackdrop(self), Masque:GetGloss(self)
-	end
-	-- Toggle backdrop/gloss
-	if backdrop then
-		backdrop:Show()
-	end
-	if gloss then
-		gloss:Show()
+	if not Masque then
+		self.pushedTexture:SetTexture(self.textureCache.pushed)
+		self.highlightTexture:SetTexture(self.textureCache.highlight)
 	end
 	self:SetAlpha(1.0)
 end
@@ -176,18 +167,9 @@ function PetButtonPrototype:HideButton()
 	self.textureCache.pushed = self.pushedTexture:GetTexture()
 	self.textureCache.highlight = self.highlightTexture:GetTexture()
 
-	self.pushedTexture:SetTexture("")
-	self.highlightTexture:SetTexture("")
-	local backdrop, gloss
-	if Masque then
-		backdrop, gloss = Masque:GetBackdrop(self), Masque:GetGloss(self)
-	end
-	-- Toggle backdrop/gloss
-	if backdrop then
-		backdrop:Hide()
-	end
-	if gloss then
-		gloss:Hide()
+	if not Masque then
+		self.pushedTexture:SetTexture("")
+		self.highlightTexture:SetTexture("")
 	end
 	if self.showgrid == 0 and not self.parent.config.showgrid then
 		self:SetAlpha(0.0)
