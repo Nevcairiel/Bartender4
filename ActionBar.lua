@@ -112,6 +112,21 @@ function ActionBar:UpdateButtonConfig()
 	-- button lock
 	self:ForAll("SetAttribute", "buttonlock", Bartender4.db.profile.buttonlock)
 	self:ForAll("SetAttribute", "unlockedpreventdrag", true)
+	
+	-- Font and text position
+	for i = 0, min(self.config.buttons, 12) do
+		if self.buttons[i] ~= nil then
+			--Hotkey font size & position
+			self.buttons[i].HotKey:SetFont(self.buttons[i].HotKey:GetFont(), self.config.fontsize or 20, "OUTLINE")
+			self.buttons[i].HotKey:ClearAllPoints()
+			self.buttons[i].HotKey:SetPoint("TOPLEFT", self.buttons[i], "TOPLEFT",self.config.hotkeyXAnchor or -2, self.config.hotkeyYAnchor or -4)
+			-- Charge font size & position
+			self.buttons[i].Count:SetFont(self.buttons[i].Count:GetFont(), self.config.chargefontsize or 20, "OUTLINE")
+			self.buttons[i].Count:ClearAllPoints()
+			self.buttons[i].Count:SetPoint("BOTTOMRIGHT", self.buttons[i], "BOTTOMRIGHT",self.config.chargeXAnchor or -2, self.config.chargeYAnchor or -4)
+		end
+	end
+	
 	-- update state
 	self:ForAll("UpdateState")
 end
@@ -241,7 +256,14 @@ function ActionBar:UpdateButtons(numbuttons, offset)
 	for i = updateStartValue, numbuttons do
 		local absid = (self.id - 1) * 12 + i
 		if buttons[i] == nil then
-			buttons[i] = LAB10:CreateButton(absid, format("BT4Button%d", absid), self, nil)
+			local b = LAB10:CreateButton(absid, format("BT4Button%d", absid), self, nil)
+			b.HotKey:SetFont(b.HotKey:GetFont(), self.config.fontsize or 20, "OUTLINE")
+			b.HotKey:ClearAllPoints()
+			b.HotKey:SetPoint("TOPLEFT", b, "TOPLEFT",self.config.hotkeyXAnchor or -2, self.config.hotkeyYAnchor or -4)
+			b.Count:SetFont(b.Count:GetFont(), self.config.chargefontsize or 20, "OUTLINE")
+			b.Count:ClearAllPoints()
+			b.Count:SetPoint("BOTTOMRIGHT", b, "BOTTOMRIGHT",self.config.chargeXAnchor or -2, self.config.chargeYAnchor or -4)
+			buttons[i] = b
 		end
 		local offsetid = (i + offset - 1) % 12 + 1
 		for k = 1,18 do
@@ -348,5 +370,59 @@ function ActionBar:SetFlyoutDirection(state)
 	if state ~= nil then
 		self.config.flyoutDirection = state
 	end
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetHotkeyFontSize()
+	return self.config.fontsize or 16
+end
+
+function ActionBar:SetHotkeyFontSize(size)
+	self.config.fontsize = size
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetHotkeyXAnchor()
+	return self.config.hotkeyXAnchor or -2
+end
+
+function ActionBar:SetHotkeyXAnchor(offset)
+	self.config.hotkeyXAnchor = offset
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetHotkeyYAnchor()
+	return self.config.hotkeyYAnchor or -4
+end
+
+function ActionBar:SetHotkeyYAnchor(offset)
+	self.config.hotkeyYAnchor = offset
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetChargeFontSize()
+	return self.config.chargefontsize or 16
+end
+
+function ActionBar:SetChargeFontSize(size)
+	self.config.chargefontsize = size
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetChargeXAnchor()
+	return self.config.chargeXAnchor or 0
+end
+
+function ActionBar:SetChargeXAnchor(offset)
+	self.config.chargeXAnchor = offset
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetChargeYAnchor()
+	return self.config.chargeYAnchor or 0
+end
+
+function ActionBar:SetChargeYAnchor(offset)
+	self.config.chargeYAnchor = offset
 	self:UpdateButtonConfig()
 end

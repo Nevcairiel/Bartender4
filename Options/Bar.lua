@@ -228,6 +228,12 @@ function Bar:GetOptionObject()
 					set = optSetter,
 					hidden = clickThroughVis,
 				},
+				fontHeader = {
+					order = 300,
+					type = "header",
+					name = L["Hotkey & Charges font size & position"],
+					hidden = clickThroughVis,
+				},
 			},
 		},
 		visibility = {
