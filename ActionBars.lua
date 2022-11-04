@@ -139,7 +139,7 @@ function BT4ActionBars:OnEnable()
 	LSM.RegisterCallback(self, "LibSharedMedia_Registered", function(mtype, key)
 		if mtype == "font" then
 			for k, bar in pairs(self.actionbars) do
-				if bar.config.elements.hotkey.font == key or bar.config.elements.count.font == key then
+				if bar.config.elements.hotkey.font == key or bar.config.elements.count.font == key or bar.config.elements.macro.font == key then
 					bar:UpdateButtonConfig()
 				end
 			end
