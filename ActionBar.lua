@@ -8,6 +8,7 @@ local ActionBar = setmetatable({}, {__index = StateBar})
 Bartender4.ActionBar = ActionBar
 
 local LAB10 = LibStub("LibActionButton-1.0")
+local LSM = LibStub("LibSharedMedia-3.0")
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 
 local tonumber, format, min = tonumber, format, min
@@ -80,7 +81,7 @@ end
 
 function ActionBar:UpdateButtonConfig()
 	StateBar.UpdateButtonConfig(self)
-	if not self.buttonConfig then self.buttonConfig = { colors = { range = {}, mana = {} }, hideElements = {} } end
+	if not self.buttonConfig then self.buttonConfig = { colors = { range = {}, mana = {} }, hideElements = {}, text = { hotkey = { font = {}, position = {} }, count = { font = {}, position = {} } } } end
 	self.buttonConfig.outOfRangeColoring = Bartender4.db.profile.outofrange
 	self.buttonConfig.tooltip = Bartender4.db.profile.tooltip
 	self.buttonConfig.colors.range[1], self.buttonConfig.colors.range[2], self.buttonConfig.colors.range[3] = Bartender4.db.profile.colors.range.r, Bartender4.db.profile.colors.range.g, Bartender4.db.profile.colors.range.b
@@ -96,6 +97,18 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.flyoutDirection = self.config.flyoutDirection
 
 	self.buttonConfig.keyBoundClickButton = "Keybind"
+
+	self.buttonConfig.text.hotkey.font.font = LSM:Fetch("font", self.config.elements.hotkey.font, true)
+	self.buttonConfig.text.hotkey.font.size = self.config.elements.hotkey.fontSize
+	self.buttonConfig.text.hotkey.font.flags = self.config.elements.hotkey.fontFlags
+	self.buttonConfig.text.hotkey.color = self.config.elements.hotkey.fontColor
+
+	self.buttonConfig.text.count.font.font = LSM:Fetch("font", self.config.elements.count.font, true)
+	self.buttonConfig.text.count.font.size = self.config.elements.count.fontSize
+	self.buttonConfig.text.count.font.flags = self.config.elements.count.fontFlags
+	self.buttonConfig.text.count.color = self.config.elements.count.fontColor
+	self.buttonConfig.text.count.position.offsetX = -2
+	self.buttonConfig.text.count.position.offsetY = 4
 
 	if self.bindingmapping then
 		for i, button in self:GetAll() do
@@ -348,5 +361,41 @@ function ActionBar:SetFlyoutDirection(state)
 	if state ~= nil then
 		self.config.flyoutDirection = state
 	end
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleFont(element)
+	return self.config.elements[element].font
+end
+
+function ActionBar:SetStyleFont(element, font)
+	self.config.elements[element].font = font
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleFontSize(element)
+	return self.config.elements[element].fontSize
+end
+
+function ActionBar:SetStyleFontSize(element, size)
+	self.config.elements[element].fontSize = size
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleFontFlags(element)
+	return self.config.elements[element].fontFlags
+end
+
+function ActionBar:SetStyleFontFlags(element, flags)
+	self.config.elements[element].fontFlags = flags
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleFontColor(element)
+	return unpack(self.config.elements[element].fontColor)
+end
+
+function ActionBar:SetStyleFontColor(element, r, g, b)
+	self.config.elements[element].fontColor = {r, g, b}
 	self:UpdateButtonConfig()
 end

@@ -12,6 +12,8 @@ local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 
+local LSM = LibStub("LibSharedMedia-3.0")
+
 -- GLOBALS: UnitClass, InCombatLockdown, GetBindingKey, ClearOverrideBindings, SetOverrideBindingClick
 
 local abdefaults = {
@@ -22,6 +24,21 @@ local abdefaults = {
 		hidemacrotext = false,
 		showgrid = false,
 		flyoutDirection = "UP",
+		elements = {
+			['**'] = {
+				font = WoW10 and "Friz Quadrata TT" or "Arial Narrow",
+				fontSize = 13,
+				fontFlags = "OUTLINE",
+				fontColor = {1, 1, 1},
+			},
+			hotkey = {
+				fontSize = WoW10 and 16 or 13,
+				fontColor = {0.9, 0.9, 0.9},
+			},
+			count = {
+				fontSize = WoW10 and 18 or 16,
+			},
+		},
 	}, Bartender4.StateBar.defaults),
 	[1] = {
 		states = {
@@ -114,6 +131,16 @@ function BT4ActionBars:OnEnable()
 
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
 	self:ReassignBindings()
+
+	LSM.RegisterCallback(self, "LibSharedMedia_Registered", function(mtype, key)
+		if mtype == "font" then
+			for k, bar in pairs(self.actionbars) do
+				if bar.config.elements.hotkey.font == key or bar.config.elements.count.font == key then
+					bar:UpdateButtonConfig()
+				end
+			end
+		end
+	end)
 end
 
 function BT4ActionBars:SetupOptions()
