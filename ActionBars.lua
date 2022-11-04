@@ -38,6 +38,10 @@ local abdefaults = {
 			count = {
 				fontSize = WoW10 and 18 or 16,
 			},
+			macro = {
+				font = "Friz Quadrata TT",
+				fontSize = WoW10 and 11 or 10,
+			},
 		},
 	}, Bartender4.StateBar.defaults),
 	[1] = {

@@ -81,7 +81,7 @@ end
 
 function ActionBar:UpdateButtonConfig()
 	StateBar.UpdateButtonConfig(self)
-	if not self.buttonConfig then self.buttonConfig = { colors = { range = {}, mana = {} }, hideElements = {}, text = { hotkey = { font = {}, position = {} }, count = { font = {}, position = {} } } } end
+	if not self.buttonConfig then self.buttonConfig = { colors = { range = {}, mana = {} }, hideElements = {}, text = { hotkey = { font = {}, position = {} }, count = { font = {}, position = {} }, macro = { font = {}, position = {} } } } end
 	self.buttonConfig.outOfRangeColoring = Bartender4.db.profile.outofrange
 	self.buttonConfig.tooltip = Bartender4.db.profile.tooltip
 	self.buttonConfig.colors.range[1], self.buttonConfig.colors.range[2], self.buttonConfig.colors.range[3] = Bartender4.db.profile.colors.range.r, Bartender4.db.profile.colors.range.g, Bartender4.db.profile.colors.range.b
@@ -107,8 +107,11 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.text.count.font.size = self.config.elements.count.fontSize
 	self.buttonConfig.text.count.font.flags = self.config.elements.count.fontFlags
 	self.buttonConfig.text.count.color = self.config.elements.count.fontColor
-	self.buttonConfig.text.count.position.offsetX = -2
-	self.buttonConfig.text.count.position.offsetY = 4
+
+	self.buttonConfig.text.macro.font.font = LSM:Fetch("font", self.config.elements.macro.font, true)
+	self.buttonConfig.text.macro.font.size = self.config.elements.macro.fontSize
+	self.buttonConfig.text.macro.font.flags = self.config.elements.macro.fontFlags
+	self.buttonConfig.text.macro.color = self.config.elements.macro.fontColor
 
 	if self.bindingmapping then
 		for i, button in self:GetAll() do

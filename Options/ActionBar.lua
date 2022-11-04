@@ -196,7 +196,7 @@ function module:GetOptionsObject()
 				name = L["Font Size"],
 				desc = L["Set the font size of this element"],
 				type = "range",
-				min = 10, max = 24, step = 1,
+				min = 8, max = 28, step = 1,
 				set = optStyleSetter,
 				get = optStyleGetter,
 			},
@@ -230,12 +230,20 @@ function module:GetOptionsObject()
 				guiInline = true,
 				args = {},
 			},
+			macro = {
+				order = 93,
+				type = "group",
+				name = L["Macro Text"],
+				guiInline = true,
+				args = {},
+			},
 		}
 
 		obj:AddElementGroup("general", cat_general)
 		obj:AddElementGroup("general", style_group)
 		obj:AddElementGroup("general", text_style, "hotkey")
 		obj:AddElementGroup("general", text_style, "count")
+		obj:AddElementGroup("general", text_style, "macro")
 		self.baroptions = obj
 	end
 
