@@ -7,6 +7,8 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local StateBar = Bartender4.StateBar.prototype
 local ActionBar = Bartender4.ActionBar
 
+local lsmlist = AceGUIWidgetLSMlists
+
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 
 local tonumber, tostring, assert = tonumber, tostring, assert
@@ -57,6 +59,52 @@ do
 		local bar = getBar(info[2])
 		local option = info[#info]
 		return callFunc(bar, "Set", option, ...)
+	end
+end
+
+local optStyleSetter, optStyleGetter
+do
+	local optionMap, getBar, callStyleFunc
+	-- maps option keys to function names
+	optionMap = {
+		font = "Font",
+		size = "FontSize",
+		flags = "FontFlags",
+		color = "FontColor",
+		anchor = "TextAnchor",
+		offsetX = "TextOffsetX",
+		offsetY = "TextOffsetY",
+		justify = "TextJustifyH",
+	}
+
+	-- retrieves a valid bar object from the modules actionbars table
+	function getBar(id)
+		local bar = module.actionbars[tonumber(id)]
+		assert(bar, ("Invalid bar id in options table. (%s)"):format(id))
+		return bar
+	end
+
+	-- calls a style function on the bar
+	function callStyleFunc(bar, element, type, option, ...)
+		local func = type .. "Style" .. (optionMap[option] or option)
+		assert(bar[func], ("Invalid get/set function %s in bar %s."):format(func, bar.id))
+		return bar[func](bar, element, ...)
+	end
+
+	-- universal function to get a style option
+	function optStyleGetter(info)
+		local bar = getBar(info[2])
+		local option = info[#info]
+		local element = info[#info - 1]
+		return callStyleFunc(bar, element, "Get", option)
+	end
+
+	-- universal function to set a style option
+	function optStyleSetter(info, ...)
+		local bar = getBar(info[2])
+		local option = info[#info]
+		local element = info[#info - 1]
+		return callStyleFunc(bar, element, "Set", option, ...)
 	end
 end
 
@@ -126,7 +174,140 @@ function module:GetOptionsObject()
 				hidden = not WoW10,
 			},
 		}
+
+		local text_style = {
+			font = {
+				order = 11,
+				type = "select",
+				name = L["Font"],
+				desc = L["Select the font for this text element"],
+				dialogControl = "LSM30_Font",
+				values = lsmlist.font,
+				set = optStyleSetter,
+				get = optStyleGetter,
+			},
+			flags = {
+				order = 12,
+				type = "select",
+				name = L["Outline"],
+				desc = L["Select the type of outline"],
+				values = {["OUTLINE"] = L["Thin outline"], ["THICKOUTLINE"] = L["Thick outline"], [""] = L["None"]},
+				set = optStyleSetter,
+				get = optStyleGetter,
+			},
+			size = {
+				order = 13,
+				name = L["Font Size"],
+				desc = L["Set the font size of this element"],
+				type = "range",
+				min = 8, max = 28, step = 1,
+				set = optStyleSetter,
+				get = optStyleGetter,
+			},
+			color = {
+				order = 14,
+				type = "color",
+				name = L["Text Color"],
+				desc = L["Select the color of this element"],
+				set = optStyleSetter,
+				get = optStyleGetter,
+			},
+			nl1 = {
+				order = 20,
+				type = "description",
+				name = "",
+			},
+			anchor = {
+				order = 21,
+				type = "select",
+				name = L["Anchor point"],
+				desc = L["Anchor point for this text element"],
+				values = {
+					["TOP"] = L["Top"],
+					["RIGHT"] = L["Right"],
+					["BOTTOM"] = L["Bottom"],
+					["LEFT"] = L["Left"],
+					["TOPRIGHT"] = L["Top Right"],
+					["TOPLEFT"] = L["Top Left"],
+					["BOTTOMLEFT"] = L["Bottom Left"],
+					["BOTTOMRIGHT"] = L["Bottom Right"],
+					["CENTER"] = L["Center"]
+				},
+				set = optStyleSetter,
+				get = optStyleGetter,
+			},
+			justify = {
+				order = 22,
+				type = "select",
+				name = L["Text Alignment"],
+				desc = L["Alignment of the text"],
+				values = {
+					["RIGHT"] = L["Right"],
+					["LEFT"] = L["Left"],
+					["CENTER"] = L["Center"],
+				},
+				set = optStyleSetter,
+				get = optStyleGetter,
+			},
+			nl2 = {
+				order = 23,
+				type = "description",
+				name = "",
+			},
+			offsetX = {
+				order = 25,
+				name = L["Anchor X Offset"],
+				desc = L["Set X offset from the anchor point"],
+				type = "range",
+				min = -10, max = 10, bigStep = 1, step = 0.1,
+				set = optStyleSetter,
+				get = optStyleGetter,
+			},
+			offsetY = {
+				order = 26,
+				name = L["Anchor Y Offset"],
+				desc = L["Set Y offset from the anchor point"],
+				type = "range",
+				min = -10, max = 10, bigStep = 1, step = 0.1,
+				set = optStyleSetter,
+				get = optStyleGetter,
+			},
+		}
+
+		local style_group = {
+			buttonstyleheader = {
+				order = 90,
+				type = "header",
+				name = L["Text Styles"],
+			},
+			hotkey = {
+				order = 91,
+				type = "group",
+				name = L["Hotkey"],
+				guiInline = true,
+				args = {},
+			},
+			count = {
+				order = 92,
+				type = "group",
+				name = L["Count"],
+				guiInline = true,
+				args = {},
+			},
+			macro = {
+				order = 93,
+				type = "group",
+				name = L["Macro Text"],
+				guiInline = true,
+				args = {},
+			},
+		}
+
 		obj:AddElementGroup("general", cat_general)
+		obj:AddElementGroup("general", style_group)
+		obj:AddElementGroup("general", text_style, "hotkey")
+		obj:AddElementGroup("general", text_style, "count")
+		obj:AddElementGroup("general", text_style, "macro")
 		self.baroptions = obj
 	end
 

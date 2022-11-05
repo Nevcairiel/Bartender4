@@ -8,6 +8,7 @@ local ActionBar = setmetatable({}, {__index = StateBar})
 Bartender4.ActionBar = ActionBar
 
 local LAB10 = LibStub("LibActionButton-1.0")
+local LSM = LibStub("LibSharedMedia-3.0")
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 
 local tonumber, format, min = tonumber, format, min
@@ -78,9 +79,21 @@ function ActionBar:OnEvent(event, ...)
 	StateBar.OnEvent(self, event, ...)
 end
 
+local function updateTextElementConfig(buttonConfig, config)
+	buttonConfig.font.font = LSM:Fetch("font", config.font, true)
+	buttonConfig.font.size = config.fontSize
+	buttonConfig.font.flags = config.fontFlags
+	buttonConfig.color = config.fontColor
+	buttonConfig.position.anchor = config.textAnchor
+	buttonConfig.position.relAnchor = config.textAnchor
+	buttonConfig.position.offsetX = config.textOffsetX
+	buttonConfig.position.offsetY = config.textOffsetY
+	buttonConfig.justifyH = config.textJustifyH
+end
+
 function ActionBar:UpdateButtonConfig()
 	StateBar.UpdateButtonConfig(self)
-	if not self.buttonConfig then self.buttonConfig = { colors = { range = {}, mana = {} }, hideElements = {} } end
+	if not self.buttonConfig then self.buttonConfig = { colors = { range = {}, mana = {} }, hideElements = {}, text = { hotkey = { font = {}, position = {} }, count = { font = {}, position = {} }, macro = { font = {}, position = {} } } } end
 	self.buttonConfig.outOfRangeColoring = Bartender4.db.profile.outofrange
 	self.buttonConfig.tooltip = Bartender4.db.profile.tooltip
 	self.buttonConfig.colors.range[1], self.buttonConfig.colors.range[2], self.buttonConfig.colors.range[3] = Bartender4.db.profile.colors.range.r, Bartender4.db.profile.colors.range.g, Bartender4.db.profile.colors.range.b
@@ -96,6 +109,10 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.flyoutDirection = self.config.flyoutDirection
 
 	self.buttonConfig.keyBoundClickButton = "Keybind"
+
+	updateTextElementConfig(self.buttonConfig.text.hotkey, self.config.elements.hotkey)
+	updateTextElementConfig(self.buttonConfig.text.count, self.config.elements.count)
+	updateTextElementConfig(self.buttonConfig.text.macro, self.config.elements.macro)
 
 	if self.bindingmapping then
 		for i, button in self:GetAll() do
@@ -348,5 +365,77 @@ function ActionBar:SetFlyoutDirection(state)
 	if state ~= nil then
 		self.config.flyoutDirection = state
 	end
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleFont(element)
+	return self.config.elements[element].font
+end
+
+function ActionBar:SetStyleFont(element, font)
+	self.config.elements[element].font = font
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleFontSize(element)
+	return self.config.elements[element].fontSize
+end
+
+function ActionBar:SetStyleFontSize(element, size)
+	self.config.elements[element].fontSize = size
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleFontFlags(element)
+	return self.config.elements[element].fontFlags
+end
+
+function ActionBar:SetStyleFontFlags(element, flags)
+	self.config.elements[element].fontFlags = flags
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleFontColor(element)
+	return unpack(self.config.elements[element].fontColor)
+end
+
+function ActionBar:SetStyleFontColor(element, r, g, b)
+	self.config.elements[element].fontColor = {r, g, b}
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleTextAnchor(element)
+	return self.config.elements[element].textAnchor
+end
+
+function ActionBar:SetStyleTextAnchor(element, anchor)
+	self.config.elements[element].textAnchor = anchor
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleTextOffsetX(element)
+	return self.config.elements[element].textOffsetX
+end
+
+function ActionBar:SetStyleTextOffsetX(element, offset)
+	self.config.elements[element].textOffsetX = offset
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleTextOffsetY(element)
+	return self.config.elements[element].textOffsetY
+end
+
+function ActionBar:SetStyleTextOffsetY(element, offset)
+	self.config.elements[element].textOffsetY = offset
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleTextJustifyH(element)
+	return self.config.elements[element].textJustifyH
+end
+
+function ActionBar:SetStyleTextJustifyH(element, justify)
+	self.config.elements[element].textJustifyH = justify
 	self:UpdateButtonConfig()
 end

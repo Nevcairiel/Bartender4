@@ -41,13 +41,13 @@ function Bartender4:HideBlizzard()
 	UIHider:Hide()
 	self.UIHider = UIHider
 
-	hideActionBarFrame(MultiBarBottomLeft, true)
-	hideActionBarFrame(MultiBarBottomRight, true)
-	hideActionBarFrame(MultiBarLeft, true)
-	hideActionBarFrame(MultiBarRight, true)
-	hideActionBarFrame(MultiBar5, true)
-	hideActionBarFrame(MultiBar6, true)
-	hideActionBarFrame(MultiBar7, true)
+	hideActionBarFrame(MultiBarBottomLeft, true, true)
+	hideActionBarFrame(MultiBarBottomRight, true, true)
+	hideActionBarFrame(MultiBarLeft, true, true)
+	hideActionBarFrame(MultiBarRight, true, true)
+	hideActionBarFrame(MultiBar5, true, true)
+	hideActionBarFrame(MultiBar6, true, true)
+	hideActionBarFrame(MultiBar7, true, true)
 
 	-- Hide MultiBar Buttons, but keep the bars alive
 	for i=1,12 do
