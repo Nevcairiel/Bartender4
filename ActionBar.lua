@@ -88,6 +88,7 @@ local function updateTextElementConfig(buttonConfig, config)
 	buttonConfig.position.relAnchor = config.textAnchor
 	buttonConfig.position.offsetX = config.textOffsetX
 	buttonConfig.position.offsetY = config.textOffsetY
+	buttonConfig.justifyH = config.textJustifyH
 end
 
 function ActionBar:UpdateButtonConfig()
@@ -427,5 +428,14 @@ end
 
 function ActionBar:SetStyleTextOffsetY(element, offset)
 	self.config.elements[element].textOffsetY = offset
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleTextJustifyH(element)
+	return self.config.elements[element].textJustifyH
+end
+
+function ActionBar:SetStyleTextJustifyH(element, justify)
+	self.config.elements[element].textJustifyH = justify
 	self:UpdateButtonConfig()
 end

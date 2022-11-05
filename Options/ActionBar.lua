@@ -74,6 +74,7 @@ do
 		anchor = "TextAnchor",
 		offsetX = "TextOffsetX",
 		offsetY = "TextOffsetY",
+		justify = "TextJustifyH",
 	}
 
 	-- retrieves a valid bar object from the modules actionbars table
@@ -235,8 +236,21 @@ function module:GetOptionsObject()
 				set = optStyleSetter,
 				get = optStyleGetter,
 			},
-			nl2 = {
+			justify = {
 				order = 22,
+				type = "select",
+				name = L["Text Alignment"],
+				desc = L["Alignment of the text"],
+				values = {
+					["RIGHT"] = L["Right"],
+					["LEFT"] = L["Left"],
+					["CENTER"] = L["Center"],
+				},
+				set = optStyleSetter,
+				get = optStyleGetter,
+			},
+			nl2 = {
+				order = 23,
 				type = "description",
 				name = "",
 			},

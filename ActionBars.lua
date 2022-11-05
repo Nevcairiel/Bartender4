@@ -33,6 +33,7 @@ local abdefaults = {
 				textAnchor = "CENTER",
 				textOffsetX = 0,
 				textOffsetY = 0,
+				textJustifyH = "CENTER",
 			},
 			hotkey = {
 				fontSize = WoW10 and 16 or 13,
@@ -40,12 +41,14 @@ local abdefaults = {
 				textAnchor = "TOPRIGHT",
 				textOffsetX = -2,
 				textOffsetY = -4,
+				textJustifyH = "RIGHT",
 			},
 			count = {
 				fontSize = WoW10 and 18 or 16,
 				textAnchor = "BOTTOMRIGHT",
 				textOffsetX = -2,
 				textOffsetY = 4,
+				textJustifyH = "RIGHT",
 			},
 			macro = {
 				font = "Friz Quadrata TT",
