@@ -79,6 +79,17 @@ function ActionBar:OnEvent(event, ...)
 	StateBar.OnEvent(self, event, ...)
 end
 
+local function updateTextElementConfig(buttonConfig, config)
+	buttonConfig.font.font = LSM:Fetch("font", config.font, true)
+	buttonConfig.font.size = config.fontSize
+	buttonConfig.font.flags = config.fontFlags
+	buttonConfig.color = config.fontColor
+	buttonConfig.position.anchor = config.textAnchor
+	buttonConfig.position.relAnchor = config.textAnchor
+	buttonConfig.position.offsetX = config.textOffsetX
+	buttonConfig.position.offsetY = config.textOffsetY
+end
+
 function ActionBar:UpdateButtonConfig()
 	StateBar.UpdateButtonConfig(self)
 	if not self.buttonConfig then self.buttonConfig = { colors = { range = {}, mana = {} }, hideElements = {}, text = { hotkey = { font = {}, position = {} }, count = { font = {}, position = {} }, macro = { font = {}, position = {} } } } end
@@ -98,32 +109,9 @@ function ActionBar:UpdateButtonConfig()
 
 	self.buttonConfig.keyBoundClickButton = "Keybind"
 
-	self.buttonConfig.text.hotkey.font.font = LSM:Fetch("font", self.config.elements.hotkey.font, true)
-	self.buttonConfig.text.hotkey.font.size = self.config.elements.hotkey.fontSize
-	self.buttonConfig.text.hotkey.font.flags = self.config.elements.hotkey.fontFlags
-	self.buttonConfig.text.hotkey.color = self.config.elements.hotkey.fontColor
-	self.buttonConfig.text.hotkey.position.anchor = self.config.elements.hotkey.textAnchor
-	self.buttonConfig.text.hotkey.position.relAnchor = self.config.elements.hotkey.textAnchor
-	self.buttonConfig.text.hotkey.position.offsetX = self.config.elements.hotkey.textOffsetX
-	self.buttonConfig.text.hotkey.position.offsetY = self.config.elements.hotkey.textOffsetY
-
-	self.buttonConfig.text.count.font.font = LSM:Fetch("font", self.config.elements.count.font, true)
-	self.buttonConfig.text.count.font.size = self.config.elements.count.fontSize
-	self.buttonConfig.text.count.font.flags = self.config.elements.count.fontFlags
-	self.buttonConfig.text.count.color = self.config.elements.count.fontColor
-	self.buttonConfig.text.count.position.anchor = self.config.elements.count.textAnchor
-	self.buttonConfig.text.count.position.relAnchor = self.config.elements.count.textAnchor
-	self.buttonConfig.text.count.position.offsetX = self.config.elements.count.textOffsetX
-	self.buttonConfig.text.count.position.offsetY = self.config.elements.count.textOffsetY
-
-	self.buttonConfig.text.macro.font.font = LSM:Fetch("font", self.config.elements.macro.font, true)
-	self.buttonConfig.text.macro.font.size = self.config.elements.macro.fontSize
-	self.buttonConfig.text.macro.font.flags = self.config.elements.macro.fontFlags
-	self.buttonConfig.text.macro.color = self.config.elements.macro.fontColor
-	self.buttonConfig.text.macro.position.anchor = self.config.elements.macro.textAnchor
-	self.buttonConfig.text.macro.position.relAnchor = self.config.elements.macro.textAnchor
-	self.buttonConfig.text.macro.position.offsetX = self.config.elements.macro.textOffsetX
-	self.buttonConfig.text.macro.position.offsetY = self.config.elements.macro.textOffsetY
+	updateTextElementConfig(self.buttonConfig.text.hotkey, self.config.elements.hotkey)
+	updateTextElementConfig(self.buttonConfig.text.count, self.config.elements.count)
+	updateTextElementConfig(self.buttonConfig.text.macro, self.config.elements.macro)
 
 	if self.bindingmapping then
 		for i, button in self:GetAll() do
