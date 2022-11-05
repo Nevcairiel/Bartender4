@@ -71,6 +71,9 @@ do
 		size = "FontSize",
 		flags = "FontFlags",
 		color = "FontColor",
+		anchor = "TextAnchor",
+		offsetX = "TextOffsetX",
+		offsetY = "TextOffsetY",
 	}
 
 	-- retrieves a valid bar object from the modules actionbars table
@@ -205,6 +208,53 @@ function module:GetOptionsObject()
 				type = "color",
 				name = L["Text Color"],
 				desc = L["Select the color of this element"],
+				set = optStyleSetter,
+				get = optStyleGetter,
+			},
+			nl1 = {
+				order = 20,
+				type = "description",
+				name = "",
+			},
+			anchor = {
+				order = 21,
+				type = "select",
+				name = L["Anchor point"],
+				desc = L["Anchor point for this text element"],
+				values = {
+					["TOP"] = L["Top"],
+					["RIGHT"] = L["Right"],
+					["BOTTOM"] = L["Bottom"],
+					["LEFT"] = L["Left"],
+					["TOPRIGHT"] = L["Top Right"],
+					["TOPLEFT"] = L["Top Left"],
+					["BOTTOMLEFT"] = L["Bottom Left"],
+					["BOTTOMRIGHT"] = L["Bottom Right"],
+					["CENTER"] = L["Center"]
+				},
+				set = optStyleSetter,
+				get = optStyleGetter,
+			},
+			nl2 = {
+				order = 22,
+				type = "description",
+				name = "",
+			},
+			offsetX = {
+				order = 25,
+				name = L["Anchor X Offset"],
+				desc = L["Set X offset from the anchor point"],
+				type = "range",
+				min = -10, max = 10, bigStep = 1, step = 0.1,
+				set = optStyleSetter,
+				get = optStyleGetter,
+			},
+			offsetY = {
+				order = 26,
+				name = L["Anchor Y Offset"],
+				desc = L["Set Y offset from the anchor point"],
+				type = "range",
+				min = -10, max = 10, bigStep = 1, step = 0.1,
 				set = optStyleSetter,
 				get = optStyleGetter,
 			},

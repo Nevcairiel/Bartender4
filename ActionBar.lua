@@ -102,16 +102,28 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.text.hotkey.font.size = self.config.elements.hotkey.fontSize
 	self.buttonConfig.text.hotkey.font.flags = self.config.elements.hotkey.fontFlags
 	self.buttonConfig.text.hotkey.color = self.config.elements.hotkey.fontColor
+	self.buttonConfig.text.hotkey.position.anchor = self.config.elements.hotkey.textAnchor
+	self.buttonConfig.text.hotkey.position.relAnchor = self.config.elements.hotkey.textAnchor
+	self.buttonConfig.text.hotkey.position.offsetX = self.config.elements.hotkey.textOffsetX
+	self.buttonConfig.text.hotkey.position.offsetY = self.config.elements.hotkey.textOffsetY
 
 	self.buttonConfig.text.count.font.font = LSM:Fetch("font", self.config.elements.count.font, true)
 	self.buttonConfig.text.count.font.size = self.config.elements.count.fontSize
 	self.buttonConfig.text.count.font.flags = self.config.elements.count.fontFlags
 	self.buttonConfig.text.count.color = self.config.elements.count.fontColor
+	self.buttonConfig.text.count.position.anchor = self.config.elements.count.textAnchor
+	self.buttonConfig.text.count.position.relAnchor = self.config.elements.count.textAnchor
+	self.buttonConfig.text.count.position.offsetX = self.config.elements.count.textOffsetX
+	self.buttonConfig.text.count.position.offsetY = self.config.elements.count.textOffsetY
 
 	self.buttonConfig.text.macro.font.font = LSM:Fetch("font", self.config.elements.macro.font, true)
 	self.buttonConfig.text.macro.font.size = self.config.elements.macro.fontSize
 	self.buttonConfig.text.macro.font.flags = self.config.elements.macro.fontFlags
 	self.buttonConfig.text.macro.color = self.config.elements.macro.fontColor
+	self.buttonConfig.text.macro.position.anchor = self.config.elements.macro.textAnchor
+	self.buttonConfig.text.macro.position.relAnchor = self.config.elements.macro.textAnchor
+	self.buttonConfig.text.macro.position.offsetX = self.config.elements.macro.textOffsetX
+	self.buttonConfig.text.macro.position.offsetY = self.config.elements.macro.textOffsetY
 
 	if self.bindingmapping then
 		for i, button in self:GetAll() do
@@ -400,5 +412,32 @@ end
 
 function ActionBar:SetStyleFontColor(element, r, g, b)
 	self.config.elements[element].fontColor = {r, g, b}
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleTextAnchor(element)
+	return self.config.elements[element].textAnchor
+end
+
+function ActionBar:SetStyleTextAnchor(element, anchor)
+	self.config.elements[element].textAnchor = anchor
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleTextOffsetX(element)
+	return self.config.elements[element].textOffsetX
+end
+
+function ActionBar:SetStyleTextOffsetX(element, offset)
+	self.config.elements[element].textOffsetX = offset
+	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetStyleTextOffsetY(element)
+	return self.config.elements[element].textOffsetY
+end
+
+function ActionBar:SetStyleTextOffsetY(element, offset)
+	self.config.elements[element].textOffsetY = offset
 	self:UpdateButtonConfig()
 end
