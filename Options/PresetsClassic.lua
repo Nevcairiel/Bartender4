@@ -13,9 +13,6 @@ local Bar = Bartender4.Bar.prototype
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 if WoW10 then return end
 
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
-
-
 local PresetsMod = Bartender4:NewModule("Presets")
 
 PresetsMod.showXPBar = true
@@ -37,17 +34,11 @@ end
 local function BuildSingleProfile()
 	local dy, config
 	dy = 0
-	if WoWClassic then
-		if not PresetsMod.showXPBar then
-			dy = dy - 7
-		end
-	else
-		if not PresetsMod.showStatusBar then
-			dy = dy - 8
-		end
+	if not PresetsMod.showXPBar then
+		dy = dy - 7
 	end
 
-	local actionButtonScale = WoW10 and 0.8 or 1.0
+	local actionButtonScale = 1.0
 
 	Bartender4.db.profile.blizzardVehicle = false
 	Bartender4.db.profile.outofrange = "hotkey"
@@ -82,28 +73,18 @@ local function BuildSingleProfile()
 	config.enabled = false
 	Bartender4:GetModule("StanceBar"):Disable()
 
-	if WoWClassic then
-		if PresetsMod.showXPBar then
-			config = Bartender4.db:GetNamespace("XPBar").profile
-			config.enabled = true
-			config.scale = 0.5
-			Bartender4:GetModule("XPBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -256, 48)
+	if PresetsMod.showXPBar then
+		config = Bartender4.db:GetNamespace("XPBar").profile
+		config.enabled = true
+		config.scale = 0.5
+		Bartender4:GetModule("XPBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -256, 48)
 
-			config = Bartender4.db:GetNamespace("RepBar").profile
-			config.enabled = true
-			config.scale = 0.5
-			Bartender4:GetModule("RepBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -256, 51)
-		end
-	else
-		if PresetsMod.showStatusBar then
-			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
-			config.enabled = true
-			config.scale = 0.63
-			Bartender4:GetModule("StatusTrackingBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -256, 52)
-		end
+		config = Bartender4.db:GetNamespace("RepBar").profile
+		config.enabled = true
+		config.scale = 0.5
+		Bartender4:GetModule("RepBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -256, 51)
 	end
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
@@ -119,17 +100,11 @@ end
 local function BuildDoubleProfile()
 	local dy, config
 	dy = 0
-	if WoWClassic then
-		if not PresetsMod.showXPBar then
-			dy = dy - 13
-		end
-	else
-		if not PresetsMod.showStatusBar then
-			dy = dy - 16
-		end
+	if not PresetsMod.showXPBar then
+		dy = dy - 13
 	end
 
-	local actionButtonScale = WoW10 and 0.8 or 1.0
+	local actionButtonScale = 1.0
 
 	Bartender4.db.profile.blizzardVehicle = true
 	Bartender4.db.profile.outofrange = "hotkey"
@@ -165,26 +140,16 @@ local function BuildDoubleProfile()
 	config.enabled = false
 	Bartender4:GetModule("MicroMenu"):Disable()
 
-	if WoWClassic then
-		if PresetsMod.showXPBar then
-			config = Bartender4.db:GetNamespace("XPBar").profile
-			config.enabled = true
-			Bartender4:GetModule("XPBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -514, 54)
+	if PresetsMod.showXPBar then
+		config = Bartender4.db:GetNamespace("XPBar").profile
+		config.enabled = true
+		Bartender4:GetModule("XPBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -514, 54)
 
-			config = Bartender4.db:GetNamespace("RepBar").profile
-			config.enabled = true
-			Bartender4:GetModule("RepBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -514, 61)
-		end
-	else
-		if PresetsMod.showStatusBar then
-			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
-			config.enabled = true
-			config.scale = 1.265
-			Bartender4:GetModule("StatusTrackingBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -515, 62)
-		end
+		config = Bartender4.db:GetNamespace("RepBar").profile
+		config.enabled = true
+		Bartender4:GetModule("RepBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -514, 61)
 	end
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
@@ -207,18 +172,12 @@ end
 local function BuildBlizzardProfile()
 	local dy, config
 	dy = 0
-	if WoWClassic then
-		if not PresetsMod.showXPBar then
-			dy = dy - 13
-		end
-	else
-		if not PresetsMod.showStatusBar then
-			dy = dy - 16
-		end
+	if not PresetsMod.showXPBar then
+		dy = dy - 13
 	end
 
 	local showKeyRing = KeyRingButton and GetCVarBool("showKeyring") or nil
-	local actionButtonScale = WoW10 and 0.8 or 1.0
+	local actionButtonScale = 1.0
 
 	Bartender4.db.profile.blizzardVehicle = true
 	Bartender4.db.profile.outofrange = "hotkey"
@@ -245,57 +204,38 @@ local function BuildBlizzardProfile()
 	config.actionbars[6].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[6], "BOTTOM", -510, 110 + dy )
 
-	if WoWClassic then
-		config = Bartender4.db:GetNamespace("BagBar").profile
-		config.onebag = false
-		config.keyring = showKeyRing
-		config.verticalAlignment = "CENTER"
-		if GetClassicExpansionLevel() >= 2 --[[Wrath]] then
-			config.padding = 4
-			SetBarLocation( config, "BOTTOM", 304, 42)
-		else
-			config.padding = 5
-			SetBarLocation( config, "BOTTOM", 272, 42)
-		end
-
-		config = Bartender4.db:GetNamespace("MicroMenu").profile
-		config.position.scale = 1.0
-		config.padding = -2
-		SetBarLocation( config, "BOTTOM", 33, 42)
-
-		if PresetsMod.showXPBar then
-			config = Bartender4.db:GetNamespace("XPBar").profile
-			config.enabled = true
-			Bartender4:GetModule("XPBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -514, 54)
-
-			config = Bartender4.db:GetNamespace("RepBar").profile
-			config.enabled = true
-			Bartender4:GetModule("RepBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -514, 61)
-		end
-
-		if HasMultiCastActionBar and HasMultiCastActionBar() then
-			config = Bartender4.db:GetNamespace("MultiCast").profile
-			config.enabled = true
-		end
+	config = Bartender4.db:GetNamespace("BagBar").profile
+	config.onebag = false
+	config.keyring = showKeyRing
+	config.verticalAlignment = "CENTER"
+	if GetClassicExpansionLevel() >= 2 --[[Wrath]] then
+		config.padding = 4
+		SetBarLocation( config, "BOTTOM", 304, 42)
 	else
-		config = Bartender4.db:GetNamespace("BagBar").profile
-		config.onebag = false
-		SetBarLocation( config, "BOTTOM", 345, 38.5 )
+		config.padding = 5
+		SetBarLocation( config, "BOTTOM", 272, 42)
+	end
 
-		config = Bartender4.db:GetNamespace("MicroMenu").profile
-		config.position.scale = 1.0
-		config.padding = -2
-		SetBarLocation( config, "BOTTOM", 37.5, 41.75 )
+	config = Bartender4.db:GetNamespace("MicroMenu").profile
+	config.position.scale = 1.0
+	config.padding = -2
+	SetBarLocation( config, "BOTTOM", 33, 42)
 
-		if PresetsMod.showStatusBar then
-			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
-			config.enabled = true
-			config.scale = 1.265
-			Bartender4:GetModule("StatusTrackingBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -515, 62)
-		end
+	if PresetsMod.showXPBar then
+		config = Bartender4.db:GetNamespace("XPBar").profile
+		config.enabled = true
+		Bartender4:GetModule("XPBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -514, 54)
+
+		config = Bartender4.db:GetNamespace("RepBar").profile
+		config.enabled = true
+		Bartender4:GetModule("RepBar"):Enable()
+		SetBarLocation( config, "BOTTOM", -514, 61)
+	end
+
+	if HasMultiCastActionBar and HasMultiCastActionBar() then
+		config = Bartender4.db:GetNamespace("MultiCast").profile
+		config.enabled = true
 	end
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
@@ -371,16 +311,6 @@ function PresetsMod:SetupOptions()
 				type = "description",
 				name = ""
 			},
-			statusbar = {
-				order = 20,
-				type = "toggle",
-				width = "full",
-				name = L["Status Tracking Bar (XP/Rep/...)"],
-				get = function() return PresetsMod.showStatusBar end,
-				set = function(info, val) PresetsMod.showStatusBar = val end,
-				disabled = function() return PresetsMod.defaultType == "RESET" end,
-				hidden = function() return WoWClassic end,
-			},
 			xpbar = {
 				order = 20,
 				type = "toggle",
@@ -389,7 +319,6 @@ function PresetsMod:SetupOptions()
 				get = function() return PresetsMod.showXPBar end,
 				set = function(info, val) PresetsMod.showXPBar = val end,
 				disabled = function() return PresetsMod.defaultType == "RESET" end,
-				hidden = function() return not WoWClassic end,
 			},
 			nl2 = {
 				order = 36,

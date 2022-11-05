@@ -5,8 +5,6 @@
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
-local WoW10 = select(4, GetBuildInfo()) >= 100000
-
 -- fetch upvalues
 local Bar = Bartender4.Bar.prototype
 
@@ -15,7 +13,7 @@ if not StatusTrackingBarManager then return end
 
 local defaults = { profile = Bartender4:Merge({
 	enabled = false,
-	width = WoW10 and 571 or 804,
+	width = 571,
 	twentySections = true,
 }, Bartender4.Bar.defaults) }
 
@@ -38,35 +36,20 @@ function StatusBarMod:OnEnable()
 		self.bar.content:Show()
 		self.bar.content.OnStatusBarsUpdated = function() end
 
-		if WoW10 then
-			self.bar.manager = StatusTrackingBarManager
-			self.bar.manager:SetParent(self.bar.content)
-			self.bar.manager:ClearAllPoints()
-			self.bar.manager:SetPoint("BOTTOMLEFT", self.bar.content, "BOTTOMLEFT")
+		self.bar.manager = StatusTrackingBarManager
+		self.bar.manager:SetParent(self.bar.content)
+		self.bar.manager:ClearAllPoints()
+		self.bar.manager:SetPoint("BOTTOMLEFT", self.bar.content, "BOTTOMLEFT")
 
-			-- add additional anchors to the textures to allow re-sizing the bars
-			self.bar.manager.BottomBarFrameTexture:SetPoint("BOTTOMRIGHT")
-			self.bar.manager.TopBarFrameTexture:SetPoint("BOTTOMRIGHT", self.bar.manager.BottomBarFrameTexture, "TOPRIGHT", 0, -3)
-		else
-			self.bar.manager = CreateFrame("Frame", "BT4StatusBarTrackingManager", self.bar.content, "StatusTrackingBarManagerTemplate")
-			self.bar.manager:AddBarFromTemplate("FRAME", "ReputationStatusBarTemplate")
-			self.bar.manager:AddBarFromTemplate("FRAME", "HonorStatusBarTemplate")
-			self.bar.manager:AddBarFromTemplate("FRAME", "ArtifactStatusBarTemplate")
-			self.bar.manager:AddBarFromTemplate("FRAME", "ExpStatusBarTemplate")
-			self.bar.manager:AddBarFromTemplate("FRAME", "AzeriteBarTemplate")
-			self.bar.manager:SetBarSize(self.db.profile.twentySections)
-		end
+		-- add additional anchors to the textures to allow re-sizing the bars
+		self.bar.manager.BottomBarFrameTexture:SetPoint("BOTTOMRIGHT")
+		self.bar.manager.TopBarFrameTexture:SetPoint("BOTTOMRIGHT", self.bar.manager.BottomBarFrameTexture, "TOPRIGHT", 0, -3)
 		self.bar.manager:Show()
 		self.bar.manager:SetFrameLevel(2)
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
-
-	if not WoW10 then
-		self:SecureHook(StatusTrackingBarManager, "SetTextLocked", "ManagerTextLock")
-		self:SecureHook(StatusTrackingBarManager, "UpdateBarsShown", "ManagerUpdateBars")
-	end
 end
 
 function StatusBarMod:ApplyConfig()
@@ -91,24 +74,13 @@ function StatusBar:ApplyConfig(config)
 	self:PerformLayout()
 end
 
-if WoW10 then
-	StatusBar.width = 571 + 8
-	StatusBar.height = 34
-	StatusBar.offsetX = 7
-	StatusBar.offsetY = 2
-else
-	StatusBar.width = 540
-	StatusBar.height = 14
-	StatusBar.offsetX = 5
-	StatusBar.offsetY = 10
-end
+StatusBar.width = 571 + 8
+StatusBar.height = 34
+StatusBar.offsetX = 7
+StatusBar.offsetY = 2
 function StatusBar:PerformLayout()
 	self.manager:SetWidth(self.config.width)
-	if WoW10 then
-		self.manager:UpdateBarsShown()
-	else
-		self.manager:SetBarSize(self.config.twentySections)
-	end
+	self.manager:UpdateBarsShown()
 
 	StatusBar.width = self.config.width + 8
 	self:SetSize(self.width, self.height)
