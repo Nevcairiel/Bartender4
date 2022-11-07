@@ -56,6 +56,7 @@ read_globals = {
 	"GetBuildInfo",
 	"GetClassicExpansionLevel",
 	"GetCurrentBindingSet",
+	"GetCursorInfo",
 	"GetCVarBool",
 	"GetModifiedClick",
 	"GetNumShapeshiftForms",
@@ -71,6 +72,7 @@ read_globals = {
 	"InCombatLockdown",
 	"IsAddOnLoaded",
 	"IsModifiedClick",
+	"IsPetAttackAction",
 	"MouseIsOver",
 	"PickupPetAction",
 	"PlaySound",
@@ -111,6 +113,7 @@ read_globals = {
 	"EJMicroButton",
 	"ExtraAbilityContainer",
 	"ExtraActionBarFrame",
+	"GameTooltip",
 	"GuildMicroButton",
 	"HelpMicroButton",
 	"LFDMicroButton",
@@ -155,6 +158,7 @@ read_globals = {
 	"ChatFontNormal",
 	"GameFontNormal",
 	"MICRO_BUTTONS",
+	"Spell",
 
 	-- FrameXML Constants
 	"LE_ACTIONBAR_STATE_MAIN",

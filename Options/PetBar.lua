@@ -7,6 +7,8 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
 local PetBarMod = Bartender4:GetModule("PetBar")
 
+local WoW10 = select(4, GetBuildInfo()) >= 100000
+
 -- fetch upvalues
 local ButtonBar = Bartender4.ButtonBar.prototype
 
@@ -36,6 +38,15 @@ function PetBarMod:SetupOptions()
 				desc = L["Toggle the button grid."],
 				set = function(info, ...) PetBarMod:SetGrid(...) end,
 				get = function(info) return PetBarMod:GetGrid() end,
+			},
+			border = {
+				order = 84,
+				type = "toggle",
+				name = L["Hide Border"],
+				desc = L["Hide the border around the action button."],
+				set = function(info, ...) PetBarMod:SetHideBorder(...) end,
+				get = function(info) return PetBarMod:GetHideBorder() end,
+				hidden = not WoW10,
 			},
 		}
 		self.optionobject:AddElementGroup("general", cat_general)

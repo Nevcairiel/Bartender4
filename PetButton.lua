@@ -12,6 +12,8 @@ local PetButton_MT = {__index = PetButtonPrototype}
 local Masque = LibStub("Masque", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
 
+local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
+
 -- upvalues
 local _G = _G
 local format, select, setmetatable = string.format, select, setmetatable
@@ -38,9 +40,11 @@ end
 
 local function onReceiveDrag(self)
 	if InCombatLockdown() then return end
-	self:SetChecked(false)
-	PickupPetAction(self.id)
-	self:Update()
+	if GetCursorInfo() == "petaction" then
+		self:SetChecked(false)
+		PickupPetAction(self.id)
+		self:Update()
+	end
 end
 
 Bartender4.PetButton = {}
@@ -64,27 +68,13 @@ function Bartender4.PetButton:Create(id, parent)
 	button:SetScript("OnDragStart", onDragStart)
 	button:SetScript("OnReceiveDrag", onReceiveDrag)
 
-	button:SetNormalTexture("")
-	local oldNT = button:GetNormalTexture()
-	oldNT:Hide()
-
-	button.normalTexture = button:CreateTexture(("%sBTNT"):format(name))
-	button.normalTexture:SetAllPoints(oldNT)
-
-	button.pushedTexture = button:GetPushedTexture()
-	button.highlightTexture = button:GetHighlightTexture()
-
-	button.textureCache = {}
-	button.textureCache.pushed = button.pushedTexture:GetTexture()
-	button.textureCache.highlight = button.highlightTexture:GetTexture()
+	if not WoWRetail then
+		button.NormalTexture = button:GetNormalTexture()
+	end
 
 	if Masque then
 		local group = parent.MasqueGroup
-		button.MasqueButtonData = {
-			Button = button,
-			Normal = button.normalTexture,
-		}
-		group:AddButton(button, button.MasqueButtonData, "Pet")
+		group:AddButton(button, nil, "Pet")
 	end
 	return button
 end
@@ -94,20 +84,50 @@ function PetButtonPrototype:Update()
 
 	if not isToken then
 		self.icon:SetTexture(texture)
-		self.tooltipName = name;
+		self.tooltipName = name
 	else
 		self.icon:SetTexture(_G[texture])
 		self.tooltipName = _G[name]
 	end
 
 	self.isToken = isToken
-	self:SetChecked(isActive)
-	if autoCastAllowed and not autoCastEnabled then
+
+	if spellID then
+		local spell = Spell:CreateFromSpellID(spellID)
+		self.spellDataLoadedCancelFunc = spell:ContinueWithCancelOnSpellLoad(function()
+			self.tooltipSubtext = spell:GetSpellSubtext()
+		end)
+	end
+
+	if isActive then
+		if IsPetAttackAction(self.id) then
+			if self.StartFlash then
+				self:StartFlash()
+			end
+			-- the checked texture looks a little confusing at full alpha (looks like you have an extra ability selected)
+			self:GetCheckedTexture():SetAlpha(0.5)
+		else
+			if self.StopFlash then
+				self:StopFlash()
+			end
+			self:GetCheckedTexture():SetAlpha(1.0)
+		end
+		self:SetChecked(not self.parent.config.hideequipped)
+	else
+		if self.StopFlash then
+			self:StopFlash()
+		end
+		self:SetChecked(false)
+	end
+
+	if autoCastAllowed then
 		self.AutoCastable:Show()
-		AutoCastShine_AutoCastStop(self.AutoCastShine)
-	elseif autoCastAllowed then
-		self.AutoCastable:Hide()
-		AutoCastShine_AutoCastStart(self.AutoCastShine)
+
+		if autoCastEnabled then
+			AutoCastShine_AutoCastStart(self.AutoCastShine)
+		else
+			AutoCastShine_AutoCastStop(self.AutoCastShine)
+		end
 	else
 		self.AutoCastable:Hide()
 		AutoCastShine_AutoCastStop(self.AutoCastShine)
@@ -120,25 +140,60 @@ function PetButtonPrototype:Update()
 			SetDesaturation(self.icon, 1)
 		end
 		self.icon:Show()
-		self.normalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot2")
-		self.normalTexture:SetTexCoord(0, 0, 0, 0)
+
+
+		if not self.parent.MasqueGroup then
+			if WoWRetail then
+				self.SlotBackground:Hide()
+				if self.parent.config.hideborder then
+					self.NormalTexture:SetTexture()
+					self.icon:RemoveMaskTexture(self.IconMask)
+					self.HighlightTexture:SetSize(34, 33)
+					self.HighlightTexture:SetPoint("TOPLEFT", self, "TOPLEFT", -1.5, 1.5)
+					self.CheckedTexture:SetSize(34, 33)
+					self.CheckedTexture:SetPoint("TOPLEFT", self, "TOPLEFT", -1.5, 1.5)
+					self.cooldown:ClearAllPoints()
+					self.cooldown:SetAllPoints()
+				else
+					self:SetNormalAtlas("UI-HUD-ActionBar-IconFrame-AddRow")
+					self.icon:AddMaskTexture(self.IconMask)
+					self.HighlightTexture:SetSize(31.6, 30.9)
+					self.HighlightTexture:SetPoint("TOPLEFT")
+					self.CheckedTexture:SetSize(31.6, 30.9)
+					self.CheckedTexture:SetPoint("TOPLEFT")
+					self.cooldown:ClearAllPoints()
+					self.cooldown:SetPoint("TOPLEFT", self, "TOPLEFT", 1.7, -1.7)
+					self.cooldown:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, 1)
+				end
+			else
+				self.NormalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot2")
+				self.NormalTexture:SetTexCoord(0, 0, 0, 0)
+			end
+		end
 		self:ShowButton()
-		self.normalTexture:Show()
 		if self.overlay then
 			self.overlay:Show()
 		end
 	else
 		self.icon:Hide()
-		self.normalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot")
-		self.normalTexture:SetTexCoord(-0.1, 1.1, -0.1, 1.12)
+
+		if not self.parent.MasqueGroup then
+			if WoWRetail then
+				self.SlotBackground:Show()
+				self:SetNormalAtlas("UI-HUD-ActionBar-IconFrame-AddRow")
+			else
+				self.NormalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot")
+				self.NormalTexture:SetTexCoord(-0.1, 1.1, -0.1, 1.12)
+			end
+		end
 		self:HideButton()
 		if self.showgrid == 0 and not self.parent.config.showgrid then
-			self.normalTexture:Hide()
 			if self.overlay then
 				self.overlay:Hide()
 			end
 		end
 	end
+
 	self:UpdateCooldown()
 	self:UpdateHotkeys()
 end
@@ -155,40 +210,14 @@ function PetButtonPrototype:UpdateHotkeys()
 	end
 end
 
+-- override the mixin hotkey function
+PetButtonPrototype.SetHotkeys = PetButtonPrototype.UpdateHotkeys
+
 function PetButtonPrototype:ShowButton()
-	self.pushedTexture:SetTexture(self.textureCache.pushed)
-	self.highlightTexture:SetTexture(self.textureCache.highlight)
-	local backdrop, gloss
-	if Masque then
-		backdrop, gloss = Masque:GetBackdrop(self), Masque:GetGloss(self)
-	end
-	-- Toggle backdrop/gloss
-	if backdrop then
-		backdrop:Show()
-	end
-	if gloss then
-		gloss:Show()
-	end
 	self:SetAlpha(1.0)
 end
 
 function PetButtonPrototype:HideButton()
-	self.textureCache.pushed = self.pushedTexture:GetTexture()
-	self.textureCache.highlight = self.highlightTexture:GetTexture()
-
-	self.pushedTexture:SetTexture("")
-	self.highlightTexture:SetTexture("")
-	local backdrop, gloss
-	if Masque then
-		backdrop, gloss = Masque:GetBackdrop(self), Masque:GetGloss(self)
-	end
-	-- Toggle backdrop/gloss
-	if backdrop then
-		backdrop:Hide()
-	end
-	if gloss then
-		gloss:Hide()
-	end
 	if self.showgrid == 0 and not self.parent.config.showgrid then
 		self:SetAlpha(0.0)
 	end
@@ -196,14 +225,12 @@ end
 
 function PetButtonPrototype:ShowGrid()
 	self.showgrid = self.showgrid + 1
-	self.normalTexture:Show()
 	self:SetAlpha(1.0)
 end
 
 function PetButtonPrototype:HideGrid()
 	if self.showgrid > 0 then self.showgrid = self.showgrid - 1 end
 	if self.showgrid == 0  and not (GetPetActionInfo(self.id)) and not self.parent.config.showgrid then
-		self.normalTexture:Hide()
 		self:SetAlpha(0.0)
 	end
 end
@@ -211,6 +238,10 @@ end
 function PetButtonPrototype:UpdateCooldown()
 	local start, duration, enable = GetPetActionCooldown(self.id)
 	CooldownFrame_Set(self.cooldown, start, duration, enable)
+
+	if not GameTooltip:IsForbidden() and GameTooltip:GetOwner() == self then
+		self:OnEnter()
+	end
 end
 
 function PetButtonPrototype:GetHotkey()
