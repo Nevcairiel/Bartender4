@@ -242,15 +242,15 @@ function ActionBar:UpdateButtons(numbuttons, offset)
 
 	local buttons = self.buttons or {}
 
-	local updateStartValue = #buttons + 1
-	if self.currentButtonOffset ~= self.config.buttonOffset then
-		updateStartValue = 1
-	end
-
 	if offset then
 		self.config.buttonOffset = min(offset, 11)
 	else
 		offset = min(self.config.buttonOffset, 11)
+	end
+
+	local updateStartValue = #buttons + 1
+	if self.currentButtonOffset ~= offset then
+		updateStartValue = 1
 	end
 
 	local updateBindings = (numbuttons > #buttons)
