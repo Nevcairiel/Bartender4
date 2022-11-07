@@ -36,7 +36,7 @@ local abdefaults = {
 				textJustifyH = "CENTER",
 			},
 			hotkey = {
-				fontSize = WoW10 and 15 or 13,
+				fontSize = WoW10 and 16 or 13,
 				fontColor = {0.9, 0.9, 0.9},
 				textAnchor = "TOPRIGHT",
 				textOffsetX = -2,
@@ -44,7 +44,7 @@ local abdefaults = {
 				textJustifyH = "RIGHT",
 			},
 			count = {
-				fontSize = WoW10 and 18 or 16,
+				fontSize = WoW10 and 19 or 16,
 				textAnchor = "BOTTOMRIGHT",
 				textOffsetX = -2,
 				textOffsetY = 4,
