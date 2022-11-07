@@ -133,6 +133,10 @@ DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 		newT = {
 			{ id = "stealth", name = GetSpellInfo(1784), index = 1 },
 		}
+	elseif k == "EVOKER" then
+		newT = {
+			{ id = "soar", name = GetSpellInfo(369536), index = 1 },
+		}
 	end
 	rawset(t, k, newT)
 

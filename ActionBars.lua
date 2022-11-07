@@ -69,6 +69,7 @@ local abdefaults = {
 				ROGUE = WoWWrath and { stealth = 7, shadowdance = 8 } or { stealth = 7 },
 				WARRIOR = WoWClassic and { battle = 7, def = 8, berserker = 9 } or nil,
 				PRIEST = WoWClassic and { shadowform = 7 } or nil,
+				EVOKER = { soar = 7 },
 			},
 		},
 		visibility = {
