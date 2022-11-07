@@ -41,13 +41,14 @@ function Bartender4:HideBlizzard()
 	UIHider:Hide()
 	self.UIHider = UIHider
 
-	hideActionBarFrame(MultiBarBottomLeft, true, true)
-	hideActionBarFrame(MultiBarBottomRight, true, true)
-	hideActionBarFrame(MultiBarLeft, true, true)
-	hideActionBarFrame(MultiBarRight, true, true)
-	hideActionBarFrame(MultiBar5, true, true)
-	hideActionBarFrame(MultiBar6, true, true)
-	hideActionBarFrame(MultiBar7, true, true)
+	hideActionBarFrame(MainMenuBar, false, false, true)
+	hideActionBarFrame(MultiBarBottomLeft, true, false, true)
+	hideActionBarFrame(MultiBarBottomRight, true, false, true)
+	hideActionBarFrame(MultiBarLeft, true, false, true)
+	hideActionBarFrame(MultiBarRight, true, false, true)
+	hideActionBarFrame(MultiBar5, true, false, true)
+	hideActionBarFrame(MultiBar6, true, false, true)
+	hideActionBarFrame(MultiBar7, true, false, true)
 
 	-- Hide MultiBar Buttons, but keep the bars alive
 	for i=1,12 do
@@ -84,16 +85,11 @@ function Bartender4:HideBlizzard()
 		_G["MultiBar7Button" .. i]:SetAttribute("statehidden", true)
 	end
 
-	--MainMenuBar:UnregisterAllEvents()
-	MainMenuBar:SetParent(UIHider)
-	MainMenuBar:Hide()
-	--MainMenuBar:EnableMouse(false)
-
 	hideActionBarFrame(MicroButtonAndBagsBar, false, false, true)
-	hideActionBarFrame(StanceBar, true)
-	hideActionBarFrame(PossessActionBar, true)
+	hideActionBarFrame(StanceBar, true, false, true)
+	hideActionBarFrame(PossessActionBar, true, false, true)
 	hideActionBarFrame(MultiCastActionBarFrame, false, false, true)
-	hideActionBarFrame(PetActionBar, true)
+	hideActionBarFrame(PetActionBar, true, false, true)
 	hideActionBarFrame(StatusTrackingBarManager, false)
 
 	if IsAddOnLoaded("Blizzard_NewPlayerExperience") then
