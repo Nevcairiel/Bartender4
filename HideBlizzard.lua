@@ -15,6 +15,16 @@ local function hideActionBarFrame(frame, clearEvents, reanchor, noAnchorChanges)
 			frame:UnregisterAllEvents()
 		end
 
+		-- remove some EditMode hooks
+		if frame.systemInfo then
+			frame.Show = nil
+			frame.Hide = nil
+			frame.SetShown = nil
+			frame.IsShown = nil
+
+			Bartender4.Util:PurgeKey(frame, "isShownExternal")
+		end
+
 		frame:Hide()
 		frame:SetParent(Bartender4.UIHider)
 
@@ -91,6 +101,10 @@ function Bartender4:HideBlizzard()
 	hideActionBarFrame(MultiCastActionBarFrame, false, false, true)
 	hideActionBarFrame(PetActionBar, true, false, true)
 	hideActionBarFrame(StatusTrackingBarManager, false)
+
+	-- these events drive visibility, we want the MainMenuBar to remain invisible
+	MainMenuBar:UnregisterEvent("PLAYER_REGEN_ENABLED")
+	MainMenuBar:UnregisterEvent("PLAYER_REGEN_DISABLED")
 
 	if IsAddOnLoaded("Blizzard_NewPlayerExperience") then
 		self:NPE_LoadUI()
