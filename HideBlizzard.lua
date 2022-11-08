@@ -105,6 +105,8 @@ function Bartender4:HideBlizzard()
 	-- these events drive visibility, we want the MainMenuBar to remain invisible
 	MainMenuBar:UnregisterEvent("PLAYER_REGEN_ENABLED")
 	MainMenuBar:UnregisterEvent("PLAYER_REGEN_DISABLED")
+	MainMenuBar:UnregisterEvent("ACTIONBAR_SHOWGRID")
+	MainMenuBar:UnregisterEvent("ACTIONBAR_HIDEGRID")
 
 	if IsAddOnLoaded("Blizzard_NewPlayerExperience") then
 		self:NPE_LoadUI()
