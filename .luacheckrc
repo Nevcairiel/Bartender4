@@ -36,6 +36,7 @@ read_globals = {
 	"max", "min", "floor", "ceil",
 	"format",
 	"hooksecurefunc",
+	"issecurevariable",
 	"CopyTable",
 	"tDeleteItem",
 
