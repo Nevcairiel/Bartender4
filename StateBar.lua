@@ -19,7 +19,7 @@ local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local StateBar = setmetatable({}, {__index = ButtonBar})
 local StateBar_MT = {__index = StateBar}
 
-local defaults = Bartender4:Merge({
+local defaults = Bartender4.Util:Merge({
 	autoassist = false,
 	states = {
 		enabled = false,

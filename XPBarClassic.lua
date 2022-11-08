@@ -11,7 +11,7 @@ local Bar = Bartender4.Bar.prototype
 -- only available on Classic
 if not MainMenuExpBar then return end
 
-local defaults = { profile = Bartender4:Merge({
+local defaults = { profile = Bartender4.Util:Merge({
 	enabled = false,
 }, Bartender4.Bar.defaults) }
 

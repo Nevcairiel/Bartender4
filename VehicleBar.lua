@@ -18,7 +18,7 @@ local table_insert, setmetatable, pairs = table.insert, setmetatable, pairs
 -- create prototype information
 local VehicleBar = setmetatable({}, {__index = Bar})
 
-local defaults = { profile = Bartender4:Merge({
+local defaults = { profile = Bartender4.Util:Merge({
 	enabled = true,
 	visibility = {
 		vehicleui = false,

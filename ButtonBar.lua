@@ -13,7 +13,7 @@ local setmetatable, tostring, pairs = setmetatable, tostring, pairs
 local ButtonBar = setmetatable({}, {__index = Bar})
 local ButtonBar_MT = {__index = ButtonBar}
 
-local defaults = Bartender4:Merge({
+local defaults = Bartender4.Util:Merge({
 	padding = 2,
 	rows = 1,
 	hidemacrotext = false,

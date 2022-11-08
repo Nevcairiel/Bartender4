@@ -20,7 +20,7 @@ local setmetatable, select = setmetatable, select
 -- create prototype information
 local PetBar = setmetatable({}, {__index = ButtonBar})
 
-local defaults = { profile = Bartender4:Merge({
+local defaults = { profile = Bartender4.Util:Merge({
 	enabled = true,
 	hidehotkey = true,
 	showgrid = false,

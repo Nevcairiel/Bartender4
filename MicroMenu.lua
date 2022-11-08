@@ -38,7 +38,7 @@ local BT_MICRO_BUTTONS = WoWClassic and CopyTable(MICRO_BUTTONS) or
 -- create prototype information
 local MicroMenuBar = setmetatable({}, {__index = ButtonBar})
 
-local defaults = { profile = Bartender4:Merge({
+local defaults = { profile = Bartender4.Util:Merge({
 	enabled = true,
 	vertical = false,
 	visibility = {
@@ -194,7 +194,7 @@ if WoW10 and QueueStatusButton then
 	-- create prototype information
 	local QueueStatusBar = setmetatable({}, {__index = Bar})
 
-	local queuedefaults = { profile = Bartender4:Merge({
+	local queuedefaults = { profile = Bartender4.Util:Merge({
 		enabled = true,
 		visibility = {
 			possess = false,

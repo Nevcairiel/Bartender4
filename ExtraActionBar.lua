@@ -18,7 +18,7 @@ local setmetatable, table_insert = setmetatable, table.insert
 -- create prototype information
 local ExtraActionBar = setmetatable({}, {__index = Bar})
 
-local defaults = { profile = Bartender4:Merge({
+local defaults = { profile = Bartender4.Util:Merge({
 	enabled = true,
 	hideArtwork = false,
 	visibility = {

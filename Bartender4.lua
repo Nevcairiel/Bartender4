@@ -326,7 +326,8 @@ function Bartender4:Lock()
 	end
 end
 
-function Bartender4:Merge(target, source)
+Bartender4.Util = {}
+function Bartender4.Util:Merge(target, source)
 	if type(target) ~= "table" then target = {} end
 	for k,v in pairs(source) do
 		if type(v) == "table" then

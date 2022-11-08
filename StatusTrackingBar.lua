@@ -11,7 +11,7 @@ local Bar = Bartender4.Bar.prototype
 -- only available on 8.0
 if not StatusTrackingBarManager then return end
 
-local defaults = { profile = Bartender4:Merge({
+local defaults = { profile = Bartender4.Util:Merge({
 	enabled = false,
 	width = 571,
 	twentySections = true,

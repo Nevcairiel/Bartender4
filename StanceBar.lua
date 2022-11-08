@@ -26,7 +26,7 @@ local StanceButton_MT = {__index = StanceButtonPrototype}
 local Masque = LibStub("Masque", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
 
-local defaults = { profile = Bartender4:Merge({
+local defaults = { profile = Bartender4.Util:Merge({
 	enabled = true,
 	position = {
 		scale = 1.5,

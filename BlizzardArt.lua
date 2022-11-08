@@ -17,7 +17,7 @@ local setmetatable = setmetatable
 
 -- GLOBALS: UIParent
 
-local defaults = { profile = Bartender4:Merge({
+local defaults = { profile = Bartender4.Util:Merge({
 	enabled = false,
 	leftCap = "DWARF",
 	rightCap = "DWARF",

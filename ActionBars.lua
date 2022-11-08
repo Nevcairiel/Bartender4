@@ -17,7 +17,7 @@ local LSM = LibStub("LibSharedMedia-3.0")
 -- GLOBALS: UnitClass, InCombatLockdown, GetBindingKey, ClearOverrideBindings, SetOverrideBindingClick
 
 local abdefaults = {
-	['**'] = Bartender4:Merge({
+	['**'] = Bartender4.Util:Merge({
 		enabled = true,
 		buttons = 12,
 		buttonOffset = 0,
