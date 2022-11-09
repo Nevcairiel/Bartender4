@@ -45,7 +45,7 @@ local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUp
 do
 	function barOnEnter(self)
 		if not self:GetParent().isMoving then
-			self:SetBackdropBorderColor(0.5, 0.5, 0, 1)
+			self:SetBackdropBorderColor(0.25, 1.0, 0.25, 1)
 		end
 	end
 
@@ -176,8 +176,8 @@ function Bartender4.Bar:Create(id, config, name, level)
 		edgeSize = 16,
 		insets = {left = 5, right = 3, top = 3, bottom = 5}
 	})
-	overlay:SetBackdropColor(0, 1, 0, 0.5)
-	overlay:SetBackdropBorderColor(0.5, 0.5, 0, 0)
+	overlay:SetBackdropColor(0.25, 1.0, 0.25, 0.75)
+	overlay:SetBackdropBorderColor(0, 0, 0, 0)
 	overlay.Text = overlay:CreateFontString(nil, "ARTWORK")
 	overlay.Text:SetFontObject(GameFontNormal)
 	overlay.Text:SetText(name)
