@@ -274,40 +274,47 @@ function module:GetOptionsObject()
 			},
 		}
 
-		local style_group = {
-			buttonstyleheader = {
-				order = 90,
-				type = "header",
-				name = L["Text Styles"],
-			},
-			hotkey = {
-				order = 91,
-				type = "group",
-				name = L["Hotkey"],
-				guiInline = true,
-				args = {},
-			},
-			count = {
-				order = 92,
-				type = "group",
-				name = L["Count"],
-				guiInline = true,
-				args = {},
-			},
-			macro = {
-				order = 93,
-				type = "group",
-				name = L["Macro Text"],
-				guiInline = true,
-				args = {},
+		local style_cat = {
+			type = "group",
+			name = L["Text Style"],
+			order = 30,
+			args = {
+				buttonstyleheader = {
+					order = 1,
+					type = "description",
+					width = "full",
+					name = L["These options allow you to configure the font style and size used for all textual elements of the buttons on this bar."],
+				},
+				hotkey = {
+					order = 10,
+					type = "group",
+					name = L["Hotkey"],
+					guiInline = true,
+					args = {},
+				},
+				count = {
+					order = 20,
+					type = "group",
+					name = L["Count"],
+					guiInline = true,
+					args = {},
+				},
+				macro = {
+					order = 30,
+					type = "group",
+					name = L["Macro Text"],
+					guiInline = true,
+					args = {},
+				},
 			},
 		}
 
 		obj:AddElementGroup("general", cat_general)
-		obj:AddElementGroup("general", style_group)
-		obj:AddElementGroup("general", text_style, "hotkey")
-		obj:AddElementGroup("general", text_style, "count")
-		obj:AddElementGroup("general", text_style, "macro")
+
+		obj:NewCategory("style", style_cat)
+		obj:AddElementGroup("style", text_style, "hotkey")
+		obj:AddElementGroup("style", text_style, "count")
+		obj:AddElementGroup("style", text_style, "macro")
 		self.baroptions = obj
 	end
 
