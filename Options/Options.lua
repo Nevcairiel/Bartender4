@@ -388,7 +388,7 @@ function Bartender4:SetupOptions()
 	LibStub("AceConfig-3.0"):RegisterOptionsTable("Bartender4", getOptions)
 
 	-- set default size
-	AceConfigDialog:SetDefaultSize("Bartender4", 680, 600)
+	AceConfigDialog:SetDefaultSize("Bartender4", 660, 650)
 
 	-- expand both bar sections
 	AceConfigDialog:GetStatusTable("Bartender4").groups = { groups = { bars = true, uibars = true } }
