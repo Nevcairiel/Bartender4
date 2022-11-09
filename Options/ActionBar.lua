@@ -277,7 +277,7 @@ function module:GetOptionsObject()
 		local style_cat = {
 			type = "group",
 			name = L["Text Style"],
-			order = 30,
+			order = 29,
 			args = {
 				buttonstyleheader = {
 					order = 1,
