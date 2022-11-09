@@ -191,7 +191,7 @@ function Bartender4.Bar:Create(id, config, name, level)
 	overlay:SetScript("OnDragStop", barOnDragStop)
 	overlay:SetScript("OnClick", barOnClick)
 
-	overlay:SetFrameLevel(bar:GetFrameLevel() + 10)
+	overlay:SetFrameLevel(1000)
 	bar:AnchorOverlay()
 	overlay:Hide()
 
