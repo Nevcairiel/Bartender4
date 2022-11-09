@@ -112,6 +112,7 @@ read_globals = {
 	"CollectionsMicroButton",
 	"EditModeManagerFrame",
 	"EJMicroButton",
+	"EventRegistry",
 	"ExtraAbilityContainer",
 	"ExtraActionBarFrame",
 	"GameTooltip",
