@@ -9,7 +9,7 @@ if select(4, GetBuildInfo()) < 100000 then
 	return
 end
 
-local function hideActionBarFrame(frame, clearEvents, reanchor, noAnchorChanges)
+local function hideActionBarFrame(frame, clearEvents)
 	if frame then
 		if clearEvents then
 			frame:UnregisterAllEvents()
@@ -31,21 +31,6 @@ local function hideActionBarFrame(frame, clearEvents, reanchor, noAnchorChanges)
 
 		frame:Hide()
 		frame:SetParent(Bartender4.UIHider)
-
-		-- setup faux anchors so the frame position data returns valid
-		if reanchor and not noAnchorChanges then
-			local left, right, top, bottom = frame:GetLeft(), frame:GetRight(), frame:GetTop(), frame:GetBottom()
-			frame:ClearAllPoints()
-			if left and right and top and bottom then
-				frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", left, top)
-				frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMLEFT", right, bottom)
-			else
-				frame:SetPoint("TOPLEFT", UIParent, "BOTTOMLEFT", 10, 10)
-				frame:SetPoint("BOTTOMRIGHT", UIParent, "BOTTOMLEFT", 20, 20)
-			end
-		elseif not noAnchorChanges then
-			frame:ClearAllPoints()
-		end
 	end
 end
 
@@ -63,14 +48,14 @@ function Bartender4:HideBlizzard()
 	UIHider:Hide()
 	self.UIHider = UIHider
 
-	hideActionBarFrame(MainMenuBar, false, false, true)
-	hideActionBarFrame(MultiBarBottomLeft, true, false, true)
-	hideActionBarFrame(MultiBarBottomRight, true, false, true)
-	hideActionBarFrame(MultiBarLeft, true, false, true)
-	hideActionBarFrame(MultiBarRight, true, false, true)
-	hideActionBarFrame(MultiBar5, true, false, true)
-	hideActionBarFrame(MultiBar6, true, false, true)
-	hideActionBarFrame(MultiBar7, true, false, true)
+	hideActionBarFrame(MainMenuBar, false)
+	hideActionBarFrame(MultiBarBottomLeft, true)
+	hideActionBarFrame(MultiBarBottomRight, true)
+	hideActionBarFrame(MultiBarLeft, true)
+	hideActionBarFrame(MultiBarRight, true)
+	hideActionBarFrame(MultiBar5, true)
+	hideActionBarFrame(MultiBar6, true)
+	hideActionBarFrame(MultiBar7, true)
 
 	-- Hide MultiBar Buttons, but keep the bars alive
 	for i=1,12 do
@@ -84,11 +69,11 @@ function Bartender4:HideBlizzard()
 		hideActionButton(_G["MultiBar7Button" .. i])
 	end
 
-	hideActionBarFrame(MicroButtonAndBagsBar, false, false, true)
-	hideActionBarFrame(StanceBar, true, false, true)
-	hideActionBarFrame(PossessActionBar, true, false, true)
-	hideActionBarFrame(MultiCastActionBarFrame, false, false, true)
-	hideActionBarFrame(PetActionBar, true, false, true)
+	hideActionBarFrame(MicroButtonAndBagsBar, false)
+	hideActionBarFrame(StanceBar, true)
+	hideActionBarFrame(PossessActionBar, true)
+	hideActionBarFrame(MultiCastActionBarFrame, false)
+	hideActionBarFrame(PetActionBar, true)
 	hideActionBarFrame(StatusTrackingBarManager, false)
 
 	-- these events drive visibility, we want the MainMenuBar to remain invisible
