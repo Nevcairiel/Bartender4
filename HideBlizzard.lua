@@ -40,6 +40,9 @@ local function hideActionButton(button)
 	button:Hide()
 	button:UnregisterAllEvents()
 	button:SetAttribute("statehidden", true)
+
+	-- purgeing the index variable prevents some EditMode related updates from taking place
+	Bartender4.Util:PurgeKey(button, "index")
 end
 
 function Bartender4:HideBlizzard()
