@@ -39,6 +39,7 @@ read_globals = {
 	"issecurevariable",
 	"CopyTable",
 	"tDeleteItem",
+	"table.wipe",
 
 	-- misc custom, third party libraries
 	"LibStub",

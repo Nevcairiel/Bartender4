@@ -25,6 +25,10 @@ local function hideActionBarFrame(frame, clearEvents, reanchor, noAnchorChanges)
 			Bartender4.Util:PurgeKey(frame, "isShownExternal")
 		end
 
+		if frame.actionButtons then
+			table.wipe(frame.actionButtons)
+		end
+
 		frame:Hide()
 		frame:SetParent(Bartender4.UIHider)
 
