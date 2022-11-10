@@ -45,6 +45,14 @@ local function hideActionBarFrame(frame, clearEvents, reanchor, noAnchorChanges)
 	end
 end
 
+local function hideActionButton(button)
+	if not button then return end
+
+	button:Hide()
+	button:UnregisterAllEvents()
+	button:SetAttribute("statehidden", true)
+end
+
 function Bartender4:HideBlizzard()
 	-- Hidden parent frame
 	local UIHider = CreateFrame("Frame")
@@ -62,37 +70,14 @@ function Bartender4:HideBlizzard()
 
 	-- Hide MultiBar Buttons, but keep the bars alive
 	for i=1,12 do
-		_G["ActionButton" .. i]:Hide()
-		_G["ActionButton" .. i]:UnregisterAllEvents()
-		_G["ActionButton" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBarBottomLeftButton" .. i]:Hide()
-		_G["MultiBarBottomLeftButton" .. i]:UnregisterAllEvents()
-		_G["MultiBarBottomLeftButton" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBarBottomRightButton" .. i]:Hide()
-		_G["MultiBarBottomRightButton" .. i]:UnregisterAllEvents()
-		_G["MultiBarBottomRightButton" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBarRightButton" .. i]:Hide()
-		_G["MultiBarRightButton" .. i]:UnregisterAllEvents()
-		_G["MultiBarRightButton" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBarLeftButton" .. i]:Hide()
-		_G["MultiBarLeftButton" .. i]:UnregisterAllEvents()
-		_G["MultiBarLeftButton" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBar5Button" .. i]:Hide()
-		_G["MultiBar5Button" .. i]:UnregisterAllEvents()
-		_G["MultiBar5Button" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBar6Button" .. i]:Hide()
-		_G["MultiBar6Button" .. i]:UnregisterAllEvents()
-		_G["MultiBar6Button" .. i]:SetAttribute("statehidden", true)
-
-		_G["MultiBar7Button" .. i]:Hide()
-		_G["MultiBar7Button" .. i]:UnregisterAllEvents()
-		_G["MultiBar7Button" .. i]:SetAttribute("statehidden", true)
+		hideActionButton(_G["ActionButton" .. i])
+		hideActionButton(_G["MultiBarBottomLeftButton" .. i])
+		hideActionButton(_G["MultiBarBottomRightButton" .. i])
+		hideActionButton(_G["MultiBarRightButton" .. i])
+		hideActionButton(_G["MultiBarLeftButton" .. i])
+		hideActionButton(_G["MultiBar5Button" .. i])
+		hideActionButton(_G["MultiBar6Button" .. i])
+		hideActionButton(_G["MultiBar7Button" .. i])
 	end
 
 	hideActionBarFrame(MicroButtonAndBagsBar, false, false, true)
