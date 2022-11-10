@@ -16,7 +16,7 @@ local function hideActionBarFrame(frame, clearEvents, dontRemoveActionButtons)
 		end
 
 		-- remove some EditMode hooks
-		if frame.systemInfo then
+		if frame.system then
 			frame.Show = nil
 			frame.Hide = nil
 			frame.SetShown = nil
