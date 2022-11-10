@@ -9,7 +9,7 @@ if select(4, GetBuildInfo()) < 100000 then
 	return
 end
 
-local function hideActionBarFrame(frame, clearEvents)
+local function hideActionBarFrame(frame, clearEvents, dontRemoveActionButtons)
 	if frame then
 		if clearEvents then
 			frame:UnregisterAllEvents()
@@ -25,7 +25,7 @@ local function hideActionBarFrame(frame, clearEvents)
 			Bartender4.Util:PurgeKey(frame, "isShownExternal")
 		end
 
-		if frame.actionButtons then
+		if frame.actionButtons and not dontRemoveActionButtons then
 			table.wipe(frame.actionButtons)
 		end
 
@@ -69,11 +69,11 @@ function Bartender4:HideBlizzard()
 		hideActionButton(_G["MultiBar7Button" .. i])
 	end
 
-	hideActionBarFrame(MicroButtonAndBagsBar, false)
-	hideActionBarFrame(StanceBar, true)
-	hideActionBarFrame(PossessActionBar, true)
-	hideActionBarFrame(MultiCastActionBarFrame, false)
-	hideActionBarFrame(PetActionBar, true)
+	hideActionBarFrame(MicroButtonAndBagsBar, false, true)
+	hideActionBarFrame(StanceBar, true, true)
+	hideActionBarFrame(PossessActionBar, true, true)
+	hideActionBarFrame(MultiCastActionBarFrame, false, true)
+	hideActionBarFrame(PetActionBar, true, true)
 	hideActionBarFrame(StatusTrackingBarManager, false)
 
 	-- these events drive visibility, we want the MainMenuBar to remain invisible
