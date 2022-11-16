@@ -17,10 +17,12 @@ local function hideActionBarFrame(frame, clearEvents, dontRemoveActionButtons)
 
 		-- remove some EditMode hooks
 		if frame.system then
+			--[[
 			frame.Show = nil
 			frame.Hide = nil
 			frame.SetShown = nil
 			frame.IsShown = nil
+			]]
 
 			Bartender4.Util:PurgeKey(frame, "isShownExternal")
 		end
