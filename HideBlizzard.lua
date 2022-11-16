@@ -9,7 +9,7 @@ if select(4, GetBuildInfo()) < 100000 then
 	return
 end
 
-local function hideActionBarFrame(frame, clearEvents, dontRemoveActionButtons)
+local function hideActionBarFrame(frame, clearEvents)
 	if frame then
 		if clearEvents then
 			frame:UnregisterAllEvents()
@@ -17,20 +17,11 @@ local function hideActionBarFrame(frame, clearEvents, dontRemoveActionButtons)
 
 		-- remove some EditMode hooks
 		if frame.system then
-			--[[
-			frame.Show = nil
-			frame.Hide = nil
-			frame.SetShown = nil
-			frame.IsShown = nil
-			]]
-
+			-- purge the show state to avoid any taint concerns
 			Bartender4.Util:PurgeKey(frame, "isShownExternal")
 		end
 
-		if frame.actionButtons and not dontRemoveActionButtons then
-			table.wipe(frame.actionButtons)
-		end
-
+		-- EditMode overrides the Hide function, avoid calling it as it can taint
 		if frame.HideBase then
 			frame:HideBase()
 		else
@@ -46,9 +37,6 @@ local function hideActionButton(button)
 	button:Hide()
 	button:UnregisterAllEvents()
 	button:SetAttribute("statehidden", true)
-
-	-- purgeing the index variable prevents some EditMode related updates from taking place
-	Bartender4.Util:PurgeKey(button, "index")
 end
 
 function Bartender4:HideBlizzard()
@@ -78,11 +66,11 @@ function Bartender4:HideBlizzard()
 		hideActionButton(_G["MultiBar7Button" .. i])
 	end
 
-	hideActionBarFrame(MicroButtonAndBagsBar, false, true)
-	hideActionBarFrame(StanceBar, true, true)
-	hideActionBarFrame(PossessActionBar, true, true)
-	hideActionBarFrame(MultiCastActionBarFrame, false, true)
-	hideActionBarFrame(PetActionBar, true, true)
+	hideActionBarFrame(MicroButtonAndBagsBar, false)
+	hideActionBarFrame(StanceBar, true)
+	hideActionBarFrame(PossessActionBar, true)
+	hideActionBarFrame(MultiCastActionBarFrame, false)
+	hideActionBarFrame(PetActionBar, true)
 	hideActionBarFrame(StatusTrackingBarManager, false)
 
 	-- these events drive visibility, we want the MainMenuBar to remain invisible
