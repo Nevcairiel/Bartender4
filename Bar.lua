@@ -39,6 +39,7 @@ local defaults = {
 
 local Sticky = LibStub("LibSimpleSticky-1.0")
 local LibWin = LibStub("LibWindow-1.1")
+local LAB = LibStub("LibActionButton-1.0")
 local snapBars = { WorldFrame, UIParent }
 
 local barOnEnter, barOnLeave, barOnDragStart, barOnDragStop, barOnClick, barOnUpdateFunc, barOnAttributeChanged
@@ -412,8 +413,10 @@ function Bar:SetFadeOutDelay(delay)
 end
 
 local function MouseIsOverBar(bar)
+	local LABSpellFlyout = LAB:GetSpellFlyoutFrame()
 	if MouseIsOver(bar.overlay)
-	or (SpellFlyout and SpellFlyout:IsShown() and SpellFlyout:GetParent() and SpellFlyout:GetParent():GetParent() == bar and MouseIsOver(SpellFlyout)) then
+	or (SpellFlyout and SpellFlyout:IsShown() and SpellFlyout:GetParent() and SpellFlyout:GetParent():GetParent() == bar and MouseIsOver(SpellFlyout))
+	or (LABSpellFlyout and LABSpellFlyout:IsShown() and LABSpellFlyout:GetParent() and LABSpellFlyout:GetParent():GetParent() == bar and MouseIsOver(LABSpellFlyout)) then
 		return true
 	end
 	return false
