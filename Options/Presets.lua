@@ -53,10 +53,12 @@ local function BuildSingleProfile()
 	config.actionbars[2].enabled = false
 	config.actionbars[3].padding = 5 / actionButtonScale
 	config.actionbars[3].rows = 12
+	config.actionbars[3].flyoutDirection = "LEFT"
 	config.actionbars[3].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[3], "BOTTOMRIGHT", -42, 610 )
 	config.actionbars[4].padding = 5 / actionButtonScale
 	config.actionbars[4].rows = 12
+	config.actionbars[4].flyoutDirection = "LEFT"
 	config.actionbars[4].position.scale = actionButtonScale
 	config.actionbars[5].position.scale = actionButtonScale
 	config.actionbars[6].position.scale = actionButtonScale
@@ -123,10 +125,12 @@ local function BuildDoubleProfile()
 	SetBarLocation( config.actionbars[2], "BOTTOM", 4, 41 )
 	config.actionbars[3].padding = 5 / actionButtonScale
 	config.actionbars[3].rows = 12
+	config.actionbars[3].flyoutDirection = "LEFT"
 	config.actionbars[3].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[3], "BOTTOMRIGHT", -42, 610 )
 	config.actionbars[4].padding = 5 / actionButtonScale
 	config.actionbars[4].rows = 12
+	config.actionbars[4].flyoutDirection = "LEFT"
 	config.actionbars[4].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[4], "BOTTOMRIGHT", -82, 610 )
 	config.actionbars[5].padding = 6 / actionButtonScale
@@ -200,10 +204,12 @@ local function BuildClassicBlizzardProfile()
 	config.actionbars[2].position.scale = actionButtonScale
 	config.actionbars[3].padding = 5 / actionButtonScale
 	config.actionbars[3].rows = 12
+	config.actionbars[3].flyoutDirection = "LEFT"
 	config.actionbars[3].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[3], "BOTTOMRIGHT", -82, 610 )
 	config.actionbars[4].padding = 5 / actionButtonScale
 	config.actionbars[4].rows = 12
+	config.actionbars[4].flyoutDirection = "LEFT"
 	config.actionbars[4].position.scale = actionButtonScale
 	SetBarLocation( config.actionbars[4], "BOTTOMRIGHT", -42, 610 )
 	config.actionbars[5].padding = 6 / actionButtonScale
@@ -277,9 +283,11 @@ local function BuildBlizzardProfile()
 	config.actionbars[2].enabled = false
 	config.actionbars[3].padding = 2
 	config.actionbars[3].rows = 12
+	config.actionbars[3].flyoutDirection = "LEFT"
 	SetBarLocation( config.actionbars[3], "RIGHT", -54, 193 )
 	config.actionbars[4].padding = 2
 	config.actionbars[4].rows = 12
+	config.actionbars[4].flyoutDirection = "LEFT"
 	SetBarLocation( config.actionbars[4], "RIGHT", -104, 193 )
 	config.actionbars[5].enabled = PresetsMod.threeStackedBars
 	config.actionbars[5].padding = 2
@@ -358,10 +366,12 @@ local function BuildModernArtClassicProfile()
 	config.actionbars[3].padding = 2 / actionButtonScale
 	config.actionbars[3].rows = 12
 	config.actionbars[3].position.scale = actionButtonScale
+	config.actionbars[3].flyoutDirection = "LEFT"
 	SetBarLocation( config.actionbars[3], "BOTTOMRIGHT", -82, 675 )
 	config.actionbars[4].padding = 2 / actionButtonScale
 	config.actionbars[4].rows = 12
 	config.actionbars[4].position.scale = actionButtonScale
+	config.actionbars[4].flyoutDirection = "LEFT"
 	SetBarLocation( config.actionbars[4], "BOTTOMRIGHT", -42, 675 )
 	config.actionbars[5].padding = 2 / actionButtonScale
 	config.actionbars[5].position.scale = actionButtonScale
