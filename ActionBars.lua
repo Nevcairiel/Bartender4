@@ -12,7 +12,9 @@ local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 
+local LAB10 = LibStub("LibActionButton-1.0")
 local LSM = LibStub("LibSharedMedia-3.0")
+local Masque = LibStub("Masque", true)
 
 -- GLOBALS: UnitClass, InCombatLockdown, GetBindingKey, ClearOverrideBindings, SetOverrideBindingClick
 
@@ -161,6 +163,15 @@ function BT4ActionBars:OnEnable()
 			end
 		end
 	end)
+
+	if Masque then
+		self.MasqueFlyoutGroup = Masque:Group("Bartender4", "Flyout")
+		for _, button in pairs(LAB10.FlyoutButtons) do
+			button:AddToMasque(self.MasqueFlyoutGroup)
+		end
+
+		LAB10:RegisterCallback("OnButtonUpdate", function(event, button) button:AddToMasque(self.MasqueFlyoutGroup) end)
+	end
 end
 
 function BT4ActionBars:SetupOptions()
@@ -212,6 +223,10 @@ function BT4ActionBars:ApplyConfig()
 		else
 			self:DisableBar(i)
 		end
+	end
+
+	if LibStub("LibActionButton-1.0").flyoutHandler then
+		LibStub("LibActionButton-1.0").flyoutHandler.Background:SetShown(Bartender4.db.profile.flyoutBackground)
 	end
 end
 

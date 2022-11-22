@@ -232,6 +232,22 @@ local function generateOptions()
 									Bartender4.Bar:ForAll("UpdateButtonConfig")
 								end,
 							},
+							flyoutBackground = {
+								order = 120,
+								type = "toggle",
+								name = L["Hide Flyout Background"],
+								desc = L["Hide the background of the spell flyout frame."],
+								get = function()
+									return not Bartender4.db.profile.flyoutBackground
+								end,
+								set = function(info, value)
+									Bartender4.db.profile.flyoutBackground = not value
+									if LibStub("LibActionButton-1.0").flyoutHandler then
+										LibStub("LibActionButton-1.0").flyoutHandler.Background:SetShown(not value)
+									end
+								end,
+								hidden = WoWClassic,
+							},
 							colors = {
 								order = 130,
 								type = "group",

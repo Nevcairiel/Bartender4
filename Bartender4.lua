@@ -37,6 +37,7 @@ local defaults = {
 		selfcastrightclick = false,
 		snapping = true,
 		blizzardVehicle = false,
+		flyoutBackground = true,
 		minimapIcon = {},
 		mouseovermod = "NONE"
 	}
