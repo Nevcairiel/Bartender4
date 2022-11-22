@@ -170,7 +170,7 @@ function BT4ActionBars:OnEnable()
 			button:AddToMasque(self.MasqueFlyoutGroup)
 		end
 
-		LAB10:RegisterCallback("OnButtonUpdate", function(event, button) button:AddToMasque(self.MasqueFlyoutGroup) end)
+		LAB10:RegisterCallback("OnFlyoutButtonCreated", function(event, button) button:AddToMasque(self.MasqueFlyoutGroup) end)
 	end
 end
 
