@@ -163,7 +163,7 @@ function StateBar:UpdateStates(returnOnly)
 
 		-- possessing will always be the most important change, if enabled
 		if self:GetStateOption("possess") then
-			table_insert(statedriver, "[overridebar][possessbar][shapeshift][bonusbar:5]possess")
+			table_insert(statedriver, "[overridebar][possessbar][shapeshift]possess;[bonusbar:5]dragon")
 		end
 
 		-- highest priority have our temporary quick-swap keys
@@ -211,11 +211,11 @@ function StateBar:UpdateStates(returnOnly)
 	end
 
 	if statedriver then
-		statedriver = statedriver:gsub("%[bonusbar:5%]11", "[overridebar][possessbar][shapeshift][bonusbar:5]possess")
+		statedriver = statedriver:gsub("%[bonusbar:5%]11", "[overridebar][possessbar][shapeshift]possess;[bonusbar:5]dragon")
 	end
 
 	self:SetAttribute("_onstate-page", [[
-		if newstate == "possess" or newstate == "11" then
+		if newstate == "possess" or newstate == "dragon" or newstate == "11" then
 			if HasVehicleActionBar() then
 				newstate = GetVehicleBarIndex()
 			elseif HasOverrideActionBar() then
