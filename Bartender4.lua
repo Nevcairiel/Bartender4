@@ -320,6 +320,8 @@ function Bartender4:HideUnlockDialog()
 end
 
 function Bartender4:Unlock(fromEditMode)
+	if InCombatLockdown() then return end
+
 	if self.Locked then
 		self.Locked = false
 		Bartender4.Bar:ForAll("Unlock")
