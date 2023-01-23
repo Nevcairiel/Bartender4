@@ -71,7 +71,16 @@ function MicroMenuMod:OnEnable()
 		self.bar.buttons = buttons
 
 		-- check if its owned by the UI on initial load
-		if self.bar.buttons[1]:GetParent() ~= MainMenuBarArtFrame then
+		if MicroMenu then
+			self.ownedByUI = (MicroMenu:GetParent() ~= UIParent)
+
+			if not self.ownedByUI then
+				for i,v in pairs(buttons) do
+					v:SetParent(self.bar)
+				end
+			end
+
+		elseif self.bar.buttons[1]:GetParent() ~= MainMenuBarArtFrame then
 			self.ownedByUI = true
 		end
 
@@ -86,7 +95,13 @@ function MicroMenuMod:OnEnable()
 	end
 
 	self:SecureHook("UpdateMicroButtons", "MicroMenuBarShow")
-	self:SecureHook("UpdateMicroButtonsParent")
+	if UpdateMicroButtonsParent then
+		self:SecureHook("UpdateMicroButtonsParent")
+		UpdateMicroButtonsParent(self.bar)
+	end
+	if MicroMenu then
+		self:SecureHook(MicroMenu, "SetParent", "MicroMenuSetParent")
+	end
 	self:SecureHook("ActionBarController_UpdateAll")
 	if C_PetBattles then
 		self:RegisterEvent("PET_BATTLE_CLOSE")
@@ -103,16 +118,44 @@ function MicroMenuMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
+function MicroMenuMod:RestoreMicroButtonParent()
+	if UpdateMicroButtonsParent then
+		UpdateMicroButtonsParent(self.bar)
+	end
+	if MicroMenu then
+		MicroMenu:SetParent(UIParent)
+	end
+end
+
 function MicroMenuMod:PET_BATTLE_CLOSE()
-	UpdateMicroButtonsParent(self.bar)
+	self:RestoreMicroButtonParent()
 	self:MicroMenuBarShow()
 end
 
 function MicroMenuMod:ActionBarController_UpdateAll()
 	if self.ownedByUI and ActionBarController_GetCurrentActionBarState() == LE_ACTIONBAR_STATE_MAIN and not (C_PetBattles and C_PetBattles.IsInBattle()) then
-		UpdateMicroButtonsParent(self.bar)
+		self:RestoreMicroButtonParent()
 		self:MicroMenuBarShow()
 	end
+end
+
+function MicroMenuMod:MicroMenuSetParent(_, parent)
+	if parent == UIParent then
+		for i,v in pairs(self.bar.buttons) do
+			v:SetParent(self.bar)
+		end
+
+		self.ownedByUI = false
+		self:MicroMenuBarShow()
+		return
+	end
+
+	for i,v in pairs(self.bar.buttons) do
+		v:SetParent(MicroMenu)
+	end
+
+	self.ownedByUI = true
+	MicroMenu.oldGridSettings = nil -- reset grid settings so that layout always runs
 end
 
 function MicroMenuMod:UpdateMicroButtonsParent(parent)
@@ -135,7 +178,6 @@ end
 function MicroMenuMod:MicroMenuBarShow()
 	-- Only "fix" button anchors if another frame that uses the MicroButtonBar isn't active.
 	if not self.ownedByUI then
-		UpdateMicroButtonsParent(self.bar)
 		self.bar:UpdateButtonLayout()
 	end
 end

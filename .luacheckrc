@@ -27,6 +27,7 @@ globals = {
 	"CharacterBag1Slot",
 	"CharacterBag0Slot",
 	"MainMenuBarBackpackButton",
+	"MicroMenu",
 
 	"UIParentBottomManagedFrameContainer",
 }
