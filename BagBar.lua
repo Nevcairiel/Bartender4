@@ -56,6 +56,7 @@ function BagBarMod:OnEnable()
 
 	if BagsBar and BagsBar.Layout then
 		self:SecureHook(BagsBar, "Layout", "BagsBar_Layout")
+		EventRegistry:UnregisterCallback("MainMenuBarManager.OnExpandChanged", BagsBar);
 	end
 end
 
