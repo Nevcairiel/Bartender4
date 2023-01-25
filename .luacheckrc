@@ -111,6 +111,7 @@ read_globals = {
 
 	-- FrameXML Frames
 	"AchievementMicroButton",
+	"BagsBar",
 	"CharacterMicroButton",
 	"CollectionsMicroButton",
 	"EditModeManagerFrame",
