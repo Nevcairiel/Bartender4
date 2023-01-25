@@ -72,6 +72,8 @@ function Bartender4:HideBlizzard()
 	hideActionBarFrame(MultiCastActionBarFrame, false)
 	hideActionBarFrame(PetActionBar, true)
 	hideActionBarFrame(StatusTrackingBarManager, false)
+	hideActionBarFrame(BagsBar, true)
+	hideActionBarFrame(MicroMenu, true)
 
 	-- these events drive visibility, we want the MainMenuBar to remain invisible
 	MainMenuBar:UnregisterEvent("PLAYER_REGEN_ENABLED")
