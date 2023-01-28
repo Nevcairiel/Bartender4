@@ -43,10 +43,8 @@ function StatusBarMod:OnEnable()
 
 		-- add additional anchors to the textures to allow re-sizing the bars
 		if self.bar.manager.MainStatusTrackingBarContainer then
-			self.bar.manager.MainStatusTrackingBarContainer:SetPoint("LEFT", self.bar.manager, "LEFT")
-			self.bar.manager.MainStatusTrackingBarContainer:SetPoint("RIGHT", self.bar.manager, "RIGHT")
-			self.bar.manager.SecondaryStatusTrackingBarContainer:SetPoint("LEFT", self.bar.manager, "LEFT")
-			self.bar.manager.SecondaryStatusTrackingBarContainer:SetPoint("RIGHT", self.bar.manager, "RIGHT")
+			self.bar.manager.MainStatusTrackingBarContainer:SetWidth(self.db.profile.width)
+			self.bar.manager.SecondaryStatusTrackingBarContainer:SetWidth(self.db.profile.width)
 		else
 			self.bar.manager.BottomBarFrameTexture:SetPoint("BOTTOMRIGHT")
 			self.bar.manager.TopBarFrameTexture:SetPoint("BOTTOMRIGHT", self.bar.manager.BottomBarFrameTexture, "TOPRIGHT", 0, -3)
@@ -87,6 +85,9 @@ StatusBar.offsetX = 7
 StatusBar.offsetY = 2
 function StatusBar:PerformLayout()
 	self.manager:SetWidth(self.config.width)
+	self.manager.MainStatusTrackingBarContainer:SetWidth(self.config.width)
+	self.manager.SecondaryStatusTrackingBarContainer:SetWidth(self.config.width)
+
 	self.manager:UpdateBarsShown()
 
 	StatusBar.width = self.config.width + 8
