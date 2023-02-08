@@ -133,7 +133,7 @@ function MicroMenuMod:PET_BATTLE_CLOSE()
 end
 
 function MicroMenuMod:ActionBarController_UpdateAll()
-	if self.ownedByUI and ActionBarController_GetCurrentActionBarState() == LE_ACTIONBAR_STATE_MAIN and not (C_PetBattles and C_PetBattles.IsInBattle()) then
+	if self.ownedByUI and ActionBarController_GetCurrentActionBarState() == LE_ACTIONBAR_STATE_MAIN then
 		self:RestoreMicroButtonParent()
 		self:MicroMenuBarShow()
 	end
@@ -163,10 +163,7 @@ function MicroMenuMod:UpdateMicroButtonsParent(parent)
 	if parent == self.bar then
 		self.ownedByUI = false
 		return
-	end
-
-	-- any other parent then MainMenuBarArtFrame means its taken over by the Override bar or the PetBattleFrame
-	if parent and ((Bartender4.db.profile.blizzardVehicle and parent == OverrideActionBar) or parent == (PetBattleFrame and PetBattleFrame.BottomFrame.MicroButtonFrame)) then
+	else -- any other parent then MainMenuBarArtFrame means its taken over by the Override bar or the PetBattleFrame
 		self.ownedByUI = true
 		self:BlizzardBarShow()
 		return
