@@ -84,6 +84,7 @@ read_globals = {
 	"SetBindingClick",
 	"SetCVar",
 	"SetModifiedClick",
+	"SetOverrideBinding",
 	"SetOverrideBindingClick",
 	"UnitClass",
 	"UnitFactionGroup",
