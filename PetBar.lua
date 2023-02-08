@@ -79,22 +79,11 @@ function PetBarMod:ReassignBindings()
 	if InCombatLockdown() then return end
 	if not self.bar or not self.bar.buttons then return end
 	ClearOverrideBindings(self.bar)
-
-	if not WoWRetail then
-		for i = 1, 10 do
-			local button, real_button = ("BONUSACTIONBUTTON%d"):format(i), ("CLICK BT4PetButton%d:LeftButton"):format(i)
-			for k=1, select('#', GetBindingKey(real_button)) do
-				local key = select(k, GetBindingKey(real_button))
-				SetOverrideBinding(self.bar, false, key, button)
-			end
-		end
-	else
-		for i = 1, 10 do
-			local button, real_button = ("BONUSACTIONBUTTON%d"):format(i), ("BT4PetButton%d"):format(i)
-			for k=1, select('#', GetBindingKey(button)) do
-				local key = select(k, GetBindingKey(button))
-				SetOverrideBindingClick(self.bar, false, key, real_button)
-			end
+	for i = 1, 10 do
+		local button, real_button = ("BONUSACTIONBUTTON%d"):format(i), ("BT4PetButton%d"):format(i)
+		for k=1, select('#', GetBindingKey(button)) do
+			local key = select(k, GetBindingKey(button))
+			SetOverrideBindingClick(self.bar, false, key, real_button)
 		end
 	end
 end
