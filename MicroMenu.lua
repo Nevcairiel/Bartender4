@@ -178,6 +178,9 @@ end
 function MicroMenuMod:MicroMenuBarShow()
 	-- Only "fix" button anchors if another frame that uses the MicroButtonBar isn't active.
 	if not self.ownedByUI then
+		if UpdateMicroButtonsParent then
+			UpdateMicroButtonsParent(self.bar)
+		end
 		self.bar:UpdateButtonLayout()
 	end
 end
