@@ -5,6 +5,7 @@
 
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
+## IconTexture: Interface\Icons\INV_Drink_05
 
 ## Version: @project-version@
 
