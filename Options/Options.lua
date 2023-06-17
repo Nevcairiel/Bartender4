@@ -72,8 +72,17 @@ local function generateOptions()
 				set = function(info, value) Bartender4.db.profile.minimapIcon.hide = not value; LDBIcon[value and "Show" or "Hide"](LDBIcon, "Bartender4") end,
 				disabled = function() return not LDBIcon end,
 			},
-			kb = {
+			addonCompartmentIcon = {
 				order = 4,
+				type = "toggle",
+				name = "Addon Compartment Icon",
+				desc = "Show an Icon to open the config at the Addon Compartment",
+				get = function() return Bartender4.db.profile.minimapIcon.showInCompartment end,
+				set = function(info, value) Bartender4.db.profile.minimapIcon.showInCompartment = value; LDBIcon[value and "AddButtonToCompartment" or "RemoveButtonFromCompartment"](LDBIcon, "Bartender4") end,
+				disabled = function() return not LDBIcon end,
+			},
+			kb = {
+				order = 5,
 				type = "execute",
 				name = L["Key Bindings"],
 				desc = L["Switch to key-binding mode"],
