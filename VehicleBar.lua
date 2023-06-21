@@ -56,7 +56,7 @@ function VehicleBarMod:OnEnable()
 		self:SecureHook(MainMenuBarVehicleLeaveButton, "HighlightSystem")
 	end
 
-	if EditModeManagerFrame then
+	if EditModeManagerFrame and EditModeManagerFrame.UpdateBottomActionBarPositions then
 		self:SecureHook(EditModeManagerFrame, "UpdateBottomActionBarPositions", "ApplySystemAnchor")
 	end
 

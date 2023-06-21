@@ -97,8 +97,10 @@ function Bartender4:OnInitialize()
 		EventRegistry:RegisterCallback("EditMode.Enter", function() self:Unlock(true) end)
 		EventRegistry:RegisterCallback("EditMode.Exit", function() self:Lock() end)
 
-		self:SecureHook(EditModeManagerFrame.EnableSnapCheckButton, "OnCheckButtonClick", "UpdateSnapFromEditMode")
-		self:SecureHook(EditModeManagerFrame.EnableSnapCheckButton, "SetControlChecked", "UpdateSnapFromEditMode")
+		if EditModeManagerFrame.EnableSnapCheckButton then
+			self:SecureHook(EditModeManagerFrame.EnableSnapCheckButton, "OnCheckButtonClick", "UpdateSnapFromEditMode")
+			self:SecureHook(EditModeManagerFrame.EnableSnapCheckButton, "SetControlChecked", "UpdateSnapFromEditMode")
+		end
 	end
 end
 
@@ -342,7 +344,7 @@ function Bartender4:Lock()
 end
 
 function Bartender4:UpdateSnapFromEditMode()
-	if EditModeManagerFrame then
+	if EditModeManagerFrame and EditModeManagerFrame.EnableSnapCheckButton then
 		setSnap(EditModeManagerFrame.EnableSnapCheckButton:IsControlChecked())
 	end
 end
