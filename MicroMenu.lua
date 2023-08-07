@@ -260,6 +260,7 @@ if WoW10 and QueueStatusButton then
 			self.bar.content = QueueStatusButton
 			self.bar.content:SetParent(self.bar)
 		end
+		self:SecureHook(QueueStatusButton, "UpdatePosition", "UpdateLayout")
 		self.bar:Enable()
 		self:ToggleOptions()
 		self:ApplyConfig()
