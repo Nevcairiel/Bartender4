@@ -61,7 +61,7 @@ function MicroMenuMod:OnEnable()
 		local buttons = {}
 
 		-- handle lfg/worldmap button on classic
-		if WoWClassic then
+		if WoWClassic and C_LFGList and C_LFGList.IsLookingForGroupEnabled then
 			tDeleteItem(BT_MICRO_BUTTONS, C_LFGList.IsLookingForGroupEnabled() and "WorldMapMicroButton" or "LFGMicroButton")
 		end
 
