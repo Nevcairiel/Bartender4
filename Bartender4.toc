@@ -1,6 +1,6 @@
-## Interface: 100100
-## Interface-Classic: 11403
-## Interface-Wrath: 30402
+## Interface: 100107
+## Interface-Classic: 11404
+## Interface-Wrath: 30403
 
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
