@@ -14,26 +14,42 @@ local ButtonBar = Bartender4.ButtonBar.prototype
 local pairs, setmetatable, table_insert = pairs, setmetatable, table.insert
 
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 
 -- GLOBALS: CharacterMicroButton, SpellbookMicroButton, TalentMicroButton, AchievementMicroButton, QuestLogMicroButton, GuildMicroButton
 -- GLOBALS: LFDMicroButton, CollectionsMicroButton, EJMicroButton, MainMenuMicroButton
 -- GLOBALS: HasVehicleActionBar, UnitVehicleSkin, HasOverrideActionBar, GetOverrideBarSkin
 
-local BT_MICRO_BUTTONS = WoWClassic and CopyTable(MICRO_BUTTONS) or
-	{
-	"CharacterMicroButton",
-	"SpellbookMicroButton",
-	"TalentMicroButton",
-	"AchievementMicroButton",
-	"QuestLogMicroButton",
-	"GuildMicroButton",
-	"LFDMicroButton",
-	"CollectionsMicroButton",
-	"EJMicroButton",
-	"StoreMicroButton",
-	"MainMenuMicroButton",
+local BT_MICRO_BUTTONS
+if WoWClassicEra then
+	BT_MICRO_BUTTONS = {
+		"CharacterMicroButton",
+		"SpellbookMicroButton",
+		"TalentMicroButton",
+		"QuestLogMicroButton",
+		"SocialsMicroButton",
+		"WorldMapMicroButton",
+		"MainMenuMicroButton",
+		"HelpMicroButton"
 	}
+elseif WoWClassic then
+	BT_MICRO_BUTTONS = CopyTable(MICRO_BUTTONS)
+else
+	BT_MICRO_BUTTONS = {
+		"CharacterMicroButton",
+		"SpellbookMicroButton",
+		"TalentMicroButton",
+		"AchievementMicroButton",
+		"QuestLogMicroButton",
+		"GuildMicroButton",
+		"LFDMicroButton",
+		"CollectionsMicroButton",
+		"EJMicroButton",
+		"StoreMicroButton",
+		"MainMenuMicroButton",
+	}
+end
 
 -- create prototype information
 local MicroMenuBar = setmetatable({}, {__index = ButtonBar})
@@ -61,7 +77,7 @@ function MicroMenuMod:OnEnable()
 		local buttons = {}
 
 		-- handle lfg/worldmap button on classic
-		if WoWClassic and C_LFGList and C_LFGList.IsLookingForGroupEnabled then
+		if WoWClassic and not WoWClassicEra and C_LFGList and C_LFGList.IsLookingForGroupEnabled then
 			tDeleteItem(BT_MICRO_BUTTONS, C_LFGList.IsLookingForGroupEnabled() and "WorldMapMicroButton" or "LFGMicroButton")
 		end
 
