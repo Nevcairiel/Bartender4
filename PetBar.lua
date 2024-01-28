@@ -82,10 +82,14 @@ function PetBarMod:ReassignBindings()
 
 	if not WoWRetail then
 		for i = 1, 10 do
-			local button, real_button = ("BONUSACTIONBUTTON%d"):format(i), ("CLICK BT4PetButton%d:LeftButton"):format(i)
-			for k=1, select('#', GetBindingKey(real_button)) do
-				local key = select(k, GetBindingKey(real_button))
-				SetOverrideBinding(self.bar, false, key, button)
+			local button, real_button = ("BONUSACTIONBUTTON%d"):format(i), ("BT4PetButton%d"):format(i)
+			for k=1, select('#', GetBindingKey(button)) do
+				local key = select(k, GetBindingKey(button))		
+				if self:IsKeybindWithModifier(key) then
+					SetOverrideBinding(self.bar, false, key, button)
+				else
+					SetOverrideBindingClick(self.bar, false, key, real_button)
+				end
 			end
 		end
 	else
@@ -161,4 +165,12 @@ function PetBar:ApplyConfig(config)
 	self:UpdateButtonLayout()
 	self:ForAll("Update")
 	self:ForAll("ApplyStyle", self.config.style)
+end
+
+function PetBarMod:IsKeybindWithModifier(key)
+	if key:find('^' .. "ALT") ~= nil then return true
+	elseif key:find('^' .. "CTRL") ~= nil then return true
+	elseif key:find('^' .. "SHIFT") ~= nil then return true
+	else return false
+	end
 end
