@@ -105,6 +105,10 @@ function Bartender4:HideBlizzard()
 	hideActionBarFrame(MainMenuBarArtFrameBackground)
 	hideActionBarFrame(MicroButtonAndBagsBar, false, false, true)
 
+	if KeyRingButton then
+		hideActionBarFrame(KeyRingButton, false, false)
+	end
+
 	if StatusTrackingBarManager then
 		StatusTrackingBarManager:Hide()
 		--StatusTrackingBarManager:SetParent(UIHider)

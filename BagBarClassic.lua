@@ -97,6 +97,9 @@ function BagBar:FeedButtons()
 	if KeyRingButton and self.config.keyring then
 		table_insert(self.buttons, KeyRingButton)
 		count = count + 1
+	elseif KeyRingButton then
+		KeyRingButton:Hide()
+		KeyRingButton:ClearAllPoints()
 	end
 
 	if not self.config.onebag then
