@@ -104,10 +104,7 @@ StatusTrackingBar.lua
 
 ## Classic-only ##
 XPBarClassic.lua
-
-#@version-wrath@
 MultiCastBar.lua
-#@end-version-wrath@
 
 ## Options ##
 Options\AceGUIWidget-NumberEditBox.lua
@@ -129,10 +126,7 @@ Options\StatusTrackingBar.lua
 
 ## Classic-only ##
 Options\XPBarClassic.lua
-
-#@version-wrath@
 Options\MultiCastBar.lua
-#@end-version-wrath@
 
 ## XML
 ArtBarTemplates.xml
