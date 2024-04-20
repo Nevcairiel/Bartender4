@@ -10,7 +10,8 @@ local StanceBarMod = Bartender4:NewModule("StanceBar", "AceEvent-3.0")
 -- fetch upvalues
 local ButtonBar = Bartender4.ButtonBar.prototype
 
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
+local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 
 local _G = _G
 local format, setmetatable, min, select = string.format, setmetatable, min, select
@@ -55,7 +56,7 @@ function StanceBarMod:OnEnable()
 	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_USABLE")
 	self.bar:RegisterEvent("UPDATE_SHAPESHIFT_COOLDOWN")
 	self.bar:RegisterEvent("PLAYER_REGEN_ENABLED")
-	if not WoWClassic then
+	if WoWRetail or WoWCata then
 		self.bar:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR")
 		self.bar:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
 		self.bar:RegisterEvent("UPDATE_POSSESS_BAR")

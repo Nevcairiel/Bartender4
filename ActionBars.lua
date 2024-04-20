@@ -10,6 +10,7 @@ local select, ipairs, pairs, tostring, tonumber, min, setmetatable = select, ipa
 
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
+local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 
 local LAB10 = LibStub("LibActionButton-1.0")
@@ -327,7 +328,7 @@ function BT4ActionBars:Create(id, config, bindingmapping)
 	bar.bindingmapping = bindingmapping
 
 	bar:SetScript("OnEvent", bar.OnEvent)
-	if not WoWClassic then
+	if not WoWClassic or WoWCata then
 		bar:RegisterEvent("PLAYER_TALENT_UPDATE")
 		bar:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 	end
