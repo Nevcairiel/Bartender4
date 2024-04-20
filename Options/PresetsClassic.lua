@@ -13,6 +13,8 @@ local Bar = Bartender4.Bar.prototype
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 if WoW10 then return end
 
+local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
+
 local PresetsMod = Bartender4:NewModule("Presets")
 
 PresetsMod.showXPBar = true
@@ -208,7 +210,12 @@ local function BuildBlizzardProfile()
 	config.onebag = false
 	config.keyring = showKeyRing
 	config.verticalAlignment = "CENTER"
-	if GetClassicExpansionLevel() >= 2 --[[Wrath]] then
+	if WoWCata then
+		config.keyring = false
+		config.padding = 4
+		config.scale = 0.9
+		SetBarLocation( config, "BOTTOM", 346, 38)
+	elseif GetClassicExpansionLevel() >= 2 --[[Wrath]] then
 		config.padding = 4
 		SetBarLocation( config, "BOTTOM", 304, 42)
 	else
@@ -218,7 +225,7 @@ local function BuildBlizzardProfile()
 
 	config = Bartender4.db:GetNamespace("MicroMenu").profile
 	config.position.scale = 1.0
-	config.padding = -2
+	config.padding = WoWCata and -3 or -2
 	SetBarLocation( config, "BOTTOM", 33, 42)
 
 	if PresetsMod.showXPBar then
