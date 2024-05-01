@@ -102,7 +102,7 @@ DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 	elseif k == "ROGUE" then
 		newT = {
 			{ id = "stealth", name = GetSpellInfo(1784), index = 1 },
-			WoWWrath and { id = "shadowdance", name = GetSpellInfo(51713), index = 2 } or nil,
+			(WoWWrath or WoWCata) and { id = "shadowdance", name = GetSpellInfo(51713), index = 2 } or nil,
 		}
 	elseif k ==  "WARRIOR" then
 		newT = {
