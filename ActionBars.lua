@@ -69,7 +69,7 @@ local abdefaults = {
 			actionbar = false,
 			stance = {
 				DRUID = { bear = 9, cat = 7, prowl = 8 },
-				ROGUE = WoWWrath and { stealth = 7, shadowdance = 8 } or { stealth = 7 },
+				ROGUE = (WoWWrath or WoWCata) and { stealth = 7, shadowdance = 8 } or { stealth = 7 },
 				WARRIOR = WoWClassic and { battle = 7, def = 8, berserker = 9 } or nil,
 				PRIEST = WoWClassic and { shadowform = 7 } or nil,
 				EVOKER = { soar = 7 },
