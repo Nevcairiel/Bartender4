@@ -10,6 +10,7 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local error, select, pairs = error, select, pairs
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
+local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 local SaveBindings = SaveBindings or AttemptToSaveBindings
 
@@ -30,7 +31,7 @@ end
 local s_HookedKeyBound, s_KeyBoundHookShowBTOptions
 local KB = LibStub("LibKeyBound-1.0")
 local LDBIcon = LibStub("LibDBIcon-1.0", true)
-local LibDualSpec = (not WoWClassic or WoWWrath) and LibStub("LibDualSpec-1.0", true)
+local LibDualSpec = (not WoWClassic or WoWWrath or WoWCata) and LibStub("LibDualSpec-1.0", true)
 
 local function generateOptions()
 	Bartender4.options = {
