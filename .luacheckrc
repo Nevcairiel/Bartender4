@@ -47,11 +47,15 @@ read_globals = {
 	"KeyboundDialog",
 	"AceGUIWidgetLSMlists",
 
-	-- API functions
-	"AttemptToSaveBindings",
+	-- API groups
+	"C_AddOns",
 	"C_LFGList",
 	"C_PetBattles",
 	"C_Spell",
+	"C_SpellBook",
+
+	-- API functions
+	"AttemptToSaveBindings",
 	"CanExitVehicle",
 	"ClearOverrideBindings",
 	"CreateFrame",
@@ -168,6 +172,7 @@ read_globals = {
 	"Spell",
 
 	-- FrameXML Constants
+	"Enum",
 	"LE_ACTIONBAR_STATE_MAIN",
 	"LE_ACTIONBAR_STATE_OVERRIDE",
 	"LEAVE_VEHICLE",
