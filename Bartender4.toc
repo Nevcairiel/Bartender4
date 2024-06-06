@@ -17,6 +17,7 @@
 ## X-License: All rights reserved.
 ## X-Curse-Project-ID: 13501
 ## X-WoWI-ID: 11190
+## X-Wago-ID: v63oVn6b
 
 ## SavedVariables: Bartender4DB
 #@retail@
