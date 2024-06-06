@@ -81,7 +81,7 @@ function Bartender4:HideBlizzard()
 	MainMenuBar:UnregisterEvent("ACTIONBAR_SHOWGRID")
 	MainMenuBar:UnregisterEvent("ACTIONBAR_HIDEGRID")
 
-	if IsAddOnLoaded("Blizzard_NewPlayerExperience") then
+	if C_AddOns.IsAddOnLoaded("Blizzard_NewPlayerExperience") then
 		self:NPE_LoadUI()
 	elseif NPE_LoadUI ~= nil then
 		self:SecureHook("NPE_LoadUI")

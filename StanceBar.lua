@@ -181,7 +181,7 @@ end
 local actionTmpl = "Stance Button %d (%s)"
 function StanceButtonPrototype:GetActionName()
 	local id = self:GetID()
-	local name = GetSpellInfo(select(4, GetShapeshiftFormInfo(id)))
+	local name = Bartender4.Compat.GetSpellName(select(4, GetShapeshiftFormInfo(id)))
 	return format(actionTmpl, id, name)
 end
 

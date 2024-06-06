@@ -120,17 +120,22 @@ function PetButtonPrototype:Update()
 		self:SetChecked(false)
 	end
 
-	if autoCastAllowed then
-		self.AutoCastable:Show()
-
-		if autoCastEnabled then
-			AutoCastShine_AutoCastStart(self.AutoCastShine)
-		else
-			AutoCastShine_AutoCastStop(self.AutoCastShine)
-		end
+	if self.AutoCastOverlay then -- 11.0
+		self.AutoCastOverlay:SetShown(autoCastAllowed)
+		self.AutoCastOverlay:ShowAutoCastEnabled(autoCastEnabled)
 	else
-		self.AutoCastable:Hide()
-		AutoCastShine_AutoCastStop(self.AutoCastShine)
+		if autoCastAllowed then
+			self.AutoCastable:Show()
+
+			if autoCastEnabled then
+				AutoCastShine_AutoCastStart(self.AutoCastShine)
+			else
+				AutoCastShine_AutoCastStop(self.AutoCastShine)
+			end
+		else
+				self.AutoCastable:Hide()
+				AutoCastShine_AutoCastStop(self.AutoCastShine)
+		end
 	end
 
 	if texture then

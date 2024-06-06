@@ -51,6 +51,7 @@ read_globals = {
 	"AttemptToSaveBindings",
 	"C_LFGList",
 	"C_PetBattles",
+	"C_Spell",
 	"CanExitVehicle",
 	"ClearOverrideBindings",
 	"CreateFrame",

@@ -13,6 +13,11 @@ local WoW10 = select(4, GetBuildInfo()) >= 100000
 
 local tonumber, format, min = tonumber, format, min
 
+local GetSpellBookItemInfo = GetSpellBookItemInfo
+if C_SpellBook and C_SpellBook.GetSpellBookItemType then
+	GetSpellBookItemInfo = function(index, book) assert(book == "spell") return C_SpellBook.GetSpellBookItemType(index, Enum.SpellBookSpellBank.Player) end
+end
+
 -- GLOBALS: UIParent, VehicleExit
 
 --[[===================================================================================
@@ -177,17 +182,19 @@ function ActionBar:SetupSmartTarget()
 	]]
 
 	local i = 1
-	local subtype, action = GetSpellBookItemInfo(i, "spell")
+	local subtype, action, spellId = GetSpellBookItemInfo(i, "spell")
 	while subtype do
 		if subtype == "SPELL" then
-			local spellId = select(7, GetSpellInfo(i, "spell"))
+			if not (C_SpellBook and C_SpellBook.GetSpellBookItemType) then
+				spellId = select(7, GetSpellInfo(i, "spell"))
+			end
 			if spellId and spellId ~= action then
 				s = s .. "\n" .. ([[ BT_Spell_Overrides[%d] = %d ]]):format(spellId, action)
 			end
 		end
 
 		i = i + 1
-		subtype, action = GetSpellBookItemInfo(i, "spell")
+		subtype, action, spellId = GetSpellBookItemInfo(i, "spell")
 	end
 
 	self:Execute(s)

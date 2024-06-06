@@ -374,6 +374,15 @@ function Bartender4.Util:Merge(target, source)
 	return target
 end
 
+Bartender4.Compat = {}
+if C_Spell and C_Spell.GetSpellName then
+	Bartender4.Compat.GetSpellName = C_Spell.GetSpellName
+else
+	function Bartender4.Compat.GetSpellName(id)
+		return (GetSpellInfo(id))
+	end
+end
+
 Bartender4.modulePrototype = {}
 function Bartender4.modulePrototype:ToggleModule(info, value)
 	if value ~= nil then
