@@ -79,6 +79,7 @@ read_globals = {
 	"HasExtraActionBar",
 	"InCombatLockdown",
 	"IsAddOnLoaded",
+	"IsKeyRingEnabled",
 	"IsModifiedClick",
 	"IsPetAttackAction",
 	"MouseIsOver",
