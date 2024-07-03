@@ -79,9 +79,9 @@ function MicroMenuMod:OnEnable()
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("MicroMenu", self.db.profile, L["Micro Menu"], true), {__index = MicroMenuBar})
 		local buttons = {}
 
-		-- handle lfg/worldmap button on classic
-		if WoWClassic and C_LFGList and C_LFGList.IsLookingForGroupEnabled then
-			tDeleteItem(BT_MICRO_BUTTONS, C_LFGList.IsLookingForGroupEnabled() and "WorldMapMicroButton" or "LFGMicroButton")
+		-- remove the LFG button on classic era
+		if WoWClassicEra then
+			tDeleteItem(BT_MICRO_BUTTONS, "LFGMicroButton")
 		end
 
 		for i=1, #BT_MICRO_BUTTONS do
