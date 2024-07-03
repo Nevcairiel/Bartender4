@@ -14,6 +14,7 @@ local ButtonBar = Bartender4.ButtonBar.prototype
 local pairs, setmetatable, table_insert = pairs, setmetatable, table.insert
 
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
 local WoW11 = select(4, GetBuildInfo()) >= 110000
 
 -- GLOBALS: CharacterMicroButton, SpellbookMicroButton, TalentMicroButton, AchievementMicroButton, QuestLogMicroButton, GuildMicroButton
@@ -62,7 +63,7 @@ local defaults = { profile = Bartender4.Util:Merge({
 	visibility = {
 		possess = false,
 	},
-	padding = WoWClassic and -3 or 1,
+	padding = WoWClassicEra and -3 or (WoWClassic and -4 or 1),
 	position = {
 		scale = WoWClassic and 0.8 or 1.0,
 	},
