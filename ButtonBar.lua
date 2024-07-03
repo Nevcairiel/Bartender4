@@ -229,7 +229,7 @@ function ButtonBar:UpdateButtonLayout()
 
 	-- anchor button 1
 	local anchor = self:GetAnchor()
-	buttons[1]:ClearSetPoint(anchor, self, anchor, xOff - (self.hpad_offset or 0), yOff - (self.vpad_offset or 0))
+	buttons[1]:ClearSetPoint(anchor, self, anchor, xOff, yOff - (self.vpad_offset or 0))
 
 	-- and anchor all other buttons relative to our button 1
 	for i = 2, numbuttons do
