@@ -137,7 +137,7 @@ function Bartender4:HideBlizzard()
 	hideActionBarFrame(ReputationWatchBar, false, false, true)
 	hideActionBarFrame(MainMenuBarMaxLevelBar, false, false, true)
 
-	if IsAddOnLoaded("Blizzard_NewPlayerExperience") then
+	if C_AddOns.IsAddOnLoaded("Blizzard_NewPlayerExperience") then
 		self:NPE_LoadUI()
 	elseif NPE_LoadUI ~= nil then
 		self:SecureHook("NPE_LoadUI")
