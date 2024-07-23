@@ -1,5 +1,5 @@
 ## Interface: 100207,110000,110002
-## Interface-Classic: 11502
+## Interface-Classic: 11503
 ## Interface-Cata: 40400
 
 ## Title: Bartender4
