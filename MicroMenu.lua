@@ -15,7 +15,6 @@ local pairs, setmetatable, table_insert = pairs, setmetatable, table.insert
 
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
-local WoW11 = select(4, GetBuildInfo()) >= 110000
 
 -- GLOBALS: CharacterMicroButton, SpellbookMicroButton, TalentMicroButton, AchievementMicroButton, QuestLogMicroButton, GuildMicroButton
 -- GLOBALS: LFDMicroButton, CollectionsMicroButton, EJMicroButton, MainMenuMicroButton
@@ -24,25 +23,11 @@ local WoW11 = select(4, GetBuildInfo()) >= 110000
 local BT_MICRO_BUTTONS
 if WoWClassic then
 	BT_MICRO_BUTTONS = CopyTable(MICRO_BUTTONS)
-elseif WoW11 then
+else
 	BT_MICRO_BUTTONS = {
 		"CharacterMicroButton",
 		"ProfessionMicroButton",
 		"PlayerSpellsMicroButton",
-		"AchievementMicroButton",
-		"QuestLogMicroButton",
-		"GuildMicroButton",
-		"LFDMicroButton",
-		"CollectionsMicroButton",
-		"EJMicroButton",
-		"StoreMicroButton",
-		"MainMenuMicroButton",
-	}
-else
-	BT_MICRO_BUTTONS = {
-		"CharacterMicroButton",
-		"SpellbookMicroButton",
-		"TalentMicroButton",
 		"AchievementMicroButton",
 		"QuestLogMicroButton",
 		"GuildMicroButton",
@@ -225,7 +210,7 @@ else
 	MicroMenuBar.button_width = 32
 	MicroMenuBar.button_height = 40
 	MicroMenuBar.vpad_offset = 0
-	MicroMenuBar.hpad_offset = WoW11 and -8 or 0
+	MicroMenuBar.hpad_offset = -8
 end
 function MicroMenuBar:ApplyConfig(config)
 	ButtonBar.ApplyConfig(self, config)
