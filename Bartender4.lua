@@ -287,7 +287,7 @@ function Bartender4:ShowUnlockDialog()
 		desc:SetPoint("BOTTOMRIGHT", -18, 48)
 		desc:SetText(L["Bars unlocked. Move them now and click Lock when you are done."])
 
-		local snapping = CreateFrame("CheckButton", "Bartender4Snapping", f, WoW10 and "UICheckButtonTemplate" or "OptionsCheckButtonTemplate")
+		local snapping = CreateFrame("CheckButton", "Bartender4Snapping", f, "UICheckButtonTemplate")
 		_G[snapping:GetName() .. "Text"]:SetText(L["Bar Snapping"])
 
 		snapping:SetScript("OnShow", function(frame)
@@ -298,7 +298,7 @@ function Bartender4:ShowUnlockDialog()
 			setSnap(frame:GetChecked())
 		end)
 
-		local lockBars = CreateFrame("CheckButton", "Bartender4DialogLock", f, WoW10 and "UIPanelButtonTemplate" or "OptionsButtonTemplate")
+		local lockBars = CreateFrame("CheckButton", "Bartender4DialogLock", f, "UIPanelButtonTemplate")
 		lockBars:SetWidth(150)
 		_G[lockBars:GetName() .. "Text"]:SetText(L["Lock"])
 
