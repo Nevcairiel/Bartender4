@@ -12,7 +12,7 @@
 ## X-Email: h.leppkes at gmail dot com
 
 ## X-Category: Action Bars
-## X-Website: http://www.wowace.com/addons/bartender4/
+## X-Website: https://www.wowace.com/projects/bartender4/
 ## X-License: All rights reserved.
 ## X-Curse-Project-ID: 13501
 ## X-WoWI-ID: 11190
