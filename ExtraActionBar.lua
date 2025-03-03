@@ -5,7 +5,7 @@
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
-if not ExtraAbilityContainer then return end
+if not ExtraAbilityContainer and not ExtraActionBarFrame then return end
 
 -- register module
 local ExtraActionBarMod = Bartender4:NewModule("ExtraActionBar", "AceHook-3.0")
@@ -13,7 +13,7 @@ local ExtraActionBarMod = Bartender4:NewModule("ExtraActionBar", "AceHook-3.0")
 -- fetch upvalues
 local Bar = Bartender4.Bar.prototype
 
-local setmetatable, table_insert = setmetatable, table.insert
+local setmetatable = setmetatable
 
 -- create prototype information
 local ExtraActionBar = setmetatable({}, {__index = Bar})
@@ -35,7 +35,7 @@ end
 function ExtraActionBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("ExtraActionBar", self.db.profile, L["Extra Action Bar"], 2), {__index = ExtraActionBar})
-		self.bar.content = ExtraAbilityContainer
+		self.bar.content = ExtraAbilityContainer or ExtraActionBarFrame
 
 		-- remove EditMode hooks
 		self.bar.content.ClearAllPoints = nil
@@ -51,14 +51,16 @@ function ExtraActionBarMod:OnEnable()
 	self:ToggleOptions()
 	self:ApplyConfig()
 
-	self:SecureHook("ExtraActionBar_Update")
-	self:SecureHook(ZoneAbilityFrame, "UpdateDisplayedZoneAbilities")
-	if ExtraAbilityContainer.ApplySystemAnchor then
+	if _G["ExtraActionBar_Update"] and ZoneAbilityFrame then
+		self:SecureHook("ExtraActionBar_Update")
+		self:SecureHook(ZoneAbilityFrame, "UpdateDisplayedZoneAbilities")
+	end
+	if ExtraAbilityContainer and ExtraAbilityContainer.ApplySystemAnchor then
 		self:SecureHook(ExtraAbilityContainer, "ApplySystemAnchor")
 		self:SecureHook(ExtraAbilityContainer, "HighlightSystem")
 	end
 
-	if UIParentBottomManagedFrameContainer then
+	if UIParentBottomManagedFrameContainer and ExtraAbilityContainer then
 		UIParentBottomManagedFrameContainer.showingFrames[ExtraAbilityContainer] = nil
 	end
 end
@@ -80,7 +82,9 @@ function ExtraActionBarMod:ExtraActionBar_Update()
 end
 
 function ExtraActionBarMod:UpdateDisplayedZoneAbilities()
-	ZoneAbilityFrame.Style:SetShown(not self.db.profile.hideArtwork)
+	if ZoneAbilityFrame then
+		ZoneAbilityFrame.Style:SetShown(not self.db.profile.hideArtwork)
+	end
 end
 
 function ExtraActionBarMod:HighlightSystem()
@@ -96,8 +100,10 @@ function ExtraActionBarMod:ApplySystemAnchor()
 	self.bar:PerformLayout()
 end
 
-ExtraActionBar.width = 128
-ExtraActionBar.height = 128
+if ExtraAbilityContainer then
+	ExtraActionBar.width = 128
+	ExtraActionBar.height = 128
+end
 
 function ExtraActionBar:ApplyConfig(config)
 	Bar.ApplyConfig(self, config)
