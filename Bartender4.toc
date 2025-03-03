@@ -1,6 +1,6 @@
-## Interface: 110007, 110100
-## Interface-Classic: 11505, 11506
-## Interface-Cata: 40401, 40402
+## Interface: 110100
+## Interface-Classic: 11506
+## Interface-Cata: 40402
 
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
