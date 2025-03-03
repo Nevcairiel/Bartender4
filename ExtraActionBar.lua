@@ -44,8 +44,10 @@ function ExtraActionBarMod:OnEnable()
 
 		self.bar.content:SetToplevel(false)
 		self.bar.content:SetParent(self.bar)
-		self.bar.content:SetScript("OnShow", nil)
-		self.bar.content:SetScript("OnHide", nil)
+		if ExtraAbilityContainer then
+			self.bar.content:SetScript("OnShow", nil)
+			self.bar.content:SetScript("OnHide", nil)
+		end
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
