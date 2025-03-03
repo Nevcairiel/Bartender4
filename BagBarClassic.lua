@@ -118,7 +118,7 @@ function BagBar:FeedButtons()
 		v:SetParent(self)
 		v:Show()
 		if v ~= KeyRingButton then
-			v:SetNormalTexture("")
+			v:ClearNormalTexture()
 
 			if Masque then
 				local group = self.MasqueGroup
