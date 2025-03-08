@@ -153,6 +153,7 @@ read_globals = {
 	"QueueStatusButton",
 	"QueueStatusFrame",
 	"QuestLogMicroButton",
+	"SocialsMicroButton",
 	"SpellbookMicroButton",
 	"SpellFlyout",
 	"StanceBar",

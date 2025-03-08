@@ -69,6 +69,11 @@ function MicroMenuMod:OnEnable()
 			tDeleteItem(BT_MICRO_BUTTONS, "LFGMicroButton")
 		end
 
+		-- guild and social share a spot
+		if WoWClassic then
+			tDeleteItem(BT_MICRO_BUTTONS, "GuildMicroButton")
+		end
+
 		for i=1, #BT_MICRO_BUTTONS do
 			local button = _G[BT_MICRO_BUTTONS[i]]
 			if button then
@@ -225,9 +230,10 @@ function MicroMenuBar:ApplyConfig(config)
 	self:UpdateButtonLayout()
 end
 
-if HelpMicroButton and StoreMicroButton then
-	function MicroMenuBar:UpdateButtonLayout()
-		ButtonBar.UpdateButtonLayout(self)
+function MicroMenuBar:UpdateButtonLayout()
+	ButtonBar.UpdateButtonLayout(self)
+
+	if HelpMicroButton and StoreMicroButton then
 		-- If the StoreButton is hidden we want to replace it with the Help button
 		if not StoreMicroButton:IsShown() then
 			HelpMicroButton:Show()
@@ -237,6 +243,11 @@ if HelpMicroButton and StoreMicroButton then
 			HelpMicroButton:Hide()
 			HelpMicroButton:ClearAllPoints()
 		end
+	end
+
+	if WoWClassic and GuildMicroButton then
+		GuildMicroButton:ClearAllPoints()
+		GuildMicroButton:SetAllPoints(SocialsMicroButton)
 	end
 end
 
