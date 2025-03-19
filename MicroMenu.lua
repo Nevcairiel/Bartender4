@@ -188,13 +188,19 @@ function MicroMenuMod:UpdateMicroButtonsParent(parent)
 end
 
 function MicroMenuMod:MicroMenuBarShow()
-	-- Only "fix" button anchors if another frame that uses the MicroButtonBar isn't active.
-	if not self.ownedByUI then
-		if UpdateMicroButtonsParent then
-			UpdateMicroButtonsParent(self.bar)
-		end
-		self.bar:UpdateButtonLayout()
-	end
+    -- Only "fix" button anchors if another frame that uses the MicroButtonBar isn't active.
+    if not self.ownedByUI then
+        if UpdateMicroButtonsParent then
+            UpdateMicroButtonsParent(self.bar)
+        end
+
+        -- Ensure lastButtonX and lastButtonY are not nil before calling layout functions
+        if not lastButtonX or not lastButtonY then
+            lastButtonX, lastButtonY = 0, 0
+        end
+
+        self.bar:UpdateButtonLayout()
+    end
 end
 
 function MicroMenuMod:BlizzardBarShow()
@@ -234,6 +240,11 @@ function MicroMenuBar:UpdateButtonLayout()
 	ButtonBar.UpdateButtonLayout(self)
 
 	if HelpMicroButton and StoreMicroButton then
+		-- Ensure lastButtonX and lastButtonY are not nil before positioning
+		if lastButtonX == nil or lastButtonY == nil then
+			lastButtonX, lastButtonY = 0, 0  -- Set default values to prevent nil errors
+		end
+
 		-- If the StoreButton is hidden we want to replace it with the Help button
 		if not StoreMicroButton:IsShown() then
 			HelpMicroButton:Show()
