@@ -345,11 +345,6 @@ local function generateOptions()
 						name = L["You can report bugs or give suggestions on the project page at |cffffff78https://www.wowace.com/projects/bartender4|r or on GitHub at |cffffff78https://github.com/Nevcairiel/Bartender4|r"],
 						order = 8,
 					},
-					line9 = {
-						type = "description",
-						name = "\n" .. L["Alternatively, you can also find us on the |cffffff78WoWUIDev Discord|r"] .. "\n",
-						order = 9,
-					},
 					line10 = {
 						type = "description",
 						name = L["When reporting a bug, make sure you include the |cffffff78steps on how to reproduce the bug|r, supply any |cffffff78error messages|r with stack traces if possible, give the |cffffff78revision number|r of Bartender4 the problem occured in and state whether you are using an |cffffff78English client or otherwise|r."],
