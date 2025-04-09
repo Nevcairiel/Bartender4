@@ -459,3 +459,52 @@ function ActionBar:SetStyleTextJustifyH(element, justify)
 	self.config.elements[element].textJustifyH = justify
 	self:UpdateButtonConfig()
 end
+
+function ActionBar:SetHorizontalIndent(state)
+	self.config.horizontalIndent = state
+	self:UpdateButtonLayout()
+end
+function ActionBar:SetVerticalIndent(state)
+	self.config.verticalIndent = state
+	self:UpdateButtonLayout()
+end
+function ActionBar:SetHorizontalSpacing(state)
+	self.config.horizontalSpacing = state
+	self:UpdateButtonLayout()
+end
+function ActionBar:SetVerticalSpacing(state)
+	self.config.verticalSpacing = state
+	self:UpdateButtonLayout()
+end
+function ActionBar:SetHorizontalInterlace(state)
+	self.config.horizontalInterlace = state
+	self:UpdateButtonLayout()
+end
+function ActionBar:SetVerticalInterlace(state)
+	self.config.verticalInterlace = state
+	self:UpdateButtonLayout()
+end
+
+function ActionBar:GetHorizontalIndent()
+	return self.config.horizontalIndent
+end
+
+function ActionBar:GetVerticalIndent()
+	return self.config.verticalIndent
+end
+
+function ActionBar:GetHorizontalSpacing()
+	return self.config.horizontalSpacing
+end
+
+function ActionBar:GetVerticalSpacing()
+	return self.config.verticalSpacing 
+end
+
+function ActionBar:GetHorizontalInterlace()
+	return self.config.horizontalInterlace
+end
+
+function ActionBar:GetVerticalInterlace()
+	return self.config.verticalInterlace
+end
