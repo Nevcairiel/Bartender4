@@ -234,14 +234,13 @@ function MicroMenuBar:UpdateButtonLayout()
 	ButtonBar.UpdateButtonLayout(self)
 
 	if HelpMicroButton and StoreMicroButton then
+		HelpMicroButton:ClearAllPoints()
+		HelpMicroButton:SetAllPoints(StoreMicroButton)
 		-- If the StoreButton is hidden we want to replace it with the Help button
 		if not StoreMicroButton:IsShown() then
 			HelpMicroButton:Show()
-			HelpMicroButton:ClearAllPoints()
-			HelpMicroButton:SetAllPoints(StoreMicroButton)
 		else
 			HelpMicroButton:Hide()
-			HelpMicroButton:ClearAllPoints()
 		end
 	end
 
