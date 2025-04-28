@@ -189,7 +189,20 @@ function ButtonBar:UpdateButtonLayout()
 	local hpad = pad + (self.hpad_offset or 0)
 	local vpad = pad + (self.vpad_offset or 0)
 
-	self:SetSize((self.button_width + hpad) * ButtonPerRow - hpad + 8, (self.button_height + vpad) * Rows - vpad + 8)
+	local barWidth = (self.button_width + hpad) * ButtonPerRow - hpad + 8
+	local barHeight = (self.button_height + vpad) * Rows - vpad + 8
+
+	local vIndent = (self.config.verticalIndent or 0) * self.button_height
+	local hIndent =  (self.config.horizontalIndent or 0) * self.button_width
+	local vSpacing,hSpacing = self.config.verticalSpacing or 0, self.config.horizontalSpacing or 0
+	local vInterlace,hInterlace = self.config.verticalInterlace, self.config.horizontalInterlace 
+	local isLastRowFull = math_ceil(numbuttons / Rows) == ButtonPerRow
+	barWidth = barWidth + (hInterlace and hIndent or hIndent * (isLastRowFull and ButtonPerRow or ButtonPerRow - 1))
+	barWidth = barWidth + hSpacing * (ButtonPerRow - 1)
+	barHeight = barHeight + (vInterlace and vIndent or vIndent * (isLastRowFull and Rows or Rows - 1))
+	barHeight = barHeight + vSpacing * (Rows - 1)
+
+	self:SetSize(barWidth, barHeight)
 
 	local h1, h2, v1, v2
 	local xOff, yOff
@@ -232,13 +245,17 @@ function ButtonBar:UpdateButtonLayout()
 	buttons[1]:ClearSetPoint(anchor, self, anchor, xOff, yOff - (self.vpad_offset or 0))
 
 	-- and anchor all other buttons relative to our button 1
+	local vIndentCount,hIndentCount = vIndent, hIndent
 	for i = 2, numbuttons do
 		-- jump into a new row
 		if ((i-1) % ButtonPerRow) == 0 then
-			buttons[i]:ClearSetPoint(v1 .. h1, buttons[i-ButtonPerRow], v2 .. h1, 0, -vpad)
+			buttons[i]:ClearSetPoint(v1 .. h1, buttons[i-ButtonPerRow], v2 .. h1, hIndentCount, -(vpad + vSpacing))
 		-- align to the previous button
+			hIndentCount = hIndentCount * (hInterlace and -1 or 1)
 		else
-			buttons[i]:ClearSetPoint(valign .. h1, buttons[i-1], valign .. h2, hpad, 0)
+			buttons[i]:ClearSetPoint(valign .. h1, buttons[i-1], valign .. h2,
+			 hpad + hSpacing, vIndentCount)
+			vIndentCount = vIndentCount * (vInterlace and -1 or 1)
 		end
 	end
 
