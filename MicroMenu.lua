@@ -239,12 +239,7 @@ function MicroMenuMod:BlizzardBarShow()
 		-- Some time in Wrath or Cata Classic, Blizzard introduced a visual bug in the override bar.
 		-- The micro buttons don't get wrapped correctly. The UI is supposed to wrap the collections
 		-- micro button, but it wraps the pvp micro button instead, resulting in an uneven number of
-		-- buttons in each row. The padding is also wrong.=
-
-		if FIX_BLIZZ_OVERRIDE_BAR_MICRO_BUTTONS then
-			PVPMicroButton:ClearAllPoints()
-		end
-
+		-- buttons in each row. The padding is also wrong.
 		for i,v in pairs(self.bar.buttons) do
 			if FIX_BLIZZ_OVERRIDE_BAR_MICRO_BUTTONS and v == CollectionsMicroButton then
 				v:ClearSetPoint("TOPLEFT", CharacterMicroButton, "BOTTOMLEFT", 0, 23)
