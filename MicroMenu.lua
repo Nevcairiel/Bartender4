@@ -22,7 +22,36 @@ local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
 
 local BT_MICRO_BUTTONS
 if WoWClassic then
-	BT_MICRO_BUTTONS = CopyTable(MICRO_BUTTONS)
+	-- note: guild and social share a spot, so never include GuildMicroButton
+
+	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+		BT_MICRO_BUTTONS = CopyTable(MICRO_BUTTONS)
+		tDeleteItem(BT_MICRO_BUTTONS, "LFGMicroButton")
+	elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
+		BT_MICRO_BUTTONS = CopyTable(MICRO_BUTTONS)
+	else -- Wrath onward
+		-- MICRO_BUTTONS lists the buttons in the incorrect order
+		BT_MICRO_BUTTONS = {
+			"CharacterMicroButton",
+			"SpellbookMicroButton",
+			"TalentMicroButton",
+			"AchievementMicroButton",
+			"QuestLogMicroButton",
+			"SocialsMicroButton",
+			"CollectionsMicroButton",
+			"PVPMicroButton",
+			"LFGMicroButton",
+			"EJMicroButton",
+			"MainMenuMicroButton",
+			"HelpMicroButton",
+		}
+		if not EJMicroButton then -- added in cata
+			tDeleteItem(BT_MICRO_BUTTONS, "EJMicroButton")
+		end
+		if not CollectionsMicroButton then -- added mid-wrath
+			tDeleteItem(BT_MICRO_BUTTONS, "CollectionsMicroButton")
+		end
+	end
 else
 	BT_MICRO_BUTTONS = {
 		"CharacterMicroButton",
