@@ -22,7 +22,36 @@ local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
 
 local BT_MICRO_BUTTONS
 if WoWClassic then
-	BT_MICRO_BUTTONS = CopyTable(MICRO_BUTTONS)
+	-- note: guild and social share a spot, so never include GuildMicroButton
+
+	if WOW_PROJECT_ID == WOW_PROJECT_CLASSIC then
+		BT_MICRO_BUTTONS = CopyTable(MICRO_BUTTONS)
+		tDeleteItem(BT_MICRO_BUTTONS, "LFGMicroButton")
+	elseif WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC then
+		BT_MICRO_BUTTONS = CopyTable(MICRO_BUTTONS)
+	else -- Wrath onward
+		-- MICRO_BUTTONS lists the buttons in the incorrect order
+		BT_MICRO_BUTTONS = {
+			"CharacterMicroButton",
+			"SpellbookMicroButton",
+			"TalentMicroButton",
+			"AchievementMicroButton",
+			"QuestLogMicroButton",
+			"SocialsMicroButton",
+			"CollectionsMicroButton",
+			"PVPMicroButton",
+			"LFGMicroButton",
+			"EJMicroButton",
+			"MainMenuMicroButton",
+			"HelpMicroButton",
+		}
+		if not EJMicroButton then -- added in cata
+			tDeleteItem(BT_MICRO_BUTTONS, "EJMicroButton")
+		end
+		if not CollectionsMicroButton then -- added mid-wrath
+			tDeleteItem(BT_MICRO_BUTTONS, "CollectionsMicroButton")
+		end
+	end
 else
 	BT_MICRO_BUTTONS = {
 		"CharacterMicroButton",
@@ -38,6 +67,8 @@ else
 		"MainMenuMicroButton",
 	}
 end
+
+local FIX_BLIZZ_OVERRIDE_BAR_MICRO_BUTTONS = WoWClassic and CollectionsMicroButton ~= nil
 
 -- create prototype information
 local MicroMenuBar = setmetatable({}, {__index = ButtonBar})
@@ -188,26 +219,37 @@ function MicroMenuMod:UpdateMicroButtonsParent(parent)
 end
 
 function MicroMenuMod:MicroMenuBarShow()
-	-- Only "fix" button anchors if another frame that uses the MicroButtonBar isn't active.
 	if not self.ownedByUI then
+		-- Only "fix" button anchors if another frame that uses the MicroButtonBar isn't active.
 		if UpdateMicroButtonsParent then
 			UpdateMicroButtonsParent(self.bar)
 		end
 		self.bar:UpdateButtonLayout()
 	end
+
+	if self.ownedByUI and FIX_BLIZZ_OVERRIDE_BAR_MICRO_BUTTONS then
+		PVPMicroButton:ClearSetPoint("BOTTOMLEFT", CollectionsMicroButton, "BOTTOMRIGHT", -2, 0)
+	end
 end
 
 function MicroMenuMod:BlizzardBarShow()
-	if WoWClassicEra then
-		-- Only reset button positions not set in MoveMicroButtons()
+	if WoWClassic then
+		-- Only reset button positions not set in MoveMicroButtons(), unless...
+
+		-- Some time in Wrath or Cata Classic, Blizzard introduced a visual bug in the override bar.
+		-- The micro buttons don't get wrapped correctly. The UI is supposed to wrap the collections
+		-- micro button, but it wraps the pvp micro button instead, resulting in an uneven number of
+		-- buttons in each row. The padding is also wrong.
 		for i,v in pairs(self.bar.buttons) do
-			if v ~= CharacterMicroButton and v ~= PVPMicroButton then
-				v:ClearSetPoint(unpack(self.bar.anchors[i]))
+			if FIX_BLIZZ_OVERRIDE_BAR_MICRO_BUTTONS and v == CollectionsMicroButton then
+				v:ClearSetPoint("TOPLEFT", CharacterMicroButton, "BOTTOMLEFT", 0, 23)
+			elseif v ~= CharacterMicroButton and v ~= PVPMicroButton then
+				local _, relativeTo = unpack(self.bar.anchors[i])
+				v:ClearSetPoint("BOTTOMLEFT", relativeTo, "BOTTOMRIGHT", -2, 0)
 			end
 		end
 	end
 end
-
 
 if WoWClassic then
 	MicroMenuBar.button_width = 29
