@@ -1,6 +1,7 @@
 ## Interface: 110105,110107
 ## Interface-Classic: 11507
 ## Interface-Cata: 40402
+## Interface-MoP: 50500
 
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
