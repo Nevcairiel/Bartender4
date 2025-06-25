@@ -40,19 +40,21 @@ else
 end
 
 -- create prototype information
-local MicroMenuBar = setmetatable({}, {__index = ButtonBar})
+local MicroMenuBar = setmetatable({}, { __index = ButtonBar })
 
-local defaults = { profile = Bartender4.Util:Merge({
-	enabled = true,
-	vertical = false,
-	visibility = {
-		possess = false,
-	},
-	padding = WoWClassicEra and -3 or (WoWClassic and -4 or 1),
-	position = {
-		scale = WoWClassic and 0.8 or 1.0,
-	},
-}, Bartender4.ButtonBar.defaults) }
+local defaults = {
+	profile = Bartender4.Util:Merge({
+		enabled = true,
+		vertical = false,
+		visibility = {
+			possess = false,
+		},
+		padding = WoWClassicEra and -3 or (WoWClassic and -4 or 1),
+		position = {
+			scale = WoWClassic and 0.8 or 1.0,
+		},
+	}, Bartender4.ButtonBar.defaults)
+}
 
 function MicroMenuMod:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("MicroMenu", defaults)
@@ -61,7 +63,8 @@ end
 
 function MicroMenuMod:OnEnable()
 	if not self.bar then
-		self.bar = setmetatable(Bartender4.ButtonBar:Create("MicroMenu", self.db.profile, L["Micro Menu"], true), {__index = MicroMenuBar})
+		self.bar = setmetatable(Bartender4.ButtonBar:Create("MicroMenu", self.db.profile, L["Micro Menu"], true),
+			{ __index = MicroMenuBar })
 		local buttons = {}
 
 		-- remove the LFG button on classic era
@@ -74,7 +77,7 @@ function MicroMenuMod:OnEnable()
 			tDeleteItem(BT_MICRO_BUTTONS, "GuildMicroButton")
 		end
 
-		for i=1, #BT_MICRO_BUTTONS do
+		for i = 1, #BT_MICRO_BUTTONS do
 			local button = _G[BT_MICRO_BUTTONS[i]]
 			if button then
 				table_insert(buttons, button)
@@ -87,11 +90,10 @@ function MicroMenuMod:OnEnable()
 			self.ownedByUI = (MicroMenu:GetParent() ~= UIParent)
 
 			if not self.ownedByUI then
-				for i,v in pairs(buttons) do
+				for i, v in pairs(buttons) do
 					v:SetParent(self.bar)
 				end
 			end
-
 		elseif self.bar.buttons[1]:GetParent() ~= MainMenuBarArtFrame then
 			self.ownedByUI = true
 		end
@@ -99,8 +101,8 @@ function MicroMenuMod:OnEnable()
 		MicroMenuMod.button_count = #buttons
 
 		self.bar.anchors = {}
-		for i,v in pairs(buttons) do
-			self.bar.anchors[i] = { v:GetPoint() }	-- Save orig button anchors.
+		for i, v in pairs(buttons) do
+			self.bar.anchors[i] = { v:GetPoint() } -- Save orig button anchors.
 			v:SetFrameLevel(self.bar:GetFrameLevel() + 1)
 			v.ClearSetPoint = self.bar.ClearSetPoint
 		end
@@ -153,7 +155,7 @@ end
 
 function MicroMenuMod:MicroMenuSetParent(_, parent)
 	if parent == UIParent then
-		for i,v in pairs(self.bar.buttons) do
+		for i, v in pairs(self.bar.buttons) do
 			v:SetParent(self.bar)
 		end
 
@@ -162,7 +164,7 @@ function MicroMenuMod:MicroMenuSetParent(_, parent)
 		return
 	end
 
-	for i,v in pairs(self.bar.buttons) do
+	for i, v in pairs(self.bar.buttons) do
 		v:SetParent(MicroMenu)
 	end
 
@@ -200,14 +202,13 @@ end
 function MicroMenuMod:BlizzardBarShow()
 	if WoWClassicEra then
 		-- Only reset button positions not set in MoveMicroButtons()
-		for i,v in pairs(self.bar.buttons) do
+		for i, v in pairs(self.bar.buttons) do
 			if v ~= CharacterMicroButton and v ~= PVPMicroButton then
 				v:ClearSetPoint(unpack(self.bar.anchors[i]))
 			end
 		end
 	end
 end
-
 
 if WoWClassic then
 	MicroMenuBar.button_width = 29
@@ -235,14 +236,25 @@ function MicroMenuBar:UpdateButtonLayout()
 
 	if HelpMicroButton and StoreMicroButton then
 		HelpMicroButton:ClearAllPoints()
-		HelpMicroButton:SetAllPoints(StoreMicroButton)
-		-- If the StoreButton is hidden we want to replace it with the Help button
+
+		local success = pcall(function()
+			HelpMicroButton:SetPoint("TOPLEFT", StoreMicroButton, "TOPLEFT", 0, 0)
+			HelpMicroButton:SetPoint("BOTTOMRIGHT", StoreMicroButton, "BOTTOMRIGHT", 0, 0)
+		end)
+
+		if not success then
+			HelpMicroButton:SetParent(UIParent)
+			HelpMicroButton:SetPoint("CENTER", UIParent, "CENTER", 0, 0)
+			HelpMicroButton:Hide()
+		end
+
 		if not StoreMicroButton:IsShown() then
 			HelpMicroButton:Show()
 		else
 			HelpMicroButton:Hide()
 		end
 	end
+
 
 	if WoWClassic and GuildMicroButton then
 		GuildMicroButton:ClearAllPoints()
@@ -254,19 +266,21 @@ if not WoWClassic and QueueStatusButton then
 	local QueueStatusMod = Bartender4:NewModule("QueueStatusButtonBar", "AceHook-3.0")
 
 	-- create prototype information
-	local QueueStatusBar = setmetatable({}, {__index = Bar})
+	local QueueStatusBar = setmetatable({}, { __index = Bar })
 
-	local queuedefaults = { profile = Bartender4.Util:Merge({
-		enabled = true,
-		visibility = {
-			possess = false,
-		},
-		position = {
-			x = -315,
-			y = 150,
-			point = "BOTTOMRIGHT",
-		},
-	}, Bartender4.Bar.defaults) }
+	local queuedefaults = {
+		profile = Bartender4.Util:Merge({
+			enabled = true,
+			visibility = {
+				possess = false,
+			},
+			position = {
+				x = -315,
+				y = 150,
+				point = "BOTTOMRIGHT",
+			},
+		}, Bartender4.Bar.defaults)
+	}
 
 	function QueueStatusMod:OnInitialize()
 		self.db = Bartender4.db:RegisterNamespace("QueueStatus", queuedefaults)
@@ -275,7 +289,8 @@ if not WoWClassic and QueueStatusButton then
 
 	function QueueStatusMod:OnEnable()
 		if not self.bar then
-			self.bar = setmetatable(Bartender4.Bar:Create("QueueStatus", self.db.profile, L["Queue Status"], 1), {__index = QueueStatusBar})
+			self.bar = setmetatable(Bartender4.Bar:Create("QueueStatus", self.db.profile, L["Queue Status"], 1),
+				{ __index = QueueStatusBar })
 			self.bar:SetSize(45, 45)
 			self.bar.content = QueueStatusButton
 			self.bar.content:SetParent(self.bar)
