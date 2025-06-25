@@ -15,13 +15,31 @@ local pairs, setmetatable, table_insert = pairs, setmetatable, table.insert
 
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+local WoWClassicMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
 
 -- GLOBALS: CharacterMicroButton, SpellbookMicroButton, TalentMicroButton, AchievementMicroButton, QuestLogMicroButton, GuildMicroButton
 -- GLOBALS: LFDMicroButton, CollectionsMicroButton, EJMicroButton, MainMenuMicroButton
 -- GLOBALS: HasVehicleActionBar, UnitVehicleSkin, HasOverrideActionBar, GetOverrideBarSkin
 
 local BT_MICRO_BUTTONS
-if WoWClassic then
+if WoWClassicMists then
+	BT_MICRO_BUTTONS = {
+		"CharacterMicroButton",
+		"SpellbookMicroButton",
+		"TalentMicroButton",
+		"AchievementMicroButton",
+		"QuestLogMicroButton",
+		"SocialsMicroButton",
+		"GuildMicroButton",
+		"EJMicroButton",
+		"CollectionsMicroButton",
+		"PVPMicroButton",
+		"LFGMicroButton",
+		--"HelpMicroButton",
+		"StoreMicroButton",
+		"MainMenuMicroButton",
+	}
+elseif WoWClassic then
 	BT_MICRO_BUTTONS = CopyTable(MICRO_BUTTONS)
 else
 	BT_MICRO_BUTTONS = {
@@ -48,7 +66,7 @@ local defaults = { profile = Bartender4.Util:Merge({
 	visibility = {
 		possess = false,
 	},
-	padding = WoWClassicEra and -3 or (WoWClassic and -4 or 1),
+	padding = (WoWClassicEra or WoWClassicMists) and -3 or (WoWClassic and -4 or 1),
 	position = {
 		scale = WoWClassic and 0.8 or 1.0,
 	},
@@ -72,6 +90,11 @@ function MicroMenuMod:OnEnable()
 		-- guild and social share a spot
 		if WoWClassic then
 			tDeleteItem(BT_MICRO_BUTTONS, "GuildMicroButton")
+		end
+
+		-- these are handled below, if both are in here it'll error
+		if HelpMicroButton and StoreMicroButton then
+			tDeleteItem(BT_MICRO_BUTTONS, "HelpMicroButton")
 		end
 
 		for i=1, #BT_MICRO_BUTTONS do
