@@ -8,14 +8,11 @@ _G.Bartender4 = Bartender4
 
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
-local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
-local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
-local WoW10 = select(4, GetBuildInfo()) >= 100000
+local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
 
 local LDB = LibStub("LibDataBroker-1.1", true)
 local LDBIcon = LibStub("LibDBIcon-1.0", true)
-local LibDualSpec = (not WoWClassic or WoWWrath or WoWCata) and LibStub("LibDualSpec-1.0", true)
+local LibDualSpec = (not WoWClassicEra) and LibStub("LibDualSpec-1.0", true)
 
 local _G = _G
 local type, pairs, hooksecurefunc = type, pairs, hooksecurefunc

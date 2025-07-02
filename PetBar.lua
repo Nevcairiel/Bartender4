@@ -11,9 +11,8 @@ local PetBarMod = Bartender4:NewModule("PetBar", "AceEvent-3.0")
 local ActionBars = Bartender4:GetModule("ActionBars")
 local ButtonBar = Bartender4.ButtonBar.prototype
 
+local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
 local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
-local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
-local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 
 local setmetatable, select = setmetatable, select
 
@@ -61,7 +60,7 @@ function PetBarMod:OnEnable()
 	self.bar:RegisterEvent("PET_BAR_UPDATE_USABLE")
 	self.bar:RegisterEvent("PET_UI_UPDATE")
 	self.bar:RegisterEvent("PLAYER_TARGET_CHANGED")
-	if WoWRetail or WoWWrath or WoWCata then
+	if not WoWClassicEra then
 		self.bar:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR")
 	end
 	self.bar:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED")

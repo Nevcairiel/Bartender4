@@ -11,6 +11,7 @@ local select, ipairs, pairs, tostring, tonumber, min, setmetatable = select, ipa
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
+local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 
 local LAB10 = LibStub("LibActionButton-1.0")
@@ -69,7 +70,7 @@ local abdefaults = {
 			actionbar = false,
 			stance = {
 				DRUID = { bear = 9, cat = 7, prowl = 8 },
-				ROGUE = (WoWWrath or WoWCata) and { stealth = 7, shadowdance = 8 } or { stealth = 7 },
+				ROGUE = (WoWWrath or WoWCata or WoWMists) and { stealth = 7, shadowdance = 8 } or { stealth = 7 },
 				WARRIOR = WoWClassic and { battle = 7, def = 8, berserker = 9 } or nil,
 				PRIEST = WoWClassic and { shadowform = 7 } or nil,
 				EVOKER = { soar = 7 },
@@ -328,7 +329,7 @@ function BT4ActionBars:Create(id, config, bindingmapping)
 	bar.bindingmapping = bindingmapping
 
 	bar:SetScript("OnEvent", bar.OnEvent)
-	if not WoWClassic or WoWCata then
+	if not WoWClassic or WoWCata or WoWMists then
 		bar:RegisterEvent("PLAYER_TALENT_UPDATE")
 		bar:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 	end
