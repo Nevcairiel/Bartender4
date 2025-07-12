@@ -114,8 +114,8 @@ DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 		}
 	elseif k == "MONK" then
     		newT = {
-        		{ id = "tiger", name = Bartender4.Compat.GetSpellName(103985), index = 2 },
-        		{ id = "ox", name = Bartender4.Compat.GetSpellName(115069), index = 1 },
+        		{ id = "tiger", name = Bartender4.Compat.GetSpellName(103985), index = 1 },
+        		{ id = "ox", name = Bartender4.Compat.GetSpellName(115069), index = 2 },
         		{ id = "serpent", name = Bartender4.Compat.GetSpellName(115070), index = 3},
     		}
 	end
