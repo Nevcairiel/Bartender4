@@ -1,6 +1,5 @@
-## Interface: 110107,110200
+## Interface: 110107,110200,50500
 ## Interface-Vanilla: 11507
-## Interface-Classic: 50500
 
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
