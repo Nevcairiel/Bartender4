@@ -112,6 +112,12 @@ DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 		newT = {
 			{ id = "shadowform", name = Bartender4.Compat.GetSpellName(15473), index = 1 },
 		}
+	elseif k == "MONK" then
+		newT = {
+			{ id = "tiger", name = Bartender4.Compat.GetSpellName(103985), index = 1 },
+			{ id = "ox", name = Bartender4.Compat.GetSpellName(115069), index = 2 },
+			{ id = "serpent", name = Bartender4.Compat.GetSpellName(115070), index = 3 },
+		}
 	end
 	rawset(t, k, newT)
 
