@@ -51,6 +51,7 @@ read_globals = {
 	"C_AddOns",
 	"C_LFGList",
 	"C_PetBattles",
+	"C_SpecializationInfo",
 	"C_Spell",
 	"C_SpellBook",
 
