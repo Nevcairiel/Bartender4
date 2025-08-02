@@ -115,6 +115,8 @@ function ActionBar:UpdateButtonConfig()
 
 	self.buttonConfig.keyBoundClickButton = "Keybind"
 
+	self.buttonConfig.actionButtonUI = true
+
 	updateTextElementConfig(self.buttonConfig.text.hotkey, self.config.elements.hotkey)
 	updateTextElementConfig(self.buttonConfig.text.count, self.config.elements.count)
 	updateTextElementConfig(self.buttonConfig.text.macro, self.config.elements.macro)
