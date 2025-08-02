@@ -221,7 +221,7 @@ function MicroMenuMod:MicroMenuBarShow()
 end
 
 function MicroMenuMod:BlizzardBarShow()
-	if WoWClassicEra then
+	if WoWClassic then
 		-- Only reset button positions not set in MoveMicroButtons()
 		for i,v in pairs(self.bar.buttons) do
 			if v ~= CharacterMicroButton and v ~= PVPMicroButton then
