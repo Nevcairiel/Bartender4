@@ -16,6 +16,7 @@ local GetSpecialization = C_SpecializationInfo and C_SpecializationInfo.GetSpeci
 
 local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
 local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+local WoWClassicMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
 
 local StateBar = setmetatable({}, {__index = ButtonBar})
 local StateBar_MT = {__index = StateBar}
@@ -104,7 +105,7 @@ DefaultStanceMap = setmetatable({}, { __index = function(t,k)
 			{ id = "stealth", name = Bartender4.Compat.GetSpellName(1784), index = 1 },
 			(not WoWClassicEra and not WoWRetail) and { id = "shadowdance", name = Bartender4.Compat.GetSpellName(51713), index = 2 } or nil,
 		}
-	elseif k ==  "WARRIOR" then
+	elseif k ==  "WARRIOR" and not WoWClassicMists then
 		newT = {
 			{ id = "battle", name = Bartender4.Compat.GetSpellName(2457), index = 1 },
 			{ id = "def", name = Bartender4.Compat.GetSpellName(71), index = 2 },
