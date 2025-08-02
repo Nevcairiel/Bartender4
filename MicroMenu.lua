@@ -31,10 +31,10 @@ if WoWClassicMists then
 		"QuestLogMicroButton",
 		"SocialsMicroButton",
 		"GuildMicroButton",
-		"EJMicroButton",
-		"CollectionsMicroButton",
 		"PVPMicroButton",
 		"LFGMicroButton",
+		"CollectionsMicroButton",
+		"EJMicroButton",
 		--"HelpMicroButton",
 		"StoreMicroButton",
 		"MainMenuMicroButton",
@@ -221,11 +221,13 @@ function MicroMenuMod:MicroMenuBarShow()
 end
 
 function MicroMenuMod:BlizzardBarShow()
-	if WoWClassicEra then
+	if WoWClassicMists then
 		-- Only reset button positions not set in MoveMicroButtons()
 		for i,v in pairs(self.bar.buttons) do
 			if v ~= CharacterMicroButton and v ~= PVPMicroButton then
-				v:ClearSetPoint(unpack(self.bar.anchors[i]))
+				-- The Blizzard UI has incorrect padding between these buttons
+				local point, relativeTo, relativePoint = unpack(self.bar.anchors[i])
+				v:ClearSetPoint(point, relativeTo, relativePoint, -2, 0)
 			end
 		end
 	end
