@@ -116,6 +116,7 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.keyBoundClickButton = "Keybind"
 
 	self.buttonConfig.actionButtonUI = true
+	self.buttonConfig.spellCastVFX = Bartender4.db.profile.spellCastVFX
 
 	updateTextElementConfig(self.buttonConfig.text.hotkey, self.config.elements.hotkey)
 	updateTextElementConfig(self.buttonConfig.text.count, self.config.elements.count)

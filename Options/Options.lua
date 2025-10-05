@@ -139,6 +139,19 @@ local function generateOptions()
 								end,
 								width = "full",
 							},
+							spellCastVFX = {
+								order = 3,
+								type = "toggle",
+								name = L["Show Spell Cast VFX on action buttons"],
+								desc = L["Shows the miniature cast bar on action buttons when casting spells."],
+								get = function(info) return Bartender4.db.profile.spellCastVFX end,
+								set = function(info, value)
+									Bartender4.db.profile.spellCastVFX = value
+									Bartender4.Bar:ForAll("UpdateButtonConfig")
+								end,
+								hidden = WoWClassic,
+								width = "full",
+							},
 							selfcastmodifier = {
 								order = 10,
 								type = "toggle",

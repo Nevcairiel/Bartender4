@@ -36,6 +36,7 @@ local defaults = {
 		snapping = true,
 		blizzardVehicle = false,
 		flyoutBackground = true,
+		spellCastVFX = true,
 		minimapIcon = {},
 		mouseovermod = "NONE"
 	}
