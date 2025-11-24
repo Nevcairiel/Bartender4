@@ -31,6 +31,12 @@ do
 		flyoutDirection = "FlyoutDirection",
 		buttonOffset = "ButtonOffset",
 		border = "HideBorder",
+		horizontalIndent = "HorizontalIndent",
+		verticalIndent = "VerticalIndent",
+		horizontalSpacing = "HorizontalSpacing",
+		verticalSpacing = "VerticalSpacing",
+		horizontalInterlace ="HorizontalInterlace",
+		verticalInterlace = "VerticalInterlace"
 	}
 
 	-- retrieves a valid bar object from the modules actionbars table
@@ -155,6 +161,71 @@ function module:GetOptionsObject()
 				set = optSetter,
 				get = optGetter,
 			},
+
+			header_stagger = {
+				order = 121,
+				type = "header",
+				name = L["Interlace"],
+			},
+
+			horizontalIndent = {
+				order = 122,
+				name = L["Horizontal indent"],
+				desc = L["indent in horizontal direction"],
+				type = "range",
+				min = -1, max = 1, step = 0.01,
+				set = optSetter,
+				get = optGetter,
+			},
+			
+			verticalIndent = {
+				order = 123,
+				name = L["Vertical indent"],
+				desc = L["indent in vertical direction."],
+				type = "range",
+				min = -1, max = 1, step = 0.01,
+				set = optSetter,
+				get = optGetter,
+			},
+			
+			horizontalSpacing = {
+				order = 124,
+				name = L["Horizontal Spacing"],
+				desc = L["Increase/Decrease horizontal spacing between buttons."],
+				type = "range",
+				min = -20, max = 20, step = 1,
+				set = optSetter,
+				get = optGetter,
+			},
+			
+			verticalSpacing = {
+				order = 125,
+				name = L["Vertical Spacing"],
+				desc = L["Increase/Decrease vertical spacing between buttons."],
+				type = "range",
+				min = -20, max = 20, step = 1,
+				set = optSetter,
+				get = optGetter,
+			},
+
+			horizontalInterlace ={
+				order = 126,
+				name = L["Horizontal Interlace"],
+				desc = L["Enable/Disable stagger buttons."],
+				type = "toggle",
+				set = optSetter,
+				get = optGetter,
+			},
+
+			verticalInterlace ={
+				order = 127,
+				name = L["Vertical Interlace"],
+				desc = L["Enable/Disable stagger buttons."],
+				type = "toggle",
+				set = optSetter,
+				get = optGetter,
+			},
+
 			buttonOffset = {
 				order = 202,
 				name = L["Button Offset"],
