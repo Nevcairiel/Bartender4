@@ -37,6 +37,8 @@ local function hideActionButton(button)
 	button:Hide()
 	button:UnregisterAllEvents()
 	button:SetAttribute("statehidden", true)
+
+	button.bar = nil
 end
 
 function Bartender4:HideBlizzard()
