@@ -48,6 +48,7 @@ else
 		"PlayerSpellsMicroButton",
 		"AchievementMicroButton",
 		"QuestLogMicroButton",
+		"HousingMicroButton",
 		"GuildMicroButton",
 		"LFDMicroButton",
 		"CollectionsMicroButton",
