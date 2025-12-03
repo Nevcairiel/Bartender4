@@ -68,7 +68,7 @@ function ActionBar:SavePosition()
 end
 
 function ActionBar:OnEvent(event, ...)
-	if event == "PLAYER_TALENT_UPDATE" or event == "PLAYER_SPECIALIZATION_CHANGED" or event == "LEARNED_SPELL_IN_TAB" then
+	if event == "PLAYER_TALENT_UPDATE" or event == "PLAYER_SPECIALIZATION_CHANGED" or event == "LEARNED_SPELL_IN_TAB" or event == "LEARNED_SPELL_IN_SKILL_LINE" then
 		if InCombatLockdown() then
 			self.updateSmartTargetOnOutOfCombat = true
 		else
