@@ -251,6 +251,15 @@ function StateBar:GetOptionObject()
 					desc = (L["Configure actionbar paging when the %s key is down."]):format(L["SHIFT"]),
 					--width = "half",
 				},
+				cmd = {
+					order = 25,
+					type = "select",
+					name = L["COMMAND"],
+					arg = "states",
+					values = validStanceTable,
+					desc = (L["Configure actionbar paging when the %s key is down."]):format(L["COMMAND"]),
+					--width = "half",
+				},
 			},
 		},
 		stances = {
