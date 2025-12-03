@@ -1,5 +1,5 @@
-## Interface: 110200,110205
-## Interface-Vanilla: 11507
+## Interface: 110205,110207,119999
+## Interface-Vanilla: 11508
 ## Interface-Mists: 50501
 
 ## Title: Bartender4
