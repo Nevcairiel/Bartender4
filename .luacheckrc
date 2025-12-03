@@ -129,6 +129,7 @@ read_globals = {
 	"GuildMicroButton",
 	"HelpMicroButton",
 	"PVPMicroButton",
+	"MainActionBar",
 	"MainMenuBar",
 	"MainMenuBarArtFrame",
 	"MainMenuBarArtFrameBackground",
