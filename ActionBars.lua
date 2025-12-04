@@ -176,6 +176,10 @@ function BT4ActionBars:OnEnable()
 
 		LAB10:RegisterCallback("OnFlyoutButtonCreated", function(event, button) button:AddToMasque(self.MasqueFlyoutGroup) end)
 	end
+
+	if EventRegistry then
+		EventRegistry:RegisterCallback("HouseEditor.StateUpdated", function(_, state) self:HousingStateChanged(state) end, self)
+	end
 end
 
 function BT4ActionBars:SetupOptions()
@@ -259,9 +263,23 @@ local function MigrateKeybindBindings(target, ...)
 	return needSaving
 end
 
+function BT4ActionBars:HousingStateChanged(state)
+	self.InHousing = state
+	if state and self.actionbars then
+		for id in pairs(BINDING_MAPPINGS) do
+			local frame = self.actionbars[id]
+			if frame then
+				ClearOverrideBindings(frame)
+			end
+		end
+	elseif not state then
+		self:ReassignBindings()
+	end
+end
+
 local s_inReassignBindings = false
 function BT4ActionBars:ReassignBindings()
-	if InCombatLockdown() or s_inReassignBindings then return end
+	if InCombatLockdown() or s_inReassignBindings or self.InHousing then return end
 	s_inReassignBindings = true
 
 	if self.actionbars then
