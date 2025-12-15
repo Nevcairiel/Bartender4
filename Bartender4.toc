@@ -1,6 +1,6 @@
 ## Interface: 110207,120000,120001
 ## Interface-Vanilla: 11508
-## Interface-Mists: 50501
+## Interface-Mists: 50503
 
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
