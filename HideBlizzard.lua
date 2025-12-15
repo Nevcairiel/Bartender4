@@ -4,8 +4,10 @@
 ]]
 local _, Bartender4 = ...
 
--- WoW Classic (and 9.x) uses the old code
-if select(4, GetBuildInfo()) < 100000 then
+local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+
+if WoWClassic and not WoWBCC then
 	return
 end
 

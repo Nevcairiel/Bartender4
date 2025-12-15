@@ -10,6 +10,7 @@ local select, ipairs, pairs, tostring, tonumber, min, setmetatable = select, ipa
 
 local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+local WoWTBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
@@ -354,10 +355,10 @@ function BT4ActionBars:Create(id, config, bindingmapping)
 		bar:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 	end
 
-	if not WoWMidnight then
-		bar:RegisterEvent("LEARNED_SPELL_IN_TAB")
-	else
+	if WoWMidnight or WoWTBC then
 		bar:RegisterEvent("LEARNED_SPELL_IN_SKILL_LINE")
+	else
+		bar:RegisterEvent("LEARNED_SPELL_IN_TAB")
 	end
 	bar:RegisterEvent("PLAYER_REGEN_ENABLED")
 
