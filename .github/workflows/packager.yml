@@ -42,6 +42,3 @@ jobs:
         run: ./locale/wowace-locale-import.sh
 
       - uses: BigWigsMods/packager@v2
-        with:
-          args: -S
-
