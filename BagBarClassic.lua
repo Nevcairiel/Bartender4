@@ -50,10 +50,19 @@ function BagBarMod:OnEnable()
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
+
+	if BagsBar and BagsBar.Layout then
+		self:SecureHook(BagsBar, "Layout", "BagsBar_Layout")
+		EventRegistry:UnregisterCallback("MainMenuBarManager.OnExpandChanged", BagsBar);
+	end
 end
 
 function BagBarMod:ApplyConfig()
 	self.bar:ApplyConfig(self.db.profile)
+end
+
+function BagBarMod:BagsBar_Layout()
+	self.bar:UpdateButtonLayout()
 end
 
 function BagBar:ApplyConfig(config)

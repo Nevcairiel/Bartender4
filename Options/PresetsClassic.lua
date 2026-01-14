@@ -13,6 +13,7 @@ local Bar = Bartender4.Bar.prototype
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 if WoW10 then return end
 
+local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
 
@@ -221,6 +222,9 @@ local function BuildBlizzardProfile()
 		config.padding = 4
 		config.scale = 0.9
 		SetBarLocation( config, "BOTTOM", 346, 38)
+	elseif WoWBCC then
+		config.padding = 5
+		SetBarLocation( config, "BOTTOM", 295, 42)
 	elseif GetClassicExpansionLevel() >= 2 --[[Wrath]] then
 		config.padding = 4
 		SetBarLocation( config, "BOTTOM", 304, 42)
