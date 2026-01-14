@@ -15,6 +15,7 @@ local pairs, setmetatable, table_insert = pairs, setmetatable, table.insert
 
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+local WoWClassicBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoWClassicMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
 
 -- GLOBALS: CharacterMicroButton, SpellbookMicroButton, TalentMicroButton, AchievementMicroButton, QuestLogMicroButton, GuildMicroButton
@@ -232,8 +233,11 @@ function MicroMenuMod:BlizzardBarShow()
 	end
 end
 
-
-if WoWClassic then
+if WoWClassicBCC then
+	MicroMenuBar.button_width = 32
+	MicroMenuBar.button_height = 40
+	MicroMenuBar.vpad_offset = 0
+elseif WoWClassic then
 	MicroMenuBar.button_width = 29
 	MicroMenuBar.button_height = 58
 	MicroMenuBar.vpad_offset = -20
