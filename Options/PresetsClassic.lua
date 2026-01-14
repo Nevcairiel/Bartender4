@@ -78,17 +78,19 @@ local function BuildSingleProfile()
 	Bartender4:GetModule("StanceBar"):Disable()
 
 	if PresetsMod.showXPBar then
-		config = Bartender4.db:GetNamespace("XPBar").profile
-		config.enabled = true
-		config.scale = 0.5
-		Bartender4:GetModule("XPBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -256, 48)
+		if MainMenuExpBar then
+			config = Bartender4.db:GetNamespace("XPBar").profile
+			config.enabled = true
+			config.scale = 0.5
+			Bartender4:GetModule("XPBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -256, 48)
 
-		config = Bartender4.db:GetNamespace("RepBar").profile
-		config.enabled = true
-		config.scale = 0.5
-		Bartender4:GetModule("RepBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -256, 51)
+			config = Bartender4.db:GetNamespace("RepBar").profile
+			config.enabled = true
+			config.scale = 0.5
+			Bartender4:GetModule("RepBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -256, 51)
+		end
 	end
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
@@ -145,15 +147,17 @@ local function BuildDoubleProfile()
 	Bartender4:GetModule("MicroMenu"):Disable()
 
 	if PresetsMod.showXPBar then
-		config = Bartender4.db:GetNamespace("XPBar").profile
-		config.enabled = true
-		Bartender4:GetModule("XPBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -514, 54)
+		if MainMenuExpBar then
+			config = Bartender4.db:GetNamespace("XPBar").profile
+			config.enabled = true
+			Bartender4:GetModule("XPBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -514, 54)
 
-		config = Bartender4.db:GetNamespace("RepBar").profile
-		config.enabled = true
-		Bartender4:GetModule("RepBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -514, 61)
+			config = Bartender4.db:GetNamespace("RepBar").profile
+			config.enabled = true
+			Bartender4:GetModule("RepBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -514, 61)
+		end
 	end
 
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
@@ -239,15 +243,17 @@ local function BuildBlizzardProfile()
 	SetBarLocation( config, "BOTTOM", 33, 42)
 
 	if PresetsMod.showXPBar then
-		config = Bartender4.db:GetNamespace("XPBar").profile
-		config.enabled = true
-		Bartender4:GetModule("XPBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -514, 54)
+		if MainMenuExpBar then
+			config = Bartender4.db:GetNamespace("XPBar").profile
+			config.enabled = true
+			Bartender4:GetModule("XPBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -514, 54)
 
-		config = Bartender4.db:GetNamespace("RepBar").profile
-		config.enabled = true
-		Bartender4:GetModule("RepBar"):Enable()
-		SetBarLocation( config, "BOTTOM", -514, 61)
+			config = Bartender4.db:GetNamespace("RepBar").profile
+			config.enabled = true
+			Bartender4:GetModule("RepBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -514, 61)
+		end
 	end
 
 	if HasMultiCastActionBar and HasMultiCastActionBar() then
