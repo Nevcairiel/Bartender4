@@ -273,6 +273,7 @@ function MicroMenuBar:UpdateButtonLayout()
 	end
 
 	if WoWClassic and GuildMicroButton then
+		GuildMicroButton:SetParent(self)
 		GuildMicroButton:ClearAllPoints()
 		GuildMicroButton:SetAllPoints(SocialsMicroButton)
 	end
