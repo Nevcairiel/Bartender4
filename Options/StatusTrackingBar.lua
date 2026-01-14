@@ -7,6 +7,8 @@ local _, Bartender4 = ...
 -- only in 8.0
 if not StatusTrackingBarManager then return end
 
+local WoWClassicBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+
 -- fetch upvalues
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
@@ -28,16 +30,18 @@ function StatusBarMod:SetupOptions()
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
 
-		local width = {
-			order = 80,
-			name = L["Width"],
-			desc = L["Width of the Status Bars"],
-			type = "range",
-			min = 10, softMin = 200, softMax = 2000, step = 1,
-			get = function() return self.db.profile.width end,
-			set = function(info, state) self.db.profile.width = state; self.bar:PerformLayout() end,
-		}
-		self.optionobject:AddElement("general", "width", width)
+		if not WoWClassicBCC then
+			local width = {
+				order = 80,
+				name = L["Width"],
+				desc = L["Width of the Status Bars"],
+				type = "range",
+				min = 10, softMin = 200, softMax = 2000, step = 1,
+				get = function() return self.db.profile.width end,
+				set = function(info, state) self.db.profile.width = state; self.bar:PerformLayout() end,
+			}
+			self.optionobject:AddElement("general", "width", width)
+		end
 
 		self.disabledoptions = {
 			general = {

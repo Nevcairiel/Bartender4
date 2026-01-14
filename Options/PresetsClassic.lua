@@ -90,6 +90,12 @@ local function BuildSingleProfile()
 			config.scale = 0.5
 			Bartender4:GetModule("RepBar"):Enable()
 			SetBarLocation( config, "BOTTOM", -256, 51)
+		elseif StatusTrackingBarManager then -- BCC Anniversary
+			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
+			config.enabled = true
+			config.scale = 0.5
+			Bartender4:GetModule("StatusTrackingBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -258, 58)
 		end
 	end
 
@@ -157,6 +163,12 @@ local function BuildDoubleProfile()
 			config.enabled = true
 			Bartender4:GetModule("RepBar"):Enable()
 			SetBarLocation( config, "BOTTOM", -514, 61)
+		elseif StatusTrackingBarManager then -- BCC Anniversary
+			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
+			config.enabled = true
+			config.scale = 1
+			Bartender4:GetModule("StatusTrackingBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -519, 72)
 		end
 	end
 
@@ -253,6 +265,12 @@ local function BuildBlizzardProfile()
 			config.enabled = true
 			Bartender4:GetModule("RepBar"):Enable()
 			SetBarLocation( config, "BOTTOM", -514, 61)
+		elseif StatusTrackingBarManager then -- BCC Anniversary
+			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
+			config.enabled = true
+			config.scale = 1
+			Bartender4:GetModule("StatusTrackingBar"):Enable()
+			SetBarLocation( config, "BOTTOM", -519, 72)
 		end
 	end
 
