@@ -4,8 +4,10 @@
 ]]
 local _, Bartender4 = ...
 
--- WoW Classic (and 9.x) uses the old code
-if select(4, GetBuildInfo()) < 100000 then
+local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+
+if WoWClassic and not WoWBCC then
 	return
 end
 
@@ -37,6 +39,8 @@ local function hideActionButton(button)
 	button:Hide()
 	button:UnregisterAllEvents()
 	button:SetAttribute("statehidden", true)
+
+	button.bar = nil
 end
 
 function Bartender4:HideBlizzard()
@@ -45,7 +49,8 @@ function Bartender4:HideBlizzard()
 	UIHider:Hide()
 	self.UIHider = UIHider
 
-	hideActionBarFrame(MainMenuBar, false)
+	hideActionBarFrame(MainMenuBar, false) -- <= 11.2.5
+	hideActionBarFrame(MainActionBar, false) -- >= 11.2.7/12.0
 	hideActionBarFrame(MultiBarBottomLeft, true)
 	hideActionBarFrame(MultiBarBottomRight, true)
 	hideActionBarFrame(MultiBarLeft, true)
@@ -76,10 +81,12 @@ function Bartender4:HideBlizzard()
 	hideActionBarFrame(MicroMenu, true)
 
 	-- these events drive visibility, we want the MainMenuBar to remain invisible
-	MainMenuBar:UnregisterEvent("PLAYER_REGEN_ENABLED")
-	MainMenuBar:UnregisterEvent("PLAYER_REGEN_DISABLED")
-	MainMenuBar:UnregisterEvent("ACTIONBAR_SHOWGRID")
-	MainMenuBar:UnregisterEvent("ACTIONBAR_HIDEGRID")
+	if MainMenuBar then -- <= 11.2.5
+		MainMenuBar:UnregisterEvent("PLAYER_REGEN_ENABLED")
+		MainMenuBar:UnregisterEvent("PLAYER_REGEN_DISABLED")
+		MainMenuBar:UnregisterEvent("ACTIONBAR_SHOWGRID")
+		MainMenuBar:UnregisterEvent("ACTIONBAR_HIDEGRID")
+	end
 
 	if C_AddOns.IsAddOnLoaded("Blizzard_NewPlayerExperience") then
 		self:NPE_LoadUI()

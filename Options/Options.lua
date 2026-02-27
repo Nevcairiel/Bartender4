@@ -9,8 +9,9 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 local error, select, pairs = error, select, pairs
 local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
-local WoW10 = select(4, GetBuildInfo()) >= 100000
+local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
 local SaveBindings = SaveBindings or AttemptToSaveBindings
 
 -- GLOBALS: LibStub, UnitHasVehicleUI, GetModifiedClick, SetModifiedClick, SaveBindings, GetCurrentBindingSet, InCombatLockdown
@@ -123,20 +124,33 @@ local function generateOptions()
 								name = L["Toggle actions on key press instead of release"],
 								desc = L["Toggles actions immediately when you press the key, and not only on release. Note that the buttons need to be locked for actions to run on key press."],
 								get = function(info)
-									if WoW10 then
+									if WoWRetail or WoWBCC then
 										return GetCVarBool("ActionButtonUseKeyDown")
 									else
 										return Bartender4.db.profile.onkeydown
 									end
 								end,
 								set = function(info, value)
-									if WoW10 then
+									if WoWRetail or WoWBCC then
 										SetCVar("ActionButtonUseKeyDown", value)
 									else
 										Bartender4.db.profile.onkeydown = value
 										Bartender4.Bar:ForAll("UpdateButtonConfig")
 									end
 								end,
+								width = "full",
+							},
+							spellCastVFX = {
+								order = 3,
+								type = "toggle",
+								name = L["Show Spell Cast VFX on action buttons"],
+								desc = L["Shows the miniature cast bar on action buttons when casting spells."],
+								get = function(info) return Bartender4.db.profile.spellCastVFX end,
+								set = function(info, value)
+									Bartender4.db.profile.spellCastVFX = value
+									Bartender4.Bar:ForAll("UpdateButtonConfig")
+								end,
+								hidden = WoWClassic,
 								width = "full",
 							},
 							selfcastmodifier = {

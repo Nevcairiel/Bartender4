@@ -32,6 +32,7 @@ function ExtraActionBarMod:OnInitialize()
 	self:SetEnabledState(self.db.profile.enabled)
 end
 
+local SetPointFromBT = nil
 function ExtraActionBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("ExtraActionBar", self.db.profile, L["Extra Action Bar"], 2), {__index = ExtraActionBar})
@@ -47,6 +48,9 @@ function ExtraActionBarMod:OnEnable()
 		if ExtraAbilityContainer then
 			self.bar.content:SetScript("OnShow", nil)
 			self.bar.content:SetScript("OnHide", nil)
+
+			-- can't fully take it of EditMode, but can override it
+			hooksecurefunc(ExtraAbilityContainer, "SetPoint", function() if not SetPointFromBT then self.bar:PerformLayout() end end)
 		end
 	end
 	self.bar:Enable()
@@ -119,9 +123,15 @@ function ExtraActionBar:ApplyConfig(config)
 end
 
 function ExtraActionBar:PerformLayout()
+	if InCombatLockdown() then return end
+
+	SetPointFromBT = true
+
 	self:SetSize(128, 128)
 	local bar = self.content
 	bar:SetParent(self)
 	bar:ClearAllPoints()
 	bar:SetPoint("CENTER", self, "TOPLEFT", 64, -64)
+
+	SetPointFromBT = nil
 end

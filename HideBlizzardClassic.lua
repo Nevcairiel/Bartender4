@@ -4,12 +4,12 @@
 ]]
 local _, Bartender4 = ...
 
--- WoW 10.0 uses new code
-if select(4, GetBuildInfo()) >= 100000 then
+local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+
+if not WoWClassic or WoWBCC then
 	return
 end
-
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 
 local function hideActionBarFrame(frame, clearEvents, reanchor, noAnchorChanges)
 	if frame then

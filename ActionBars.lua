@@ -8,11 +8,13 @@ local BT4ActionBars = Bartender4:NewModule("ActionBars", "AceEvent-3.0")
 
 local select, ipairs, pairs, tostring, tonumber, min, setmetatable = select, ipairs, pairs, tostring, tonumber, min, setmetatable
 
+local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+local WoWTBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
-local WoW10 = select(4, GetBuildInfo()) >= 100000
+local WoWMidnight = select(4, GetBuildInfo()) >= 120000
 
 local LAB10 = LibStub("LibActionButton-1.0")
 local LSM = LibStub("LibSharedMedia-3.0")
@@ -40,7 +42,7 @@ local abdefaults = {
 				textJustifyH = "CENTER",
 			},
 			hotkey = {
-				fontSize = WoW10 and 16 or 13,
+				fontSize = WoWRetail and 16 or 13,
 				fontColor = {0.9, 0.9, 0.9},
 				textAnchor = "TOPRIGHT",
 				textOffsetX = -2,
@@ -48,7 +50,7 @@ local abdefaults = {
 				textJustifyH = "RIGHT",
 			},
 			count = {
-				fontSize = WoW10 and 19 or 16,
+				fontSize = WoWRetail and 19 or 16,
 				textAnchor = "BOTTOMRIGHT",
 				textOffsetX = -2,
 				textOffsetY = 4,
@@ -56,7 +58,7 @@ local abdefaults = {
 			},
 			macro = {
 				font = "Friz Quadrata TT",
-				fontSize = WoW10 and 11 or 10,
+				fontSize = WoWRetail and 11 or 10,
 				textAnchor = "BOTTOM",
 				textOffsetX = 0,
 				textOffsetY = 2,
@@ -105,7 +107,7 @@ local abdefaults = {
 	},
 }
 
-local LIST_ACTIONBARS = WoW10 and { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15 } or { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }
+local LIST_ACTIONBARS = WoWRetail and { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15 } or { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }
 BT4ActionBars.LIST_ACTIONBARS = LIST_ACTIONBARS
 
 local BINDING_MAPPINGS = {
@@ -174,6 +176,10 @@ function BT4ActionBars:OnEnable()
 		end
 
 		LAB10:RegisterCallback("OnFlyoutButtonCreated", function(event, button) button:AddToMasque(self.MasqueFlyoutGroup) end)
+	end
+
+	if EventRegistry then
+		EventRegistry:RegisterCallback("HouseEditor.StateUpdated", function(_, state) self:HousingStateChanged(state) end, self)
 	end
 end
 
@@ -258,9 +264,23 @@ local function MigrateKeybindBindings(target, ...)
 	return needSaving
 end
 
+function BT4ActionBars:HousingStateChanged(state)
+	self.InHousing = state
+	if state and self.actionbars then
+		for id in pairs(BINDING_MAPPINGS) do
+			local frame = self.actionbars[id]
+			if frame then
+				ClearOverrideBindings(frame)
+			end
+		end
+	elseif not state then
+		self:ReassignBindings()
+	end
+end
+
 local s_inReassignBindings = false
 function BT4ActionBars:ReassignBindings()
-	if InCombatLockdown() or s_inReassignBindings then return end
+	if InCombatLockdown() or s_inReassignBindings or self.InHousing then return end
 	s_inReassignBindings = true
 
 	if self.actionbars then
@@ -309,7 +329,7 @@ BT4ActionBars.BLIZZARD_BAR_MAP = {
 }
 
 function BT4ActionBars:GetBarName(id)
-	if WoW10 then
+	if WoWRetail then
 		local barID = tonumber(id)
 		if barID == 7 or barID == 8 or barID == 9 or barID == 10 then
 			return (L["Class Bar %d"]):format(barID - 6)
@@ -334,7 +354,12 @@ function BT4ActionBars:Create(id, config, bindingmapping)
 		bar:RegisterEvent("PLAYER_TALENT_UPDATE")
 		bar:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 	end
-	bar:RegisterEvent("LEARNED_SPELL_IN_TAB")
+
+	if WoWMidnight or WoWTBC then
+		bar:RegisterEvent("LEARNED_SPELL_IN_SKILL_LINE")
+	else
+		bar:RegisterEvent("LEARNED_SPELL_IN_TAB")
+	end
 	bar:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 	self:CreateBarOption(id)

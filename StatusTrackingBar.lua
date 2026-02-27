@@ -11,9 +11,11 @@ local Bar = Bartender4.Bar.prototype
 -- only available on 8.0
 if not StatusTrackingBarManager then return end
 
+local WoWClassicBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+
 local defaults = { profile = Bartender4.Util:Merge({
 	enabled = false,
-	width = 571,
+	width = WoWClassicBCC and 1024 or 571,
 	twentySections = true,
 }, Bartender4.Bar.defaults) }
 
@@ -26,6 +28,10 @@ local StatusBar = setmetatable({}, {__index = Bar})
 function StatusBarMod:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("StatusTrackingBar", defaults)
 	self:SetEnabledState(self.db.profile.enabled)
+
+	if WoWClassicBCC then
+		self.db.profile.width = 1024
+	end
 end
 
 function StatusBarMod:OnEnable()
@@ -45,9 +51,6 @@ function StatusBarMod:OnEnable()
 		if self.bar.manager.MainStatusTrackingBarContainer then
 			self.bar.manager.MainStatusTrackingBarContainer:SetWidth(self.db.profile.width)
 			self.bar.manager.SecondaryStatusTrackingBarContainer:SetWidth(self.db.profile.width)
-		else
-			self.bar.manager.BottomBarFrameTexture:SetPoint("BOTTOMRIGHT")
-			self.bar.manager.TopBarFrameTexture:SetPoint("BOTTOMRIGHT", self.bar.manager.BottomBarFrameTexture, "TOPRIGHT", 0, -3)
 		end
 		self.bar.manager:Show()
 		self.bar.manager:SetFrameLevel(2)

@@ -68,7 +68,7 @@ function ActionBar:SavePosition()
 end
 
 function ActionBar:OnEvent(event, ...)
-	if event == "PLAYER_TALENT_UPDATE" or event == "PLAYER_SPECIALIZATION_CHANGED" or event == "LEARNED_SPELL_IN_TAB" then
+	if event == "PLAYER_TALENT_UPDATE" or event == "PLAYER_SPECIALIZATION_CHANGED" or event == "LEARNED_SPELL_IN_TAB" or event == "LEARNED_SPELL_IN_SKILL_LINE" then
 		if InCombatLockdown() then
 			self.updateSmartTargetOnOutOfCombat = true
 		else
@@ -116,6 +116,7 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.keyBoundClickButton = "Keybind"
 
 	self.buttonConfig.actionButtonUI = true
+	self.buttonConfig.spellCastVFX = Bartender4.db.profile.spellCastVFX
 
 	updateTextElementConfig(self.buttonConfig.text.hotkey, self.config.elements.hotkey)
 	updateTextElementConfig(self.buttonConfig.text.count, self.config.elements.count)
