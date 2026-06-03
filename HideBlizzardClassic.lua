@@ -6,8 +6,9 @@ local _, Bartender4 = ...
 
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
 
-if not WoWClassic or WoWBCC then
+if not WoWClassic or WoWBCC or WoWMists then
 	return
 end
 
