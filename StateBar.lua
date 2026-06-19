@@ -32,6 +32,7 @@ local defaults = Bartender4.Util:Merge({
 		ctrl = 0,
 		alt = 0,
 		shift = 0,
+		cmd = 0,
 		stance = {
 			['*'] = {
 			},
@@ -84,7 +85,7 @@ end
 --------------------------------------------------------------
 -- Stance Management
 
-local modifiers = { "ctrl", "alt", "shift" }
+local modifiers = { "ctrl", "alt", "shift", "cmd" }
 
 -- specifiy the available stances for each class
 local DefaultStanceMap
