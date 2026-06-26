@@ -18,6 +18,7 @@ ignore = {
 
 globals = {
 	"_G",
+	"BT4AutoCastOverlayManager",
 	"UIPARENT_MANAGED_FRAME_POSITIONS",
 	"ShowPetActionBar",
 
@@ -82,6 +83,7 @@ read_globals = {
 	"IsKeyRingEnabled",
 	"IsModifiedClick",
 	"IsPetAttackAction",
+	"Mixin",
 	"MouseIsOver",
 	"PickupPetAction",
 	"PlaySound",
@@ -117,6 +119,8 @@ read_globals = {
 
 	-- FrameXML Frames
 	"AchievementMicroButton",
+	"AutoCastOverlayManager",
+	"AutoCastOverlayManagerMixin",
 	"BagsBar",
 	"CharacterMicroButton",
 	"CollectionsMicroButton",

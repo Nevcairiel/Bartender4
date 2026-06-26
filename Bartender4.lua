@@ -101,6 +101,14 @@ function Bartender4:OnInitialize()
 			self:SecureHook(EditModeManagerFrame.EnableSnapCheckButton, "SetControlChecked", "UpdateSnapFromEditMode")
 		end
 	end
+
+	if AutoCastOverlayManager and AutoCastOverlayManagerMixin then
+		BT4AutoCastOverlayManager = CreateFrame("Frame")
+		Mixin(BT4AutoCastOverlayManager, AutoCastOverlayManagerMixin)
+
+		BT4AutoCastOverlayManager:OnLoad()
+		BT4AutoCastOverlayManager:SetScript("OnUpdate", BT4AutoCastOverlayManager.OnUpdate)
+	end
 end
 
 function Bartender4:InitializeProfile()

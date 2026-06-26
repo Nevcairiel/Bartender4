@@ -47,6 +47,18 @@ local function onReceiveDrag(self)
 	end
 end
 
+local function BT4ShowAutoCastEnabled(self, isEnabled)
+	if (isEnabled) then
+		BT4AutoCastOverlayManager:AddActiveShine(self);
+	else
+		BT4AutoCastOverlayManager:RemoveActiveShine(self);
+	end
+
+	for _, sparkle in ipairs(self.sparkles) do
+		sparkle:SetShown(isEnabled);
+	end
+end
+
 Bartender4.PetButton = {}
 Bartender4.PetButton.prototype = PetButtonPrototype
 function Bartender4.PetButton:Create(id, parent)
@@ -55,6 +67,10 @@ function Bartender4.PetButton:Create(id, parent)
 	button.showgrid = 0
 	button.id = id
 	button.parent = parent
+
+	if button.AutoCastOverlay and BT4AutoCastOverlayManager then
+		button.AutoCastOverlay.ShowAutoCastEnabled = BT4ShowAutoCastEnabled
+	end
 
 	button:SetFrameStrata("MEDIUM")
 	button:SetID(id)
