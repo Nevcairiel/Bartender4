@@ -233,7 +233,7 @@ function MicroMenuMod:BlizzardBarShow()
 	end
 end
 
-if WoWClassicBCC then
+if WoWClassicBCC or WoWClassicMists then
 	MicroMenuBar.button_width = 32
 	MicroMenuBar.button_height = 40
 	MicroMenuBar.vpad_offset = 0
