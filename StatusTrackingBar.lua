@@ -12,10 +12,11 @@ local Bar = Bartender4.Bar.prototype
 if not StatusTrackingBarManager then return end
 
 local WoWClassicBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+local WoWClassicMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
 
 local defaults = { profile = Bartender4.Util:Merge({
 	enabled = false,
-	width = WoWClassicBCC and 1024 or 571,
+	width = (WoWClassicBCC or WoWClassicMists) and 1024 or 571,
 	twentySections = true,
 }, Bartender4.Bar.defaults) }
 
@@ -29,7 +30,7 @@ function StatusBarMod:OnInitialize()
 	self.db = Bartender4.db:RegisterNamespace("StatusTrackingBar", defaults)
 	self:SetEnabledState(self.db.profile.enabled)
 
-	if WoWClassicBCC then
+	if WoWClassicBCC or WoWClassicMists then
 		self.db.profile.width = 1024
 	end
 end
