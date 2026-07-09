@@ -40,6 +40,7 @@ read_globals = {
 	"hooksecurefunc",
 	"issecurevariable",
 	"CopyTable",
+	"tContains",
 	"tDeleteItem",
 	"table.wipe",
 

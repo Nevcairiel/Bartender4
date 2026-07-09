@@ -71,6 +71,9 @@ else
 	}
 end
 
+
+local HelpAndStoreSameButton = WoWClassic and HelpMicroButton and StoreMicroButton and tContains(BT_MICRO_BUTTONS, "StoreMicroButton") and tContains(BT_MICRO_BUTTONS, "HelpMicroButton")
+
 -- create prototype information
 local MicroMenuBar = setmetatable({}, {__index = ButtonBar})
 
@@ -107,7 +110,7 @@ function MicroMenuMod:OnEnable()
 		end
 
 		-- these are handled below, if both are in here it'll error
-		if HelpMicroButton and StoreMicroButton then
+		if HelpAndStoreSameButton then
 			tDeleteItem(BT_MICRO_BUTTONS, "HelpMicroButton")
 		end
 
@@ -273,7 +276,7 @@ end
 function MicroMenuBar:UpdateButtonLayout()
 	ButtonBar.UpdateButtonLayout(self)
 
-	if HelpMicroButton and StoreMicroButton then
+	if HelpAndStoreSameButton then
 		HelpMicroButton:ClearAllPoints()
 		HelpMicroButton:SetAllPoints(StoreMicroButton)
 		-- If the StoreButton is hidden we want to replace it with the Help button
