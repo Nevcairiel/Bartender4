@@ -40,6 +40,18 @@ if WoWClassicMists then
 		"StoreMicroButton",
 		"MainMenuMicroButton",
 	}
+elseif WoWClassicBCC then
+	BT_MICRO_BUTTONS = {
+		"CharacterMicroButton",
+		"SpellbookMicroButton",
+		"TalentMicroButton",
+		"QuestLogMicroButton",
+		"SocialsMicroButton",
+		--"GuildMicroButton", -- social and guild share a spot
+		"WorldMapMicroButton",
+		"MainMenuMicroButton",
+		"HelpMicroButton",
+	}
 elseif WoWClassic then
 	BT_MICRO_BUTTONS = CopyTable(MICRO_BUTTONS)
 else
