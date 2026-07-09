@@ -41,7 +41,16 @@ if WoWClassicMists then
 		"MainMenuMicroButton",
 	}
 elseif WoWClassic then
-	BT_MICRO_BUTTONS = CopyTable(MICRO_BUTTONS)
+	BT_MICRO_BUTTONS = MICRO_BUTTONS and CopyTable(MICRO_BUTTONS) or {
+        "CharacterMicroButton",
+        "SpellbookMicroButton",
+        "TalentMicroButton",
+        "QuestLogMicroButton",
+        "SocialsMicroButton",
+        "WorldMapMicroButton",
+        "MainMenuMicroButton",
+        "HelpMicroButton",
+    }
 else
 	BT_MICRO_BUTTONS = {
 		"CharacterMicroButton",
@@ -95,7 +104,7 @@ function MicroMenuMod:OnEnable()
 		end
 
 		-- these are handled below, if both are in here it'll error
-		if HelpMicroButton and StoreMicroButton then
+		if not WoWClassic and HelpMicroButton and StoreMicroButton then
 			tDeleteItem(BT_MICRO_BUTTONS, "HelpMicroButton")
 		end
 
@@ -259,24 +268,25 @@ function MicroMenuBar:ApplyConfig(config)
 end
 
 function MicroMenuBar:UpdateButtonLayout()
-	ButtonBar.UpdateButtonLayout(self)
+    ButtonBar.UpdateButtonLayout(self)
 
-	if HelpMicroButton and StoreMicroButton then
-		HelpMicroButton:ClearAllPoints()
-		HelpMicroButton:SetAllPoints(StoreMicroButton)
-		-- If the StoreButton is hidden we want to replace it with the Help button
-		if not StoreMicroButton:IsShown() then
-			HelpMicroButton:Show()
-		else
-			HelpMicroButton:Hide()
-		end
-	end
+    -- Only run this logic if we are NOT on a Classic client
+    if not WoWClassic and HelpMicroButton and StoreMicroButton then
+        HelpMicroButton:ClearAllPoints()
+        HelpMicroButton:SetAllPoints(StoreMicroButton)
+        -- If the StoreButton is hidden we want to replace it with the Help button
+        if not StoreMicroButton:IsShown() then
+            HelpMicroButton:Show()
+        else
+            HelpMicroButton:Hide()
+        end
+    end
 
-	if WoWClassic and GuildMicroButton then
-		GuildMicroButton:SetParent(self)
-		GuildMicroButton:ClearAllPoints()
-		GuildMicroButton:SetAllPoints(SocialsMicroButton)
-	end
+    if WoWClassic and GuildMicroButton then
+        GuildMicroButton:SetParent(self)
+        GuildMicroButton:ClearAllPoints()
+        GuildMicroButton:SetAllPoints(SocialsMicroButton)
+    end
 end
 
 if not WoWClassic and QueueStatusButton then
