@@ -113,7 +113,6 @@ read_globals = {
 	"MainMenuBarVehicleLeaveButton_Update",
 	"NPE_LoadUI",
 	"RegisterStateDriver",
-	"SetDesaturation",
 	"Tutorials",
 	"UnregisterStateDriver",
 	"UpdateMicroButtonsParent",

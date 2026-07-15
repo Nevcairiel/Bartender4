@@ -18,7 +18,7 @@ local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
 local _G = _G
 local format, select, setmetatable = string.format, select, setmetatable
 
--- GLOBALS: InCombatLockdown, CreateFrame, SetDesaturation, IsModifiedClick, GetBindingKey, GetBindingText, SetBinding
+-- GLOBALS: InCombatLockdown, CreateFrame, IsModifiedClick, GetBindingKey, GetBindingText, SetBinding
 -- GLOBALS: AutoCastShine_AutoCastStop, AutoCastShine_AutoCastStart, CooldownFrame_Set
 -- GLOBALS: PickupPetAction, , GetPetActionInfo, GetPetActionsUsable, GetPetActionCooldown
 
@@ -156,9 +156,9 @@ function PetButtonPrototype:Update()
 
 	if texture then
 		if GetPetActionsUsable() then
-			SetDesaturation(self.icon, nil)
+			self.icon:SetDesaturated(false)
 		else
-			SetDesaturation(self.icon, 1)
+			self.icon:SetDesaturated(true)
 		end
 		self.icon:Show()
 
