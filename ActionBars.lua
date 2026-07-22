@@ -355,11 +355,7 @@ function BT4ActionBars:Create(id, config, bindingmapping)
 		bar:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 	end
 
-	if WoWMidnight or WoWTBC or WoWMists then
-		bar:RegisterEvent("LEARNED_SPELL_IN_SKILL_LINE")
-	else
-		bar:RegisterEvent("LEARNED_SPELL_IN_TAB")
-	end
+	bar:RegisterEvent("LEARNED_SPELL_IN_SKILL_LINE")
 	bar:RegisterEvent("PLAYER_REGEN_ENABLED")
 
 	self:CreateBarOption(id)

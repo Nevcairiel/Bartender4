@@ -53,7 +53,17 @@ elseif WoWClassicBCC then
 		"HelpMicroButton",
 	}
 elseif WoWClassic then
-	BT_MICRO_BUTTONS = CopyTable(MICRO_BUTTONS)
+	BT_MICRO_BUTTONS = {
+		"CharacterMicroButton",
+		"SpellbookMicroButton",
+		"TalentMicroButton",
+		"QuestLogMicroButton",
+		"SocialsMicroButton",
+		--"GuildMicroButton", -- social and guild share a spot
+		"WorldMapMicroButton",
+		"MainMenuMicroButton",
+		"HelpMicroButton",
+	}
 else
 	BT_MICRO_BUTTONS = {
 		"CharacterMicroButton",
@@ -98,11 +108,6 @@ function MicroMenuMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("MicroMenu", self.db.profile, L["Micro Menu"], true), {__index = MicroMenuBar})
 		local buttons = {}
-
-		-- remove the LFG button on classic era
-		if WoWClassicEra then
-			tDeleteItem(BT_MICRO_BUTTONS, "LFGMicroButton")
-		end
 
 		-- guild and social share a spot
 		if WoWClassic then
@@ -248,14 +253,10 @@ function MicroMenuMod:BlizzardBarShow()
 	end
 end
 
-if WoWClassicBCC or WoWClassicMists then
+if WoWClassic then
 	MicroMenuBar.button_width = 32
 	MicroMenuBar.button_height = 40
 	MicroMenuBar.vpad_offset = 0
-elseif WoWClassic then
-	MicroMenuBar.button_width = 29
-	MicroMenuBar.button_height = 58
-	MicroMenuBar.vpad_offset = -20
 else
 	MicroMenuBar.button_width = 32
 	MicroMenuBar.button_height = 40

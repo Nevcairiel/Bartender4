@@ -1,4 +1,4 @@
-## Interface: 120007,120100,11508,50504,20506
+## Interface: 120007,120100,11509,50504,20506
 
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
@@ -58,7 +58,6 @@ locale\locale.xml
 ## Core ##
 Bartender4.lua
 HideBlizzard.lua
-HideBlizzardClassic.lua
 
 ## Prototypes ##
 Bar.lua

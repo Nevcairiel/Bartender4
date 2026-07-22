@@ -251,7 +251,7 @@ local function BuildBlizzardProfile()
 
 	config = Bartender4.db:GetNamespace("MicroMenu").profile
 	config.position.scale = 1.0
-	config.padding = (WoWCata or WoWMists) and -3 or -2
+	config.padding = -3
 	SetBarLocation( config, "BOTTOM", 33, 42)
 
 	if PresetsMod.showXPBar then

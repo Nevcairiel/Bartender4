@@ -124,21 +124,8 @@ local function generateOptions()
 								type = "toggle",
 								name = L["Toggle actions on key press instead of release"],
 								desc = L["Toggles actions immediately when you press the key, and not only on release. Note that the buttons need to be locked for actions to run on key press."],
-								get = function(info)
-									if WoWRetail or WoWBCC or WoWMists then
-										return GetCVarBool("ActionButtonUseKeyDown")
-									else
-										return Bartender4.db.profile.onkeydown
-									end
-								end,
-								set = function(info, value)
-									if WoWRetail or WoWBCC or WoWMists then
-										SetCVar("ActionButtonUseKeyDown", value)
-									else
-										Bartender4.db.profile.onkeydown = value
-										Bartender4.Bar:ForAll("UpdateButtonConfig")
-									end
-								end,
+								get = function(info) return GetCVarBool("ActionButtonUseKeyDown") end,
+								set = function(info, value) SetCVar("ActionButtonUseKeyDown", value) end,
 								width = "full",
 							},
 							spellCastVFX = {

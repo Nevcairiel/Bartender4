@@ -68,7 +68,7 @@ function ActionBar:SavePosition()
 end
 
 function ActionBar:OnEvent(event, ...)
-	if event == "PLAYER_TALENT_UPDATE" or event == "PLAYER_SPECIALIZATION_CHANGED" or event == "LEARNED_SPELL_IN_TAB" or event == "LEARNED_SPELL_IN_SKILL_LINE" then
+	if event == "PLAYER_TALENT_UPDATE" or event == "PLAYER_SPECIALIZATION_CHANGED" or event == "LEARNED_SPELL_IN_SKILL_LINE" then
 		if InCombatLockdown() then
 			self.updateSmartTargetOnOutOfCombat = true
 		else
@@ -110,7 +110,6 @@ function ActionBar:UpdateButtonConfig()
 	self.buttonConfig.hideElements.border = (self.config.hideborder or self.config.skin.Zoom) and true or false
 
 	self.buttonConfig.showGrid = self.config.showgrid
-	self.buttonConfig.clickOnDown = Bartender4.db.profile.onkeydown
 	self.buttonConfig.flyoutDirection = self.config.flyoutDirection
 
 	self.buttonConfig.keyBoundClickButton = "Keybind"

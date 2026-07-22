@@ -7,7 +7,7 @@ local _, Bartender4 = ...
 -- only in 8.0
 if not StatusTrackingBarManager then return end
 
-local WoWClassicBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
+local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 
 -- fetch upvalues
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
@@ -30,7 +30,7 @@ function StatusBarMod:SetupOptions()
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
 
-		if not WoWClassicBCC then
+		if not WoWClassic then
 			local width = {
 				order = 80,
 				name = L["Width"],
