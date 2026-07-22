@@ -4,6 +4,8 @@
 ]]
 local _, Bartender4 = ...
 
+local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+
 local function hideActionBarFrame(frame, clearEvents)
 	if frame then
 		if clearEvents then
@@ -33,7 +35,10 @@ local function hideActionButton(button)
 	button:UnregisterAllEvents()
 	button:SetAttribute("statehidden", true)
 
-	button.bar = nil
+	-- on classic severing the link for some reason causes more events to fire, and the client to stall a bit
+	if not WoWClassic then
+		button.bar = nil
+	end
 end
 
 function Bartender4:HideBlizzard()
