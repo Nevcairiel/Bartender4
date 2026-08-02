@@ -6,6 +6,7 @@ local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
 local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+local WoWClassicBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoW10 = select(4, GetBuildInfo()) >= 100000
 
 local BagBarMod = Bartender4:GetModule("BagBar")
@@ -63,7 +64,7 @@ function BagBarMod:SetupOptions()
 			self.optionobject:AddElement("general", "onebagreagents", onebagreagents)
 		end
 
-		if WoWClassicEra then
+		if (WoWClassicEra or WoWClassicBCC) then
 			local keyring = {
 				type = "toggle",
 				order = 80,
