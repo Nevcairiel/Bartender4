@@ -8,6 +8,7 @@ local WoW10 = select(4, GetBuildInfo()) >= 100000
 if WoW10 then return end
 
 local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+local WoWClassicBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
@@ -110,7 +111,7 @@ function BagBar:FeedButtons()
 		self.buttons = {}
 	end
 
-	if KeyRingButton and WoWClassicEra and self.config.keyring then
+	if KeyRingButton and (WoWClassicEra or WoWClassicBCC) and self.config.keyring then
 		table_insert(self.buttons, KeyRingButton)
 		count = count + 1
 	elseif KeyRingButton then
