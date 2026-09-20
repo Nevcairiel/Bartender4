@@ -13,6 +13,7 @@ local ButtonBar = Bartender4.ButtonBar.prototype
 
 local pairs, setmetatable, table_insert = pairs, setmetatable, table.insert
 
+local WoWForever = Bartender4.IsForever
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
 local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
 local WoWClassicBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
@@ -84,6 +85,24 @@ end
 
 local HelpAndStoreSameButton = WoWClassic and HelpMicroButton and StoreMicroButton and tContains(BT_MICRO_BUTTONS, "StoreMicroButton") and tContains(BT_MICRO_BUTTONS, "HelpMicroButton")
 
+local function AppendMicroButtonsFrom(container, buttons)
+	if not container then return end
+
+	for _, child in ipairs({ container:GetChildren() }) do
+		local childName = child.GetName and child:GetName()
+		if childName and childName:match("MicroButton$") and not tContains(buttons, child) then
+			table_insert(buttons, child)
+		end
+	end
+end
+
+local function HideClientMicroMenuArt()
+	if not MicroMenu then return end
+
+	if MicroMenu.BackgroundArt then MicroMenu.BackgroundArt:Hide() end
+	if MicroMenu.BorderArt then MicroMenu.BorderArt:Hide() end
+end
+
 -- create prototype information
 local MicroMenuBar = setmetatable({}, {__index = ButtonBar})
 
@@ -125,6 +144,13 @@ function MicroMenuMod:OnEnable()
 				table_insert(buttons, button)
 			end
 		end
+
+		-- the button set moves with the beta, the table above only covers retail
+		if WoWForever then
+			AppendMicroButtonsFrom(MicroMenu, buttons)
+			AppendMicroButtonsFrom(MicroMenuContainer, buttons)
+		end
+
 		self.bar.buttons = buttons
 
 		-- check if its owned by the UI on initial load
@@ -239,6 +265,11 @@ function MicroMenuMod:MicroMenuBarShow()
 			UpdateMicroButtonsParent(self.bar)
 		end
 		self.bar:UpdateButtonLayout()
+
+		-- the emptied menu keeps drawing its backdrop, which reads as a second micro menu
+		if WoWForever then
+			HideClientMicroMenuArt()
+		end
 	end
 end
 
