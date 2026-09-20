@@ -166,8 +166,9 @@ end
 local math_floor = math.floor
 local math_ceil = math.ceil
 -- align the buttons and correct the size of the bar overlay frame
-ButtonBar.button_width = WoW10 and 45 or 36
-ButtonBar.button_height = WoW10 and 45 or 36
+local ModernButtons = WoW10 or Bartender4.IsForever
+ButtonBar.button_width = ModernButtons and 45 or 36
+ButtonBar.button_height = ModernButtons and 45 or 36
 function ButtonBar:UpdateButtonLayout()
 	local buttons = self.buttons
 	local pad = self:GetPadding()
