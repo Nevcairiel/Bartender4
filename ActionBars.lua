@@ -8,8 +8,9 @@ local BT4ActionBars = Bartender4:NewModule("ActionBars", "AceEvent-3.0")
 
 local select, ipairs, pairs, tostring, tonumber, min, setmetatable = select, ipairs, pairs, tostring, tonumber, min, setmetatable
 
-local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
+local WoWForever = Bartender4.IsForever
+local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) and not WoWForever
+local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE) or WoWForever
 local WoWTBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)

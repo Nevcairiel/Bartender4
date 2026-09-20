@@ -8,7 +8,12 @@ _G.Bartender4 = Bartender4
 
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
-local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+-- Forever is Vanilla content on the modern client and reports mainline with a Vanilla build
+-- number, so only the version tells it apart: Vanilla ended at 1.12, Classic Era is 1.15.x.
+local versionMajor, versionMinor = (GetBuildInfo()):match("^(%d+)%.(%d+)")
+Bartender4.IsForever = versionMajor ~= nil and tonumber(versionMajor) == 1 and tonumber(versionMinor) >= 60
+
+local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) or Bartender4.IsForever
 
 local LDB = LibStub("LibDataBroker-1.1", true)
 local LDBIcon = LibStub("LibDBIcon-1.0", true)

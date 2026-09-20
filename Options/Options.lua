@@ -8,7 +8,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 local error, select, pairs = error, select, pairs
-local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
+local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC) or Bartender4.IsForever
 local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
 local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
