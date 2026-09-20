@@ -11,7 +11,8 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
 
 local WoW10 = select(4, GetBuildInfo()) >= 100000
-if WoW10 then return end
+-- Forever reports mainline with a Vanilla build number, so Presets.lua loads there too
+if WoW10 or WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then return end
 
 local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
