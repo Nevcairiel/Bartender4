@@ -55,6 +55,9 @@ libs\SimpleSticky.lua
 
 locale\locale.xml
 
+## Game Type bootstrap
+GameTypes.lua
+
 ## Core ##
 Bartender4.lua
 HideBlizzard.lua
