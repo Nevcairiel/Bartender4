@@ -325,7 +325,9 @@ if not WoWClassic and QueueStatusButton then
 			self.bar.content = QueueStatusButton
 			self.bar.content:SetParent(self.bar)
 		end
-		self:SecureHook(QueueStatusButton, "UpdatePosition", "UpdateLayout")
+		if QueueStatusButton.UpdatePosition then
+			self:SecureHook(QueueStatusButton, "UpdatePosition", "UpdateLayout")
+		end
 		self.bar:Enable()
 		self:ToggleOptions()
 		self:ApplyConfig()
