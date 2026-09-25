@@ -10,8 +10,6 @@ local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
 
-local WoW11 = select(4, GetBuildInfo()) >= 110000
-
 local PresetsMod = Bartender4:NewModule("Presets")
 local ActionBarsMod = Bartender4:GetModule("ActionBars")
 
@@ -224,9 +222,9 @@ local function BuildClassicBlizzardProfile()
 	SetBarLocation( config, "BOTTOM", 345, 38.5 )
 
 	config = Bartender4.db:GetNamespace("MicroMenu").profile
-	config.position.scale = WoW11 and 1.15 or 1.5
+	config.position.scale =  1.15
 	config.padding = -1
-	SetBarLocation( config, "BOTTOM", WoW11 and 33 or 32, WoW11 and 46 or 41.75 )
+	SetBarLocation( config, "BOTTOM", 33, 46 )
 
 	config = Bartender4.db:GetNamespace("QueueStatus").profile
 	config.position.scale = 1.0
@@ -304,19 +302,15 @@ local function BuildBlizzardProfile()
 	config = Bartender4.db:GetNamespace("MicroMenu").profile
 	config.position.scale = 1.0
 	config.padding = 1
-	if WoW11 then
-		SetBarLocation( config, "BOTTOMRIGHT", -284, 42 )
-	else
-		SetBarLocation( config, "BOTTOMRIGHT", -229, 34 )
-	end
+	SetBarLocation( config, "BOTTOMRIGHT", -284, 42 )
 
 	config = Bartender4.db:GetNamespace("QueueStatus").profile
 	config.position.scale = 1.0
-	SetBarLocation( config, "BOTTOMRIGHT", WoW11 and -324 or -271, 40.5 )
+	SetBarLocation( config, "BOTTOMRIGHT", -324, 40.5 )
 
 	config = Bartender4.db:GetNamespace("BagBar").profile
 	config.onebag = false
-	SetBarLocation( config, "BOTTOMRIGHT", -212, WoW11 and 80 or 74 )
+	SetBarLocation( config, "BOTTOMRIGHT", -212, 80 )
 
 	config = Bartender4.db:GetNamespace("Vehicle").profile
 	SetBarLocation( config, "BOTTOM", -337, 153 )
@@ -388,9 +382,9 @@ local function BuildModernArtClassicProfile()
 	SetBarLocation( config, "BOTTOM", 300, 36 )
 
 	config = Bartender4.db:GetNamespace("MicroMenu").profile
-	config.position.scale = WoW11 and 1.1 or 1.4
+	config.position.scale = 1.1
 	config.padding = -1
-	SetBarLocation( config, "BOTTOM", WoW11 and 2 or 7, WoW11 and 47 or 41 )
+	SetBarLocation( config, "BOTTOM", 2, 47 )
 
 	config = Bartender4.db:GetNamespace("QueueStatus").profile
 	config.position.scale = 1.0
