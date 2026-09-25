@@ -9,8 +9,6 @@ local ActionBar = Bartender4.ActionBar
 
 local lsmlist = AceGUIWidgetLSMlists
 
-local WoW10 = select(4, GetBuildInfo()) >= 100000
-
 local tonumber, tostring, assert = tonumber, tostring, assert
 
 --[[===================================================================================
@@ -171,7 +169,7 @@ function module:GetOptionsObject()
 				desc = L["Hide the border around the action button."],
 				set = optSetter,
 				get = optGetter,
-				hidden = not WoW10,
+				hidden = not Bartender4.Features.ModernButtons,
 			},
 		}
 

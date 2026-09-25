@@ -6,8 +6,6 @@
 local _, Bartender4 = ...
 local Bar = Bartender4.Bar.prototype
 
-local WoW10 = select(4, GetBuildInfo()) >= 100000
-
 local setmetatable, tostring, pairs = setmetatable, tostring, pairs
 
 local ButtonBar = setmetatable({}, {__index = Bar})
@@ -166,8 +164,8 @@ end
 local math_floor = math.floor
 local math_ceil = math.ceil
 -- align the buttons and correct the size of the bar overlay frame
-ButtonBar.button_width = WoW10 and 45 or 36
-ButtonBar.button_height = WoW10 and 45 or 36
+ButtonBar.button_width = Bartender4.Features.ModernButtons and 45 or 36
+ButtonBar.button_height = Bartender4.Features.ModernButtons and 45 or 36
 function ButtonBar:UpdateButtonLayout()
 	local buttons = self.buttons
 	local pad = self:GetPadding()
