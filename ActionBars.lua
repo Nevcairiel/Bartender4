@@ -14,7 +14,6 @@ local WoWTBC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoWWrath = (WOW_PROJECT_ID == WOW_PROJECT_WRATH_CLASSIC)
 local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
-local WoWMidnight = select(4, GetBuildInfo()) >= 120000
 
 local LAB10 = LibStub("LibActionButton-1.0")
 local LSM = LibStub("LibSharedMedia-3.0")
