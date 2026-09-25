@@ -10,8 +10,6 @@ local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
 
-if WOW_PROJECT_ID == WOW_PROJECT_MAINLINE then return end
-
 local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
 local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
 local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)

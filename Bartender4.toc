@@ -110,5 +110,5 @@ Options\MultiCastBar.lua
 ArtBarTemplates.xml
 
 ## Presets -- needs to be the last ##
-Options\Presets.lua
-Options\PresetsClassic.lua
+Options\Presets.lua [AllowLoadGameType mainline]
+Options\PresetsClassic.lua [AllowLoadGameType classic]
