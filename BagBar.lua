@@ -4,9 +4,6 @@
 ]]
 local _, Bartender4 = ...
 
-local WoW10 = select(4, GetBuildInfo()) >= 100000
-if not WoW10 then return end
-
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 -- register module
 local BagBarMod = Bartender4:NewModule("BagBar", "AceHook-3.0")
@@ -27,6 +24,7 @@ local defaults = { profile = Bartender4.Util:Merge({
 	verticalAlignment = "CENTER",
 	onebag = false,
 	onebagreagents = true,
+	keyring = true,
 	visibility = {
 		possess = false,
 	},
@@ -43,12 +41,19 @@ function BagBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.ButtonBar:Create("BagBar", self.db.profile, L["Bag Bar"]), {__index = BagBar})
 
-		CharacterReagentBag0Slot.SetBarExpanded = noopFunc
+		if CharacterReagentBag0Slot then
+			CharacterReagentBag0Slot.SetBarExpanded = noopFunc
+		end
 		CharacterBag3Slot.SetBarExpanded = noopFunc
 		CharacterBag2Slot.SetBarExpanded = noopFunc
 		CharacterBag1Slot.SetBarExpanded = noopFunc
 		CharacterBag0Slot.SetBarExpanded = noopFunc
 	end
+
+	if Bartender4.Features.Keyring and KeyRingButton then
+		KeyRingButton:SetScript("OnShow", nil)
+	end
+
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
@@ -94,8 +99,13 @@ local function MasqueButtonType(button)
 	end
 end
 
-BagBar.button_width = 30
-BagBar.button_height = 30
+if Bartender4.Features.ModernButtons then
+	BagBar.button_width = CharacterBag0Slot:GetWidth()
+	BagBar.button_height = CharacterBag0Slot:GetHeight()
+else
+	BagBar.button_width = 37
+	BagBar.button_height = 37
+end
 BagBarMod.button_count = 6
 function BagBar:FeedButtons()
 	local count = 1
@@ -108,15 +118,25 @@ function BagBar:FeedButtons()
 			btn:SetParent(UIParent)
 			btn:ClearSetPoint("CENTER")
 
-			if group and btn.MasqueButtonData then
-				group:RemoveButton(btn)
+			if btn ~= KeyRingButton then
+				if group and btn.MasqueButtonData then
+					group:RemoveButton(btn)
+				end
 			end
 		end
 	else
 		self.buttons = {}
 	end
 
-	if not self.config.onebag or self.config.onebagreagents then
+	if Bartender4.Features.Keyring and KeyRingButton and self.config.keyring then
+		table_insert(self.buttons, KeyRingButton)
+		count = count + 1
+	elseif KeyRingButton then
+		KeyRingButton:Hide()
+		KeyRingButton:ClearAllPoints()
+	end
+
+	if Bartender4.Features.ReagentBag and CharacterReagentBag0Slot and (not self.config.onebag or self.config.onebagreagents) then
 		table_insert(self.buttons, CharacterReagentBag0Slot)
 		count = count + 1
 	end
@@ -136,14 +156,20 @@ function BagBar:FeedButtons()
 		v:SetParent(self)
 		v:Show()
 
-		if group then
-			if not v.MasqueButtonData then
-				v.MasqueButtonData = {
-					Button = v,
-					Icon = v.icon
-				}
+		if v ~= KeyRingButton then
+			if not Bartender4.Features.ModernButtons then
+				v:ClearNormalTexture()
 			end
-			group:AddButton(v, v.MasqueButtonData, MasqueButtonType(v))
+
+			if group then
+				if not v.MasqueButtonData then
+					v.MasqueButtonData = {
+						Button = v,
+						Icon = v.icon
+					}
+				end
+				group:AddButton(v, v.MasqueButtonData, MasqueButtonType(v))
+			end
 		end
 
 		v.ClearSetPoint = clearSetPoint

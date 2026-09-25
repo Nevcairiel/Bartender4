@@ -74,7 +74,6 @@ PetButton.lua
 ## Modules ##
 ActionBars.lua
 BagBar.lua
-BagBarClassic.lua
 PetBar.lua
 StanceBar.lua
 MicroMenu.lua

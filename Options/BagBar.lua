@@ -5,10 +5,6 @@
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
-local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
-local WoWClassicBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
-local WoW10 = select(4, GetBuildInfo()) >= 100000
-
 local BagBarMod = Bartender4:GetModule("BagBar")
 
 -- fetch upvalues
@@ -51,10 +47,10 @@ function BagBarMod:SetupOptions()
 		}
 		self.optionobject:AddElement("general", "onebag", onebag)
 
-		if WoW10 then
+		if Bartender4.Features.ReagentBag then
 			local onebagreagents = {
 				type = "toggle",
-				order = 80,
+				order = 80.1,
 				name = L["One Bag, Show Reagents"],
 				desc = L["Show the Reagent Bag in One Bag mode"],
 				get = function() return self.db.profile.onebagreagents end,
@@ -64,10 +60,10 @@ function BagBarMod:SetupOptions()
 			self.optionobject:AddElement("general", "onebagreagents", onebagreagents)
 		end
 
-		if (WoWClassicEra or WoWClassicBCC) then
+		if Bartender4.Features.Keyring then
 			local keyring = {
 				type = "toggle",
-				order = 80,
+				order = 80.5,
 				name = L["Keyring"],
 				desc = L["Show the keyring button."],
 				get = function() return self.db.profile.keyring end,

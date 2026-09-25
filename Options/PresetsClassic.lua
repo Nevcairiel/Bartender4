@@ -237,7 +237,7 @@ local function BuildBlizzardProfile()
 		SetBarLocation( config, "BOTTOM", 346, 38)
 	elseif WoWBCC then
 		config.padding = 5
-		SetBarLocation( config, "BOTTOM", 295, 42)
+		SetBarLocation( config, "BOTTOM", 272, 42)
 	elseif GetClassicExpansionLevel() >= 2 --[[Wrath]] then
 		config.padding = 4
 		SetBarLocation( config, "BOTTOM", 304, 42)
