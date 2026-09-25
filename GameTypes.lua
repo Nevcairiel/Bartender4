@@ -18,6 +18,7 @@ Bartender4.GameType.Classic          = not Bartender4.GameType.Mainline
 
 -- version features
 Bartender4.Features = {}
+Bartender4.Features.ModernArtwork = Bartender4.GameType.Mainline
 Bartender4.Features.ModernButtons = Bartender4.GameType.Mainline
 Bartender4.Features.MainlineBarLayout = Bartender4.GameType.Mainline
 

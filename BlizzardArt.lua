@@ -8,8 +8,6 @@
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
-local WoW10 = select(4, GetBuildInfo()) >= 100000
-
 -- fetch upvalues
 local Bar = Bartender4.Bar.prototype
 
@@ -82,7 +80,7 @@ function BlizzardArtMod:OnEnable()
 		self.bar.barTex3b:SetTexture("Interface\\MainMenuBar\\UI-MainMenuBar-Dwarf")
 		self.bar.barTex3b:SetTexCoord(0.9609375, 0.99609375, 0.08203125, 0.25) -- 9 pixels wide, pixels 246 to 254 of 256, inclusive, to be exact
 
-		if WoW10 then
+		if Bartender4.Features.ModernArtwork then
 			self.bar.nineSliceParent = CreateFrame("Frame", nil, self.bar)
 			self.bar.nineSliceParent:SetFrameLevel(4)
 			self.bar.nineSliceParent:SetPoint("TOPLEFT", self.bar, "TOPLEFT", 9, -8)
@@ -116,7 +114,7 @@ function BlizzardArtMod:OnEnable()
 	self:ToggleOptions()
 	self:ApplyConfig()
 
-	if WoW10 then
+	if Bartender4.Features.ModernArtwork then
 		self:RegisterEvent("NEUTRAL_FACTION_SELECT_RESULT", "ApplyConfig")
 	end
 
@@ -162,11 +160,11 @@ function BlizzardArt:ApplyConfig()
 	end
 
 	-- MODERN artwork is only supported in WoW 10.0+
-	if not WoW10 and (config.artLayout == "MODERN" or config.artLayout == "MODERNARTCLASSIC") then
+	if not Bartender4.Features.ModernArtwork and (config.artLayout == "MODERN" or config.artLayout == "MODERNARTCLASSIC") then
 		config.artLayout = "CLASSIC"
 	end
 
-	if WoW10 and config.artLayout == "MODERN" then
+	if Bartender4.Features.ModernArtwork and config.artLayout == "MODERN" then
 		-- hide all the classic artwork
 		self.barTex0:Hide()
 		self.barTex1:Hide()
@@ -202,7 +200,7 @@ function BlizzardArt:ApplyConfig()
 		self:CreateModernButtonArt()
 
 		self:SetSize(577, 61)
-	elseif WoW10 and config.artLayout == "MODERNARTCLASSIC" then --modern art, classic layout
+	elseif Bartender4.Features.ModernArtwork and config.artLayout == "MODERNARTCLASSIC" then --modern art, classic layout
 		-- hide all the classic artwork
 		self.barTex0:Hide()
 		self.barTex1:Hide()
@@ -269,7 +267,7 @@ function BlizzardArt:ApplyConfig()
 		self.barTex0:Show()
 		self.barTex1:Show()
 
-		if WoW10 then
+		if Bartender4.Features.ModernArtwork then
 			self.nineSliceParent:Hide()
 			self.nineSliceMenuBagParent:Hide()
 		end

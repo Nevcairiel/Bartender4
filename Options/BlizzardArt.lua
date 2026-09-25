@@ -12,8 +12,6 @@ local Bar = Bartender4.Bar.prototype
 
 local BlizzardArtMod = Bartender4:GetModule("BlizzardArt")
 
-local WoW10 = select(4, GetBuildInfo()) >= 100000
-
 function BlizzardArtMod:SetupOptions()
 	if not self.options then
 		self.optionobject = Bar:GetOptionObject()
@@ -33,7 +31,7 @@ function BlizzardArtMod:SetupOptions()
 			order = 40,
 			name = L["Layout"],
 			desc = L["Choose between the classic WoW layout and two variations"],
-			values = WoW10 and {MODERN=L["Modern"], MODERNARTCLASSIC=L["Modern Art, Classic"], CLASSIC=L["Classic"], ONEBAR=L["One action bar only"], TWOBAR=L["Two action bars"]} or {CLASSIC=L["Classic"], ONEBAR=L["One action bar only"], TWOBAR=L["Two action bars"]},
+			values = Bartender4.Features.ModernArtwork and {MODERN=L["Modern"], MODERNARTCLASSIC=L["Modern Art, Classic"], CLASSIC=L["Classic"], ONEBAR=L["One action bar only"], TWOBAR=L["Two action bars"]} or {CLASSIC=L["Classic"], ONEBAR=L["One action bar only"], TWOBAR=L["Two action bars"]},
 			get = function() return self.db.profile.artLayout end,
 			set = function(info, val) self.db.profile.artLayout = val; BlizzardArtMod:ApplyConfig() end,
 		}
