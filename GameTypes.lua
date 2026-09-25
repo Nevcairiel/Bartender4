@@ -18,6 +18,7 @@ Bartender4.GameType.Classic          = not Bartender4.GameType.Mainline
 
 -- version features
 Bartender4.Features = {}
+Bartender4.Features.MainlineBarLayout = Bartender4.GameType.Mainline
 
 -- #region safety metatables
 local gameTypeSafetyMT = {

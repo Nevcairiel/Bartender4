@@ -9,7 +9,6 @@ Bartender4.ActionBar = ActionBar
 
 local LAB10 = LibStub("LibActionButton-1.0")
 local LSM = LibStub("LibSharedMedia-3.0")
-local WoW10 = select(4, GetBuildInfo()) >= 100000
 
 local tonumber, format, min = tonumber, format, min
 
@@ -45,7 +44,7 @@ end
 
 -- Apply the specified config to the bar and refresh all settings
 function ActionBar:ApplyConfig(config)
-	if WoW10 then
+	if Bartender4.Features.MainlineBarLayout then
 		WoW10Migration(config or self.config)
 	end
 
@@ -62,7 +61,7 @@ function ActionBar:SavePosition()
 	StateBar.SavePosition(self)
 
 	-- when we change a manual layout change, flag it for WoW10
-	if WoW10 then
+	if Bartender4.Features.MainlineBarLayout then
 		self.config.WoW10Layout = true
 	end
 end
@@ -295,7 +294,7 @@ function ActionBar:UpdateButtons(numbuttons, offset)
 		self:SetupSmartButton(buttons[i])
 
 		if i == 12 then
-			if WoW10 then
+			if Bartender4.Features.MainlineBarLayout then
 				buttons[i]:SetState(16, "custom", customExitButton)
 				buttons[i]:SetState(17, "custom", customExitButton)
 				buttons[i]:SetState(18, "custom", customExitButton)

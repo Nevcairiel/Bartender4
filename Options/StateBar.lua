@@ -5,8 +5,6 @@
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
-local WoW10 = select(4, GetBuildInfo()) >= 100000
-
 local Bar = Bartender4.Bar.prototype
 local ButtonBar = Bartender4.ButtonBar.prototype
 local StateBar = Bartender4.StateBar.prototype
@@ -63,7 +61,7 @@ end
 
 local hasStances
 
-local validStanceTable = WoW10 and {
+local validStanceTable = Bartender4.Features.MainlineBarLayout and {
 	[0] = L["Don't Page"],
 	[1] = (L["Page %2d (%s)"]):format(1, (L["Bar %s"]):format("1")),
 	[2] = (L["Page %2d (%s)"]):format(2, (L["Bonus Bar"])),
