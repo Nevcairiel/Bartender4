@@ -44,7 +44,7 @@ end
 
 -- Apply the specified config to the bar and refresh all settings
 function ActionBar:ApplyConfig(config)
-	if Bartender4.Features.MainlineBarLayout then
+	if Bartender4.GameType.MainlineStandard then
 		WoW10Migration(config or self.config)
 	end
 
@@ -61,7 +61,7 @@ function ActionBar:SavePosition()
 	StateBar.SavePosition(self)
 
 	-- when we change a manual layout change, flag it for WoW10
-	if Bartender4.Features.MainlineBarLayout then
+	if Bartender4.GameType.MainlineStandard then
 		self.config.WoW10Layout = true
 	end
 end
