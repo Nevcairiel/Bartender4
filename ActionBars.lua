@@ -106,7 +106,7 @@ local abdefaults = {
 	},
 }
 
-local LIST_ACTIONBARS = WoWRetail and { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15 } or { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }
+local LIST_ACTIONBARS = Bartender4.Features.MainlineBarLayout and { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 14, 15 } or { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 }
 BT4ActionBars.LIST_ACTIONBARS = LIST_ACTIONBARS
 
 local BINDING_MAPPINGS = {
@@ -328,7 +328,7 @@ BT4ActionBars.BLIZZARD_BAR_MAP = {
 }
 
 function BT4ActionBars:GetBarName(id)
-	if WoWRetail then
+	if Bartender4.Features.MainlineBarLayout then
 		local barID = tonumber(id)
 		if barID == 7 or barID == 8 or barID == 9 or barID == 10 then
 			return (L["Class Bar %d"]):format(barID - 6)
