@@ -47,13 +47,7 @@ function StatusBarMod:OnEnable()
 
 		-- add additional anchors to the bars to allow re-sizing
 		if self.bar.manager.MainStatusTrackingBarContainer then
-			self.bar.manager.MainStatusTrackingBarContainer:ClearAllPoints()
-			self.bar.manager.MainStatusTrackingBarContainer:SetPoint("BOTTOMLEFT", self.bar.manager, "BOTTOMLEFT")
-			self.bar.manager.MainStatusTrackingBarContainer:SetPoint("BOTTOMRIGHT", self.bar.manager, "BOTTOMRIGHT")
-
-			self.bar.manager.SecondaryStatusTrackingBarContainer:ClearAllPoints()
-			self.bar.manager.SecondaryStatusTrackingBarContainer:SetPoint("BOTTOMLEFT", self.bar.manager.MainStatusTrackingBarContainer, "TOPLEFT")
-			self.bar.manager.SecondaryStatusTrackingBarContainer:SetPoint("BOTTOMRIGHT", self.bar.manager.MainStatusTrackingBarContainer, "TOPRIGHT")
+			self:AnchorTrackingContainers()
 		end
 		self.bar.manager:Show()
 		self.bar.manager:SetFrameLevel(2)
@@ -61,6 +55,22 @@ function StatusBarMod:OnEnable()
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
+
+	if EditModeManagerFrame and EditModeManagerFrame.UpdateBottomActionBarPositions then
+		self:SecureHook(EditModeManagerFrame, "UpdateBottomActionBarPositions", "AnchorTrackingContainers")
+	end
+end
+
+function StatusBarMod:AnchorTrackingContainers()
+	if self.bar.manager.MainStatusTrackingBarContainer then
+		self.bar.manager.MainStatusTrackingBarContainer:ClearAllPoints()
+		self.bar.manager.MainStatusTrackingBarContainer:SetPoint("BOTTOMLEFT", self.bar.manager, "BOTTOMLEFT")
+		self.bar.manager.MainStatusTrackingBarContainer:SetPoint("BOTTOMRIGHT", self.bar.manager, "BOTTOMRIGHT")
+
+		self.bar.manager.SecondaryStatusTrackingBarContainer:ClearAllPoints()
+		self.bar.manager.SecondaryStatusTrackingBarContainer:SetPoint("BOTTOMLEFT", self.bar.manager.MainStatusTrackingBarContainer, "TOPLEFT")
+		self.bar.manager.SecondaryStatusTrackingBarContainer:SetPoint("BOTTOMRIGHT", self.bar.manager.MainStatusTrackingBarContainer, "TOPRIGHT")
+	end
 end
 
 function StatusBarMod:ApplyConfig()
