@@ -324,6 +324,10 @@ function ActionBar:UpdateButtons(numbuttons, offset)
 	self.buttons = buttons
 	self.currentButtonOffset = offset
 
+	if buttons[1] then
+		self.button_width, self.button_height = buttons[1]:GetSize()
+	end
+
 	self:UpdateButtonLayout()
 	self:SetGrid()
 	if updateBindings and self.id == "1" then

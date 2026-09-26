@@ -253,14 +253,10 @@ function MicroMenuMod:BlizzardBarShow()
 	end
 end
 
-if WoWClassic then
-	MicroMenuBar.button_width = 32
-	MicroMenuBar.button_height = 40
-	MicroMenuBar.vpad_offset = 0
-else
-	MicroMenuBar.button_width = 32
-	MicroMenuBar.button_height = 40
-	MicroMenuBar.vpad_offset = 0
+MicroMenuBar.button_width = 32
+MicroMenuBar.button_height = 40
+MicroMenuBar.vpad_offset = 0
+if Bartender4.GameType.Mainline then
 	MicroMenuBar.hpad_offset = -8
 end
 function MicroMenuBar:ApplyConfig(config)

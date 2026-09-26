@@ -99,13 +99,8 @@ local function MasqueButtonType(button)
 	end
 end
 
-if Bartender4.Features.ModernButtons then
-	BagBar.button_width = CharacterBag0Slot:GetWidth()
-	BagBar.button_height = CharacterBag0Slot:GetHeight()
-else
-	BagBar.button_width = 37
-	BagBar.button_height = 37
-end
+BagBar.button_width = CharacterBag0Slot:GetWidth()
+BagBar.button_height = CharacterBag0Slot:GetHeight()
 BagBarMod.button_count = 6
 function BagBar:FeedButtons()
 	local count = 1
