@@ -24,8 +24,8 @@ Bartender4.Features.MainlineBarLayout = Bartender4.GameType.Mainline
 Bartender4.Features.ButtonSpellCastVFX = Bartender4.GameType.Mainline
 
 -- bag features
-Bartender4.Features.Keyring    = (Bartender4.GameType.ClassicEra or Bartender4.GameType.ClassicBCC or Bartender4.GameType.Forever) and KeyRingButton and true or false
-Bartender4.Features.ReagentBag = Bartender4.GameType.Mainline and CharacterReagentBag0Slot and true or false
+Bartender4.Features.Keyring    = (Bartender4.GameType.ClassicEra or Bartender4.GameType.ClassicBCC or Bartender4.GameType.Forever) and (KeyRingButton ~= nil)
+Bartender4.Features.ReagentBag = Bartender4.GameType.Mainline and (CharacterReagentBag0Slot ~= nil)
 
 -- #region safety metatables
 local gameTypeSafetyMT = {
