@@ -382,9 +382,9 @@ local function BuildModernArtClassicProfile()
 	SetBarLocation( config, "BOTTOM", 300, 36 )
 
 	config = Bartender4.db:GetNamespace("MicroMenu").profile
-	config.position.scale = 1.1
+	config.position.scale = 1.05
 	config.padding = -1
-	SetBarLocation( config, "BOTTOM", 2, 47 )
+	SetBarLocation( config, "BOTTOM", -3, 45 )
 
 	config = Bartender4.db:GetNamespace("QueueStatus").profile
 	config.position.scale = 1.0
