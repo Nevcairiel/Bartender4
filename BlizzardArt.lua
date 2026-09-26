@@ -40,9 +40,9 @@ function BlizzardArtMod:OnEnable()
 		self.bar = setmetatable(Bartender4.Bar:Create("BlizzardArt", self.db.profile, L["Blizzard Art"], 1), {__index = BlizzardArt})
 		self.bar.highLevel = CreateFrame("Frame", nil, self.bar)
 		self.bar.highLevel:SetAllPoints(self.bar)
-		self.bar.highLevel:SetFrameLevel(4)
-		self.bar.leftCap = self.bar.highLevel:CreateTexture("BlizzardArtLeftCap", "ARTWORK")
-		self.bar.rightCap = self.bar.highLevel:CreateTexture("BlizzardArtRightCap", "ARTWORK")
+		self.bar.highLevel:SetFrameLevel(100)
+		self.bar.leftCap = self.bar.highLevel:CreateTexture("BlizzardArtLeftCap", "OVERLAY")
+		self.bar.rightCap = self.bar.highLevel:CreateTexture("BlizzardArtRightCap", "OVERLAY")
 		self.bar.barTex0 = self.bar:CreateTexture("BlizzardArtTex0", "ARTWORK")
 		self.bar.barTex0:ClearAllPoints()
 		self.bar.barTex0:SetHeight(43)
@@ -81,33 +81,30 @@ function BlizzardArtMod:OnEnable()
 		self.bar.barTex3b:SetTexCoord(0.9609375, 0.99609375, 0.08203125, 0.25) -- 9 pixels wide, pixels 246 to 254 of 256, inclusive, to be exact
 
 		if Bartender4.Features.ModernArtwork then
-			self.bar.nineSliceParent = CreateFrame("Frame", nil, self.bar)
-			self.bar.nineSliceParent:SetFrameLevel(4)
-			self.bar.nineSliceParent:SetPoint("TOPLEFT", self.bar, "TOPLEFT", 9, -8)
-			self.bar.nineSliceParent:SetSize(562, 45)
+			self.bar.modernArtParent = CreateFrame("Frame", nil, self.bar)
+			self.bar.modernArtParent:SetFrameLevel(4)
+			self.bar.modernArtParent:SetPoint("TOPLEFT", self.bar, "TOPLEFT", 9, -8)
+			self.bar.modernArtParent:SetSize(562, 45)
 
-			self.bar.nineSliceBorder = CreateFrame("Frame", nil, self.bar.nineSliceParent, "BT4ArtBarBorderArtTemplate")
-			self.bar.nineSliceBorder:SetFrameLevel(52)
-			self.bar.nineSliceBorder:SetPoint("TOPLEFT", self.bar.nineSliceParent, "TOPLEFT", -4, 4)
-			self.bar.nineSliceBorder:SetPoint("BOTTOMRIGHT", self.bar.nineSliceParent, "BOTTOMRIGHT", 7, -7)
-			self.bar.nineSliceBorder:Show()
-
-			self.bar.nineSliceBackground = CreateFrame("Frame", nil, self.bar.nineSliceParent, "BT4ArtBarBackgroundTemplate")
-			self.bar.nineSliceBackground.Center:SetColorTexture(0,0,0,0.2) -- fixup the slice background
-			self.bar.nineSliceBackground:SetAllPoints()
-			self.bar.nineSliceBackground:Show()
+			self.bar.modernArtBorder = self.bar:CreateTexture("BlizzardArtModernBorder", "BACKGROUND", nil, -3)
+			self.bar.modernArtBorder:SetAtlas("UI-HUD-ActionBar-Frame")
+			self.bar.modernArtBorder:SetPoint("TOPLEFT", self.bar.modernArtParent, "TOPLEFT", -4, 4)
+			self.bar.modernArtBorder:SetPoint("BOTTOMRIGHT", self.bar.modernArtParent, "BOTTOMRIGHT", 8, -7)
+			self.bar.modernArtBorder:Show()
 
 			-- menu & bag
-			self.bar.nineSliceMenuBagParent = CreateFrame("Frame", nil, self.bar)
-			self.bar.nineSliceMenuBagParent:SetFrameLevel(4)
-			self.bar.nineSliceMenuBagParent:SetPoint("BOTTOMLEFT", self.bar, "BOTTOMLEFT", 575, -52)
-			self.bar.nineSliceMenuBagParent:SetSize(562, 45)
+			if Bartender4.GameType.MainlineStandard then
+				self.bar.nineSliceMenuBagParent = CreateFrame("Frame", nil, self.bar)
+				self.bar.nineSliceMenuBagParent:SetFrameLevel(4)
+				self.bar.nineSliceMenuBagParent:SetPoint("BOTTOMLEFT", self.bar, "BOTTOMLEFT", 575, -52)
+				self.bar.nineSliceMenuBagParent:SetSize(562, 45)
 
-			self.bar.nineSliceMenuBagBorder = CreateFrame("Frame", nil, self.bar.nineSliceMenuBagParent, "BT4ArtBarBorderArtTemplate")
-			self.bar.nineSliceMenuBagBorder:SetFrameLevel(52)
-			self.bar.nineSliceMenuBagBorder:SetPoint("TOPLEFT", self.bar.nineSliceMenuBagParent, "TOPLEFT", -4, 4)
-			self.bar.nineSliceMenuBagBorder:SetPoint("BOTTOMRIGHT", self.bar.nineSliceMenuBagParent, "BOTTOMRIGHT", 7, -7)
-			self.bar.nineSliceMenuBagBorder:Show()
+				self.bar.nineSliceMenuBagBorder = CreateFrame("Frame", nil, self.bar.nineSliceMenuBagParent, "BT4ArtBarBorderArtTemplate")
+				self.bar.nineSliceMenuBagBorder:SetFrameLevel(52)
+				self.bar.nineSliceMenuBagBorder:SetPoint("TOPLEFT", self.bar.nineSliceMenuBagParent, "TOPLEFT", -4, 4)
+				self.bar.nineSliceMenuBagBorder:SetPoint("BOTTOMRIGHT", self.bar.nineSliceMenuBagParent, "BOTTOMRIGHT", 7, -7)
+				self.bar.nineSliceMenuBagBorder:Show()
+			end
 		end
 	end
 	self.bar:Enable()
@@ -132,7 +129,7 @@ function BlizzardArt:CreateModernButtonArt()
 	if not self.modernButtonArt then
 		self.modernButtonArt = {}
 		for i=1,12 do
-			self.modernButtonArt[i] = CreateFrame("Frame", nil, self.nineSliceParent)
+			self.modernButtonArt[i] = CreateFrame("Frame", nil, self.modernArtParent)
 			self.modernButtonArt[i]:SetSize(45,45)
 			self.modernButtonArt[i].SlotArt = self.modernButtonArt[i]:CreateTexture(nil, "BACKGROUND")
 			self.modernButtonArt[i].SlotArt:SetAllPoints()
@@ -146,7 +143,7 @@ function BlizzardArt:CreateModernButtonArt()
 		end
 
 		local layout = GridLayoutUtil.CreateStandardGridLayout(12, 2, 2, 1, 1)
-		GridLayoutUtil.ApplyGridLayout(self.modernButtonArt, AnchorUtil.CreateAnchor("TOPLEFT", self.nineSliceParent, "TOPLEFT"), layout)
+		GridLayoutUtil.ApplyGridLayout(self.modernButtonArt, AnchorUtil.CreateAnchor("TOPLEFT", self.modernArtParent, "TOPLEFT"), layout)
 	end
 end
 
@@ -182,19 +179,35 @@ function BlizzardArt:ApplyConfig()
 			self.rightCap:SetAtlas("ui-hud-actionbar-gryphon-right")
 		end
 
-		self.leftCap:SetSize(104.5, 98)
-		self.leftCap:ClearAllPoints()
-		self.leftCap:SetPoint("BOTTOMRIGHT", self.nineSliceParent, "BOTTOMLEFT", 9, -22)
-		self.rightCap:SetTexCoord(0,1,0,1)
-		self.rightCap:SetSize(104.5, 98)
-		self.rightCap:ClearAllPoints()
-		self.rightCap:SetPoint("BOTTOMLEFT", self.nineSliceParent, "BOTTOMRIGHT", -8, -22)
+		if Bartender4.GameType.Forever then
+			self.leftCap:SetSize(154, 95)
+			self.leftCap:ClearAllPoints()
+			self.leftCap:SetPoint("BOTTOMRIGHT", self.modernArtParent, "BOTTOMLEFT", 32, -4)
+
+			self.rightCap:SetSize(154, 95)
+			self.rightCap:ClearAllPoints()
+			self.rightCap:SetPoint("BOTTOMLEFT", self.modernArtParent, "BOTTOMRIGHT", -28, -4)
+		else
+			self.leftCap:SetSize(104.5, 98)
+			self.leftCap:ClearAllPoints()
+			self.leftCap:SetPoint("BOTTOMRIGHT", self.modernArtParent, "BOTTOMLEFT", 9, -22)
+
+			self.rightCap:SetSize(104.5, 98)
+			self.rightCap:ClearAllPoints()
+			self.rightCap:SetPoint("BOTTOMLEFT", self.modernArtParent, "BOTTOMRIGHT", -8, -22)
+		end
 
 		-- show the modern NineSlice border/background
-		self.nineSliceParent:Show()
+		self.modernArtParent:Show()
 
 		-- hide the modern NineSlice MenuBag border
-		self.nineSliceMenuBagParent:Hide()
+		if self.nineSliceMenuBagParent then
+			self.nineSliceMenuBagParent:Hide()
+		end
+
+		if self.modernMenuArt then
+			self.modernMenuArt:Hide()
+		end
 
 		-- show button art
 		self:CreateModernButtonArt()
@@ -218,58 +231,94 @@ function BlizzardArt:ApplyConfig()
 			self.rightCap:SetAtlas("ui-hud-actionbar-gryphon-right")
 		end
 
-		self.leftCap:SetSize(104.5, 98)
-		self.leftCap:ClearAllPoints()
-		self.leftCap:SetPoint("BOTTOMRIGHT", self.nineSliceParent, "BOTTOMLEFT", 10, -15)
-		self.rightCap:SetTexCoord(0,1,0,1)
-		self.rightCap:SetSize(104.5, 98)
-		self.rightCap:ClearAllPoints()
-		self.rightCap:SetPoint("BOTTOMLEFT", self.nineSliceParent, "BOTTOMRIGHT", 558, -15)
+		if Bartender4.GameType.Forever then
+			self.leftCap:SetSize(154, 95)
+			self.leftCap:ClearAllPoints()
+			self.leftCap:SetPoint("BOTTOMRIGHT", self.modernArtParent, "BOTTOMLEFT", 32, -5)
+
+			self.rightCap:SetSize(154, 95)
+			self.rightCap:ClearAllPoints()
+			self.rightCap:SetPoint("BOTTOMLEFT", self.modernArtParent, "BOTTOMRIGHT", 592, -5)
+		else
+			self.leftCap:SetSize(104.5, 98)
+			self.leftCap:ClearAllPoints()
+			self.leftCap:SetPoint("BOTTOMRIGHT", self.modernArtParent, "BOTTOMLEFT", 10, -15)
+
+			self.rightCap:SetSize(104.5, 98)
+			self.rightCap:ClearAllPoints()
+			self.rightCap:SetPoint("BOTTOMLEFT", self.modernArtParent, "BOTTOMRIGHT", 558, -15)
+		end
 
 		-- show the modern NineSlice border
-		self.nineSliceParent:Show()
-
-		-- show the modern NineSlice background
-		if not self.modernBackgroundArt then
-			self.modernBackgroundArt = {}
-
-			self.modernBackgroundArt = CreateFrame("Frame", nil, self.nineSliceParent)
-			self.modernBackgroundArt:SetSize(563,45)
-
-			self.modernBackgroundArt = self.nineSliceParent:CreateTexture(nil, "BACKGROUND")
-			self.modernBackgroundArt:SetAllPoints()
-			self.modernBackgroundArt:SetAtlas("ui-hud-actionbar-frame-background")
-			self.modernBackgroundArt:SetColorTexture(0.1,0.1,0.1,1)
-		end
+		self.modernArtParent:Show()
 
 		-- show button art
 		self:CreateModernButtonArt()
 
-		-- show the modern NineSlice MenuBag border
-		self.nineSliceMenuBagParent:Show()
+		if Bartender4.GameType.MainlineStandard then
+			-- show the modern NineSlice MenuBag border
+			self.nineSliceMenuBagParent:Show()
 
-		-- show menu & bag background
-		if not self.modernMenuArt then
-			self.modernMenuArt = CreateFrame("Frame", nil, self.nineSliceMenuBagParent)
-			self.modernMenuArt:SetAllPoints()
+			-- show menu & bag background
+			if not self.modernMenuArt then
+				self.modernMenuArt = CreateFrame("Frame", nil, self.nineSliceMenuBagParent)
+				self.modernMenuArt:SetAllPoints()
+				self.modernMenuArt:Show()
 
-			self.modernMenuArt.BackgroundArt = self.modernMenuArt:CreateTexture(nil, "BACKGROUND")
-			self.modernMenuArt.BackgroundArt:SetAllPoints()
-			self.modernMenuArt.BackgroundArt:SetAtlas("ui-hud-actionbar-frame-background")
-			self.modernMenuArt.BackgroundArt:SetColorTexture(0.1,0.1,0.1,1)
+				self.modernMenuArt.BackgroundArt = self.modernMenuArt:CreateTexture(nil, "BACKGROUND")
+				self.modernMenuArt.BackgroundArt:SetAllPoints()
+				self.modernMenuArt.BackgroundArt:SetAtlas("ui-hud-actionbar-frame-background")
+				self.modernMenuArt.BackgroundArt:SetColorTexture(0.1,0.1,0.1,1)
 
-			self.modernMenuArt.Divider = CreateFrame("Frame", nil, self.modernMenuArt, "BT4ArtBarButtonRightDivider")
-			self.modernMenuArt.Divider:SetPoint("LEFT", self.modernMenuArt, "RIGHT", -240, 0)
-			self.modernMenuArt.Divider:SetPoint("TOP")
-			self.modernMenuArt.Divider:SetPoint("BOTTOM")
+				self.modernMenuArt.Divider = CreateFrame("Frame", nil, self.modernMenuArt, "BT4ArtBarButtonRightDivider")
+				self.modernMenuArt.Divider:SetPoint("LEFT", self.modernMenuArt, "RIGHT", -240, 0)
+				self.modernMenuArt.Divider:SetPoint("TOP")
+				self.modernMenuArt.Divider:SetPoint("BOTTOM")
+			end
+
+			self:SetSize(1144, 61)
+		else -- Forever
+			-- show menu & bag background
+			if not self.modernMenuArt then
+				self.modernMenuArt = CreateFrame("Frame", nil, self.modernArtParent)
+				self.modernMenuArt:SetPoint("TOPLEFT", self.modernArtParent, "TOPRIGHT", 10, -4)
+				self.modernMenuArt:SetSize(302, 40)
+				self.modernMenuArt:Show()
+
+				self.modernMenuArt.BorderArt = self.modernMenuArt:CreateTexture(nil, "BACKGROUND", nil, -3)
+				self.modernMenuArt.BorderArt:SetAtlas("UI-HUD-ActionBar-Frame")
+				self.modernMenuArt.BorderArt:SetPoint("TOPLEFT", self.modernMenuArt, "TOPLEFT", -8, 8)
+				self.modernMenuArt.BorderArt:SetPoint("BOTTOMRIGHT", self.modernMenuArt, "BOTTOMRIGHT", 8, -8)
+
+				self.modernMenuArt.BackgroundArt = self.modernMenuArt:CreateTexture(nil, "BACKGROUND", nil, -3)
+				self.modernMenuArt.BackgroundArt:SetAtlas("UI-HUD-ActionBar-IconFrame-Background")
+				self.modernMenuArt.BackgroundArt:SetPoint("TOPLEFT", self.modernMenuArt.BorderArt, "TOPLEFT", -13, 0)
+				self.modernMenuArt.BackgroundArt:SetPoint("BOTTOMRIGHT", self.modernMenuArt.BorderArt, "BOTTOMRIGHT", 14, 4)
+			end
+
+			if not self.modernBagArt then
+				self.modernBagArt = CreateFrame("Frame", nil, self.modernMenuArt)
+				self.modernBagArt:SetPoint("TOPLEFT", self.modernMenuArt, "TOPRIGHT", 8, 0)
+				self.modernBagArt:SetSize(300, 40)
+				self.modernBagArt:Show()
+
+				self.modernBagArt.BorderArt = self.modernBagArt:CreateTexture(nil, "BACKGROUND", nil, -3)
+				self.modernBagArt.BorderArt:SetAtlas("UI-HUD-ActionBar-Frame")
+				self.modernBagArt.BorderArt:SetPoint("TOPLEFT", self.modernBagArt, "TOPLEFT", -8, 8)
+				self.modernBagArt.BorderArt:SetPoint("BOTTOMRIGHT", self.modernBagArt, "BOTTOMRIGHT", 8, -8)
+			end
+
+			self:SetSize(1200, 61)
 		end
 	else
 		self.barTex0:Show()
 		self.barTex1:Show()
 
 		if Bartender4.Features.ModernArtwork then
-			self.nineSliceParent:Hide()
-			self.nineSliceMenuBagParent:Hide()
+			self.modernArtParent:Hide()
+			if self.nineSliceMenuBagParent then
+				self.nineSliceMenuBagParent:Hide()
+			end
 		end
 
 		self.leftCap:SetHeight(128)
