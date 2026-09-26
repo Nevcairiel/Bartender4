@@ -12,8 +12,6 @@ local PetButton_MT = {__index = PetButtonPrototype}
 local Masque = LibStub("Masque", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
 
-local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
-
 -- upvalues
 local _G = _G
 local format, select, setmetatable = string.format, select, setmetatable
@@ -83,10 +81,6 @@ function Bartender4.PetButton:Create(id, parent)
 
 	button:SetScript("OnDragStart", onDragStart)
 	button:SetScript("OnReceiveDrag", onReceiveDrag)
-
-	if not WoWRetail then
-		button.NormalTexture = button:GetNormalTexture()
-	end
 
 	if Masque then
 		local group = parent.MasqueGroup
@@ -164,31 +158,26 @@ function PetButtonPrototype:Update()
 
 
 		if not self.parent.MasqueGroup then
-			if WoWRetail then
-				self.SlotBackground:Hide()
-				if self.parent.config.hideborder then
-					self.NormalTexture:SetTexture()
-					self.icon:RemoveMaskTexture(self.IconMask)
-					self.HighlightTexture:SetSize(34, 33)
-					self.HighlightTexture:SetPoint("TOPLEFT", self, "TOPLEFT", -1.5, 1.5)
-					self.CheckedTexture:SetSize(34, 33)
-					self.CheckedTexture:SetPoint("TOPLEFT", self, "TOPLEFT", -1.5, 1.5)
-					self.cooldown:ClearAllPoints()
-					self.cooldown:SetAllPoints()
-				else
-					self:SetNormalAtlas("UI-HUD-ActionBar-IconFrame-AddRow")
-					self.icon:AddMaskTexture(self.IconMask)
-					self.HighlightTexture:SetSize(31.6, 30.9)
-					self.HighlightTexture:SetPoint("TOPLEFT")
-					self.CheckedTexture:SetSize(31.6, 30.9)
-					self.CheckedTexture:SetPoint("TOPLEFT")
-					self.cooldown:ClearAllPoints()
-					self.cooldown:SetPoint("TOPLEFT", self, "TOPLEFT", 1.7, -1.7)
-					self.cooldown:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, 1)
-				end
+			self.SlotBackground:Hide()
+			if self.parent.config.hideborder then
+				self.NormalTexture:SetTexture()
+				self.icon:RemoveMaskTexture(self.IconMask)
+				self.HighlightTexture:SetSize(34, 33)
+				self.HighlightTexture:SetPoint("TOPLEFT", self, "TOPLEFT", -1.5, 1.5)
+				self.CheckedTexture:SetSize(34, 33)
+				self.CheckedTexture:SetPoint("TOPLEFT", self, "TOPLEFT", -1.5, 1.5)
+				self.cooldown:ClearAllPoints()
+				self.cooldown:SetAllPoints()
 			else
-				self.NormalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot2")
-				self.NormalTexture:SetTexCoord(0, 0, 0, 0)
+				self:SetNormalAtlas("UI-HUD-ActionBar-IconFrame-AddRow")
+				self.icon:AddMaskTexture(self.IconMask)
+				self.HighlightTexture:SetSize(31.6, 30.9)
+				self.HighlightTexture:SetPoint("TOPLEFT")
+				self.CheckedTexture:SetSize(31.6, 30.9)
+				self.CheckedTexture:SetPoint("TOPLEFT")
+				self.cooldown:ClearAllPoints()
+				self.cooldown:SetPoint("TOPLEFT", self, "TOPLEFT", 1.7, -1.7)
+				self.cooldown:SetPoint("BOTTOMRIGHT", self, "BOTTOMRIGHT", -1, 1)
 			end
 		end
 		self:ShowButton()
@@ -199,13 +188,8 @@ function PetButtonPrototype:Update()
 		self.icon:Hide()
 
 		if not self.parent.MasqueGroup then
-			if WoWRetail then
-				self.SlotBackground:Show()
-				self:SetNormalAtlas("UI-HUD-ActionBar-IconFrame-AddRow")
-			else
-				self.NormalTexture:SetTexture("Interface\\Buttons\\UI-Quickslot")
-				self.NormalTexture:SetTexCoord(-0.1, 1.1, -0.1, 1.12)
-			end
+			self.SlotBackground:Show()
+			self:SetNormalAtlas("UI-HUD-ActionBar-IconFrame-AddRow")
 		end
 		self:HideButton()
 		if self.showgrid == 0 and not self.parent.config.showgrid then
