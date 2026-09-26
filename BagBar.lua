@@ -178,6 +178,10 @@ end
 
 function BagBar:UpdateButtonLayout()
 	ButtonBar.UpdateButtonLayout(self)
-	local w, h = self:GetSize()
-	self:SetSize(w + 14, h)
+
+	-- the backpack button is oversized, account for it here
+	if Bartender4.GameType.MainlineStandard then
+		local w, h = self:GetSize()
+		self:SetSize(w + 14, h)
+	end
 end
