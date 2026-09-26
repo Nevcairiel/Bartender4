@@ -76,6 +76,11 @@ function Bartender4:HideBlizzard()
 	hideActionBarFrame(BagsBar, true)
 	hideActionBarFrame(MicroMenu, true)
 
+	if MicroMenu and MicroMenu.BorderArt and MicroMenu.BackgroundArt then
+		MicroMenu.BorderArt:Hide()
+		MicroMenu.BackgroundArt:Hide()
+	end
+
 	-- these events drive visibility, we want the MainMenuBar to remain invisible
 	if MainMenuBar then -- <= 11.2.5
 		MainMenuBar:UnregisterEvent("PLAYER_REGEN_ENABLED")
