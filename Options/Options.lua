@@ -138,7 +138,7 @@ local function generateOptions()
 									Bartender4.db.profile.spellCastVFX = value
 									Bartender4.Bar:ForAll("UpdateButtonConfig")
 								end,
-								hidden = WoWClassic,
+								hidden = not Bartender4.Features.ButtonSpellCastVFX,
 								width = "full",
 							},
 							selfcastmodifier = {
