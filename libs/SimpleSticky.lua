@@ -19,7 +19,7 @@
 This is a modified version by Nevcairiel for Bartender4
 ------------------------------------------------------------------------------------]]
 
-local MAJOR, MINOR = "LibSimpleSticky-1.0", 2
+local MAJOR, MINOR = "LibSimpleSticky-1.0", 3
 local StickyFrames, oldminor = LibStub:NewLibrary(MAJOR, MINOR)
 
 if not StickyFrames then return end
@@ -174,6 +174,9 @@ function StickyFrames:SnapFrame(frameA, frameB, left, top, right, bottom)
 	if not top then top = 0 end
 	if not right then right = 0 end
 	if not bottom then bottom = 0 end
+
+	-- sanity check
+	if not xA or not yA or not xB or not yB then return false end
 
 	-- Lets translate B's coords into A's scale
 	xB, yB = (xB*sB) / sA, (yB*sB) / sA
