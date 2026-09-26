@@ -152,7 +152,7 @@ function BagBar:FeedButtons()
 		v:Show()
 
 		if v ~= KeyRingButton then
-			if not Bartender4.Features.ModernButtons then
+			if not Bartender4.GameType.Mainline then
 				v:ClearNormalTexture()
 			end
 

@@ -44,7 +44,7 @@ function PetBarMod:SetupOptions()
 				desc = L["Hide the border around the action button."],
 				set = function(info, ...) PetBarMod:SetHideBorder(...) end,
 				get = function(info) return PetBarMod:GetHideBorder() end,
-				hidden = not Bartender4.Features.ModernButtons,
+				hidden = not Bartender4.Features.ModernButtonBorder,
 			},
 		}
 		self.optionobject:AddElementGroup("general", cat_general)

@@ -169,7 +169,7 @@ function module:GetOptionsObject()
 				desc = L["Hide the border around the action button."],
 				set = optSetter,
 				get = optGetter,
-				hidden = not Bartender4.Features.ModernButtons,
+				hidden = not Bartender4.Features.ModernButtonBorder,
 			},
 		}
 
