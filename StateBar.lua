@@ -14,11 +14,6 @@ local table_insert, table_concat, fmt = table.insert, table.concat, string.forma
 
 local GetSpecialization = C_SpecializationInfo and C_SpecializationInfo.GetSpecialization or GetSpecialization
 
-local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
-local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
-local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
-local WoWClassicMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
-
 local StateBar = setmetatable({}, {__index = ButtonBar})
 local StateBar_MT = {__index = StateBar}
 
@@ -49,7 +44,7 @@ function Bartender4.StateBar:Create(id, config, name)
 	local bar = setmetatable(Bartender4.ButtonBar:Create(id, config, name), StateBar_MT)
 
 	if playerclass == "DRUID" then
-		if not WoWClassicEra then
+		if not Bartender4.GameType.ClassicEra then
 			bar:RegisterEvent("PLAYER_TALENT_UPDATE")
 			bar:RegisterEvent("PLAYER_SPECIALIZATION_CHANGED")
 		end
@@ -89,68 +84,94 @@ local modifiers = { "ctrl", "alt", "shift" }
 -- specifiy the available stances for each class
 local DefaultStanceMap
 
-if not WoWRetail then
-DefaultStanceMap = setmetatable({}, { __index = function(t,k)
-	local newT = nil
-	if k == "DRUID" then
-		newT = {
-			{ id = "bear", name = Bartender4.Compat.GetSpellName(5487), index = 3 },
-			{ id = "cat", name = Bartender4.Compat.GetSpellName(768), index = 1 },
-				-- prowl is virtual, no real stance
-			{ id = "prowl", name = ("%s (%s)"):format((Bartender4.Compat.GetSpellName(768)), (Bartender4.Compat.GetSpellName(5215))), index = false},
-			{ id = "moonkin", name = Bartender4.Compat.GetSpellName(24858), index = 4 },
-			(not WoWClassicEra and not WoWRetail) and { id = "treeoflife", name = Bartender4.Compat.GetSpellName(33891), index = 2 } or nil,
-		}
-	elseif k == "ROGUE" then
-		newT = {
-			{ id = "stealth", name = Bartender4.Compat.GetSpellName(1784), index = 1 },
-			(not WoWClassicEra and not WoWBCC and not WoWRetail) and { id = "shadowdance", name = Bartender4.Compat.GetSpellName(51713), index = 2 } or nil,
-		}
-	elseif k ==  "WARRIOR" and not WoWClassicMists then
-		newT = {
-			{ id = "battle", name = Bartender4.Compat.GetSpellName(2457), index = 1 },
-			{ id = "def", name = Bartender4.Compat.GetSpellName(71), index = 2 },
-			{ id = "berserker", name = Bartender4.Compat.GetSpellName(2458), index = 3 },
-		}
-	elseif k == "PRIEST" and (not WoWClassicEra and not WoWRetail) then
-		newT = {
-			{ id = "shadowform", name = Bartender4.Compat.GetSpellName(15473), index = 1 },
-		}
-	elseif k == "MONK" then
-		newT = {
-			{ id = "tiger", name = Bartender4.Compat.GetSpellName(103985), index = 1 },
-			{ id = "ox", name = Bartender4.Compat.GetSpellName(115069), index = 2 },
-			{ id = "serpent", name = Bartender4.Compat.GetSpellName(115070), index = 3 },
-		}
-	end
-	rawset(t, k, newT)
+if Bartender4.GameType.Classic then
+	DefaultStanceMap = setmetatable({}, { __index = function(t,k)
+		local newT = nil
+		if k == "DRUID" then
+			newT = {
+				{ id = "bear", name = Bartender4.Compat.GetSpellName(5487), index = 3 },
+				{ id = "cat", name = Bartender4.Compat.GetSpellName(768), index = 1 },
+					-- prowl is virtual, no real stance
+				{ id = "prowl", name = ("%s (%s)"):format((Bartender4.Compat.GetSpellName(768)), (Bartender4.Compat.GetSpellName(5215))), index = false},
+				{ id = "moonkin", name = Bartender4.Compat.GetSpellName(24858), index = 4 },
+				(not Bartender4.GameType.ClassicEra) and { id = "treeoflife", name = Bartender4.Compat.GetSpellName(33891), index = 2 } or nil,
+			}
+		elseif k == "ROGUE" then
+			newT = {
+				{ id = "stealth", name = Bartender4.Compat.GetSpellName(1784), index = 1 },
+				(not Bartender4.GameType.ClassicEra and not Bartender4.GameType.ClassicBCC) and { id = "shadowdance", name = Bartender4.Compat.GetSpellName(51713), index = 2 } or nil,
+			}
+		elseif k ==  "WARRIOR" and not Bartender4.GameType.ClassicMists then
+			newT = {
+				{ id = "battle", name = Bartender4.Compat.GetSpellName(2457), index = 1 },
+				{ id = "def", name = Bartender4.Compat.GetSpellName(71), index = 2 },
+				{ id = "berserker", name = Bartender4.Compat.GetSpellName(2458), index = 3 },
+			}
+		elseif k == "PRIEST" and not Bartender4.GameType.ClassicEra then
+			newT = {
+				{ id = "shadowform", name = Bartender4.Compat.GetSpellName(15473), index = 1 },
+			}
+		elseif k == "MONK" then
+			newT = {
+				{ id = "tiger", name = Bartender4.Compat.GetSpellName(103985), index = 1 },
+				{ id = "ox", name = Bartender4.Compat.GetSpellName(115069), index = 2 },
+				{ id = "serpent", name = Bartender4.Compat.GetSpellName(115070), index = 3 },
+			}
+		end
+		rawset(t, k, newT)
 
-	return newT
-end})
+		return newT
+	end})
+elseif Bartender4.GameType.Forever then
+	DefaultStanceMap = setmetatable({}, { __index = function(t,k)
+		local newT = nil
+		if k == "DRUID" then
+			newT = {
+				{ id = "bear", name = Bartender4.Compat.GetSpellName(5487), index = 3 },
+				{ id = "cat", name = Bartender4.Compat.GetSpellName(768), index = 1 },
+					-- prowl is virtual, no real stance
+				{ id = "prowl", name = ("%s (%s)"):format((Bartender4.Compat.GetSpellName(768)), (Bartender4.Compat.GetSpellName(5215))), index = false},
+				{ id = "moonkin", name = Bartender4.Compat.GetSpellName(24858), index = 4 },
+			}
+		elseif k == "ROGUE" then
+			newT = {
+				{ id = "stealth", name = Bartender4.Compat.GetSpellName(1784), index = 1 },
+			}
+		elseif k ==  "WARRIOR" and not Bartender4.GameType.ClassicMists then
+			newT = {
+				{ id = "battle", name = Bartender4.Compat.GetSpellName(2457), index = 1 },
+				{ id = "def", name = Bartender4.Compat.GetSpellName(71), index = 2 },
+				{ id = "berserker", name = Bartender4.Compat.GetSpellName(2458), index = 3 },
+			}
+		end
+		rawset(t, k, newT)
+
+		return newT
+	end})
 else
-DefaultStanceMap = setmetatable({}, { __index = function(t,k)
-	local newT = nil
-	if k == "DRUID" then
-		newT = {
-			{ id = "bear", name = Bartender4.Compat.GetSpellName(5487), index = 3 },
-			{ id = "cat", name = Bartender4.Compat.GetSpellName(768), index = 1 },
-				-- prowl is virtual, no real stance
-			{ id = "prowl", name = ("%s (%s)"):format((Bartender4.Compat.GetSpellName(768)), (Bartender4.Compat.GetSpellName(5215))), index = false},
-			{ id = "moonkin", name = Bartender4.Compat.GetSpellName(24858), index = 4 },
-		}
-	elseif k == "ROGUE" then
-		newT = {
-			{ id = "stealth", name = Bartender4.Compat.GetSpellName(1784), index = 1 },
-		}
-	elseif k == "EVOKER" then
-		newT = {
-			{ id = "soar", name = Bartender4.Compat.GetSpellName(369536), index = 1 },
-		}
-	end
-	rawset(t, k, newT)
+	DefaultStanceMap = setmetatable({}, { __index = function(t,k)
+		local newT = nil
+		if k == "DRUID" then
+			newT = {
+				{ id = "bear", name = Bartender4.Compat.GetSpellName(5487), index = 3 },
+				{ id = "cat", name = Bartender4.Compat.GetSpellName(768), index = 1 },
+					-- prowl is virtual, no real stance
+				{ id = "prowl", name = ("%s (%s)"):format((Bartender4.Compat.GetSpellName(768)), (Bartender4.Compat.GetSpellName(5215))), index = false},
+				{ id = "moonkin", name = Bartender4.Compat.GetSpellName(24858), index = 4 },
+			}
+		elseif k == "ROGUE" then
+			newT = {
+				{ id = "stealth", name = Bartender4.Compat.GetSpellName(1784), index = 1 },
+			}
+		elseif k == "EVOKER" then
+			newT = {
+				{ id = "soar", name = Bartender4.Compat.GetSpellName(369536), index = 1 },
+			}
+		end
+		rawset(t, k, newT)
 
-	return newT
-end})
+		return newT
+	end})
 end
 Bartender4.StanceMap = DefaultStanceMap
 
