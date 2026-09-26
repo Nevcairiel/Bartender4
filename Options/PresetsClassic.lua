@@ -302,7 +302,7 @@ end
 function PresetsMod:ResetProfile(type)
 	if not type then type = PresetsMod.defaultType end
 	Bartender4.db:ResetProfile()
-	if type == "BLIZZARD" then
+	if type == "BLIZZARD" or type == "DEFAULT"then
 		BuildBlizzardProfile()
 	elseif type == "DOUBLE" then
 		BuildDoubleProfile()
@@ -315,7 +315,7 @@ end
 function PresetsMod:OnEnable()
 	Bartender4.finishedLoading = true
 	if self.applyBlizzardOnEnable then
-		self:ResetProfile("BLIZZARD")
+		self:ResetProfile("DEFAULT")
 		self.applyBlizzardOnEnable = nil
 	end
 end

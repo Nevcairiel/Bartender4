@@ -114,7 +114,7 @@ function Bartender4:InitializeProfile()
 	if not self.finishedLoading then
 		PresetMod.applyBlizzardOnEnable = true
 	else
-		PresetMod:ResetProfile("BLIZZARD")
+		PresetMod:ResetProfile("DEFAULT")
 	end
 end
 

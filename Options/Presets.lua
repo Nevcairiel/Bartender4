@@ -439,7 +439,7 @@ function PresetsMod:ResetProfile(type)
 	UpdateGlobalProfileSettings()
 
 	-- load the preset
-	if type == "BLIZZARD" then
+	if type == "BLIZZARD" or type == "DEFAULT" then
 		BuildBlizzardProfile()
 	elseif type == "MODERN_ART_CLASSIC" then
 		BuildModernArtClassicProfile()
@@ -458,7 +458,7 @@ end
 function PresetsMod:OnEnable()
 	Bartender4.finishedLoading = true
 	if self.applyBlizzardOnEnable then
-		self:ResetProfile("BLIZZARD")
+		self:ResetProfile("DEFAULT")
 		self.applyBlizzardOnEnable = nil
 	end
 end
