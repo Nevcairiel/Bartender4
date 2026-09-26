@@ -8,11 +8,6 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
 local error, select, pairs = error, select, pairs
-local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
-local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
-local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
-local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
 local SaveBindings = SaveBindings or AttemptToSaveBindings
 
 -- GLOBALS: LibStub, UnitHasVehicleUI, GetModifiedClick, SetModifiedClick, SaveBindings, GetCurrentBindingSet, InCombatLockdown
@@ -32,7 +27,7 @@ end
 local s_HookedKeyBound, s_KeyBoundHookShowBTOptions
 local KB = LibStub("LibKeyBound-1.0")
 local LDBIcon = LibStub("LibDBIcon-1.0", true)
-local LibDualSpec = (not WoWClassicEra) and LibStub("LibDualSpec-1.0", true)
+local LibDualSpec = (not Bartender4.GameType.ClassicEra) and LibStub("LibDualSpec-1.0", true)
 
 local function generateOptions()
 	Bartender4.options = {
@@ -248,7 +243,7 @@ local function generateOptions()
 										LibStub("LibActionButton-1.0").flyoutHandler.Background:SetShown(not value)
 									end
 								end,
-								hidden = WoWClassic,
+								hidden = Bartender4.GameType.Classic,
 							},
 							colors = {
 								order = 130,
@@ -326,12 +321,12 @@ local function generateOptions()
 						name = L["You can either click the KeyBound button in the options, or use the |cffffff78/kb|r chat command to open the keyBound control. Alternatively, you can also use the Blizzard Keybinding Interface."] .. "\n\n" .. L["Once open, simply hover the button you want to bind, and press the key you want to be bound to that button. The keyBound tooltip and on-screen status will inform you about already existing bindings to that button, and the success of your binding attempt."],
 						order = 4,
 					},
-					line5 = WoWClassic and {
+					line5 = Bartender4.Features.Keyring and {
 						type = "description",
 						name = "\n|cffffd200" .. L["My BagBar does not have the Keyring on it, how do i get it back?"] .. "|r",
 						order = 5,
 					} or nil,
-					line6 = WoWClassic and {
+					line6 = Bartender4.Features.Keyring and {
 						type = "description",
 						name = L["Its simple! Just check the Keyring option in the BagBars configuration menu, and it'll appear next to your bags."],
 						order = 6,

@@ -7,8 +7,6 @@ local _, Bartender4 = ...
 -- only in 8.0
 if not StatusTrackingBarManager then return end
 
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
-
 -- fetch upvalues
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
@@ -30,7 +28,7 @@ function StatusBarMod:SetupOptions()
 		}
 		self.optionobject:AddElement("general", "enabled", enabled)
 
-		if not WoWClassic then
+		if not Bartender4.GameType.Classic then
 			local width = {
 				order = 80,
 				name = L["Width"],

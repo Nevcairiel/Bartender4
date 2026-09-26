@@ -10,9 +10,9 @@ local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
 
-local WoWBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
-local WoWCata = (WOW_PROJECT_ID == WOW_PROJECT_CATACLYSM_CLASSIC)
-local WoWMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
+local WoWBCC = Bartender4.GameType.ClassicBCC
+local WoWCata = Bartender4.GameType.ClassicCata
+local WoWMists = Bartender4.GameType.ClassicMists
 
 local PresetsMod = Bartender4:NewModule("Presets")
 

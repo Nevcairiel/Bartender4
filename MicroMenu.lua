@@ -13,17 +13,12 @@ local ButtonBar = Bartender4.ButtonBar.prototype
 
 local pairs, setmetatable, table_insert = pairs, setmetatable, table.insert
 
-local WoWClassic = (WOW_PROJECT_ID ~= WOW_PROJECT_MAINLINE)
-local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
-local WoWClassicBCC = (WOW_PROJECT_ID == WOW_PROJECT_BURNING_CRUSADE_CLASSIC)
-local WoWClassicMists = (WOW_PROJECT_ID == WOW_PROJECT_MISTS_CLASSIC)
-
 -- GLOBALS: CharacterMicroButton, SpellbookMicroButton, TalentMicroButton, AchievementMicroButton, QuestLogMicroButton, GuildMicroButton
 -- GLOBALS: LFDMicroButton, CollectionsMicroButton, EJMicroButton, MainMenuMicroButton
 -- GLOBALS: HasVehicleActionBar, UnitVehicleSkin, HasOverrideActionBar, GetOverrideBarSkin
 
 local BT_MICRO_BUTTONS
-if WoWClassicMists then
+if Bartender4.GameType.ClassicMists then
 	BT_MICRO_BUTTONS = {
 		"CharacterMicroButton",
 		"SpellbookMicroButton",
@@ -40,7 +35,7 @@ if WoWClassicMists then
 		"StoreMicroButton",
 		"MainMenuMicroButton",
 	}
-elseif WoWClassicBCC then
+elseif Bartender4.GameType.ClassicBCC then
 	BT_MICRO_BUTTONS = {
 		"CharacterMicroButton",
 		"SpellbookMicroButton",
@@ -52,7 +47,7 @@ elseif WoWClassicBCC then
 		"MainMenuMicroButton",
 		"HelpMicroButton",
 	}
-elseif WoWClassic then
+elseif Bartender4.GameType.Classic then
 	BT_MICRO_BUTTONS = {
 		"CharacterMicroButton",
 		"SpellbookMicroButton",
@@ -63,6 +58,23 @@ elseif WoWClassic then
 		"WorldMapMicroButton",
 		"MainMenuMicroButton",
 		"HelpMicroButton",
+	}
+elseif Bartender4.GameType.Forever then
+	BT_MICRO_BUTTONS = {
+		"CharacterMicroButton",
+		"ProfessionMicroButton",
+		"SpellbookMicroButton",
+		"TalentMicroButton",
+		"LegacyMicroButton",
+		"QuestLogMicroButton",
+		--"HousingMicroButton",
+		"GuildMicroButton",
+		"LFDMicroButton",
+		"CollectionsMicroButton",
+		--"EJMicroButton",
+		"HelpMicroButton",
+		"StoreMicroButton",
+		"MainMenuMicroButton",
 	}
 else
 	BT_MICRO_BUTTONS = {
@@ -82,7 +94,7 @@ else
 end
 
 
-local HelpAndStoreSameButton = WoWClassic and HelpMicroButton and StoreMicroButton and tContains(BT_MICRO_BUTTONS, "StoreMicroButton") and tContains(BT_MICRO_BUTTONS, "HelpMicroButton")
+local HelpAndStoreSameButton = (Bartender4.GameType.Classic or Bartender4.GameType.Forever) and HelpMicroButton and StoreMicroButton and tContains(BT_MICRO_BUTTONS, "StoreMicroButton") and tContains(BT_MICRO_BUTTONS, "HelpMicroButton")
 
 -- create prototype information
 local MicroMenuBar = setmetatable({}, {__index = ButtonBar})
@@ -93,9 +105,9 @@ local defaults = { profile = Bartender4.Util:Merge({
 	visibility = {
 		possess = false,
 	},
-	padding = (WoWClassicEra or WoWClassicMists) and -3 or (WoWClassic and -4 or 1),
+	padding = (Bartender4.GameType.ClassicEra or Bartender4.GameType.ClassicMists) and -3 or (Bartender4.GameType.Classic and -4 or 1),
 	position = {
-		scale = WoWClassic and 0.8 or 1.0,
+		scale = Bartender4.GameType.Classic and 0.8 or 1.0,
 	},
 }, Bartender4.ButtonBar.defaults) }
 
@@ -110,7 +122,7 @@ function MicroMenuMod:OnEnable()
 		local buttons = {}
 
 		-- guild and social share a spot
-		if WoWClassic then
+		if Bartender4.GameType.Classic then
 			tDeleteItem(BT_MICRO_BUTTONS, "GuildMicroButton")
 		end
 
@@ -243,7 +255,7 @@ function MicroMenuMod:MicroMenuBarShow()
 end
 
 function MicroMenuMod:BlizzardBarShow()
-	if WoWClassic then
+	if Bartender4.GameType.Classic then
 		-- Only reset button positions not set in MoveMicroButtons()
 		for i,v in pairs(self.bar.buttons) do
 			if v ~= CharacterMicroButton and v ~= PVPMicroButton then
@@ -284,14 +296,14 @@ function MicroMenuBar:UpdateButtonLayout()
 		end
 	end
 
-	if WoWClassic and GuildMicroButton then
+	if Bartender4.GameType.Classic and GuildMicroButton then
 		GuildMicroButton:SetParent(self)
 		GuildMicroButton:ClearAllPoints()
 		GuildMicroButton:SetAllPoints(SocialsMicroButton)
 	end
 end
 
-if not WoWClassic and QueueStatusButton then
+if not Bartender4.GameType.Classic and QueueStatusButton then
 	local QueueStatusMod = Bartender4:NewModule("QueueStatusButtonBar", "AceHook-3.0")
 
 	-- create prototype information

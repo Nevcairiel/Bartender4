@@ -8,11 +8,7 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local PetBarMod = Bartender4:NewModule("PetBar", "AceEvent-3.0")
 
 -- fetch upvalues
-local ActionBars = Bartender4:GetModule("ActionBars")
 local ButtonBar = Bartender4.ButtonBar.prototype
-
-local WoWClassicEra = (WOW_PROJECT_ID == WOW_PROJECT_CLASSIC)
-local WoWRetail = (WOW_PROJECT_ID == WOW_PROJECT_MAINLINE)
 
 local setmetatable, select = setmetatable, select
 
@@ -60,7 +56,7 @@ function PetBarMod:OnEnable()
 	self.bar:RegisterEvent("PET_BAR_UPDATE_USABLE")
 	self.bar:RegisterEvent("PET_UI_UPDATE")
 	self.bar:RegisterEvent("PLAYER_TARGET_CHANGED")
-	if not WoWClassicEra then
+	if not Bartender4.GameType.ClassicEra then
 		self.bar:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR")
 	end
 	self.bar:RegisterEvent("PLAYER_MOUNT_DISPLAY_CHANGED")
@@ -80,7 +76,7 @@ function PetBarMod:ReassignBindings()
 	if not self.bar or not self.bar.buttons then return end
 	ClearOverrideBindings(self.bar)
 
-	if not WoWRetail then
+	if not Bartender4.GameType.Mainline then
 		for i = 1, 10 do
 			local button, real_button = ("BONUSACTIONBUTTON%d"):format(i), ("CLICK BT4PetButton%d:LeftButton"):format(i)
 			for k=1, select('#', GetBindingKey(real_button)) do
