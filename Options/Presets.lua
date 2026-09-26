@@ -515,7 +515,7 @@ function PresetsMod:SetupOptions()
 				name = L["Status Tracking Bar (XP/Rep/...)"],
 				get = function() return PresetsMod.showStatusBar end,
 				set = function(info, val) PresetsMod.showStatusBar = val end,
-				disabled = function() return PresetsMod.defaultType == "RESET" end,
+				disabled = function() return PresetsMod.defaultType == "ZRESET" end,
 			},
 			nl2 = {
 				order = 36,
@@ -526,7 +526,7 @@ function PresetsMod:SetupOptions()
 				order = 40,
 				type = "execute",
 				name = L["Apply Preset"],
-				func = function() PresetsMod.ResetProfile() end,
+				func = function() PresetsMod:ResetProfile() end,
 			}
 		}
 		self.optionobject = Bartender4:NewOptionObject( otbl )

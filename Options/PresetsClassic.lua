@@ -356,7 +356,7 @@ function PresetsMod:SetupOptions()
 				name = L["XP Bar"],
 				get = function() return PresetsMod.showXPBar end,
 				set = function(info, val) PresetsMod.showXPBar = val end,
-				disabled = function() return PresetsMod.defaultType == "RESET" end,
+				disabled = function() return PresetsMod.defaultType == "ZRESET" end,
 			},
 			nl2 = {
 				order = 36,
@@ -367,7 +367,7 @@ function PresetsMod:SetupOptions()
 				order = 40,
 				type = "execute",
 				name = L["Apply Preset"],
-				func = function() PresetsMod.ResetProfile() end,
+				func = function() PresetsMod:ResetProfile() end,
 			}
 		}
 		self.optionobject = Bartender4:NewOptionObject( otbl )
