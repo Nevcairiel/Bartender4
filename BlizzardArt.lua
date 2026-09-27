@@ -172,11 +172,11 @@ function BlizzardArt:ApplyConfig()
 
 		local factionGroup = UnitFactionGroup("player")
 		if ( factionGroup == "Horde" ) then
-			self.leftCap:SetAtlas("ui-hud-actionbar-wyvern-left")
-			self.rightCap:SetAtlas("ui-hud-actionbar-wyvern-right")
+			self.leftCap:SetAtlas("ui-hud-actionbar-wyvern-left", false, "LINEAR", true)
+			self.rightCap:SetAtlas("ui-hud-actionbar-wyvern-right", false, "LINEAR", true)
 		else
-			self.leftCap:SetAtlas("ui-hud-actionbar-gryphon-left")
-			self.rightCap:SetAtlas("ui-hud-actionbar-gryphon-right")
+			self.leftCap:SetAtlas("ui-hud-actionbar-gryphon-left", false, "LINEAR", true)
+			self.rightCap:SetAtlas("ui-hud-actionbar-gryphon-right", false, "LINEAR", true)
 		end
 
 		if Bartender4.GameType.Forever then
@@ -224,11 +224,11 @@ function BlizzardArt:ApplyConfig()
 
 		local factionGroup = UnitFactionGroup("player")
 		if ( factionGroup == "Horde" ) then
-			self.leftCap:SetAtlas("ui-hud-actionbar-wyvern-left")
-			self.rightCap:SetAtlas("ui-hud-actionbar-wyvern-right")
+			self.leftCap:SetAtlas("ui-hud-actionbar-wyvern-left", false, "LINEAR", true)
+			self.rightCap:SetAtlas("ui-hud-actionbar-wyvern-right", false, "LINEAR", true)
 		else
-			self.leftCap:SetAtlas("ui-hud-actionbar-gryphon-left")
-			self.rightCap:SetAtlas("ui-hud-actionbar-gryphon-right")
+			self.leftCap:SetAtlas("ui-hud-actionbar-gryphon-left", false, "LINEAR", true)
+			self.rightCap:SetAtlas("ui-hud-actionbar-gryphon-right", false, "LINEAR", true)
 		end
 
 		if Bartender4.GameType.Forever then
@@ -263,7 +263,6 @@ function BlizzardArt:ApplyConfig()
 			if not self.modernMenuArt then
 				self.modernMenuArt = CreateFrame("Frame", nil, self.nineSliceMenuBagParent)
 				self.modernMenuArt:SetAllPoints()
-				self.modernMenuArt:Show()
 
 				self.modernMenuArt.BackgroundArt = self.modernMenuArt:CreateTexture(nil, "BACKGROUND")
 				self.modernMenuArt.BackgroundArt:SetAllPoints()
@@ -275,6 +274,7 @@ function BlizzardArt:ApplyConfig()
 				self.modernMenuArt.Divider:SetPoint("TOP")
 				self.modernMenuArt.Divider:SetPoint("BOTTOM")
 			end
+			self.modernMenuArt:Show()
 
 			self:SetSize(1144, 61)
 		else -- Forever
@@ -283,7 +283,6 @@ function BlizzardArt:ApplyConfig()
 				self.modernMenuArt = CreateFrame("Frame", nil, self.modernArtParent)
 				self.modernMenuArt:SetPoint("TOPLEFT", self.modernArtParent, "TOPRIGHT", 10, -4)
 				self.modernMenuArt:SetSize(302, 40)
-				self.modernMenuArt:Show()
 
 				self.modernMenuArt.BorderArt = self.modernMenuArt:CreateTexture(nil, "BACKGROUND", nil, -3)
 				self.modernMenuArt.BorderArt:SetAtlas("UI-HUD-ActionBar-Frame")
@@ -300,13 +299,14 @@ function BlizzardArt:ApplyConfig()
 				self.modernBagArt = CreateFrame("Frame", nil, self.modernMenuArt)
 				self.modernBagArt:SetPoint("TOPLEFT", self.modernMenuArt, "TOPRIGHT", 8, 0)
 				self.modernBagArt:SetSize(300, 40)
-				self.modernBagArt:Show()
 
 				self.modernBagArt.BorderArt = self.modernBagArt:CreateTexture(nil, "BACKGROUND", nil, -3)
 				self.modernBagArt.BorderArt:SetAtlas("UI-HUD-ActionBar-Frame")
 				self.modernBagArt.BorderArt:SetPoint("TOPLEFT", self.modernBagArt, "TOPLEFT", -8, 8)
 				self.modernBagArt.BorderArt:SetPoint("BOTTOMRIGHT", self.modernBagArt, "BOTTOMRIGHT", 8, -8)
 			end
+			self.modernMenuArt:Show()
+			self.modernBagArt:Show()
 
 			self:SetSize(1200, 61)
 		end
