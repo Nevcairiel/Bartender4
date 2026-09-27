@@ -113,5 +113,6 @@ Options\MultiCastBar.lua
 ArtBarTemplates.xml
 
 ## Presets -- needs to be the last ##
-Options\Presets.lua [AllowLoadGameType mainline]
+Options\Presets.lua [AllowLoadGameType standard]
+Options\PresetsForever.lua [AllowLoadGameType camelot, forever][ExcludeLoadGameType classic, standard]
 Options\PresetsClassic.lua [AllowLoadGameType classic]
