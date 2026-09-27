@@ -102,6 +102,12 @@ local function StatusTrackingBarContainer_ResizeContainerBars(container, width)
 		bar:SetSize(barWidth, barHeight)
 		bar.StatusBar:SetSize(barWidth, barHeight)
 	end
+
+	container:SetWidth(width)
+	if container.UpdateDividers and container.GetExpectedSegments then
+		local numSegments = container:GetExpectedSegments()
+		container:UpdateDividers(numSegments)
+	end
 end
 
 StatusBar.width = (STATUS_BAR_CONTAINER_WIDTH or 571) + 8
