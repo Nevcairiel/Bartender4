@@ -141,11 +141,7 @@ function MicroMenuMod:OnEnable()
 
 		-- check if its owned by the UI on initial load
 		if MicroMenu then
-			if MicroMenuContainer then
-				self.ownedByUI = (MicroMenu:GetParent() ~= UIParent and MicroMenu:GetParent() ~= Bartender4.UIHider and MicroMenu:GetParent() ~= MicroMenuContainer)
-			else
-				self.ownedByUI = (MicroMenu:GetParent() ~= UIParent and MicroMenu:GetParent() ~= Bartender4.UIHider)
-			end
+			self.ownedByUI = not (MicroMenu:GetParent() == UIParent or MicroMenu:GetParent() == Bartender4.UIHider or (MicroMenuContainer and MicroMenu:GetParent() == MicroMenuContainer))
 
 			if not self.ownedByUI then
 				for i,v in pairs(buttons) do
