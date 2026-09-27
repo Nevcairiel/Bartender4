@@ -1,4 +1,4 @@
-## Interface: 120007,120100,11509,50504,20506
+## Interface: 120100,120105,11509,50504,20506,16001
 
 ## Title: Bartender4
 ## Notes: Simple and Advanced combined - Bartender4 ActionBar AddOn
