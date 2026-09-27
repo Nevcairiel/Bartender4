@@ -75,6 +75,7 @@ function Bartender4:HideBlizzard()
 	hideActionBarFrame(StatusTrackingBarManager, false)
 	hideActionBarFrame(BagsBar, true)
 	hideActionBarFrame(MicroMenu, true)
+	hideActionBarFrame(MicroMenuContainer, true)
 
 	if MicroMenu and MicroMenu.BorderArt and MicroMenu.BackgroundArt then
 		MicroMenu.BorderArt:Hide()

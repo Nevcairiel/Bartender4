@@ -47,6 +47,10 @@ function StatusBarMod:OnEnable()
 		-- add additional anchors to the bars to allow re-sizing
 		if self.bar.manager.MainStatusTrackingBarContainer then
 			self:AnchorTrackingContainers()
+
+			-- disable edit mode hooks
+			self.bar.manager.MainStatusTrackingBarContainer.OnEditModeEnter = function() end
+			self.bar.manager.SecondaryStatusTrackingBarContainer.OnEditModeEnter = function() end
 		end
 		self.bar.manager:Show()
 		self.bar.manager:SetFrameLevel(2)
