@@ -209,7 +209,7 @@ function MicroMenuMod:ActionBarController_UpdateAll()
 end
 
 function MicroMenuMod:MicroMenuSetParent(_, parent)
-	if parent == UIParent or (MicroMenuContainer and parent == MicroMenuContainer) then
+	if parent == UIParent or (MicroMenuContainer and parent == MicroMenuContainer) or parent == Bartender4.UIHider then
 		for i,v in pairs(self.bar.buttons) do
 			v:SetParent(self.bar)
 		end
