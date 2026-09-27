@@ -14,7 +14,6 @@ if not StatusTrackingBarManager then return end
 local defaults = { profile = Bartender4.Util:Merge({
 	enabled = false,
 	width = Bartender4.GameType.Classic and 1024 or STATUS_BAR_CONTAINER_WIDTH or 571,
-	twentySections = true,
 }, Bartender4.Bar.defaults) }
 
 -- register module

@@ -157,7 +157,6 @@ local function BuildDoubleProfile()
 		config.enabled = true
 		config.scale = 1
 		config.width = 1032
-		config.twentySections = true
 		Bartender4:GetModule("StatusTrackingBar"):Enable()
 		SetBarLocation( config, "BOTTOM", -520, 68)
 	end
@@ -238,7 +237,6 @@ local function BuildClassicBlizzardProfile()
 		config.enabled = true
 		config.scale = 1
 		config.width = 1032
-		config.twentySections = true
 		Bartender4:GetModule("StatusTrackingBar"):Enable()
 		SetBarLocation( config, "BOTTOM", -520, 68)
 	end
@@ -398,7 +396,6 @@ local function BuildModernArtClassicProfile()
 		config.enabled = true
 		config.scale = 1
 		config.width = 1032
-		config.twentySections = true
 		Bartender4:GetModule("StatusTrackingBar"):Enable()
 		SetBarLocation( config, "BOTTOM", -517, 68)
 	end
