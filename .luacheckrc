@@ -140,6 +140,7 @@ read_globals = {
 	"MainMenuMicroButton",
 	"MainMenuBarVehicleLeaveButton",
 	"MicroButtonAndBagsBar",
+	"MicroMenuContainer",
 	"MultiBarBottomLeft",
 	"MultiBarBottomRight",
 	"MultiBarLeft",
