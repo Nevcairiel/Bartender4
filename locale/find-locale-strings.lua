@@ -40,13 +40,13 @@ local ignore
 local localizedKeys = {}
 for line in io.lines(TOC_FILE) do
 	line = string.gsub(line, "\r", "")
-	
+
 	if( string.match(line, "#@no%-lib%-strip@") ) then
 		ignore = true
 	elseif( string.match(line, "#@end%-no%-lib%-strip@") ) then
 		ignore = nil
 	end
-		
+
 	if( not ignore and string.match(line, "%.lua") and not string.match(line, "^%s*#")) then
 		-- Make sure it's a valid file
 		local blacklist
@@ -56,22 +56,25 @@ for line in io.lines(TOC_FILE) do
 				break
 			end
 		end
-	
+
+		-- strip conditional load tags
+		line = string.gsub(line, "%s*%[[%w%s%p]+%]%s*", "")
+
 		-- File checks out, scrap everything
 		if( not blacklist ) then
 			-- Fix slashes
 			if( OS_TYPE == "linux" ) then
 				line = string.gsub(line, "\\", "/")
 			end
-			
+
 			local keys = 0
 			local contents = io.open(line):read("*all")
-		
+
 			for match in string.gmatch(contents, "L%[\"(.-)%\"]") do
 				if( not localizedKeys[match] ) then keys = keys + 1 end
 				localizedKeys[match] = true
 			end
-			
+
 			print(string.format("%s (%d keys)", line, keys))
 		end
 	end
