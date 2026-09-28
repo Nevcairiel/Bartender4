@@ -88,13 +88,14 @@ else
 		"LFDMicroButton",
 		"CollectionsMicroButton",
 		"EJMicroButton",
+		"HelpMicroButton",
 		"StoreMicroButton",
 		"MainMenuMicroButton",
 	}
 end
 
 
-local HelpAndStoreSameButton = (Bartender4.GameType.Classic or Bartender4.GameType.Forever) and HelpMicroButton and StoreMicroButton and tContains(BT_MICRO_BUTTONS, "StoreMicroButton") and tContains(BT_MICRO_BUTTONS, "HelpMicroButton")
+local HelpAndStoreSameButton = HelpMicroButton and StoreMicroButton and tContains(BT_MICRO_BUTTONS, "StoreMicroButton") and tContains(BT_MICRO_BUTTONS, "HelpMicroButton")
 
 -- create prototype information
 local MicroMenuBar = setmetatable({}, {__index = ButtonBar})
@@ -286,6 +287,7 @@ function MicroMenuBar:UpdateButtonLayout()
 	ButtonBar.UpdateButtonLayout(self)
 
 	if HelpAndStoreSameButton then
+		HelpMicroButton:SetParent(self)
 		HelpMicroButton:ClearAllPoints()
 		HelpMicroButton:SetAllPoints(StoreMicroButton)
 		-- If the StoreButton is hidden we want to replace it with the Help button
