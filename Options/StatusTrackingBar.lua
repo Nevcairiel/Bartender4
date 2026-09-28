@@ -41,6 +41,17 @@ function StatusBarMod:SetupOptions()
 			self.optionobject:AddElement("general", "width", width)
 		end
 
+		local barPadding = {
+			order = 80.5,
+			name = L["Bar Padding"],
+			desc = L["Padding between the Status Bars"],
+			type = "range",
+			softMin = 0, softMax = 20, step = 1,
+			get = function() return self.db.profile.barPadding end,
+			set = function(info, state) self.db.profile.barPadding = state; self:AnchorTrackingContainers() end,
+		}
+		self.optionobject:AddElement("general", "barPadding", barPadding)
+
 		self.disabledoptions = {
 			general = {
 				type = "group",

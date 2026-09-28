@@ -14,6 +14,7 @@ if not StatusTrackingBarManager then return end
 local defaults = { profile = Bartender4.Util:Merge({
 	enabled = false,
 	width = Bartender4.GameType.Classic and 1024 or STATUS_BAR_CONTAINER_WIDTH or 571,
+	barPadding = Bartender4.GameType.Mainline and 3 or 0,
 }, Bartender4.Bar.defaults) }
 
 -- register module
@@ -70,13 +71,15 @@ function StatusBarMod:AnchorTrackingContainers()
 		self.bar.manager.MainStatusTrackingBarContainer:SetPoint("BOTTOMLEFT", self.bar.manager, "BOTTOMLEFT")
 		self.bar.manager.MainStatusTrackingBarContainer:SetPoint("BOTTOMRIGHT", self.bar.manager, "BOTTOMRIGHT")
 
+		local yOffset = self.db.profile.barPadding + (Bartender4.GameType.Mainline and -6 or 0)
 		self.bar.manager.SecondaryStatusTrackingBarContainer:ClearAllPoints()
-		self.bar.manager.SecondaryStatusTrackingBarContainer:SetPoint("BOTTOMLEFT", self.bar.manager.MainStatusTrackingBarContainer, "TOPLEFT")
-		self.bar.manager.SecondaryStatusTrackingBarContainer:SetPoint("BOTTOMRIGHT", self.bar.manager.MainStatusTrackingBarContainer, "TOPRIGHT")
+		self.bar.manager.SecondaryStatusTrackingBarContainer:SetPoint("BOTTOMLEFT", self.bar.manager.MainStatusTrackingBarContainer, "TOPLEFT", 0, yOffset)
+		self.bar.manager.SecondaryStatusTrackingBarContainer:SetPoint("BOTTOMRIGHT", self.bar.manager.MainStatusTrackingBarContainer, "TOPRIGHT", 0, yOffset)
 	end
 end
 
 function StatusBarMod:ApplyConfig()
+	self:AnchorTrackingContainers()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
