@@ -374,6 +374,7 @@ local function BuildModernArtClassicProfile()
 
 	config = Bartender4.db:GetNamespace("BagBar").profile
 	config.position.scale = 1
+	config.padding = 0
 	config.onebag = false
 	SetBarLocation( config, "BOTTOM", 285, 50 )
 
