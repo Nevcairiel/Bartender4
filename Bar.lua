@@ -9,7 +9,7 @@ local _, Bartender4 = ...
 local Bar = CreateFrame("Frame")
 local Bar_MT = {__index = Bar}
 
-local table_concat, table_insert, tostring, assert, pairs, min, max = table.concat, table.insert, tostring, assert, pairs, min, max
+local table_concat, table_insert, table_remove, tostring, assert, pairs, min, max = table.concat, table.insert, table.remove, tostring, assert, pairs, min, max
 local setmetatable, tonumber = setmetatable, tonumber
 
 -- GLOBALS: SpellFlyout, UIParent, GameFontNormal
@@ -141,6 +141,7 @@ do
 end
 
 local barregistry = {}
+local fadegroups = {}
 Bartender4.Bar = {}
 Bartender4.Bar.defaults = defaults
 Bartender4.Bar.prototype = Bar
@@ -239,6 +240,7 @@ function Bar:ApplyConfig(config)
 	self:SetConfigScale()
 	self:SetConfigAlpha()
 	self:SetClickThrough()
+	self:SetFadeGroup(self.config.fadegroup)
 	self:InitVisibilityDriver()
 end
 
@@ -422,25 +424,78 @@ local function MouseIsOverBar(bar)
 	return false
 end
 
-function Bar:ControlFadeOut(refresh)
-	local changed = false
-	if self.faded and MouseIsOverBar(self) then
-		self:SetAlpha(self.config.alpha)
-		self.faded = nil
-		changed = true
-	elseif (not self.faded or refresh) and not MouseIsOverBar(self) then
-		local fade = self:GetAttribute("fade")
+local function MouseIsOverFadeGroup(bar)
+	if MouseIsOverBar(bar) then return true end
+	local group = bar.config.fadegroup
+	if group and fadegroups[group] then
+		for _, sibling in ipairs(fadegroups[group]) do
+			if sibling ~= bar and MouseIsOverBar(sibling) then
+				return true
+			end
+		end
+	end
+	return false
+end
+
+local function ApplyFadeState(bar, faded)
+	if faded then
+		local fade = bar:GetAttribute("fade")
 		if tonumber(fade) then
 			fade = min(max(fade, 0), 100) / 100
-			self:SetAlpha(fade)
+			bar:SetAlpha(fade)
 		else
-			self:SetAlpha(self.config.fadeoutalpha or 0)
+			bar:SetAlpha(bar.config.fadeoutalpha or 0)
 		end
-		self.faded = true
-		changed = true
+	else
+		bar:SetAlpha(bar.config.alpha)
 	end
-	if changed and self.ForAll then
-		self:ForAll("UpdateAlpha")
+	bar.faded = faded or nil
+	if bar.ForAll then
+		bar:ForAll("UpdateAlpha")
+	end
+end
+
+function Bar:GetFadeGroup()
+	return self.config.fadegroup
+end
+
+function Bar:SetFadeGroup(group)
+	-- remove from old group
+	local old = self.config.fadegroup
+	if old and fadegroups[old] then
+		for i, b in ipairs(fadegroups[old]) do
+			if b == self then table_remove(fadegroups[old], i); break end
+		end
+		if #fadegroups[old] == 0 then fadegroups[old] = nil end
+	end
+	-- normalise: blank string == no group
+	if group == "" then group = nil end
+	self.config.fadegroup = group
+	-- add to new group
+	if group then
+		if not fadegroups[group] then fadegroups[group] = {} end
+		table_insert(fadegroups[group], self)
+	end
+end
+
+function Bar:ControlFadeOut(refresh)
+	local isOver = MouseIsOverFadeGroup(self)
+	local faded
+	if self.faded and isOver then
+		faded = false
+	elseif (not self.faded or refresh) and not isOver then
+		faded = true
+	else
+		return
+	end
+	ApplyFadeState(self, faded)
+	local group = self.config.fadegroup
+	if group and fadegroups[group] then
+		for _, sibling in ipairs(fadegroups[group]) do
+			if sibling ~= self and sibling:GetScript("OnUpdate") and (not not sibling.faded) ~= faded then
+				ApplyFadeState(sibling, faded)
+			end
+		end
 	end
 end
 
