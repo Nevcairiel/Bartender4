@@ -49,6 +49,10 @@ function StatusBarMod:OnEnable()
 		if self.bar.manager.MainStatusTrackingBarContainer then
 			self:AnchorTrackingContainers()
 
+			-- disable clamped to screen
+			self.bar.manager.MainStatusTrackingBarContainer:SetClampedToScreen(false)
+			self.bar.manager.SecondaryStatusTrackingBarContainer:SetClampedToScreen(false)
+
 			-- disable edit mode hooks
 			self.bar.manager.MainStatusTrackingBarContainer.OnEditModeEnter = function() end
 			self.bar.manager.SecondaryStatusTrackingBarContainer.OnEditModeEnter = function() end
