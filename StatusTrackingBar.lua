@@ -45,10 +45,8 @@ function StatusBarMod:OnEnable()
 		self.bar.manager:ClearAllPoints()
 		self.bar.manager:SetPoint("BOTTOMLEFT", self.bar.content, "BOTTOMLEFT")
 
-		-- add additional anchors to the bars to allow re-sizing
-		if self.bar.manager.MainStatusTrackingBarContainer then
-			self:AnchorTrackingContainers()
 
+		if self.bar.manager.MainStatusTrackingBarContainer then
 			-- disable clamped to screen
 			self.bar.manager.MainStatusTrackingBarContainer:SetClampedToScreen(false)
 			self.bar.manager.SecondaryStatusTrackingBarContainer:SetClampedToScreen(false)
@@ -56,6 +54,19 @@ function StatusBarMod:OnEnable()
 			-- disable edit mode hooks
 			self.bar.manager.MainStatusTrackingBarContainer.OnEditModeEnter = function() end
 			self.bar.manager.SecondaryStatusTrackingBarContainer.OnEditModeEnter = function() end
+			self.bar.manager.MainStatusTrackingBarContainer.UpdateSystem = function() end
+			self.bar.manager.SecondaryStatusTrackingBarContainer.UpdateSystem = function() end
+
+			-- disable edit mode overrides
+			self.bar.manager.MainStatusTrackingBarContainer.ClearAllPoints = nil
+			self.bar.manager.MainStatusTrackingBarContainer.SetPoint = nil
+			self.bar.manager.MainStatusTrackingBarContainer.SetScale = nil
+			self.bar.manager.SecondaryStatusTrackingBarContainer.ClearAllPoints = nil
+			self.bar.manager.SecondaryStatusTrackingBarContainer.SetPoint = nil
+			self.bar.manager.SecondaryStatusTrackingBarContainer.SetScale = nil
+
+			-- add additional anchors to the bars to allow re-sizing
+			self:AnchorTrackingContainers()
 		end
 		self.bar.manager:Show()
 		self.bar.manager:SetFrameLevel(2)
