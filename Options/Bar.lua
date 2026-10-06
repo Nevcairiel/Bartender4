@@ -1,4 +1,4 @@
---[[
+﻿--[[
 	Copyright (c) 2009-2017, Hendrik "Nevcairiel" Leppkes < h.leppkes at gmail dot com >
 	All rights reserved.
 ]]
@@ -32,6 +32,7 @@ do
 		fadeout = "FadeOut",
 		fadeoutalpha = "FadeOutAlpha",
 		fadeoutdelay = "FadeOutDelay",
+		fadegroup = "FadeGroup",
 		clickthrough = "ClickThrough",
 	}
 
@@ -267,6 +268,14 @@ function Bar:GetOptionObject()
 					desc = L["Configure the Fade Out Delay"],
 					type = "range",
 					min = 0, softMax = 1, bigStep = 0.01,
+					get = optGetter,
+					set = optSetter,
+				},
+				fadegroup = {
+					order = 7.5,
+					name = L["Fade Group"],
+					desc = L["Bars sharing the same Fade Group name will fade out and restore together. Moving your mouse over any bar in the group will un-fade all of them; leave it blank for independent fading."],
+					type = "input",
 					get = optGetter,
 					set = optSetter,
 				},
