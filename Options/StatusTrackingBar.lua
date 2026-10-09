@@ -52,6 +52,16 @@ function StatusBarMod:SetupOptions()
 		}
 		self.optionobject:AddElement("general", "barPadding", barPadding)
 
+		local xpOnTop = {
+			order = 81,
+			name = "XP container on top (Secondary on Forever)",
+			desc = "On WoW Forever, place the secondary (usually XP) container above the main (usually reputation) container.",
+			type = "toggle",
+			get = function() return self.db.profile.xpOnTop end,
+			set = function(info, state) self.db.profile.xpOnTop = state; self:AnchorTrackingContainers() end,
+		}
+		self.optionobject:AddElement("general", "xpOnTop", xpOnTop)
+
 		self.disabledoptions = {
 			general = {
 				type = "group",

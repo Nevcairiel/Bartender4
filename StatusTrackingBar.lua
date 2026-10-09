@@ -15,10 +15,11 @@ local defaults = { profile = Bartender4.Util:Merge({
 	enabled = false,
 	width = Bartender4.GameType.Classic and 1024 or STATUS_BAR_CONTAINER_WIDTH or 571,
 	barPadding = Bartender4.GameType.Mainline and 3 or 0,
+	xpOnTop = true,
 }, Bartender4.Bar.defaults) }
 
 -- register module
-local StatusBarMod = Bartender4:NewModule("StatusTrackingBar", "AceHook-3.0")
+local StatusBarMod = Bartender4:NewModule("StatusTrackingBar", "AceHook-3.0", "AceEvent-3.0")
 
 -- create prototype information
 local StatusBar = setmetatable({}, {__index = Bar})
@@ -44,6 +45,8 @@ function StatusBarMod:OnEnable()
 		self.bar.manager:SetParent(self.bar.content)
 		self.bar.manager:ClearAllPoints()
 		self.bar.manager:SetPoint("BOTTOMLEFT", self.bar.content, "BOTTOMLEFT")
+		-- Keep the drag overlay above Blizzard tracking bars.
+		self.bar.overlay:SetFrameStrata("DIALOG")
 
 
 		if self.bar.manager.MainStatusTrackingBarContainer then
@@ -78,18 +81,54 @@ function StatusBarMod:OnEnable()
 	if EditModeManagerFrame and EditModeManagerFrame.UpdateBottomActionBarPositions then
 		self:SecureHook(EditModeManagerFrame, "UpdateBottomActionBarPositions", "AnchorTrackingContainers")
 	end
+	if Bartender4.GameType.Forever then
+		self:RegisterEvent("PLAYER_ENTERING_WORLD", "ScheduleTrackingAnchors")
+		self:RegisterEvent("PLAYER_REGEN_ENABLED", "AnchorTrackingContainers")
+		self:RegisterEvent("UI_SCALE_CHANGED", "ScheduleTrackingAnchors")
+		self:RegisterEvent("UPDATE_SHAPESHIFT_FORM", "OnShapeshiftFormChanged")
+		self:ScheduleTrackingAnchors()
+	end
+end
+
+-- Blizzard can reset both tracking containers to MainActionBar on form changes.
+-- A short delay lets Blizzard finish its layout pass before we restore our anchors.
+-- Confirmed in-game on WoW Forever; retain the existing combat guard.
+function StatusBarMod:OnShapeshiftFormChanged()
+	C_Timer.After(0.1, function()
+		if self:IsEnabled() and self.bar and not InCombatLockdown() then
+			self:AnchorTrackingContainers()
+		end
+	end)
+end
+
+function StatusBarMod:ScheduleTrackingAnchors()
+	if not self.bar then return end
+	-- Experimental: retry after Blizzard's initial layout updates.
+	for _, delay in ipairs({0, 0.5, 2, 5, 10, 20}) do
+		C_Timer.After(delay, function()
+			if self:IsEnabled() and self.bar and not InCombatLockdown() then
+				self:AnchorTrackingContainers()
+			end
+		end)
+	end
 end
 
 function StatusBarMod:AnchorTrackingContainers()
-	if self.bar.manager.MainStatusTrackingBarContainer then
-		self.bar.manager.MainStatusTrackingBarContainer:ClearAllPoints()
-		self.bar.manager.MainStatusTrackingBarContainer:SetPoint("BOTTOMLEFT", self.bar.manager, "BOTTOMLEFT")
-		self.bar.manager.MainStatusTrackingBarContainer:SetPoint("BOTTOMRIGHT", self.bar.manager, "BOTTOMRIGHT")
-
+	if InCombatLockdown() then return end
+	if self.bar and self.bar.manager and self.bar.manager.MainStatusTrackingBarContainer and self.bar.manager.SecondaryStatusTrackingBarContainer then
+		local main = self.bar.manager.MainStatusTrackingBarContainer
+		local secondary = self.bar.manager.SecondaryStatusTrackingBarContainer
 		local yOffset = self.db.profile.barPadding + (Bartender4.GameType.Mainline and -6 or 0)
-		self.bar.manager.SecondaryStatusTrackingBarContainer:ClearAllPoints()
-		self.bar.manager.SecondaryStatusTrackingBarContainer:SetPoint("BOTTOMLEFT", self.bar.manager.MainStatusTrackingBarContainer, "TOPLEFT", 0, yOffset)
-		self.bar.manager.SecondaryStatusTrackingBarContainer:SetPoint("BOTTOMRIGHT", self.bar.manager.MainStatusTrackingBarContainer, "TOPRIGHT", 0, yOffset)
+		main:ClearAllPoints()
+		secondary:ClearAllPoints()
+		-- On Forever, Main was observed displaying reputation and Secondary displaying XP.
+		if self.db.profile.xpOnTop then
+			main:SetPoint("BOTTOMLEFT", self.bar.manager, "BOTTOMLEFT")
+			secondary:SetPoint("BOTTOMLEFT", main, "TOPLEFT", 0, yOffset)
+		else
+			secondary:SetPoint("BOTTOMLEFT", self.bar.manager, "BOTTOMLEFT")
+			main:SetPoint("BOTTOMLEFT", secondary, "TOPLEFT", 0, yOffset)
+		end
 	end
 end
 
