@@ -49,6 +49,11 @@ function MultiCastMod:OnEnable()
 	self:ToggleOptions()
 	self:ApplyConfig()
 
+	if MultiCastActionBarFrame and MultiCastActionBarFrame.ApplySystemAnchor then
+		self:SecureHook(MultiCastActionBarFrame, "ApplySystemAnchor")
+		self:SecureHook(MultiCastActionBarFrame, "HighlightSystem")
+	end
+
 	if EditModeManagerFrame and EditModeManagerFrame.UpdateBottomActionBarPositions then
 		self:SecureHook(EditModeManagerFrame, "UpdateBottomActionBarPositions", "ApplySystemAnchor")
 	end
