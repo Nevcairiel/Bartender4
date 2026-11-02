@@ -5,7 +5,7 @@
 
 local _, Bartender4 = ...
 
-if Bartender4.GameType.Mainline or not HasMultiCastActionBar or not MultiCastActionBarFrame or select(2, UnitClass("player")) ~= "SHAMAN" then return end
+if Bartender4.GameType.MainlineStandard or not HasMultiCastActionBar or not MultiCastActionBarFrame or select(2, UnitClass("player")) ~= "SHAMAN" then return end
 
 -- fetch upvalues
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
