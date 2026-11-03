@@ -5,7 +5,7 @@
 
 local _, Bartender4 = ...
 
-if Bartender4.GameType.Mainline or not HasMultiCastActionBar or not MultiCastActionBarFrame or select(2, UnitClass("player")) ~= "SHAMAN" then return end
+if Bartender4.GameType.MainlineStandard or not HasMultiCastActionBar or not MultiCastActionBarFrame or select(2, UnitClass("player")) ~= "SHAMAN" then return end
 
 -- fetch upvalues
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
@@ -16,7 +16,7 @@ local defaults = { profile = Bartender4.Util:Merge({
 }, Bartender4.Bar.defaults) }
 
 -- register module
-local MultiCastMod = Bartender4:NewModule("MultiCast")
+local MultiCastMod = Bartender4:NewModule("MultiCast", "AceHook-3.0")
 
 -- create prototype information
 local MultiCastBar = setmetatable({}, {__index = Bar})
@@ -30,6 +30,12 @@ function MultiCastMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("MultiCast", self.db.profile, L["Totem Bar"]), {__index = MultiCastBar})
 		self.bar.content = MultiCastActionBarFrame
+
+		-- remove EditMode hooks
+		self.bar.content.ClearAllPoints = nil
+		self.bar.content.SetPoint = nil
+		self.bar.content.SetScale = nil
+
 		self.bar.content:SetScript("OnShow", nil)
 		self.bar.content:SetScript("OnHide", nil)
 		self.bar.content:SetScript("OnUpdate", nil)
@@ -42,6 +48,30 @@ function MultiCastMod:OnEnable()
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
+
+	if MultiCastActionBarFrame and MultiCastActionBarFrame.ApplySystemAnchor then
+		self:SecureHook(MultiCastActionBarFrame, "ApplySystemAnchor")
+		self:SecureHook(MultiCastActionBarFrame, "HighlightSystem")
+	end
+
+	if EditModeManagerFrame and EditModeManagerFrame.UpdateBottomActionBarPositions then
+		self:SecureHook(EditModeManagerFrame, "UpdateBottomActionBarPositions", "ApplySystemAnchor")
+	end
+
+	if UIParentBottomManagedFrameContainer then
+		UIParentBottomManagedFrameContainer.showingFrames[MultiCastActionBarFrame] = nil
+	end
+end
+
+function MultiCastMod:ApplySystemAnchor()
+	self.bar:PerformLayout()
+end
+
+function MultiCastMod:HighlightSystem()
+	if MultiCastActionBarFrame.Selection then
+		MultiCastActionBarFrame.Selection:Hide()
+	end
+	EditModeMagnetismManager:UnregisterFrame(MultiCastActionBarFrame)
 end
 
 function MultiCastMod:ApplyConfig()
