@@ -147,4 +147,10 @@
 	<Binding name="CLICK BT4StanceButton8:LeftButton" category="Bartender4 "/>
 	<Binding name="CLICK BT4StanceButton9:LeftButton" category="Bartender4 "/>
 	<Binding name="CLICK BT4StanceButton10:LeftButton" category="Bartender4 "/>
+	<Binding name="CLICK BT4TotemButtonSummon:LeftButton" header="BT4TOTEM" category="Bartender4 "/>
+	<Binding name="CLICK BT4TotemButtonSlot1:LeftButton" category="Bartender4 "/>
+	<Binding name="CLICK BT4TotemButtonSlot2:LeftButton" category="Bartender4 "/>
+	<Binding name="CLICK BT4TotemButtonSlot3:LeftButton" category="Bartender4 "/>
+	<Binding name="CLICK BT4TotemButtonSlot4:LeftButton" category="Bartender4 "/>
+	<Binding name="CLICK BT4TotemButtonRecall:LeftButton" category="Bartender4 "/>
 </Bindings>

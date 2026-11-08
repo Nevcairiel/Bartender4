@@ -17,7 +17,7 @@ local type, pairs, hooksecurefunc = type, pairs, hooksecurefunc
 
 -- GLOBALS: LibStub, UIParent, PlaySound, SOUNDKIT, RegisterStateDriver, UnregisterStateDriver
 -- GLOBALS: BINDING_HEADER_Bartender4, BINDING_CATEGORY_Bartender4, BINDING_NAME_TOGGLEACTIONBARLOCK, BINDING_NAME_BTTOGGLEACTIONBARLOCK
--- GLOBALS: BINDING_HEADER_BT4PET, BINDING_CATEGORY_BT4PET, BINDING_HEADER_BT4STANCE, BINDING_CATEGORY_BT4STANCE
+-- GLOBALS: BINDING_HEADER_BT4PET, BINDING_CATEGORY_BT4PET, BINDING_HEADER_BT4STANCE, BINDING_CATEGORY_BT4STANCE, BINDING_HEADER_BT4TOTEM
 -- GLOBALS: CreateFrame, MultiBarBottomLeft, MultiBarBottomRight, MultiBarLeft, MultiBarRight, UIPARENT_MANAGED_FRAME_POSITIONS
 -- GLOBALS: MainMenuBar, OverrideActionBar, MainMenuBarArtFrame, MainMenuExpBar, MainMenuBarMaxLevelBar, ReputationWatchBar
 -- GLOBALS: StanceBarFrame, PossessBarFrame, PetActionBarFrame, PlayerTalentFrame
@@ -89,6 +89,12 @@ function Bartender4:OnInitialize()
 		_G[("BINDING_NAME_CLICK BT4PetButton%d:LeftButton"):format(k)] = ("%s %s"):format(L["Pet Bar"], L["Button %s"]:format(k))
 		_G[("BINDING_NAME_CLICK BT4StanceButton%d:LeftButton"):format(k)] = ("%s %s"):format(L["Stance Bar"], L["Button %s"]:format(k))
 	end
+	BINDING_HEADER_BT4TOTEM = L["Totem Bar"]
+	_G["BINDING_NAME_CLICK BT4TotemButtonSummon:LeftButton"] = ("%s: %s"):format(L["Totem Bar"], L["Summon Totems"])
+	for k=1,4 do
+		_G[("BINDING_NAME_CLICK BT4TotemButtonSlot%d:LeftButton"):format(k)] = ("%s: %s"):format(L["Totem Bar"], L["Totem Slot %s"]:format(k))
+	end
+	_G["BINDING_NAME_CLICK BT4TotemButtonRecall:LeftButton"] = ("%s: %s"):format(L["Totem Bar"], L["Recall Totems"])
 
 	if EditModeManagerFrame then
 		EventRegistry:RegisterCallback("EditMode.Enter", function() self:Unlock(true) end)
