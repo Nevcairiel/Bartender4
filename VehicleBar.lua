@@ -6,14 +6,14 @@ local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
 -- register module
-local VehicleBarMod = Bartender4:NewModule("Vehicle", "AceHook-3.0")
+local VehicleBarMod = Bartender4:NewModule("Vehicle")
 
 -- fetch upvalues
 local Bar = Bartender4.Bar.prototype
 
 local table_insert, setmetatable, pairs = table.insert, setmetatable, pairs
 
--- GLOBALS: MainMenuBarVehicleLeaveButton, CanExitVehicle
+-- GLOBALS: CanExitVehicle, UnitOnTaxi, VehicleExit, TaxiRequestEarlyLanding, GameTooltip
 
 -- create prototype information
 local VehicleBar = setmetatable({}, {__index = Bar})
@@ -31,48 +31,6 @@ function VehicleBarMod:OnInitialize()
 	self:SetEnabledState(self.db.profile.enabled)
 end
 
-function VehicleBarMod:OnEnable()
-	if not self.bar then
-		self.bar = setmetatable(Bartender4.Bar:Create("Vehicle", self.db.profile, L["Vehicle Bar"]), {__index = VehicleBar})
-		self.bar.content = MainMenuBarVehicleLeaveButton
-
-		-- remove EditMode hooks
-		self.bar.content.ClearAllPoints = nil
-		self.bar.content.SetPoint = nil
-		self.bar.content.SetScale = nil
-
-		self.bar.content:SetParent(self.bar)
-		self.bar.content:SetScript("OnShow", nil)
-		self.bar.content:SetScript("OnHide", nil)
-	end
-	if MainMenuBarVehicleLeaveButton_Update then
-		self:RawHook("MainMenuBarVehicleLeaveButton_Update", true)
-	else
-		self:SecureHook(MainMenuBarVehicleLeaveButton, "Update", "MainMenuBarVehicleLeaveButton_Update")
-	end
-
-	if MainMenuBarVehicleLeaveButton.ApplySystemAnchor then
-		self:SecureHook(MainMenuBarVehicleLeaveButton, "ApplySystemAnchor")
-		self:SecureHook(MainMenuBarVehicleLeaveButton, "HighlightSystem")
-	end
-
-	if EditModeManagerFrame and EditModeManagerFrame.UpdateBottomActionBarPositions then
-		self:SecureHook(EditModeManagerFrame, "UpdateBottomActionBarPositions", "ApplySystemAnchor")
-	end
-
-	if UIParentBottomManagedFrameContainer then
-		UIParentBottomManagedFrameContainer.showingFrames[MainMenuBarVehicleLeaveButton] = nil
-	end
-
-	self.bar:Enable()
-	self:ToggleOptions()
-	self:ApplyConfig()
-end
-
-function VehicleBarMod:ApplyConfig()
-	self.bar:ApplyConfig(self.db.profile)
-end
-
 local function ShouldVehicleButtonBeShown()
 	if not CanExitVehicle then
 		return UnitOnTaxi("player")
@@ -81,25 +39,85 @@ local function ShouldVehicleButtonBeShown()
 	end
 end
 
-function VehicleBarMod:MainMenuBarVehicleLeaveButton_Update()
+local function VehicleButton_Update(self)
 	if ShouldVehicleButtonBeShown() then
-		self.bar:PerformLayout()
-		MainMenuBarVehicleLeaveButton:Show()
-		MainMenuBarVehicleLeaveButton:Enable()
+		self:Show()
+		self:Enable()
 	else
-		MainMenuBarVehicleLeaveButton:SetHighlightTexture([[Interface\Buttons\ButtonHilight-Square]], "ADD")
-		MainMenuBarVehicleLeaveButton:UnlockHighlight()
-		MainMenuBarVehicleLeaveButton:Hide()
+		self:SetHighlightTexture([[Interface\Buttons\ButtonHilight-Square]], "ADD")
+		self:UnlockHighlight()
+		self:Hide()
 	end
 end
 
-function VehicleBarMod:ApplySystemAnchor()
-	self.bar:PerformLayout()
+local function VehicleButton_OnClick(self)
+	if UnitOnTaxi("player") then
+		TaxiRequestEarlyLanding()
+
+		-- Show that the request for landing has been received.
+		self:Disable()
+		self:SetHighlightTexture([[Interface\Buttons\CheckButtonHilight]], "ADD")
+		self:LockHighlight()
+	else
+		VehicleExit()
+	end
 end
 
-function VehicleBarMod:HighlightSystem()
-	MainMenuBarVehicleLeaveButton.Selection:Hide()
-	EditModeMagnetismManager:UnregisterFrame(MainMenuBarVehicleLeaveButton)
+local function VehicleButton_OnEnter(self)
+	GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+	if UnitOnTaxi("player") then
+		GameTooltip_SetTitle(GameTooltip, TAXI_CANCEL)
+		GameTooltip:AddLine(TAXI_CANCEL_DESCRIPTION, NORMAL_FONT_COLOR.r, NORMAL_FONT_COLOR.g, NORMAL_FONT_COLOR.b, true)
+	else
+		GameTooltip_SetTitle(GameTooltip, LEAVE_VEHICLE)
+	end
+	GameTooltip:Show()
+end
+
+-- We use our own button instead of MainMenuBarVehicleLeaveButton. The Blizzard button is positioned
+-- by EditMode, potentially in combat, at which point we would be unable to move it back onto our bar.
+-- The Blizzard button is left untouched, and remains hidden as a child of the hidden main action bar.
+local function CreateVehicleButton(parent)
+	local button = CreateFrame("Button", "BT4VehicleLeaveButton", parent)
+	button:SetSize(32, 32)
+	button:SetMotionScriptsWhileDisabled(true)
+	button:Hide()
+
+	button:SetNormalTexture([[Interface\Vehicles\UI-Vehicles-Button-Exit-Up]])
+	button:GetNormalTexture():SetTexCoord(0.140625, 0.859375, 0.140625, 0.859375)
+	button:SetPushedTexture([[Interface\Vehicles\UI-Vehicles-Button-Exit-Down]])
+	button:GetPushedTexture():SetTexCoord(0.140625, 0.859375, 0.140625, 0.859375)
+	button:SetHighlightTexture([[Interface\Buttons\ButtonHilight-Square]], "ADD")
+
+	button:SetScript("OnEvent", VehicleButton_Update)
+	button:SetScript("OnClick", VehicleButton_OnClick)
+	button:SetScript("OnEnter", VehicleButton_OnEnter)
+	button:SetScript("OnLeave", GameTooltip_Hide)
+
+	button:RegisterEvent("UPDATE_BONUS_ACTIONBAR")
+	button:RegisterEvent("UPDATE_MULTI_CAST_ACTIONBAR")
+	button:RegisterEvent("UNIT_ENTERED_VEHICLE")
+	button:RegisterEvent("UNIT_EXITED_VEHICLE")
+	button:RegisterEvent("VEHICLE_UPDATE")
+
+	return button
+end
+
+function VehicleBarMod:OnEnable()
+	if not self.bar then
+		self.bar = setmetatable(Bartender4.Bar:Create("Vehicle", self.db.profile, L["Vehicle Bar"]), {__index = VehicleBar})
+		self.bar.content = CreateVehicleButton(self.bar)
+	end
+
+	self.bar:Enable()
+	self:ToggleOptions()
+	self:ApplyConfig()
+
+	VehicleButton_Update(self.bar.content)
+end
+
+function VehicleBarMod:ApplyConfig()
+	self.bar:ApplyConfig(self.db.profile)
 end
 
 function VehicleBar:ApplyConfig(config)
