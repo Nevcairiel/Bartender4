@@ -16,7 +16,7 @@ local defaults = { profile = Bartender4.Util:Merge({
 }, Bartender4.Bar.defaults) }
 
 -- register module
-local MultiCastMod = Bartender4:NewModule("MultiCast", "AceHook-3.0")
+local MultiCastMod = Bartender4:NewModule("MultiCast", "AceHook-3.0", "AceEvent-3.0")
 
 -- create prototype information
 local MultiCastBar = setmetatable({}, {__index = Bar})
@@ -56,14 +56,50 @@ function MultiCastMod:OnEnable()
 
 	if EditModeManagerFrame and EditModeManagerFrame.UpdateBottomActionBarPositions then
 		self:SecureHook(EditModeManagerFrame, "UpdateBottomActionBarPositions", "ApplySystemAnchor")
+		self:SecureHookScript(EditModeManagerFrame, "OnShow", "EditModeShown")
+		self:SecureHookScript(EditModeManagerFrame, "OnHide", "ReleaseFromEditMode")
 	end
+	self:ReleaseFromEditMode()
 
 	if UIParentBottomManagedFrameContainer then
 		UIParentBottomManagedFrameContainer.showingFrames[MultiCastActionBarFrame] = nil
 	end
 end
 
+-- EditMode re-anchors every bottom bar that is "in its default position" whenever
+-- the bar layout changes (e.g. entering Ghost Wolf), in combat as well, where we
+-- cannot move it back. Clear the flag (securely, without taint) so EditMode
+-- leaves the totem bar alone. It is restored while EditMode is open, since
+-- saving layouts expects a value.
+function MultiCastMod:ReleaseFromEditMode()
+	local info = MultiCastActionBarFrame.systemInfo
+	if info and info.isInDefaultPosition ~= nil and not (EditModeManagerFrame and EditModeManagerFrame:IsShown()) then
+		Bartender4.Util:PurgeKey(info, "isInDefaultPosition")
+	end
+end
+
+function MultiCastMod:EditModeShown()
+	local info = MultiCastActionBarFrame.systemInfo
+	if info and info.isInDefaultPosition == nil then
+		info.isInDefaultPosition = false
+	end
+end
+
 function MultiCastMod:ApplySystemAnchor()
+	self:ReleaseFromEditMode()
+	-- Blizzard re-runs its bar layout on e.g. stance changes, also in combat,
+	-- where the totem bar cannot be moved. Skip when it is still anchored
+	-- correctly, and otherwise re-anchor once combat ends.
+	if self.bar:IsAnchoredCorrectly() then return end
+	if InCombatLockdown() then
+		self:RegisterEvent("PLAYER_REGEN_ENABLED")
+		return
+	end
+	self.bar:PerformLayout()
+end
+
+function MultiCastMod:PLAYER_REGEN_ENABLED()
+	self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 	self.bar:PerformLayout()
 end
 
@@ -85,7 +121,15 @@ function MultiCastBar:ApplyConfig(config)
 	self:PerformLayout()
 end
 
+function MultiCastBar:IsAnchoredCorrectly()
+	local bar = self.content
+	if bar:GetNumPoints() ~= 1 then return false end
+	local point, relativeTo, relativePoint, x, y = bar:GetPoint(1)
+	return point == "TOPLEFT" and relativeTo == self and relativePoint == "TOPLEFT" and x == 3 and y == 1
+end
+
 function MultiCastBar:PerformLayout()
+	if InCombatLockdown() then return end
 	self:SetSize(230, 40)
 	local bar = self.content
 	bar:ClearAllPoints()
