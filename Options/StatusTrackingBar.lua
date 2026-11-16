@@ -4,14 +4,13 @@
 ]]
 local _, Bartender4 = ...
 
--- only in 8.0
-if not StatusTrackingBarManager then return end
+-- the module is not available without the status bar templates of the Blizzard UI
+local StatusBarMod = Bartender4:GetModule("StatusTrackingBar", true)
+if not StatusBarMod then return end
 
 -- fetch upvalues
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local Bar = Bartender4.Bar.prototype
-
-local StatusBarMod = Bartender4:GetModule("StatusTrackingBar")
 
 function StatusBarMod:SetupOptions()
 	if not self.options then
@@ -46,11 +45,21 @@ function StatusBarMod:SetupOptions()
 			name = L["Bar Padding"],
 			desc = L["Padding between the Status Bars"],
 			type = "range",
-			softMin = 0, softMax = 20, step = 1,
+			softMin = -4, softMax = 20, step = 1,
 			get = function() return self.db.profile.barPadding end,
 			set = function(info, state) self.db.profile.barPadding = state; self:AnchorTrackingContainers() end,
 		}
 		self.optionobject:AddElement("general", "barPadding", barPadding)
+
+		local lockText = {
+			order = 81,
+			name = L["Lock Text"],
+			desc = L["Always show the text of the Status Bars, instead of only when the mouse is over them"],
+			type = "toggle",
+			get = function() return self.db.profile.lockText end,
+			set = function(info, state) self.db.profile.lockText = state; self:UpdateTextLock() end,
+		}
+		self.optionobject:AddElement("general", "lockText", lockText)
 
 		self.disabledoptions = {
 			general = {

@@ -75,7 +75,7 @@ local function BuildSingleProfile()
 	Bartender4:GetModule("StanceBar"):Disable()
 
 	if PresetsMod.showXPBar then
-		if StatusTrackingBarManager then
+		if Bartender4:GetModule("StatusTrackingBar", true) then
 			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
 			config.enabled = true
 			config.scale = 0.5
@@ -138,7 +138,7 @@ local function BuildDoubleProfile()
 	Bartender4:GetModule("MicroMenu"):Disable()
 
 	if PresetsMod.showXPBar then
-		if StatusTrackingBarManager then
+		if Bartender4:GetModule("StatusTrackingBar", true) then
 			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
 			config.enabled = true
 			config.scale = 1
@@ -230,7 +230,7 @@ local function BuildBlizzardProfile()
 	SetBarLocation( config, "BOTTOM", 33, 42)
 
 	if PresetsMod.showXPBar then
-		if StatusTrackingBarManager then
+		if Bartender4:GetModule("StatusTrackingBar", true) then
 			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
 			config.enabled = true
 			config.scale = 1
