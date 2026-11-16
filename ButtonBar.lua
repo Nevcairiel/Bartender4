@@ -166,52 +166,66 @@ local math_ceil = math.ceil
 -- align the buttons and correct the size of the bar overlay frame
 ButtonBar.button_width =  36
 ButtonBar.button_height = 36
+-- space around every button that belongs to the button, eg. for art that extends beyond it
+ButtonBar.button_margin = 0
+-- number of buttons the bar is sized for, if it should not follow the number of buttons shown
+ButtonBar.fixed_button_count = nil
 function ButtonBar:UpdateButtonLayout()
 	local buttons = self.buttons
 	local pad = self:GetPadding()
 
 	local numbuttons = self.numbuttons or #buttons
+	local gridbuttons = self.fixed_button_count or numbuttons
 
 	-- bail out if the bar has no buttons, for whatever reason
 	-- (eg. stanceless class, or no stances learned yet, etc.)
-	if numbuttons == 0 then return end
+	if gridbuttons == 0 then return end
 
 	local Rows = self:GetRows()
-	local ButtonPerRow = math_ceil(numbuttons / Rows) -- just a precaution
-	Rows = math_ceil(numbuttons / ButtonPerRow)
-	if Rows > numbuttons then
-		Rows = numbuttons
+	local ButtonPerRow = math_ceil(gridbuttons / Rows) -- just a precaution
+	Rows = math_ceil(gridbuttons / ButtonPerRow)
+	if Rows > gridbuttons then
+		Rows = gridbuttons
 		ButtonPerRow = 1
 	end
 
 	local hpad = pad + (self.hpad_offset or 0)
 	local vpad = pad + (self.vpad_offset or 0)
 
-	self:SetSize((self.button_width + hpad) * ButtonPerRow - hpad + 8, (self.button_height + vpad) * Rows - vpad + 8)
+	-- the size of a button including its margin, and the space between two button frames
+	local margin = self.button_margin
+	local cell_width, cell_height = self.button_width + 2 * margin, self.button_height + 2 * margin
+	local hspace, vspace = hpad + 2 * margin, vpad + 2 * margin
+
+	self:SetSize((cell_width + hpad) * ButtonPerRow - hpad + 8, (cell_height + vpad) * Rows - vpad + 8)
+
+	-- a bar with a fixed size may have nothing to show
+	if numbuttons == 0 then return end
 
 	local h1, h2, v1, v2
 	local xOff, yOff
 	if self.config.position.growHorizontal == "RIGHT" then
 		h1, h2 = "LEFT", "RIGHT"
-		xOff = 5
+		xOff = 5 + margin
 	elseif self.config.position.growHorizontal == "LEFT" then
 		h1, h2 = "RIGHT", "LEFT"
-		xOff = -3
+		xOff = -3 - margin
 
-		hpad = -hpad
+		hspace = -hspace
 	elseif self.config.position.growHorizontal == "BOTH" then
 		h1, h2 = "LEFT", "RIGHT"
-		xOff = (self.button_width + hpad) * (ButtonPerRow - 1) / -2
+		-- center the buttons of the first row; this is a full row unless the bar has a fixed size
+		xOff = (cell_width + hpad) * (min(numbuttons, ButtonPerRow) - 1) / -2
 	end
 
 	if self.config.position.growVertical == "DOWN" then
 		v1, v2 = "TOP", "BOTTOM"
-		yOff = -3
+		yOff = -3 - margin
 	else
 		v1, v2 = "BOTTOM", "TOP"
-		yOff = 5
+		yOff = 5 + margin
 
-		vpad = -vpad
+		vspace = -vspace
 	end
 
 	local valign = "TOP"
@@ -233,10 +247,10 @@ function ButtonBar:UpdateButtonLayout()
 	for i = 2, numbuttons do
 		-- jump into a new row
 		if ((i-1) % ButtonPerRow) == 0 then
-			buttons[i]:ClearSetPoint(v1 .. h1, buttons[i-ButtonPerRow], v2 .. h1, 0, -vpad)
+			buttons[i]:ClearSetPoint(v1 .. h1, buttons[i-ButtonPerRow], v2 .. h1, 0, -vspace)
 		-- align to the previous button
 		else
-			buttons[i]:ClearSetPoint(valign .. h1, buttons[i-1], valign .. h2, hpad, 0)
+			buttons[i]:ClearSetPoint(valign .. h1, buttons[i-1], valign .. h2, hspace, 0)
 		end
 	end
 
