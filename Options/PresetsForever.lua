@@ -24,6 +24,18 @@ local function SetBarLocation(config, point, x, y)
 	config.position.y = y
 end
 
+-- The totem bar takes the place of the stance bar in the presets, no class has both.
+local function HasTotemBar()
+	return Bartender4:GetModule("TotemBar", true) ~= nil
+end
+
+local function SetTotemBarLocation(point, x, y)
+	local config = Bartender4.db:GetNamespace("MultiCast").profile
+	config.position.scale = 1.0
+	-- the border art of the totem buttons extends 2 beyond the buttons, line up the buttons themselves
+	SetBarLocation( config, point, x - 2, y + 2 )
+end
+
 local function BuildSingleProfile()
 	local dy, config
 	dy = 0
@@ -91,7 +103,13 @@ local function BuildSingleProfile()
 	SetBarLocation( config, "BOTTOM", -256, 47 )
 
 	config = Bartender4.db:GetNamespace("PetBar").profile
-	SetBarLocation( config, "BOTTOM", -164, 169 + dy )
+	if HasTotemBar() then
+		-- the totem bar sits centered above the action bars, with the pet bar above it
+		SetTotemBarLocation( "BOTTOM", -114, 172 + dy )
+		SetBarLocation( config, "BOTTOM", -164, 204 + dy )
+	else
+		SetBarLocation( config, "BOTTOM", -164, 169 + dy )
+	end
 end
 
 local function BuildDoubleProfile()
@@ -168,6 +186,9 @@ local function BuildDoubleProfile()
 		config = Bartender4.db:GetNamespace("StanceBar").profile
 		config.position.scale = 1.0
 		SetBarLocation( config, "BOTTOM", -460, 139 + dy )
+	elseif HasTotemBar() then
+		SetBarLocation( config, "BOTTOM", -120, 139 + dy )
+		SetTotemBarLocation( "BOTTOM", -460, 139 + dy )
 	else
 		SetBarLocation( config, "BOTTOM", -460, 139 + dy )
 	end
@@ -251,6 +272,9 @@ local function BuildClassicBlizzardProfile()
 			config.position.scale = 1.0
 			SetBarLocation( config, "BOTTOM", -460, 139 + dy )
 		end
+	elseif HasTotemBar() then
+		SetBarLocation( config, "BOTTOM", -120, 139 + dy )
+		SetTotemBarLocation( "BOTTOM", -460, 139 + dy )
 	else
 		SetBarLocation( config, "BOTTOM", -460, 139 + dy )
 	end
@@ -332,6 +356,10 @@ local function BuildBlizzardProfile()
 			config.padding = 2
 			SetBarLocation( config, "BOTTOM", -285, 148 + dy )
 		end
+	elseif HasTotemBar() then
+		config.padding = 2
+		SetBarLocation( config, "BOTTOM", -41, 148 + dy )
+		SetTotemBarLocation( "BOTTOM", -285, 148 + dy )
 	else
 		SetBarLocation( config, "BOTTOM", -285, 148 + dy )
 	end
@@ -414,6 +442,9 @@ local function BuildModernArtClassicProfile()
 			config.position.scale = 1
 			SetBarLocation( config, "BOTTOM", -529, 150 + dy )
 		end
+	elseif HasTotemBar() then
+		SetBarLocation( config, "BOTTOM", -251, 150 + dy )
+		SetTotemBarLocation( "BOTTOM", -529, 150 + dy )
 	else
 		SetBarLocation( config, "BOTTOM", -529, 150 + dy )
 	end
