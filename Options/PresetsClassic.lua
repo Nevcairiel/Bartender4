@@ -75,19 +75,7 @@ local function BuildSingleProfile()
 	Bartender4:GetModule("StanceBar"):Disable()
 
 	if PresetsMod.showXPBar then
-		if MainMenuExpBar then
-			config = Bartender4.db:GetNamespace("XPBar").profile
-			config.enabled = true
-			config.scale = 0.5
-			Bartender4:GetModule("XPBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -256, 48)
-
-			config = Bartender4.db:GetNamespace("RepBar").profile
-			config.enabled = true
-			config.scale = 0.5
-			Bartender4:GetModule("RepBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -256, 51)
-		elseif StatusTrackingBarManager then -- BCC Anniversary
+		if StatusTrackingBarManager then
 			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
 			config.enabled = true
 			config.scale = 0.5
@@ -150,17 +138,7 @@ local function BuildDoubleProfile()
 	Bartender4:GetModule("MicroMenu"):Disable()
 
 	if PresetsMod.showXPBar then
-		if MainMenuExpBar then
-			config = Bartender4.db:GetNamespace("XPBar").profile
-			config.enabled = true
-			Bartender4:GetModule("XPBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -514, 54)
-
-			config = Bartender4.db:GetNamespace("RepBar").profile
-			config.enabled = true
-			Bartender4:GetModule("RepBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -514, 61)
-		elseif StatusTrackingBarManager then -- BCC Anniversary
+		if StatusTrackingBarManager then
 			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
 			config.enabled = true
 			config.scale = 1
@@ -252,17 +230,7 @@ local function BuildBlizzardProfile()
 	SetBarLocation( config, "BOTTOM", 33, 42)
 
 	if PresetsMod.showXPBar then
-		if MainMenuExpBar then
-			config = Bartender4.db:GetNamespace("XPBar").profile
-			config.enabled = true
-			Bartender4:GetModule("XPBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -514, 54)
-
-			config = Bartender4.db:GetNamespace("RepBar").profile
-			config.enabled = true
-			Bartender4:GetModule("RepBar"):Enable()
-			SetBarLocation( config, "BOTTOM", -514, 61)
-		elseif StatusTrackingBarManager then -- BCC Anniversary
+		if StatusTrackingBarManager then
 			config = Bartender4.db:GetNamespace("StatusTrackingBar").profile
 			config.enabled = true
 			config.scale = 1

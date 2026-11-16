@@ -218,6 +218,4 @@ read_globals = {
 	"KeyRingButton",
 	"MainMenuBar_UpdateKeyRing",
 	"MainMenuBarPerformanceBarFrame",
-	"MainMenuExpBar",
-	"ReputationWatchBar",
 }

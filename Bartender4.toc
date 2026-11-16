@@ -86,9 +86,6 @@ StatusTrackingBar.lua
 ## Forever-only ##
 TotemBar.lua [AllowLoadGameType camelot, forever][ExcludeLoadGameType classic, standard]
 
-## Classic-only ##
-XPBarClassic.lua
-
 ## Options ##
 Options\AceGUIWidget-NumberEditBox.lua
 
@@ -109,9 +106,6 @@ Options\StatusTrackingBar.lua
 
 ## Forever-only
 Options\TotemBar.lua [AllowLoadGameType camelot, forever][ExcludeLoadGameType classic, standard]
-
-## Classic-only ##
-Options\XPBarClassic.lua
 
 ## XML
 ArtBarTemplates.xml
