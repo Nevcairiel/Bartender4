@@ -83,9 +83,11 @@ BlizzardArt.lua
 ExtraActionBar.lua
 StatusTrackingBar.lua
 
+## Forever-only ##
+TotemBar.lua [AllowLoadGameType camelot, forever][ExcludeLoadGameType classic, standard]
+
 ## Classic-only ##
 XPBarClassic.lua
-MultiCastBar.lua
 
 ## Options ##
 Options\AceGUIWidget-NumberEditBox.lua
@@ -105,9 +107,11 @@ Options\BlizzardArt.lua
 Options\ExtraActionBar.lua
 Options\StatusTrackingBar.lua
 
+## Forever-only
+Options\TotemBar.lua [AllowLoadGameType camelot, forever][ExcludeLoadGameType classic, standard]
+
 ## Classic-only ##
 Options\XPBarClassic.lua
-Options\MultiCastBar.lua
 
 ## XML
 ArtBarTemplates.xml

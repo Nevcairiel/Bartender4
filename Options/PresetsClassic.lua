@@ -271,29 +271,18 @@ local function BuildBlizzardProfile()
 		end
 	end
 
-	if HasMultiCastActionBar and HasMultiCastActionBar() then
-		config = Bartender4.db:GetNamespace("MultiCast").profile
-		config.enabled = true
-	end
-
 	config = Bartender4.db:GetNamespace("BlizzardArt").profile
 	config.enabled = true
 	Bartender4:GetModule("BlizzardArt"):Enable()
 	SetBarLocation( config, "BOTTOM", -512, 47 )
 
 	config = Bartender4.db:GetNamespace("PetBar").profile
-	if GetNumShapeshiftForms() > 0 or HasMultiCastActionBar and HasMultiCastActionBar() then
+	if GetNumShapeshiftForms() > 0 then
 		SetBarLocation( config, "BOTTOM", -120, 143 + dy )
-		if GetNumShapeshiftForms() > 0 then
-			config = Bartender4.db:GetNamespace("StanceBar").profile
-			config.position.scale = 1.0
-			SetBarLocation( config, "BOTTOM", -460, 143 + dy )
-		elseif HasMultiCastActionBar and HasMultiCastActionBar() then
-			config = Bartender4.db:GetNamespace("MultiCast").profile
-			config.position.scale = 1.0
-			Bartender4:GetModule("MultiCast"):Enable()
-			SetBarLocation( config, "BOTTOM", -460, 143 + dy )
-		end
+
+		config = Bartender4.db:GetNamespace("StanceBar").profile
+		config.position.scale = 1.0
+		SetBarLocation( config, "BOTTOM", -460, 143 + dy )
 	else
 		SetBarLocation( config, "BOTTOM", -460, 143 + dy )
 	end

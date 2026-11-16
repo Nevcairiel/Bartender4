@@ -4,17 +4,24 @@
 ]]
 
 local _, Bartender4 = ...
-if Bartender4.GameType.MainlineStandard or not HasMultiCastActionBar or not MultiCastActionBarFrame or select(2, UnitClass("player")) ~= "SHAMAN" then return end
+
+local TotemBarMod = Bartender4:GetModule("TotemBar", true)
+if not TotemBarMod then return end
 
 -- fetch upvalues
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
-local Bar = Bartender4.Bar.prototype
+local ButtonBar = Bartender4.ButtonBar.prototype
 
-local MultiCastMod = Bartender4:GetModule("MultiCast")
-
-function MultiCastMod:SetupOptions()
+function TotemBarMod:SetupOptions()
 	if not self.options then
-		self.optionobject = Bar:GetOptionObject()
+		self.optionobject = ButtonBar:GetOptionObject()
+		-- the bar is always a single row growing down, and its buttons show neither macros nor equipped items
+		local general = self.optionobject.table.general.args
+		general.rows = nil
+		general.vgrowth = nil
+		general.macrotext = nil
+		general.equipped = nil
+
 		local enabled = {
 			type = "toggle",
 			order = 1,
@@ -45,7 +52,7 @@ function MultiCastMod:SetupOptions()
 			desc = L["Configure the Totem Bar"],
 			childGroups = "tab",
 		}
-		Bartender4:RegisterBarOptions("MultiCast", self.options)
+		Bartender4:RegisterBarOptions("TotemBar", self.options)
 	end
 	self.options.args = self:IsEnabled() and self.optionobject.table or self.disabledoptions
 end
