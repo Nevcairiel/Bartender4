@@ -5,10 +5,28 @@
 
 local _, Bartender4 = ...
 
+local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
+
+-- The names of the buttons for the key binding UI and LibKeyBound.
+-- The totem buttons are named after their totem slot, but numbered here in the order they are shown in.
+local BUTTON_ACTION_NAMES = {
+	BT4TotemSummonButton = L["Totem Summon Button"],
+	BT4TotemButton2 = L["Totem Button 1 (Earth)"],
+	BT4TotemButton1 = L["Totem Button 2 (Fire)"],
+	BT4TotemButton3 = L["Totem Button 3 (Water)"],
+	BT4TotemButton4 = L["Totem Button 4 (Air)"],
+	BT4TotemRecallButton = L["Totem Recall Button"],
+}
+
+-- the key bindings are listed for every class, so they are named before the class check
+BINDING_HEADER_BT4TOTEM = L["Totem Bar"]
+for name, actionName in pairs(BUTTON_ACTION_NAMES) do
+	_G[("BINDING_NAME_CLICK %s:LeftButton"):format(name)] = actionName
+end
+
 if not HasMultiCastActionBar or select(2, UnitClass("player")) ~= "SHAMAN" then return end
 
 -- fetch upvalues
-local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local ButtonBar = Bartender4.ButtonBar.prototype
 local LAB10 = LibStub("LibActionButton-1.0")
 
@@ -149,10 +167,16 @@ local function createTotemArtTexture(button, layer, sublevel, coords)
 	return texture
 end
 
+-- LibKeyBound shows this instead of the frame name
+local function totemBarButtonGetActionName(self)
+	return BUTTON_ACTION_NAMES[self:GetName()]
+end
+
 -- creates a button of the bar, with the ring that frames it
 local function createTotemBarButton(bar, name, overlayCoords)
 	local button = LAB10:CreateButton(name, name, bar, nil)
 	button.BT4TotemBar = true
+	button.GetActionName = totemBarButtonGetActionName
 
 	local overlay = createTotemArtTexture(button, "OVERLAY", 0, overlayCoords)
 	overlay:SetSize(OVERLAY_SIZE, OVERLAY_SIZE)
