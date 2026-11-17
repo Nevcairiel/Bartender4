@@ -159,7 +159,7 @@ local function getStanceTable()
 
 	local num = GetNumShapeshiftForms()
 	for i = 1, num do
-		tbl[i] = Bartender4.Compat.GetSpellName(select(4, GetShapeshiftFormInfo(i)))
+		tbl[i] = C_Spell.GetSpellName(select(4, GetShapeshiftFormInfo(i)))
 	end
 	return tbl
 end

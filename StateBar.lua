@@ -6,8 +6,6 @@
 local _, Bartender4 = ...
 local ButtonBar = Bartender4.ButtonBar.prototype
 
-local GetSpecialization = C_SpecializationInfo and C_SpecializationInfo.GetSpecialization or GetSpecialization
-
 local StateBar = setmetatable({}, {__index = ButtonBar})
 local StateBar_MT = {__index = StateBar}
 
@@ -83,33 +81,33 @@ if Bartender4.GameType.Classic then
 		local newT = nil
 		if k == "DRUID" then
 			newT = {
-				{ id = "bear", name = Bartender4.Compat.GetSpellName(5487), index = 3 },
-				{ id = "cat", name = Bartender4.Compat.GetSpellName(768), index = 1 },
+				{ id = "bear", name = C_Spell.GetSpellName(5487), index = 3 },
+				{ id = "cat", name = C_Spell.GetSpellName(768), index = 1 },
 					-- prowl is virtual, no real stance
-				{ id = "prowl", name = ("%s (%s)"):format((Bartender4.Compat.GetSpellName(768)), (Bartender4.Compat.GetSpellName(5215))), index = false},
-				{ id = "moonkin", name = Bartender4.Compat.GetSpellName(24858), index = 4 },
-				(not Bartender4.GameType.ClassicEra) and { id = "treeoflife", name = Bartender4.Compat.GetSpellName(33891), index = 2 } or nil,
+				{ id = "prowl", name = ("%s (%s)"):format((C_Spell.GetSpellName(768)), (C_Spell.GetSpellName(5215))), index = false},
+				{ id = "moonkin", name = C_Spell.GetSpellName(24858), index = 4 },
+				(not Bartender4.GameType.ClassicEra) and { id = "treeoflife", name = C_Spell.GetSpellName(33891), index = 2 } or nil,
 			}
 		elseif k == "ROGUE" then
 			newT = {
-				{ id = "stealth", name = Bartender4.Compat.GetSpellName(1784), index = 1 },
-				(not Bartender4.GameType.ClassicEra and not Bartender4.GameType.ClassicBCC) and { id = "shadowdance", name = Bartender4.Compat.GetSpellName(51713), index = 2 } or nil,
+				{ id = "stealth", name = C_Spell.GetSpellName(1784), index = 1 },
+				(not Bartender4.GameType.ClassicEra and not Bartender4.GameType.ClassicBCC) and { id = "shadowdance", name = C_Spell.GetSpellName(51713), index = 2 } or nil,
 			}
 		elseif k ==  "WARRIOR" and not Bartender4.GameType.ClassicMists then
 			newT = {
-				{ id = "battle", name = Bartender4.Compat.GetSpellName(2457), index = 1 },
-				{ id = "def", name = Bartender4.Compat.GetSpellName(71), index = 2 },
-				{ id = "berserker", name = Bartender4.Compat.GetSpellName(2458), index = 3 },
+				{ id = "battle", name = C_Spell.GetSpellName(2457), index = 1 },
+				{ id = "def", name = C_Spell.GetSpellName(71), index = 2 },
+				{ id = "berserker", name = C_Spell.GetSpellName(2458), index = 3 },
 			}
 		elseif k == "PRIEST" and not Bartender4.GameType.ClassicEra then
 			newT = {
-				{ id = "shadowform", name = Bartender4.Compat.GetSpellName(15473), index = 1 },
+				{ id = "shadowform", name = C_Spell.GetSpellName(15473), index = 1 },
 			}
 		elseif k == "MONK" then
 			newT = {
-				{ id = "tiger", name = Bartender4.Compat.GetSpellName(103985), index = 1 },
-				{ id = "ox", name = Bartender4.Compat.GetSpellName(115069), index = 2 },
-				{ id = "serpent", name = Bartender4.Compat.GetSpellName(115070), index = 3 },
+				{ id = "tiger", name = C_Spell.GetSpellName(103985), index = 1 },
+				{ id = "ox", name = C_Spell.GetSpellName(115069), index = 2 },
+				{ id = "serpent", name = C_Spell.GetSpellName(115070), index = 3 },
 			}
 		end
 		rawset(t, k, newT)
@@ -121,21 +119,21 @@ elseif Bartender4.GameType.Forever then
 		local newT = nil
 		if k == "DRUID" then
 			newT = {
-				{ id = "bear", name = Bartender4.Compat.GetSpellName(5487), index = 3 },
-				{ id = "cat", name = Bartender4.Compat.GetSpellName(768), index = 1 },
+				{ id = "bear", name = C_Spell.GetSpellName(5487), index = 3 },
+				{ id = "cat", name = C_Spell.GetSpellName(768), index = 1 },
 					-- prowl is virtual, no real stance
-				{ id = "prowl", name = ("%s (%s)"):format((Bartender4.Compat.GetSpellName(768)), (Bartender4.Compat.GetSpellName(5215))), index = false},
-				{ id = "moonkin", name = Bartender4.Compat.GetSpellName(24858), index = 4 },
+				{ id = "prowl", name = ("%s (%s)"):format((C_Spell.GetSpellName(768)), (C_Spell.GetSpellName(5215))), index = false},
+				{ id = "moonkin", name = C_Spell.GetSpellName(24858), index = 4 },
 			}
 		elseif k == "ROGUE" then
 			newT = {
-				{ id = "stealth", name = Bartender4.Compat.GetSpellName(1784), index = 1 },
+				{ id = "stealth", name = C_Spell.GetSpellName(1784), index = 1 },
 			}
 		elseif k ==  "WARRIOR" and not Bartender4.GameType.ClassicMists then
 			newT = {
-				{ id = "battle", name = Bartender4.Compat.GetSpellName(2457), index = 1 },
-				{ id = "def", name = Bartender4.Compat.GetSpellName(71), index = 2 },
-				{ id = "berserker", name = Bartender4.Compat.GetSpellName(2458), index = 3 },
+				{ id = "battle", name = C_Spell.GetSpellName(2457), index = 1 },
+				{ id = "def", name = C_Spell.GetSpellName(71), index = 2 },
+				{ id = "berserker", name = C_Spell.GetSpellName(2458), index = 3 },
 			}
 		end
 		rawset(t, k, newT)
@@ -147,19 +145,19 @@ else
 		local newT = nil
 		if k == "DRUID" then
 			newT = {
-				{ id = "bear", name = Bartender4.Compat.GetSpellName(5487), index = 3 },
-				{ id = "cat", name = Bartender4.Compat.GetSpellName(768), index = 1 },
+				{ id = "bear", name = C_Spell.GetSpellName(5487), index = 3 },
+				{ id = "cat", name = C_Spell.GetSpellName(768), index = 1 },
 					-- prowl is virtual, no real stance
-				{ id = "prowl", name = ("%s (%s)"):format((Bartender4.Compat.GetSpellName(768)), (Bartender4.Compat.GetSpellName(5215))), index = false},
-				{ id = "moonkin", name = Bartender4.Compat.GetSpellName(24858), index = 4 },
+				{ id = "prowl", name = ("%s (%s)"):format((C_Spell.GetSpellName(768)), (C_Spell.GetSpellName(5215))), index = false},
+				{ id = "moonkin", name = C_Spell.GetSpellName(24858), index = 4 },
 			}
 		elseif k == "ROGUE" then
 			newT = {
-				{ id = "stealth", name = Bartender4.Compat.GetSpellName(1784), index = 1 },
+				{ id = "stealth", name = C_Spell.GetSpellName(1784), index = 1 },
 			}
 		elseif k == "EVOKER" then
 			newT = {
-				{ id = "soar", name = Bartender4.Compat.GetSpellName(369536), index = 1 },
+				{ id = "soar", name = C_Spell.GetSpellName(369536), index = 1 },
 			}
 		end
 		rawset(t, k, newT)
@@ -210,7 +208,7 @@ function StateBar:UpdateStates(returnOnly)
 			if not stateconfig.stance[playerclass] then stateconfig.stance[playerclass] = {} end
 			for i,v in pairs(stancemap) do
 				local state = self:GetStanceState(v)
-				if state and state ~= 0 and v.index and (v.spec == nil or v.spec == GetSpecialization()) then
+				if state and state ~= 0 and v.index and (v.spec == nil or v.spec == C_SpecializationInfo.GetSpecialization()) then
 					-- hack for druid prowl, since its no real "stance", but we want to handle it anyway
 					if playerclass == "DRUID" then
 						if v.id == "cat" then

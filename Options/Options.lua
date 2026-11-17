@@ -7,8 +7,6 @@ local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
 local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 
-local SaveBindings = SaveBindings or AttemptToSaveBindings
-
 local getFunc, setFunc
 do
 	function getFunc(info)

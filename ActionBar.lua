@@ -154,31 +154,15 @@ local UpdateSmartTarget = [[
 		end
 		if type == "spell" and action > 0 then
 			if BT_Spell_Overrides[action] then action = BT_Spell_Overrides[action] end
-			if IsSpellHarmful and IsSpellHelpful then
-				if IsSpellHelpful(action) == IsSpellHarmful(action) then
-					self:SetAttribute("targettype", 3)
-					self:SetAttribute("unit", self:GetAttribute("target_all"))
-				elseif IsSpellHelpful(action) then
-					self:SetAttribute("targettype", 1)
-					self:SetAttribute("unit", self:GetAttribute("target_help"))
-				elseif IsSpellHarmful(action) then
-					self:SetAttribute("targettype", 2)
-					self:SetAttribute("unit", self:GetAttribute("target_harm"))
-				end
-			else
-				local id, subtype = FindSpellBookSlotBySpellID(action), "spell"
-				if id and id > 0 then
-					if IsHelpfulSpell(id, subtype) == IsHarmfulSpell(id, subtype) then
-						self:SetAttribute("targettype", 3)
-						self:SetAttribute("unit", self:GetAttribute("target_all"))
-					elseif IsHelpfulSpell(id, subtype) then
-						self:SetAttribute("targettype", 1)
-						self:SetAttribute("unit", self:GetAttribute("target_help"))
-					elseif IsHarmfulSpell(id, subtype) then
-						self:SetAttribute("targettype", 2)
-						self:SetAttribute("unit", self:GetAttribute("target_harm"))
-					end
-				end
+			if IsSpellHelpful(action) == IsSpellHarmful(action) then
+				self:SetAttribute("targettype", 3)
+				self:SetAttribute("unit", self:GetAttribute("target_all"))
+			elseif IsSpellHelpful(action) then
+				self:SetAttribute("targettype", 1)
+				self:SetAttribute("unit", self:GetAttribute("target_help"))
+			elseif IsSpellHarmful(action) then
+				self:SetAttribute("targettype", 2)
+				self:SetAttribute("unit", self:GetAttribute("target_harm"))
 			end
 		end
 	end
