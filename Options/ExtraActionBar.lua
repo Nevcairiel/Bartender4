@@ -29,7 +29,7 @@ function ExtraActionBarMod:SetupOptions()
 		local editmode = {
 			type = "description",
 			order = 2,
-			name = L["NOTE: It is strongly recommended to use Edit Mode to move the Extra Action Bar to avoid any complications in Raid Encounters, and leave the Bartender4 Extra Action Bar disabled."] .."\n\n"..L["After disabling the Extra Action Bar, you should reload your UI to fully reset it to vanilla."],
+			name = L["NOTE: Bartender4 takes the Extra Action Bar over from the default UI. If you run into any problems with it, you can disable it here and use the Edit Mode of the default UI to move it instead."] .."\n\n"..L["After disabling the Extra Action Bar, you should reload your UI to fully reset it to vanilla."],
 			width = "full",
 		}
 		self.optionobject:AddElement("general", "editmode", editmode)

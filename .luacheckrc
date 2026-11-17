@@ -30,7 +30,6 @@ globals = {
 	"MainMenuBarBackpackButton",
 	"MicroMenu",
 
-	"UIParentBottomManagedFrameContainer",
 }
 
 read_globals = {
@@ -121,7 +120,6 @@ read_globals = {
 	"AutoCastShine_AutoCastStart",
 	"AutoCastShine_AutoCastStop",
 	"CooldownFrame_Set",
-	"EditModeMagnetismManager",
 	"GameTooltip_Hide",
 	"GameTooltip_SetTitle",
 	"GameRulesUtil",
@@ -141,6 +139,7 @@ read_globals = {
 	"BagsBar",
 	"CharacterMicroButton",
 	"CollectionsMicroButton",
+	"EditModeMagnetismManager",
 	"EditModeManagerFrame",
 	"EJMicroButton",
 	"EventRegistry",

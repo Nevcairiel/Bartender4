@@ -5,18 +5,18 @@
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 
-if not ExtraAbilityContainer and not ExtraActionBarFrame then return end
+if not ExtraAbilityContainer then return end
 
 -- register module
-local ExtraActionBarMod = Bartender4:NewModule("ExtraActionBar", "AceHook-3.0")
+local ExtraActionBarMod = Bartender4:NewModule("ExtraActionBar", "AceHook-3.0", "AceEvent-3.0")
 
 -- fetch upvalues
 local Bar = Bartender4.Bar.prototype
 
-local setmetatable = setmetatable
-
 -- create prototype information
 local ExtraActionBar = setmetatable({}, {__index = Bar})
+
+local BAR_SIZE = 128
 
 local defaults = { profile = Bartender4.Util:Merge({
 	enabled = true,
@@ -32,43 +32,60 @@ function ExtraActionBarMod:OnInitialize()
 	self:SetEnabledState(self.db.profile.enabled)
 end
 
-local SetPointFromBT = nil
+local function noop() end
+
+-- The container of the extra action button and the zone abilities is a system of the edit mode of the Blizzard UI,
+-- and a frame its frame position management places. Both move and reparent it, also in combat, where it cannot be
+-- moved back. Instead of undoing that afterwards, the container is made immune to it, once:
+-- it is taken out of the frame position management, and ignores the anchors the edit mode sets on it.
+local function detachContainerFromEditMode(container)
+	-- without this the edit mode neither passes the container to the frame position management, nor reparents it
+	Bartender4.Util:PurgeKey(container, "isManagedFrame")
+
+	-- these scripts add the container to the frame position management and remove it again, every time it is shown
+	container:SetScript("OnShow", nil)
+	container:SetScript("OnHide", nil)
+
+	-- it may have been added already
+	local showingFrames = container.layoutParent and container.layoutParent.showingFrames
+	if showingFrames and showingFrames[container] then
+		showingFrames[container] = nil
+	end
+
+	-- The edit mode anchors its systems on every update of its layout. It keeps the original functions in
+	-- SetPointBase and ClearAllPointsBase, which are used to position the container on the bar.
+	container.SetPoint = noop
+	container.ClearAllPoints = noop
+
+	-- A layout that was applied before may have snapped the container to another system. That system would move the
+	-- container when it hides, the anchors that are set from now on do not create such a link anymore.
+	if container.snappedToFrame then
+		container.snappedToFrame:RemoveSnappedFrame(container)
+		Bartender4.Util:PurgeKey(container, "snappedToFrame")
+	end
+
+	-- The selection of the edit mode would allow to drag the container. It has to remain a child of the container,
+	-- the edit mode calculates the clamp insets of the container from the position of both.
+	container.Selection:SetAlpha(0)
+	container.Selection:EnableMouse(false)
+end
+
 function ExtraActionBarMod:OnEnable()
 	if not self.bar then
 		self.bar = setmetatable(Bartender4.Bar:Create("ExtraActionBar", self.db.profile, L["Extra Action Bar"], 2), {__index = ExtraActionBar})
-		self.bar.content = ExtraAbilityContainer or ExtraActionBarFrame
+		self.bar.content = ExtraAbilityContainer
 
-		-- remove EditMode hooks
-		self.bar.content.ClearAllPoints = nil
-		self.bar.content.SetPoint = nil
-		self.bar.content.SetScale = nil
-
-		self.bar.content:SetToplevel(false)
-		self.bar.content:SetParent(self.bar)
-		if ExtraAbilityContainer then
-			self.bar.content:SetScript("OnShow", nil)
-			self.bar.content:SetScript("OnHide", nil)
-
-			-- can't fully take it of EditMode, but can override it
-			hooksecurefunc(ExtraAbilityContainer, "SetPoint", function() if not SetPointFromBT then self.bar:PerformLayout() end end)
-		end
+		detachContainerFromEditMode(ExtraAbilityContainer)
 	end
 	self.bar:Enable()
 	self:ToggleOptions()
 	self:ApplyConfig()
 
-	if _G["ExtraActionBar_Update"] and ZoneAbilityFrame then
-		self:SecureHook("ExtraActionBar_Update")
+	self:SecureHook("ExtraActionBar_Update")
+	if ZoneAbilityFrame then
 		self:SecureHook(ZoneAbilityFrame, "UpdateDisplayedZoneAbilities")
 	end
-	if ExtraAbilityContainer and ExtraAbilityContainer.ApplySystemAnchor then
-		self:SecureHook(ExtraAbilityContainer, "ApplySystemAnchor")
-		self:SecureHook(ExtraAbilityContainer, "HighlightSystem")
-	end
-
-	if UIParentBottomManagedFrameContainer and ExtraAbilityContainer then
-		UIParentBottomManagedFrameContainer.showingFrames[ExtraAbilityContainer] = nil
-	end
+	self:SecureHook(ExtraAbilityContainer, "HighlightSystem")
 end
 
 function ExtraActionBarMod:ApplyConfig()
@@ -93,23 +110,19 @@ function ExtraActionBarMod:UpdateDisplayedZoneAbilities()
 	end
 end
 
+-- Highlighting the container in the edit mode registers it as a target other systems snap to when they are dragged.
+-- A system that is snapped to the container would be saved anchored to it, and follow the bar.
 function ExtraActionBarMod:HighlightSystem()
-	ExtraAbilityContainer.Selection:Hide()
 	EditModeMagnetismManager:UnregisterFrame(ExtraAbilityContainer)
 end
 
-function ExtraActionBarMod:ApplySystemAnchor()
-	if UIParentBottomManagedFrameContainer then
-		UIParentBottomManagedFrameContainer.showingFrames[ExtraAbilityContainer] = nil
-	end
-
+function ExtraActionBarMod:CombatEnded()
+	self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 	self.bar:PerformLayout()
 end
 
-if ExtraAbilityContainer then
-	ExtraActionBar.width = 128
-	ExtraActionBar.height = 128
-end
+ExtraActionBar.width = BAR_SIZE
+ExtraActionBar.height = BAR_SIZE
 
 function ExtraActionBar:ApplyConfig(config)
 	Bar.ApplyConfig(self, config)
@@ -123,15 +136,18 @@ function ExtraActionBar:ApplyConfig(config)
 end
 
 function ExtraActionBar:PerformLayout()
-	if InCombatLockdown() then return end
+	-- the container is protected
+	if InCombatLockdown() then
+		ExtraActionBarMod:RegisterEvent("PLAYER_REGEN_ENABLED", "CombatEnded")
+		return
+	end
 
-	SetPointFromBT = true
-
-	self:SetSize(128, 128)
-	local bar = self.content
-	bar:SetParent(self)
-	bar:ClearAllPoints()
-	bar:SetPoint("CENTER", self, "TOPLEFT", 64, -64)
-
-	SetPointFromBT = nil
+	self:SetSize(BAR_SIZE, BAR_SIZE)
+	local container = self.content
+	container:SetToplevel(false)
+	-- the container is wider than the bar, and would be pushed off the bar close to the edge of the screen
+	container:SetClampedToScreen(false)
+	container:SetParent(self)
+	container:ClearAllPointsBase()
+	container:SetPointBase("CENTER", self, "TOPLEFT", BAR_SIZE / 2, -BAR_SIZE / 2)
 end
