@@ -9,8 +9,6 @@ local Bar = Bartender4.Bar.prototype
 local ButtonBar = Bartender4.ButtonBar.prototype
 local StateBar = Bartender4.StateBar.prototype
 
-local tostring, assert, pairs = tostring, assert, pairs
-
 local optGetter, optSetter, getBar
 do
 	local optionMap, callFunc

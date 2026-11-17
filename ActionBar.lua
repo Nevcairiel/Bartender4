@@ -10,8 +10,6 @@ Bartender4.ActionBar = ActionBar
 local LAB10 = LibStub("LibActionButton-1.0")
 local LSM = LibStub("LibSharedMedia-3.0")
 
-local tonumber, format, min = tonumber, format, min
-
 local GetSpellBookItemInfo = GetSpellBookItemInfo
 if C_SpellBook and C_SpellBook.GetSpellBookItemType then
 	GetSpellBookItemInfo = function(index, book) assert(book == "spell") return C_SpellBook.GetSpellBookItemType(index, Enum.SpellBookSpellBank.Player) end

@@ -10,8 +10,6 @@ local PetBarMod = Bartender4:NewModule("PetBar", "AceEvent-3.0")
 -- fetch upvalues
 local ButtonBar = Bartender4.ButtonBar.prototype
 
-local setmetatable, select = setmetatable, select
-
 -- create prototype information
 local PetBar = setmetatable({}, {__index = ButtonBar})
 

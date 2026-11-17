@@ -9,8 +9,6 @@ local ActionBar = Bartender4.ActionBar
 
 local lsmlist = AceGUIWidgetLSMlists
 
-local tonumber, tostring, assert = tonumber, tostring, assert
-
 --[[===================================================================================
 	ActionBar Options
 ===================================================================================]]--

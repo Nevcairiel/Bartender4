@@ -12,10 +12,6 @@ local PetButton_MT = {__index = PetButtonPrototype}
 local Masque = LibStub("Masque", true)
 local KeyBound = LibStub("LibKeyBound-1.0")
 
--- upvalues
-local _G = _G
-local format, select, setmetatable = string.format, select, setmetatable
-
 local function onEnter(self, ...)
 	if not (Bartender4.db.profile.tooltip == "nocombat" and InCombatLockdown()) and Bartender4.db.profile.tooltip ~= "disabled" then
 		self:OnEnter(...)

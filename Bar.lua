@@ -9,9 +9,6 @@ local _, Bartender4 = ...
 local Bar = CreateFrame("Frame")
 local Bar_MT = {__index = Bar}
 
-local table_concat, table_insert, tostring, assert, pairs, min, max = table.concat, table.insert, tostring, assert, pairs, min, max
-local setmetatable, tonumber = setmetatable, tonumber
-
 --[[===================================================================================
 	Universal Bar Contructor
 ===================================================================================]]--
@@ -162,7 +159,7 @@ function Bartender4.Bar:Create(id, config, name, level)
 	local overlay = CreateFrame("Button", bar:GetName() .. "Overlay", bar, BackdropTemplateMixin and "BackdropTemplate" or nil)
 	bar.overlay = overlay
 	overlay.bar = bar
-	table_insert(snapBars, overlay)
+	table.insert(snapBars, overlay)
 	overlay:EnableMouse(true)
 	overlay:RegisterForDrag("LeftButton")
 	overlay:RegisterForClicks("LeftButtonUp")
@@ -472,26 +469,26 @@ function Bar:InitVisibilityDriver(returnOnly)
 	]])
 
 	if self.config.visibility.custom and not returnOnly then
-		table_insert(self.hidedriver, self.config.visibility.customdata or "")
+		table.insert(self.hidedriver, self.config.visibility.customdata or "")
 	else
 		for key, value in pairs(self.config.visibility) do
 			if value then
 				if key == "always" then
-					table_insert(self.hidedriver, "hide")
+					table.insert(self.hidedriver, "hide")
 				elseif key == "possess" then
-					table_insert(self.hidedriver, "[possessbar]hide")
+					table.insert(self.hidedriver, "[possessbar]hide")
 				elseif key == "overridebar" then
-					table_insert(self.hidedriver, "[overridebar]hide")
+					table.insert(self.hidedriver, "[overridebar]hide")
 				elseif key == "vehicleui" then
-					table_insert(self.hidedriver, "[vehicleui]hide")
+					table.insert(self.hidedriver, "[vehicleui]hide")
 				elseif key == "vehicle" then
-					table_insert(self.hidedriver, "[target=vehicle,exists]hide")
+					table.insert(self.hidedriver, "[target=vehicle,exists]hide")
 				elseif directVisCond[key] then
-					table_insert(self.hidedriver, ("[%s]hide"):format(key))
+					table.insert(self.hidedriver, ("[%s]hide"):format(key))
 				elseif key == "stance" then
 					for k,v in pairs(value) do
 						if v then
-							table_insert(self.hidedriver, ("[stance:%d]hide"):format(k))
+							table.insert(self.hidedriver, ("[stance:%d]hide"):format(k))
 						end
 					end
 				elseif key == "custom" or key == "customdata" then
@@ -503,22 +500,22 @@ function Bar:InitVisibilityDriver(returnOnly)
 		end
 	end
 	-- always hide in petbattles
-	table_insert(self.hidedriver, 1, "[petbattle]hide")
+	table.insert(self.hidedriver, 1, "[petbattle]hide")
 	-- add fallback at the end
-	table_insert(self.hidedriver, self.config.fadeout and "fade" or "show")
+	table.insert(self.hidedriver, self.config.fadeout and "fade" or "show")
 
 	if not returnOnly then
 		self:ApplyVisibilityDriver()
 	else
 		self.hidedriver, tmpDriver = tmpDriver, self.hidedriver
-		return table_concat(tmpDriver, ";")
+		return table.concat(tmpDriver, ";")
 	end
 end
 
 function Bar:ApplyVisibilityDriver()
 	if self.unlocked then return end
 	-- default state is shown
-	local driver = table_concat(self.hidedriver, ";")
+	local driver = table.concat(self.hidedriver, ";")
 	RegisterStateDriver(self, "vis", driver)
 end
 

@@ -6,8 +6,6 @@ local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
 local BT4ActionBars = Bartender4:NewModule("ActionBars", "AceEvent-3.0")
 
-local select, ipairs, pairs, tostring, tonumber, min, setmetatable = select, ipairs, pairs, tostring, tonumber, min, setmetatable
-
 local LAB10 = LibStub("LibActionButton-1.0")
 local LSM = LibStub("LibSharedMedia-3.0")
 local Masque = LibStub("Masque", true)

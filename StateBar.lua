@@ -6,9 +6,6 @@
 local _, Bartender4 = ...
 local ButtonBar = Bartender4.ButtonBar.prototype
 
-local setmetatable, rawset, pairs, type, tostring = setmetatable, rawset, pairs, type, tostring
-local table_insert, table_concat, fmt = table.insert, table.concat, string.format
-
 local GetSpecialization = C_SpecializationInfo and C_SpecializationInfo.GetSpecialization or GetSpecialization
 
 local StateBar = setmetatable({}, {__index = ButtonBar})
@@ -190,21 +187,21 @@ function StateBar:UpdateStates(returnOnly)
 
 		-- possessing will always be the most important change, if enabled
 		if self:GetStateOption("possess") then
-			table_insert(statedriver, "[overridebar][possessbar][shapeshift]possess;[bonusbar:5]dragon")
+			table.insert(statedriver, "[overridebar][possessbar][shapeshift]possess;[bonusbar:5]dragon")
 		end
 
 		-- highest priority have our temporary quick-swap keys
 		for _,v in pairs(modifiers) do
 			local page = self:GetStateOption(v)
 			if page and page ~= 0 then
-				table_insert(statedriver, fmt("[mod:%s]%s", v, page))
+				table.insert(statedriver, format("[mod:%s]%s", v, page))
 			end
 		end
 
 		-- second priority the manual changes using the ActionBar options
 		if self:GetStateOption("actionbar") then
 			for i=2,6 do
-				table_insert(statedriver, fmt("[bar:%s]%s", i, i))
+				table.insert(statedriver, format("[bar:%s]%s", i, i))
 			end
 		end
 
@@ -219,17 +216,17 @@ function StateBar:UpdateStates(returnOnly)
 						if v.id == "cat" then
 							local prowl = self:GetStanceState("prowl")
 							if prowl and prowl ~= 0 then
-								table_insert(statedriver, fmt("[bonusbar:%s,stealth:1]%s", v.index, prowl))
+								table.insert(statedriver, format("[bonusbar:%s,stealth:1]%s", v.index, prowl))
 							end
 						end
 					end
-					table_insert(statedriver, fmt("[%s:%s]%s", v.type or "bonusbar", v.index, state))
+					table.insert(statedriver, format("[%s:%s]%s", v.type or "bonusbar", v.index, state))
 				end
 			end
 		end
 
-		table_insert(statedriver, tostring(self:GetDefaultState() or 0))
-		statedriver = table_concat(statedriver, ";")
+		table.insert(statedriver, tostring(self:GetDefaultState() or 0))
+		statedriver = table.concat(statedriver, ";")
 		if returnOnly then
 			return statedriver
 		end

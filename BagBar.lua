@@ -12,10 +12,6 @@ local BagBarMod = Bartender4:NewModule("BagBar", "AceHook-3.0")
 local ButtonBar = Bartender4.ButtonBar.prototype
 local Masque = LibStub("Masque", true)
 
-local _G = _G
-local next, pairs, setmetatable = next, pairs, setmetatable
-local table_insert, table_remove = table.insert, table.remove
-
 -- create prototype information
 local BagBar = setmetatable({}, {__index = ButtonBar})
 
@@ -108,7 +104,7 @@ function BagBar:FeedButtons()
 
 	if self.buttons then
 		while next(self.buttons) do
-			local btn = table_remove(self.buttons)
+			local btn = table.remove(self.buttons)
 			btn:Hide()
 			btn:SetParent(UIParent)
 			btn:ClearSetPoint("CENTER")
@@ -124,7 +120,7 @@ function BagBar:FeedButtons()
 	end
 
 	if Bartender4.Features.Keyring and KeyRingButton and self.config.keyring then
-		table_insert(self.buttons, KeyRingButton)
+		table.insert(self.buttons, KeyRingButton)
 		count = count + 1
 	elseif KeyRingButton then
 		KeyRingButton:Hide()
@@ -132,20 +128,20 @@ function BagBar:FeedButtons()
 	end
 
 	if Bartender4.Features.ReagentBag and CharacterReagentBag0Slot and (not self.config.onebag or self.config.onebagreagents) then
-		table_insert(self.buttons, CharacterReagentBag0Slot)
+		table.insert(self.buttons, CharacterReagentBag0Slot)
 		count = count + 1
 	end
 
 	if not self.config.onebag then
-		table_insert(self.buttons, CharacterBag3Slot)
-		table_insert(self.buttons, CharacterBag2Slot)
-		table_insert(self.buttons, CharacterBag1Slot)
-		table_insert(self.buttons, CharacterBag0Slot)
+		table.insert(self.buttons, CharacterBag3Slot)
+		table.insert(self.buttons, CharacterBag2Slot)
+		table.insert(self.buttons, CharacterBag1Slot)
+		table.insert(self.buttons, CharacterBag0Slot)
 
 		count = count + 4
 	end
 
-	table_insert(self.buttons, MainMenuBarBackpackButton)
+	table.insert(self.buttons, MainMenuBarBackpackButton)
 
 	for i,v in pairs(self.buttons) do
 		v:SetParent(self)

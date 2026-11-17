@@ -11,8 +11,6 @@ local VehicleBarMod = Bartender4:NewModule("Vehicle")
 -- fetch upvalues
 local Bar = Bartender4.Bar.prototype
 
-local table_insert, setmetatable, pairs = table.insert, setmetatable, pairs
-
 -- create prototype information
 local VehicleBar = setmetatable({}, {__index = Bar})
 

@@ -11,8 +11,6 @@ local MicroMenuMod = Bartender4:NewModule("MicroMenu", "AceHook-3.0", "AceEvent-
 local Bar = Bartender4.Bar.prototype
 local ButtonBar = Bartender4.ButtonBar.prototype
 
-local pairs, setmetatable, table_insert = pairs, setmetatable, table.insert
-
 local BT_MICRO_BUTTONS
 if Bartender4.GameType.ClassicMists then
 	BT_MICRO_BUTTONS = {
@@ -131,7 +129,7 @@ function MicroMenuMod:OnEnable()
 		for i=1, #BT_MICRO_BUTTONS do
 			local button = _G[BT_MICRO_BUTTONS[i]]
 			if button then
-				table_insert(buttons, button)
+				table.insert(buttons, button)
 			end
 		end
 		self.bar.buttons = buttons

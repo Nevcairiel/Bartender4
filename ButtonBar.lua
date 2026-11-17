@@ -6,8 +6,6 @@
 local _, Bartender4 = ...
 local Bar = Bartender4.Bar.prototype
 
-local setmetatable, tostring, pairs = setmetatable, tostring, pairs
-
 local ButtonBar = setmetatable({}, {__index = Bar})
 local ButtonBar_MT = {__index = ButtonBar}
 
@@ -161,8 +159,6 @@ function ButtonBar:SetClickThrough(click)
 	self:ForAll("EnableMouse", not self.config.clickthrough)
 end
 
-local math_floor = math.floor
-local math_ceil = math.ceil
 -- align the buttons and correct the size of the bar overlay frame
 ButtonBar.button_width =  36
 ButtonBar.button_height = 36
@@ -182,8 +178,8 @@ function ButtonBar:UpdateButtonLayout()
 	if gridbuttons == 0 then return end
 
 	local Rows = self:GetRows()
-	local ButtonPerRow = math_ceil(gridbuttons / Rows) -- just a precaution
-	Rows = math_ceil(gridbuttons / ButtonPerRow)
+	local ButtonPerRow = math.ceil(gridbuttons / Rows) -- just a precaution
+	Rows = math.ceil(gridbuttons / ButtonPerRow)
 	if Rows > gridbuttons then
 		Rows = gridbuttons
 		ButtonPerRow = 1
