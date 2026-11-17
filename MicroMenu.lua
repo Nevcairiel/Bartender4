@@ -135,41 +135,27 @@ function MicroMenuMod:OnEnable()
 		self.bar.buttons = buttons
 
 		-- check if its owned by the UI on initial load
-		if MicroMenu then
-			self.ownedByUI = not (MicroMenu:GetParent() == UIParent or MicroMenu:GetParent() == Bartender4.UIHider or (MicroMenuContainer and MicroMenu:GetParent() == MicroMenuContainer))
+		local parent = MicroMenu:GetParent()
+		self.ownedByUI = not (parent == UIParent or parent == Bartender4.UIHider or parent == MicroMenuContainer)
 
-			if not self.ownedByUI then
-				for i,v in pairs(buttons) do
-					v:SetParent(self.bar)
-				end
+		if not self.ownedByUI then
+			for i,v in pairs(buttons) do
+				v:SetParent(self.bar)
 			end
-
-		elseif self.bar.buttons[1]:GetParent() ~= MainMenuBarArtFrame then
-			self.ownedByUI = true
 		end
 
 		MicroMenuMod.button_count = #buttons
 
-		self.bar.anchors = {}
 		for i,v in pairs(buttons) do
-			self.bar.anchors[i] = { v:GetPoint() }	-- Save orig button anchors.
 			v:SetFrameLevel(self.bar:GetFrameLevel() + 1)
 			v.ClearSetPoint = self.bar.ClearSetPoint
 		end
 	end
 
 	self:SecureHook("UpdateMicroButtons", "MicroMenuBarShow")
-	if UpdateMicroButtonsParent then
-		self:SecureHook("UpdateMicroButtonsParent")
-		UpdateMicroButtonsParent(self.bar)
-	end
-	if MicroMenu then
-		self:SecureHook(MicroMenu, "SetParent", "MicroMenuSetParent")
-	end
+	self:SecureHook(MicroMenu, "SetParent", "MicroMenuSetParent")
 	self:SecureHook("ActionBarController_UpdateAll")
-	if C_PetBattles then
-		self:RegisterEvent("PET_BATTLE_CLOSE")
-	end
+	self:RegisterEvent("PET_BATTLE_CLOSE")
 
 	self.bar:Enable()
 	self:ToggleOptions()
@@ -183,12 +169,7 @@ function MicroMenuMod:ApplyConfig()
 end
 
 function MicroMenuMod:RestoreMicroButtonParent()
-	if UpdateMicroButtonsParent then
-		UpdateMicroButtonsParent(self.bar)
-	end
-	if MicroMenu then
-		MicroMenu:SetParent(UIParent)
-	end
+	MicroMenu:SetParent(UIParent)
 end
 
 function MicroMenuMod:PET_BATTLE_CLOSE()
@@ -197,14 +178,14 @@ function MicroMenuMod:PET_BATTLE_CLOSE()
 end
 
 function MicroMenuMod:ActionBarController_UpdateAll()
-	if self.ownedByUI and ActionBarController_GetCurrentActionBarState() == LE_ACTIONBAR_STATE_MAIN and not (C_PetBattles and C_PetBattles.IsInBattle()) then
+	if self.ownedByUI and ActionBarController_GetCurrentActionBarState() == LE_ACTIONBAR_STATE_MAIN and not C_PetBattles.IsInBattle() then
 		self:RestoreMicroButtonParent()
 		self:MicroMenuBarShow()
 	end
 end
 
 function MicroMenuMod:MicroMenuSetParent(_, parent)
-	if parent == UIParent or (MicroMenuContainer and parent == MicroMenuContainer) or parent == Bartender4.UIHider then
+	if parent == UIParent or parent == MicroMenuContainer or parent == Bartender4.UIHider then
 		for i,v in pairs(self.bar.buttons) do
 			v:SetParent(self.bar)
 		end
@@ -222,41 +203,10 @@ function MicroMenuMod:MicroMenuSetParent(_, parent)
 	MicroMenu.oldGridSettings = nil -- reset grid settings so that layout always runs
 end
 
-function MicroMenuMod:UpdateMicroButtonsParent(parent)
-	-- our own parent, ignore
-	if parent == self.bar then
-		self.ownedByUI = false
-		return
-	end
-
-	-- any other parent then MainMenuBarArtFrame means its taken over by the Override bar or the PetBattleFrame
-	if parent and ((Bartender4.db.profile.blizzardVehicle and parent == OverrideActionBar) or parent == (PetBattleFrame and PetBattleFrame.BottomFrame.MicroButtonFrame)) then
-		self.ownedByUI = true
-		self:BlizzardBarShow()
-		return
-	end
-	self.ownedByUI = false
-	self:MicroMenuBarShow()
-end
-
 function MicroMenuMod:MicroMenuBarShow()
 	-- Only "fix" button anchors if another frame that uses the MicroButtonBar isn't active.
 	if not self.ownedByUI then
-		if UpdateMicroButtonsParent then
-			UpdateMicroButtonsParent(self.bar)
-		end
 		self.bar:UpdateButtonLayout()
-	end
-end
-
-function MicroMenuMod:BlizzardBarShow()
-	if Bartender4.GameType.Classic then
-		-- Only reset button positions not set in MoveMicroButtons()
-		for i,v in pairs(self.bar.buttons) do
-			if v ~= CharacterMicroButton and v ~= PVPMicroButton then
-				v:ClearSetPoint(unpack(self.bar.anchors[i]))
-			end
-		end
 	end
 end
 
@@ -299,7 +249,7 @@ function MicroMenuBar:UpdateButtonLayout()
 	end
 end
 
-if not Bartender4.GameType.Classic and QueueStatusButton then
+if not Bartender4.GameType.Classic then
 	local QueueStatusMod = Bartender4:NewModule("QueueStatusButtonBar", "AceHook-3.0")
 
 	-- create prototype information
