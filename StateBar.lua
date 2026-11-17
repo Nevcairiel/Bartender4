@@ -9,9 +9,6 @@ local ButtonBar = Bartender4.ButtonBar.prototype
 local setmetatable, rawset, pairs, type, tostring = setmetatable, rawset, pairs, type, tostring
 local table_insert, table_concat, fmt = table.insert, table.concat, string.format
 
--- GLOBALS: InCombatLockdown, GetNumShapeshiftForms
--- GLOBALS: MainMenuBarArtFrame, OverrideActionBar, RegisterStateDriver, UnregisterStateDriver
-
 local GetSpecialization = C_SpecializationInfo and C_SpecializationInfo.GetSpecialization or GetSpecialization
 
 local StateBar = setmetatable({}, {__index = ButtonBar})

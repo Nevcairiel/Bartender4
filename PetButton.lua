@@ -16,10 +16,6 @@ local KeyBound = LibStub("LibKeyBound-1.0")
 local _G = _G
 local format, select, setmetatable = string.format, select, setmetatable
 
--- GLOBALS: InCombatLockdown, CreateFrame, IsModifiedClick, GetBindingKey, GetBindingText, SetBinding
--- GLOBALS: AutoCastShine_AutoCastStop, AutoCastShine_AutoCastStart, CooldownFrame_Set
--- GLOBALS: PickupPetAction, , GetPetActionInfo, GetPetActionsUsable, GetPetActionCooldown
-
 local function onEnter(self, ...)
 	if not (Bartender4.db.profile.tooltip == "nocombat" and InCombatLockdown()) and Bartender4.db.profile.tooltip ~= "disabled" then
 		self:OnEnter(...)

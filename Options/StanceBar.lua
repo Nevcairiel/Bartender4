@@ -11,8 +11,6 @@ local StanceBarMod = Bartender4:GetModule("StanceBar")
 -- fetch upvalues
 local ButtonBar = Bartender4.ButtonBar.prototype
 
--- GLOBALS: GetNumShapeshiftForms
-
 function StanceBarMod:SetupOptions()
 	if not self.options then
 		self.optionobject = ButtonBar:GetOptionObject()

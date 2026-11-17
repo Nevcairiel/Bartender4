@@ -8,8 +8,6 @@ local Bar = Bartender4.Bar.prototype
 
 local tonumber, tostring, assert, select, floor = tonumber, tostring, assert, select, floor
 
--- GLOBALS: GetNumShapeshiftForms, GetShapeshiftFormInfo
-
 --[[===================================================================================
 	Bar Options
 ===================================================================================]]--

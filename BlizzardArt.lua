@@ -13,8 +13,6 @@ local Bar = Bartender4.Bar.prototype
 
 local setmetatable = setmetatable
 
--- GLOBALS: UIParent
-
 local defaults = { profile = Bartender4.Util:Merge({
 	enabled = false,
 	leftCap = "DWARF",

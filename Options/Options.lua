@@ -10,8 +10,6 @@ local AceConfigDialog = LibStub("AceConfigDialog-3.0")
 local error, select, pairs = error, select, pairs
 local SaveBindings = SaveBindings or AttemptToSaveBindings
 
--- GLOBALS: LibStub, UnitHasVehicleUI, GetModifiedClick, SetModifiedClick, SaveBindings, GetCurrentBindingSet, InCombatLockdown
-
 local getFunc, setFunc
 do
 	function getFunc(info)

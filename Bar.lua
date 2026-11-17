@@ -12,9 +12,6 @@ local Bar_MT = {__index = Bar}
 local table_concat, table_insert, tostring, assert, pairs, min, max = table.concat, table.insert, tostring, assert, pairs, min, max
 local setmetatable, tonumber = setmetatable, tonumber
 
--- GLOBALS: SpellFlyout, UIParent, GameFontNormal
--- GLOBALS: CreateFrame, RegisterStateDriver, UnregisterStateDriver
-
 --[[===================================================================================
 	Universal Bar Contructor
 ===================================================================================]]--

@@ -10,8 +10,6 @@ local ButtonBar = Bartender4.ButtonBar.prototype
 
 local tostring, assert = tostring, assert
 
--- GLOBALS: LibStub
-
 --[[===================================================================================
 	Bar Options
 ===================================================================================]]--

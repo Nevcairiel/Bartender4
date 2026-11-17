@@ -15,13 +15,6 @@ local LibDualSpec = (not Bartender4.GameType.ClassicEra) and LibStub("LibDualSpe
 local _G = _G
 local type, pairs, hooksecurefunc = type, pairs, hooksecurefunc
 
--- GLOBALS: LibStub, UIParent, PlaySound, SOUNDKIT, RegisterStateDriver, UnregisterStateDriver
--- GLOBALS: BINDING_HEADER_Bartender4, BINDING_CATEGORY_Bartender4, BINDING_NAME_TOGGLEACTIONBARLOCK, BINDING_NAME_BTTOGGLEACTIONBARLOCK
--- GLOBALS: BINDING_HEADER_BT4PET, BINDING_CATEGORY_BT4PET, BINDING_HEADER_BT4STANCE, BINDING_CATEGORY_BT4STANCE
--- GLOBALS: CreateFrame, MultiBarBottomLeft, MultiBarBottomRight, MultiBarLeft, MultiBarRight, UIPARENT_MANAGED_FRAME_POSITIONS
--- GLOBALS: MainMenuBar, OverrideActionBar, MainMenuBarArtFrame, MainMenuBarMaxLevelBar
--- GLOBALS: StanceBarFrame, PossessBarFrame, PetActionBarFrame, PlayerTalentFrame
-
 local defaults = {
 	profile = {
 		tooltip = "enabled",

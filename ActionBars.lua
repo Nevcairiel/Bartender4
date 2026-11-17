@@ -12,8 +12,6 @@ local LAB10 = LibStub("LibActionButton-1.0")
 local LSM = LibStub("LibSharedMedia-3.0")
 local Masque = LibStub("Masque", true)
 
--- GLOBALS: UnitClass, InCombatLockdown, GetBindingKey, ClearOverrideBindings, SetOverrideBindingClick
-
 local abdefaults = {
 	['**'] = Bartender4.Util:Merge({
 		enabled = true,

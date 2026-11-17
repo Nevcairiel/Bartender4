@@ -13,8 +13,6 @@ local Bar = Bartender4.Bar.prototype
 
 local table_insert, setmetatable, pairs = table.insert, setmetatable, pairs
 
--- GLOBALS: CanExitVehicle, UnitOnTaxi, VehicleExit, TaxiRequestEarlyLanding, GameTooltip
-
 -- create prototype information
 local VehicleBar = setmetatable({}, {__index = Bar})
 

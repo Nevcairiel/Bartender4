@@ -13,9 +13,6 @@ local ButtonBar = Bartender4.ButtonBar.prototype
 local _G = _G
 local format, setmetatable, min, select = string.format, setmetatable, min, select
 
--- GLOBALS: CreateFrame, InCombatLockdown, ClearOverrideBindings, GetBindingKey, GetBindingText, SetOverrideBindingClick, SetBinding
--- GLOBALS: GetNumShapeshiftForms, GetShapeshiftFormInfo, GetShapeshiftFormCooldown, CooldownFrame_Set
-
 -- create prototype information
 local StanceBar = setmetatable({}, {__index = ButtonBar})
 local StanceButtonPrototype = CreateFrame("CheckButton")
