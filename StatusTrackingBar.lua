@@ -13,6 +13,192 @@ local Bar = Bartender4.Bar.prototype
 -- position management.
 if not StatusTrackingBarInfo then return end
 
+-- The color of the segment has to differ from the XP and the rested fills of every client
+local QUEST_XP_COLOR = { 1.0, 0.82, 0.0, 0.7 }
+
+-- The segment covers the rested XP of the bar. The part of it which does is drawn in a color of its own, so
+-- the reach of the rested XP can still be seen.
+local QUEST_XP_RESTED_COLOR = { 0.65, 0.85, 0.35, 0.7 }
+
+-- The quest XP is not available on the classic clients, their quest log has a different API
+local QUEST_XP_AVAILABLE = not Bartender4.GameType.Classic
+
+-- A quest which was turned in remains in the quest log for a moment, in which its XP is gained. Such a quest
+-- is given in turnedInQuests, by its ID, with the XP and the level of the player when it was turned in. It
+-- counts for as long as these did not change, so its XP leaves the quest XP at the very moment it is gained.
+--
+-- The quests of turnedInQuests which are found in the quest log are flagged, so the others can be forgotten.
+local function isQuestXPGained(turnedInQuests, questID)
+	local turnedIn = turnedInQuests[questID]
+	if not turnedIn then
+		return false
+	end
+
+	turnedIn.inQuestLog = true
+	return turnedIn.xp ~= UnitXP("player") or turnedIn.level ~= UnitLevel("player")
+end
+
+-- Returns the XP of all quests in the quest log which are ready to be turned in.
+--
+-- Delivery quests have no objectives and are never flagged complete, although they can be turned in at once.
+-- They are those without objectives, for which the player has enough money, and which do not only start an
+-- event at their target.
+local function getCompletedQuestXP(turnedInQuests)
+	local total = 0
+	local money = GetMoney()
+	for index = 1, C_QuestLog.GetNumQuestLogEntries() do
+		local info = C_QuestLog.GetInfo(index)
+		-- task quests (bonus objectives, world quests) pay out on their own, they are never turned in
+		if info and not info.isHeader and not info.isHidden and not info.isTask and not isQuestXPGained(turnedInQuests, info.questID) then
+			local questID = info.questID
+			local ready = C_QuestLog.IsComplete(questID)
+				or (C_QuestLog.GetNumQuestObjectives(questID) == 0 and money >= (C_QuestLog.GetRequiredMoney(questID) or 0) and not info.startEvent)
+
+			if ready and not C_QuestLog.IsFailed(questID) then
+				total = total + (GetQuestLogRewardXP(questID) or 0)
+			end
+		end
+	end
+	return total
+end
+
+-- Shows a texture of the segment over the given range of XP, or hides it when the range is empty
+local function setSegmentRange(texture, statusBar, fromXP, toXP, maxXP)
+	if toXP <= fromXP then
+		texture:Hide()
+		return
+	end
+
+	local width = statusBar:GetWidth()
+	local offset = fromXP / maxXP * width
+	texture:ClearAllPoints()
+	texture:SetPoint("TOPLEFT", statusBar, "TOPLEFT", offset, 0)
+	texture:SetPoint("BOTTOMLEFT", statusBar, "BOTTOMLEFT", offset, 0)
+	texture:SetWidth((toXP - fromXP) / maxXP * width)
+	texture:Show()
+end
+
+-- Plays or ends the animation at the end of an XP bar, which is shown while the quest XP reaches the next
+-- level. It is the animation of a full power bar of the Blizzard UI, and follows the way it is played there.
+local function setLevelUpAnimation(bar, levelUp)
+	local frame = bar.QuestXPLevelUpFrame
+	local spike, pulse, fadeout = frame.SpikeFrame.SpikeAnim, frame.PulseFrame.PulseAnim, frame.FadeoutAnim
+	if levelUp then
+		if fadeout:IsPlaying() or not pulse:IsPlaying() then
+			spike:Play()
+		end
+		fadeout:Stop()
+		frame:SetAlpha(1)
+		pulse:Play()
+	elseif not fadeout:IsPlaying() and (pulse:IsPlaying() or spike:IsPlaying()) then
+		fadeout:Play()
+	end
+end
+
+-- Updates the segment and the text of an XP bar, after the bar has written its own text
+local function updateQuestXP(bar, questXP)
+	local segment, restedSegment = bar.QuestXPFillBar, bar.QuestXPRestedFillBar
+	local currXP, maxXP = bar.currXP, bar.maxBar
+
+	-- a capped bar (trial accounts) is shown full and has no real progress to add to
+	if questXP <= 0 or not maxXP or maxXP <= 0 or currXP >= maxXP or bar:IsCapped() then
+		segment:Hide()
+		restedSegment:Hide()
+		setLevelUpAnimation(bar, false)
+		return
+	end
+
+	setLevelUpAnimation(bar, currXP + questXP >= maxXP)
+
+	-- the segment starts where the XP ends, the same way the Blizzard UI places the rested tick, and is cut
+	-- off at the end of the bar
+	local questEnd = min(currXP + questXP, maxXP)
+
+	-- The rested XP reaches from the XP to the rested tick. The Blizzard UI does not show it when it reaches
+	-- beyond the end of the bar.
+	local restedEnd = currXP + (GetXPExhaustion() or 0)
+	if restedEnd > maxXP then
+		restedEnd = currXP
+	end
+	local overlapEnd = min(questEnd, restedEnd)
+
+	setSegmentRange(restedSegment, bar.StatusBar, currXP, overlapEnd, maxXP)
+	setSegmentRange(segment, bar.StatusBar, overlapEnd, questEnd, maxXP)
+
+	-- the text of the Blizzard UI is extended and not replaced, so it keeps following the Blizzard UI
+	local text = bar.OverlayFrame.Text:GetText()
+	if text then
+		local pattern = (currXP + questXP >= maxXP) and L["%s (+%d on turn-in, level up!)"] or L["%s (+%d on turn-in)"]
+		bar:SetBarText(pattern:format(text, questXP))
+	end
+end
+
+-- Adds the quest XP to the tooltip of an XP bar, after the bar has filled it
+local function addQuestXPToTooltip(bar, questXP)
+	local currXP, maxXP = bar.currXP, bar.maxBar
+
+	-- the bar does not always show a tooltip, and nothing is added to a tooltip of something else
+	if questXP <= 0 or not maxXP or maxXP <= 0 or bar:IsCapped() or not GameTooltip:IsShown() then
+		return
+	end
+
+	GameTooltip:AddLine(" ")
+	GameTooltip:AddLine(L["Completed Quests"], NORMAL_FONT_COLOR:GetRGB())
+	GameTooltip:AddLine(L["%s experience on turn-in ( %d%% )"]:format(BreakUpLargeNumbers(questXP), math.ceil(questXP / maxXP * 100)), 1, 1, 1, true)
+	if currXP + questXP >= maxXP then
+		GameTooltip:AddLine(L["Enough to reach the next level."], 1, 1, 1, true)
+	end
+	GameTooltip:Show()
+end
+
+local function setupExperienceBar(bar, manager)
+	-- A texture of the status bar and not of the bar itself, so it is drawn above the fill of the status bar
+	local segment = bar.StatusBar:CreateTexture(nil, "ARTWORK")
+	segment:SetTexture("Interface\\TargetingFrame\\UI-StatusBar")
+	segment:SetVertexColor(unpack(QUEST_XP_COLOR))
+	segment:Hide()
+	bar.QuestXPFillBar = segment
+
+	local restedSegment = bar.StatusBar:CreateTexture(nil, "ARTWORK")
+	restedSegment:SetTexture("Interface\\TargetingFrame\\UI-StatusBar")
+	restedSegment:SetVertexColor(unpack(QUEST_XP_RESTED_COLOR))
+	restedSegment:Hide()
+	bar.QuestXPRestedFillBar = restedSegment
+
+	-- The animation of a full power bar of the player frame, at the end of the bar. Only its artwork and
+	-- its animations are used, it is not set up to follow a power bar.
+	local levelUpFrame = CreateFrame("Frame", nil, bar, "FullResourcePulseFrame")
+	levelUpFrame:SetPoint("RIGHT", bar.StatusBar, "RIGHT")
+	levelUpFrame:SetFrameLevel(bar.StatusBar:GetFrameLevel() + 1)
+	levelUpFrame:RemoveAnims()
+	bar.QuestXPLevelUpFrame = levelUpFrame
+
+	-- an animation does not play on a hidden bar, and a bar is updated before it is shown
+	bar:HookScript("OnShow", function(self)
+		self:UpdateCurrentText()
+	end)
+
+	-- The bar writes its text in this function whenever its values change, and when it is hovered. It is
+	-- replaced on the bar itself, the function of the mixin is shared with the Blizzard bars.
+	local blizzardUpdateCurrentText = bar.UpdateCurrentText
+	bar.UpdateCurrentText = function(self)
+		blizzardUpdateCurrentText(self)
+		updateQuestXP(self, manager:GetQuestXP())
+	end
+
+	-- The tooltip of the bar is the one of its rested tick, the bar asks the tick to show it when it is
+	-- hovered. The function is replaced on the tick itself for the same reason as above.
+	local tick = bar.ExhaustionTick
+	local blizzardExhaustionToolTipText = tick.ExhaustionToolTipText
+	tick.ExhaustionToolTipText = function(self, ...)
+		blizzardExhaustionToolTipText(self, ...)
+		addQuestXPToTooltip(bar, manager:GetQuestXP())
+	end
+
+	-- the script of the tick is bound to the function of the mixin, and does not see the one of the tick
+	tick:SetScript("OnEnter", tick.ExhaustionToolTipText)
+end
+
 --[[===================================================================================
 	Bar definitions
 ===================================================================================]]--
@@ -26,6 +212,8 @@ local BarsEnum = StatusTrackingBarInfo.BarsEnum
 --
 -- The events of a bar are those which can change whether it is available, or the values it shows. The unit
 -- events are registered for the player. Not every client has every event.
+--
+-- A definition can have a setup function, which is called with every bar created for it, and with the manager.
 local BAR_DEFINITIONS = {
 	{
 		barIndex = BarsEnum.Reputation,
@@ -44,6 +232,7 @@ local BAR_DEFINITIONS = {
 		canShow = function()
 			return GameRulesUtil.CanShowExperienceBar()
 		end,
+		setup = QUEST_XP_AVAILABLE and setupExperienceBar or nil,
 	},
 	{
 		barIndex = BarsEnum.Honor,
@@ -247,8 +436,11 @@ local function createContainerBorder(container)
 	end
 end
 
+-- The containers and the manager are named so other addons can find them. The bars are not named, they are
+-- reached through the bars table of a container by their bar index, the same way as in the Blizzard UI.
 local function createContainer(manager)
-	local container = Mixin(CreateFrame("Frame", nil, manager), Container)
+	local name = ("BT4StatusTrackingBarContainer%d"):format(#manager.barContainers + 1)
+	local container = Mixin(CreateFrame("Frame", name, manager), Container)
 	container:SetHeight(LAYOUT.containerHeight)
 	container:Hide()
 
@@ -263,6 +455,7 @@ local function createContainer(manager)
 	for _, definition in ipairs(BAR_DEFINITIONS) do
 		local bar = CreateFrame("Frame", nil, container, definition.template)
 		bar:Hide()
+		bar.barIndex = definition.barIndex
 
 		-- The bars ask the manager of the Blizzard UI whether their text is locked. They are given their own
 		-- function to ask our manager instead, the function of the mixin is shared with the Blizzard bars.
@@ -275,6 +468,10 @@ local function createContainer(manager)
 			bar:SetPoint("BOTTOMLEFT", container, "BOTTOMLEFT", LAYOUT.barOffsetX, LAYOUT.barOffsetY)
 		else
 			bar:SetAllPoints(container)
+		end
+
+		if definition.setup then
+			definition.setup(bar, manager)
 		end
 
 		container.bars[definition.barIndex] = bar
@@ -314,8 +511,8 @@ function Container:SetContainerWidth(width)
 		end
 	end
 
-	-- the tick of a bar is positioned by the width of the bar
-	self:UpdateBarTick()
+	-- the tick of a bar and the quest XP segment are positioned by the width of the bar
+	self:UpdateShownBarAll()
 end
 
 function Container:SetShownBar(barIndex)
@@ -405,13 +602,6 @@ function Container:UpdateBarTextVisibility()
 	end
 end
 
-function Container:UpdateBarTick()
-	local shownBar = self:GetShownBar()
-	if shownBar then
-		shownBar:UpdateTick()
-	end
-end
-
 --[[===================================================================================
 	Manager
 
@@ -421,15 +611,16 @@ end
 local Manager = {}
 
 local function createManager(parent)
-	local manager = Mixin(CreateFrame("Frame", nil, parent), Manager)
+	local manager = Mixin(CreateFrame("Frame", "BT4StatusTrackingBarManager", parent), Manager)
 	manager:SetPoint("BOTTOMLEFT", parent, "BOTTOMLEFT")
 	manager:SetFrameStrata("MEDIUM")
 	manager:SetFrameLevel(2)
 	manager:SetScale(LAYOUT.managerScale)
-	manager:SetScript("OnEvent", manager.Refresh)
+	manager:SetScript("OnEvent", manager.OnEvent)
 	manager:SetScript("OnShow", manager.OnShow)
 
 	manager.barContainers = {}
+	manager.turnedInQuests = {}
 
 	-- The main container, and the secondary container above it. Their borders can overlap, the secondary
 	-- container is raised so its border is always the one on top.
@@ -439,6 +630,14 @@ local function createManager(parent)
 
 	return manager
 end
+
+-- The events which are only of use to the quest XP of the XP bar
+local QUEST_XP_EVENTS = {
+	"QUEST_LOG_UPDATE",
+	"QUEST_TURNED_IN",
+	"PLAYER_XP_UPDATE",
+	"UPDATE_EXHAUSTION",
+}
 
 function Manager:RegisterEvents()
 	for _, event in ipairs(SHARED_EVENTS) do
@@ -457,10 +656,117 @@ function Manager:RegisterEvents()
 			end
 		end
 	end
+
+	if self.questXPEnabled then
+		for _, event in ipairs(QUEST_XP_EVENTS) do
+			self:RegisterEvent(event)
+		end
+	end
+end
+
+function Manager:OnEvent(event, ...)
+	if event == "QUEST_TURNED_IN" then
+		-- the quest is still in the quest log, and its XP is not gained yet. It keeps counting until it is.
+		local questID = ...
+		self.turnedInQuests[questID] = { xp = UnitXP("player"), level = UnitLevel("player") }
+	elseif event == "PLAYER_XP_UPDATE" then
+		-- The XP bar follows its XP on its own. The event is only of interest here for a quest which was
+		-- turned in, whose XP may just have been gained. The bar may have handled the event already, with
+		-- the quest still counting, which is put right before it is drawn.
+		if next(self.turnedInQuests) then
+			local container = self:GetExperienceContainer()
+			if container and self:UpdateQuestXP() then
+				container:UpdateShownBarAll()
+			end
+		end
+	elseif event == "UPDATE_EXHAUSTION" then
+		-- the rested XP did change, which the quest XP segment of the XP bar follows
+		local container = self:GetExperienceContainer()
+		if container then
+			container:UpdateShownBarAll()
+		end
+	elseif event == "QUEST_LOG_UPDATE" then
+		-- The event is frequent and comes in bursts, and it never changes which bars are available. Only the
+		-- XP bar is updated, and only when the quest XP did change. The quest log is not read at all while
+		-- the XP bar is not shown, a refresh reads it again before the bar is.
+		local container = self:GetExperienceContainer()
+		if container and self:UpdateQuestXP() then
+			container:UpdateShownBarAll()
+		end
+	else
+		self:Refresh()
+	end
+end
+
+-- Returns the container which shows the XP bar, if any. A bar is only ever shown in one container.
+function Manager:GetExperienceContainer()
+	for _, container in ipairs(self.barContainers) do
+		if container.shownBarIndex == BarsEnum.Experience then
+			return container
+		end
+	end
+end
+
+-- The quest XP is only tracked while it is enabled, it needs an event which is of no other use to the bars
+function Manager:SetQuestXPEnabled(enabled)
+	enabled = enabled and true or false
+	if self.questXPEnabled == enabled then
+		return
+	end
+	self.questXPEnabled = enabled
+
+	-- The events are only registered while the module is enabled, which shows the manager. It is not
+	-- visible while its bar is hidden, but still has to follow the quest log then.
+	if self:IsShown() then
+		for _, event in ipairs(QUEST_XP_EVENTS) do
+			if enabled then
+				self:RegisterEvent(event)
+			else
+				self:UnregisterEvent(event)
+			end
+		end
+	end
+
+	-- nothing is known about quests which were turned in while their events were not registered
+	self.turnedInQuests = {}
+
+	self:Refresh()
+end
+
+-- Updates the XP of the completed quests, and returns whether it did change
+function Manager:UpdateQuestXP()
+	local questXP = 0
+	if self.questXPEnabled then
+		questXP = getCompletedQuestXP(self.turnedInQuests)
+
+		-- A quest which was turned in is only of interest until it has left the quest log. This does not
+		-- rely on an event to tell, so no quest can be left behind and be mistaken for a quest of the same
+		-- ID which is accepted later.
+		for questID, turnedIn in pairs(self.turnedInQuests) do
+			if turnedIn.inQuestLog then
+				turnedIn.inQuestLog = nil
+			else
+				self.turnedInQuests[questID] = nil
+			end
+		end
+	end
+
+	if self.questXP == questXP then
+		return false
+	end
+
+	self.questXP = questXP
+	return true
+end
+
+function Manager:GetQuestXP()
+	return self.questXP or 0
 end
 
 -- Updates the values of the shown bars, and which bars are shown
 function Manager:Refresh()
+	self:UpdateQuestXP()
+
 	for _, container in ipairs(self.barContainers) do
 		container:UpdateShownBarAll()
 	end
@@ -530,6 +836,7 @@ local defaults = { profile = Bartender4.Util:Merge({
 	width = LAYOUT.defaultWidth,
 	barPadding = Bartender4.GameType.Mainline and 3 or -3,
 	lockText = false,
+	questXP = false,
 }, Bartender4.Bar.defaults) }
 
 -- register module
@@ -601,11 +908,16 @@ end
 function StatusBarMod:ApplyConfig()
 	self:AnchorTrackingContainers()
 	self:UpdateTextLock()
+	self:UpdateQuestXP()
 	self.bar:ApplyConfig(self.db.profile)
 end
 
 function StatusBarMod:UpdateTextLock()
 	self.bar.manager:SetConfigTextLocked(self.db.profile.lockText)
+end
+
+function StatusBarMod:UpdateQuestXP()
+	self.bar.manager:SetQuestXPEnabled(QUEST_XP_AVAILABLE and self.db.profile.questXP)
 end
 
 function StatusBar:ApplyConfig(config)

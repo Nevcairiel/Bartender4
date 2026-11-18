@@ -61,6 +61,20 @@ function StatusBarMod:SetupOptions()
 		}
 		self.optionobject:AddElement("general", "lockText", lockText)
 
+		-- the quest XP is not available on the classic clients
+		if not Bartender4.GameType.Classic then
+			local questXP = {
+				order = 82,
+				name = L["Show Completed Quest XP"],
+				desc = L["Show the XP of quests which are complete but not turned in yet on the XP bar"],
+				type = "toggle",
+				width = "double",
+				get = function() return self.db.profile.questXP end,
+				set = function(info, state) self.db.profile.questXP = state; self:UpdateQuestXP() end,
+			}
+			self.optionobject:AddElement("general", "questXP", questXP)
+		end
+
 		self.disabledoptions = {
 			general = {
 				type = "group",
