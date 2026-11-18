@@ -13,7 +13,7 @@ local Bar = Bartender4.Bar.prototype
 -- position management.
 if not StatusTrackingBarInfo then return end
 
--- The color of the segment has to differ from the XP and the rested fills of every client
+-- The color of the segment has to differ from the XP and the rested fills of the bar
 local QUEST_XP_COLOR = { 1.0, 0.82, 0.0, 0.7 }
 
 -- The segment covers the rested XP of the bar. The part of it which does is drawn in a color of its own, so
@@ -90,8 +90,13 @@ local function setLevelUpAnimation(bar, levelUp)
 		fadeout:Stop()
 		frame:SetAlpha(1)
 		pulse:Play()
-	elseif not fadeout:IsPlaying() and (pulse:IsPlaying() or spike:IsPlaying()) then
-		fadeout:Play()
+	elseif not fadeout:IsPlaying() then
+		if pulse:IsPlaying() or spike:IsPlaying() then
+			fadeout:Play()
+		else
+			-- the animations may have ended while the bar was hidden, which would leave their artwork behind
+			frame:RemoveAnims()
+		end
 	end
 end
 
@@ -114,11 +119,12 @@ local function updateQuestXP(bar, questXP)
 	-- off at the end of the bar
 	local questEnd = min(currXP + questXP, maxXP)
 
-	-- The rested XP reaches from the XP to the rested tick. The Blizzard UI does not show it when it reaches
-	-- beyond the end of the bar.
+	-- The rested XP reaches from the XP to the rested tick. When it reaches beyond the end of the bar, the
+	-- Blizzard UI either shows it up to the end of the bar, or not at all. Not every client can show it.
 	local restedEnd = currXP + (GetXPExhaustion() or 0)
 	if restedEnd > maxXP then
-		restedEnd = currXP
+		local showOverflow = ShouldRestedXpBarDisplayWhenOverflowing and ShouldRestedXpBarDisplayWhenOverflowing()
+		restedEnd = showOverflow and maxXP or currXP
 	end
 	local overlapEnd = min(questEnd, restedEnd)
 
@@ -621,6 +627,7 @@ local function createManager(parent)
 
 	manager.barContainers = {}
 	manager.turnedInQuests = {}
+	manager.questXPEnabled = false
 
 	-- The main container, and the secondary container above it. Their borders can overlap, the secondary
 	-- container is raised so its border is always the one on top.
@@ -687,10 +694,11 @@ function Manager:OnEvent(event, ...)
 		end
 	elseif event == "QUEST_LOG_UPDATE" then
 		-- The event is frequent and comes in bursts, and it never changes which bars are available. Only the
-		-- XP bar is updated, and only when the quest XP did change. The quest log is not read at all while
-		-- the XP bar is not shown, a refresh reads it again before the bar is.
+		-- XP bar is updated, and only when the quest XP did change. The quest log is not read while the XP
+		-- bar is not shown, a refresh reads it again before the bar is. It is read for a quest which was
+		-- turned in however, which has to be forgotten once it left the quest log.
 		local container = self:GetExperienceContainer()
-		if container and self:UpdateQuestXP() then
+		if (container or next(self.turnedInQuests)) and self:UpdateQuestXP() and container then
 			container:UpdateShownBarAll()
 		end
 	else
@@ -739,9 +747,8 @@ function Manager:UpdateQuestXP()
 	if self.questXPEnabled then
 		questXP = getCompletedQuestXP(self.turnedInQuests)
 
-		-- A quest which was turned in is only of interest until it has left the quest log. This does not
-		-- rely on an event to tell, so no quest can be left behind and be mistaken for a quest of the same
-		-- ID which is accepted later.
+		-- A quest which was turned in is only of interest until it has left the quest log. A quest which
+		-- is left behind would be mistaken for a quest of the same ID which is accepted later.
 		for questID, turnedIn in pairs(self.turnedInQuests) do
 			if turnedIn.inQuestLog then
 				turnedIn.inQuestLog = nil

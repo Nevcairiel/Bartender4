@@ -125,6 +125,7 @@ read_globals = {
 	"NPE_LoadUI",
 	"PixelUtil",
 	"RegisterStateDriver",
+	"ShouldRestedXpBarDisplayWhenOverflowing",
 	"Tutorials",
 	"UnregisterStateDriver",
 
