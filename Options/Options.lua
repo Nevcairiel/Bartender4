@@ -118,6 +118,22 @@ local function generateOptions()
 								set = function(info, value) SetCVar("ActionButtonUseKeyDown", value) end,
 								width = "full",
 							},
+							nativeHoldToCast = {
+								order = 2.5,
+								type = "toggle",
+								name = L["Press and Hold Casting"],
+								desc = Bartender4.Features.MainlineBarLayout
+									and L["Use WoW's Press and Hold Casting on Bars 1-8. Not supported on the Bonus Action Bar, Class Bars, or bars using Mouse-Over Casting, Auto-Assist, or Button Offset."]
+									or L["Use WoW's Press and Hold Casting on Bars 1 and 3-6. Not supported on Bar 2, Bars 7-10, or bars using Mouse-Over Casting, Auto-Assist, or Button Offset."],
+								hidden = not Bartender4.Features.HoldToCast,
+								get = getFunc,
+								set = function(info, value)
+									Bartender4.db.profile.nativeHoldToCast = value
+									local mod = Bartender4:GetModule("ActionBars", true)
+									if mod and mod:IsEnabled() then mod:ReassignBindings() end
+								end,
+								width = "full",
+							},
 							spellCastVFX = {
 								order = 3,
 								type = "toggle",

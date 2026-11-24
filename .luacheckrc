@@ -46,6 +46,7 @@ read_globals = {
 	"C_AddOns",
 	"C_ArtifactUI",
 	"C_AzeriteItem",
+	"C_CVar",
 	"C_EventUtils",
 	"C_Housing",
 	"C_PetBattles",
@@ -113,6 +114,8 @@ read_globals = {
 
 	-- FrameXML functions
 	"ActionBarController_GetCurrentActionBarState",
+	"ActionButtonDown",
+	"ActionButtonUp",
 	"AnchorUtil",
 	"AutoCastShine_AutoCastStart",
 	"AutoCastShine_AutoCastStop",
@@ -122,6 +125,8 @@ read_globals = {
 	"GameRulesUtil",
 	"GridLayoutUtil",
 	"HasMultiCastActionBar",
+	"MultiActionButtonDown",
+	"MultiActionButtonUp",
 	"NPE_LoadUI",
 	"PixelUtil",
 	"RegisterStateDriver",

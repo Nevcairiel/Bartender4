@@ -142,6 +142,10 @@ function ActionBar:UpdateSelfCast()
 	self:ForAll("SetAttribute", "checkselfcast", Bartender4.db.profile.selfcastmodifier and true or nil)
 	self:ForAll("SetAttribute", "checkfocuscast", Bartender4.db.profile.focuscastmodifier and true or nil)
 	self:ForAll("SetAttribute", "*unit2", Bartender4.db.profile.selfcastrightclick and "player" or nil)
+
+	if self.nativeHoldActive and self.module and not InCombatLockdown() then
+		self.module:SyncNativeHoldAttributes(self)
+	end
 end
 
 local UpdateSmartTarget = [[
@@ -254,7 +258,7 @@ function ActionBar:UpdateButtons(numbuttons, offset)
 		updateStartValue = 1
 	end
 
-	local updateBindings = (numbuttons > #buttons)
+	local updateBindings = (numbuttons > #buttons) or (self.currentButtonOffset ~= offset)
 	-- create more buttons if needed
 	for i = updateStartValue, numbuttons do
 		local absid = (self.id - 1) * 12 + i
@@ -310,7 +314,7 @@ function ActionBar:UpdateButtons(numbuttons, offset)
 
 	self:UpdateButtonLayout()
 	self:SetGrid()
-	if updateBindings and self.id == "1" then
+	if updateBindings and self.module then
 		self.module:ReassignBindings()
 	end
 
@@ -360,6 +364,16 @@ function ActionBar:SetGrid(state)
 		self.config.showgrid = state
 	end
 	self:UpdateButtonConfig()
+end
+
+function ActionBar:GetHoldToCast()
+	if not self.module:SupportsNativeHoldToCast(self.id) then return false end
+	return self.config.holdToCast
+end
+
+function ActionBar:SetHoldToCast(state)
+	self.config.holdToCast = state
+	self.module:ReassignBindings()
 end
 
 function ActionBar:GetFlyoutDirection()

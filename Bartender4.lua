@@ -23,6 +23,7 @@ local defaults = {
 		selfcastrightclick = false,
 		snapping = true,
 		blizzardVehicle = false,
+		nativeHoldToCast = false,
 		flyoutBackground = true,
 		spellCastVFX = true,
 		minimapIcon = {},

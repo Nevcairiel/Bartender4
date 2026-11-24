@@ -4,7 +4,7 @@
 ]]
 local _, Bartender4 = ...
 local L = LibStub("AceLocale-3.0"):GetLocale("Bartender4")
-local BT4ActionBars = Bartender4:NewModule("ActionBars", "AceEvent-3.0")
+local BT4ActionBars = Bartender4:NewModule("ActionBars", "AceEvent-3.0", "AceHook-3.0")
 
 local LAB10 = LibStub("LibActionButton-1.0")
 local LSM = LibStub("LibSharedMedia-3.0")
@@ -15,6 +15,7 @@ local abdefaults = {
 		enabled = true,
 		buttons = 12,
 		buttonOffset = 0,
+		holdToCast = true,
 		hidemacrotext = false,
 		showgrid = false,
 		flyoutDirection = "UP",
@@ -109,6 +110,22 @@ local BINDING_MAPPINGS = {
 	[15] = "MULTIACTIONBAR7BUTTON%d",
 }
 
+local NATIVE_BAR_NAMES = {
+	[1] = "Action",
+	[3] = "MultiBarRight",
+	[4] = "MultiBarLeft",
+	[5] = "MultiBarBottomRight",
+	[6] = "MultiBarBottomLeft",
+	[13] = "MultiBar5",
+	[14] = "MultiBar6",
+	[15] = "MultiBar7",
+}
+
+local NATIVE_BAR_IDS = {}
+for id, name in pairs(NATIVE_BAR_NAMES) do
+	NATIVE_BAR_IDS[name] = id
+end
+
 
 local defaults = {
 	profile = {
@@ -145,6 +162,10 @@ function BT4ActionBars:OnEnable()
 	end
 
 	self:RegisterEvent("UPDATE_BINDINGS", "ReassignBindings")
+	if Bartender4.Features.HoldToCast then
+		self:RegisterEvent("CVAR_UPDATE")
+		self:RegisterEvent("PLAYER_REGEN_ENABLED")
+	end
 	self:ReassignBindings()
 
 	LSM.RegisterCallback(self, "LibSharedMedia_Registered", function(mtype, key)
@@ -225,6 +246,10 @@ function BT4ActionBars:ApplyConfig()
 	if LibStub("LibActionButton-1.0").flyoutHandler then
 		LibStub("LibActionButton-1.0").flyoutHandler.Background:SetShown(Bartender4.db.profile.flyoutBackground)
 	end
+
+	if Bartender4.Features.HoldToCast then
+		self:ReassignBindings()
+	end
 end
 
 -- we do not allow to disable the actionbars module
@@ -266,26 +291,240 @@ function BT4ActionBars:HousingStateChanged(state)
 	end
 end
 
+function BT4ActionBars:SupportsNativeHoldToCast(id)
+	local prefix = NATIVE_BAR_NAMES[tonumber(id)]
+	return (prefix and _G[prefix .. "Button1"] ~= nil) or false
+end
+
+function BT4ActionBars:IsNativeHoldToCastBlocked(bar)
+	local config = bar and bar.config
+	return (config and (config.mouseover or config.autoassist or (config.buttonOffset or 0) > 0)) or false
+end
+
+-- Press and Hold Casting (ActionButtonUseKeyHeldSpell) only runs its repeat
+-- loop on Blizzard's native ACTIONBUTTON / MULTIACTIONBAR bindings. When active,
+-- leave supported bars on their native bindings (unless disabled per-bar or using
+-- BT4-only features like mouseover, auto-assist, or button offset) and mirror
+-- the pressed state.
+function BT4ActionBars:UseNativeHoldToCast(bar)
+	if not (Bartender4.Features.HoldToCast
+		and Bartender4.db.profile.nativeHoldToCast
+		and GetCVarBool("ActionButtonUseKeyHeldSpell")) then
+		return false
+	end
+	if bar then
+		if bar.disabled then return false end
+		if not self:SupportsNativeHoldToCast(bar.id) then return false end
+		if bar.config and bar.config.holdToCast == false then return false end
+		if self:IsNativeHoldToCastBlocked(bar) then return false end
+	end
+	return true
+end
+
+local function SetAttributeIfChanged(frame, name, value)
+	if frame:GetAttribute(name) ~= value then
+		frame:SetAttribute(name, value)
+	end
+end
+
+function BT4ActionBars:SyncNativeHoldAttributes(bar, restore)
+	local prefix = NATIVE_BAR_NAMES[tonumber(bar.id)]
+	if not prefix then return end
+	local checkSelf = restore or (Bartender4.db.profile.selfcastmodifier and true or nil)
+	local checkFocus = restore or (Bartender4.db.profile.focuscastmodifier and true or nil)
+	local checkMouseover = restore and true or nil
+	for i = 1, 12 do
+		local button = _G[prefix .. "Button" .. i]
+		if button then
+			SetAttributeIfChanged(button, "checkselfcast", checkSelf)
+			SetAttributeIfChanged(button, "checkfocuscast", checkFocus)
+			SetAttributeIfChanged(button, "checkmouseovercast", checkMouseover)
+		end
+	end
+end
+
+function BT4ActionBars:SyncNativeHoldBar(bar, active)
+	if active then
+		local barNum = tonumber(bar.id)
+		local prefix = NATIVE_BAR_NAMES[barNum]
+		if not (prefix and _G[prefix .. "Button1"]) then return end
+
+		if not bar.nativeHoldRefsAttached then
+			for i = 1, 12 do
+				bar:SetFrameRef("nativebutton" .. i, _G[prefix .. "Button" .. i])
+			end
+			bar:SetAttribute("nativepage", barNum)
+			bar.nativeHoldRefsAttached = true
+		end
+
+		SetAttributeIfChanged(bar, "nativebuttons", 12)
+
+		local page = tonumber(bar:GetAttribute("state"))
+		if not page or page == 0 then
+			page = barNum
+		end
+		for i = 1, 12 do
+			local button = _G[prefix .. "Button" .. i]
+			if button then
+				SetAttributeIfChanged(button, "actionpage", page)
+			end
+		end
+		self:SyncNativeHoldAttributes(bar, false)
+		bar.nativeHoldActive = true
+	elseif bar.nativeHoldActive then
+		SetAttributeIfChanged(bar, "nativebuttons", nil)
+		self:SyncNativeHoldAttributes(bar, true)
+		if bar.buttons then
+			for _, button in ipairs(bar.buttons) do
+				if button.BT4NativePushedOverlay then
+					button.BT4NativePushedOverlay:Hide()
+				end
+			end
+		end
+		bar.nativeHoldActive = nil
+	end
+end
+
+function BT4ActionBars:UpdateNativeHoldHooks(active)
+	if active then
+		if ActionButtonDown and ActionButtonUp then
+			if not self:IsHooked("ActionButtonDown") then
+				self:SecureHook("ActionButtonDown")
+			end
+			if not self:IsHooked("ActionButtonUp") then
+				self:SecureHook("ActionButtonUp")
+			end
+		end
+		if MultiActionButtonDown and MultiActionButtonUp then
+			if not self:IsHooked("MultiActionButtonDown") then
+				self:SecureHook("MultiActionButtonDown")
+			end
+			if not self:IsHooked("MultiActionButtonUp") then
+				self:SecureHook("MultiActionButtonUp")
+			end
+		end
+	else
+		if self:IsHooked("ActionButtonDown") then self:Unhook("ActionButtonDown") end
+		if self:IsHooked("ActionButtonUp") then self:Unhook("ActionButtonUp") end
+		if self:IsHooked("MultiActionButtonDown") then self:Unhook("MultiActionButtonDown") end
+		if self:IsHooked("MultiActionButtonUp") then self:Unhook("MultiActionButtonUp") end
+	end
+end
+
+-- Mirror the pressed look with a texture overlay rather than SetButtonState:
+-- changing button state during the hold loop causes repeated click sounds.
+local function ShowNativePushedOverlay(button)
+	local overlay = button.BT4NativePushedOverlay
+	if overlay and overlay:IsShown() then return end
+
+	local pushed = button:GetPushedTexture()
+	if not pushed then return end
+
+	if not overlay then
+		overlay = button:CreateTexture(nil, "ARTWORK")
+		button.BT4NativePushedOverlay = overlay
+	end
+
+	local layer, sublevel = pushed:GetDrawLayer()
+	overlay:SetDrawLayer(layer or "ARTWORK", sublevel or 0)
+	local atlas = pushed.GetAtlas and pushed:GetAtlas()
+	if atlas then
+		overlay:SetAtlas(atlas)
+	else
+		overlay:SetTexture(pushed:GetTexture())
+		overlay:SetTexCoord(pushed:GetTexCoord())
+	end
+	overlay:SetBlendMode(pushed:GetBlendMode())
+	overlay:SetVertexColor(pushed:GetVertexColor())
+	overlay:SetAlpha(pushed:GetAlpha())
+	overlay:ClearAllPoints()
+	overlay:SetAllPoints(pushed:GetNumPoints() > 0 and pushed or button)
+	overlay:Show()
+end
+
+function BT4ActionBars:MirrorNativeButtonState(barId, id, down)
+	local bar = self.actionbars and self.actionbars[barId]
+	local button = bar and bar.buttons and bar.buttons[id]
+	if not button then return end
+
+	local barBlocked = (barId == 1)
+		and ((C_PetBattles and C_PetBattles.IsInBattle()) or (OverrideActionBar and OverrideActionBar:IsVisible()))
+	if down and not barBlocked and self:UseNativeHoldToCast(bar) then
+		ShowNativePushedOverlay(button)
+	elseif button.BT4NativePushedOverlay then
+		button.BT4NativePushedOverlay:Hide()
+	end
+end
+
+function BT4ActionBars:ActionButtonDown(id)
+	self:MirrorNativeButtonState(1, id, true)
+end
+
+function BT4ActionBars:ActionButtonUp(id)
+	self:MirrorNativeButtonState(1, id, false)
+end
+
+function BT4ActionBars:MultiActionButtonDown(barName, id)
+	local barId = NATIVE_BAR_IDS[barName]
+	if barId then
+		self:MirrorNativeButtonState(barId, id, true)
+	end
+end
+
+function BT4ActionBars:MultiActionButtonUp(barName, id)
+	local barId = NATIVE_BAR_IDS[barName]
+	if barId then
+		self:MirrorNativeButtonState(barId, id, false)
+	end
+end
+
+function BT4ActionBars:CVAR_UPDATE(_, cvar)
+	if cvar and cvar:lower() == "actionbuttonusekeyheldspell" then
+		self:ReassignBindings()
+	end
+end
+
+function BT4ActionBars:PLAYER_REGEN_ENABLED()
+	if self.pendingReassignBindings then
+		self:ReassignBindings()
+	end
+end
+
 local s_inReassignBindings = false
 function BT4ActionBars:ReassignBindings()
-	if InCombatLockdown() or s_inReassignBindings or self.InHousing then return end
+	if InCombatLockdown() then
+		self.pendingReassignBindings = true
+		return
+	end
+	if s_inReassignBindings or self.InHousing then return end
+	self.pendingReassignBindings = nil
 	s_inReassignBindings = true
 
 	if self.actionbars then
+		local anyNativeHold = false
 		for id, mapping in pairs(BINDING_MAPPINGS) do
 			local frame = self.actionbars[id]
 			if frame then
 				ClearOverrideBindings(frame)
-				for i = 1,min(#frame.buttons, 12) do
-					local button, real_button = mapping:format(i), frame.buttons[i]:GetName()
-					for k=1, select('#', GetBindingKey(button)) do
-						local key = select(k, GetBindingKey(button))
-						if key and key ~= "" then
-							SetOverrideBindingClick(frame, false, key, real_button, "Keybind")
+				local useNative = self:UseNativeHoldToCast(frame)
+				self:SyncNativeHoldBar(frame, useNative)
+				if useNative then
+					anyNativeHold = true
+				else
+					for i = 1, min(#frame.buttons, 12) do
+						local button, real_button = mapping:format(i), frame.buttons[i]:GetName()
+						for k=1, select('#', GetBindingKey(button)) do
+							local key = select(k, GetBindingKey(button))
+							if key and key ~= "" then
+								SetOverrideBindingClick(frame, false, key, real_button, "Keybind")
+							end
 						end
 					end
 				end
 			end
+		end
+		if Bartender4.Features.HoldToCast then
+			self:UpdateNativeHoldHooks(anyNativeHold)
 		end
 	end
 
@@ -361,6 +600,9 @@ function BT4ActionBars:DisableBar(id)
 	bar.config.enabled = false
 	bar:Disable()
 	self:CreateBarOption(id, self.disabledoptions)
+	if Bartender4.Features.HoldToCast then
+		self:ReassignBindings()
+	end
 end
 
 function BT4ActionBars:EnableBar(id)
@@ -375,6 +617,9 @@ function BT4ActionBars:EnableBar(id)
 		bar.disabled = nil
 		self:CreateBarOption(id)
 		bar:ApplyConfig(config)
+	end
+	if Bartender4.Features.HoldToCast then
+		self:ReassignBindings()
 	end
 	if not Bartender4.Locked then
 		bar:Unlock()
