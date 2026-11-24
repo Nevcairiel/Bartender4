@@ -22,6 +22,7 @@ Bartender4.Features.ModernArtwork = Bartender4.GameType.Mainline
 Bartender4.Features.ModernButtonBorder = Bartender4.GameType.Mainline
 Bartender4.Features.MainlineBarLayout = Bartender4.GameType.Mainline
 Bartender4.Features.ButtonSpellCastVFX = Bartender4.GameType.Mainline
+Bartender4.Features.HoldToCast = (C_CVar and C_CVar.GetCVarInfo and C_CVar.GetCVarInfo("ActionButtonUseKeyHeldSpell") ~= nil) or false
 
 -- bag features
 Bartender4.Features.Keyring    = (Bartender4.GameType.ClassicEra or Bartender4.GameType.ClassicBCC or Bartender4.GameType.Forever) and (KeyRingButton ~= nil)

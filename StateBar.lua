@@ -256,6 +256,20 @@ function StateBar:UpdateStates(returnOnly)
 		end
 		self:SetAttribute("state", newstate)
 		control:ChildUpdate("state", newstate)
+
+		local nativebuttons = self:GetAttribute("nativebuttons")
+		if nativebuttons then
+			local page = tonumber(newstate)
+			if not page or page == 0 then
+				page = self:GetAttribute("nativepage") or 1
+			end
+			for i = 1, nativebuttons do
+				local button = self:GetFrameRef("nativebutton" .. i)
+				if button and button:GetAttribute("actionpage") ~= page then
+					button:SetAttribute("actionpage", page)
+				end
+			end
+		end
 	]])
 
 	UnregisterStateDriver(self, "page")
@@ -376,6 +390,9 @@ function StateBar:SetConfigAutoAssist(_, value)
 		self.config.autoassist = value
 	end
 	self:UpdateStates()
+	if self.module and self.module.ReassignBindings then
+		self.module:ReassignBindings()
+	end
 end
 
 function StateBar:GetConfigMouseOver()
@@ -387,6 +404,9 @@ function StateBar:SetConfigMouseOver(_, value)
 		self.config.mouseover = value
 	end
 	self:UpdateStates()
+	if self.module and self.module.ReassignBindings then
+		self.module:ReassignBindings()
+	end
 end
 
 function StateBar:SetCopyCustomConditionals()

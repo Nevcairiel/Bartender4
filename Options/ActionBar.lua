@@ -26,6 +26,7 @@ do
 		grid = "Grid",
 		flyoutDirection = "FlyoutDirection",
 		buttonOffset = "ButtonOffset",
+		holdToCast = "HoldToCast",
 		border = "HideBorder",
 	}
 
@@ -157,6 +158,37 @@ function module:GetOptionsObject()
 				desc = L["How many buttons to offset the action to the left. This can be used, for example, to use the same actions on two individual shorter bars (front and back)."],
 				type = "range",
 				min = 0, max = 11, step = 1,
+				set = optSetter,
+				get = optGetter,
+			},
+			holdToCast = {
+				order = 203,
+				type = "toggle",
+				name = function(info)
+					if not module:SupportsNativeHoldToCast(info[2]) then
+						return L["Press and Hold Casting"] .. " (" .. L["Not supported on this bar"] .. ")"
+					end
+					return L["Press and Hold Casting"]
+				end,
+				desc = function(info)
+					if not module:SupportsNativeHoldToCast(info[2]) then
+						return L["Not supported on this bar (no default Blizzard action bar)."]
+					end
+					if not Bartender4.db.profile.nativeHoldToCast then
+						return L["Enable \"Press and Hold Casting\" in the Action Bars options first."]
+					end
+					if module:IsNativeHoldToCastBlocked(module.actionbars[tonumber(info[2])]) then
+						return L["Unavailable while Mouse-Over Casting, Auto-Assist, or Button Offset is enabled on this bar."]
+					end
+					return L["Use WoW's Press and Hold Casting on this bar when enabled in game settings."]
+				end,
+				width = "full",
+				hidden = not Bartender4.Features.HoldToCast,
+				disabled = function(info)
+					return not module:SupportsNativeHoldToCast(info[2])
+						or not Bartender4.db.profile.nativeHoldToCast
+						or module:IsNativeHoldToCastBlocked(module.actionbars[tonumber(info[2])])
+				end,
 				set = optSetter,
 				get = optGetter,
 			},
